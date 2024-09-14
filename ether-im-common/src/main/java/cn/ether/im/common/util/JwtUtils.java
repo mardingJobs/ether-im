@@ -34,7 +34,7 @@ public class JwtUtils {
      * @param secret  秘钥
      * @return token
      * */
-    public static String sign(Long userId, String claimVal,long expireIn,String secret) {
+    public static String sign(String userId, String claimVal,long expireIn,String secret) {
         try {
             Date date = new Date(System.currentTimeMillis() + expireIn*1000);
             Algorithm algorithm = Algorithm.HMAC256(secret);

@@ -9,7 +9,7 @@ public enum ImMessageType {
     HEART_BEAT(1, "心跳"),
     OFFLINE(2, "下线"),
     PERSONAL(3, "单聊"),
-    GROUP(4, "群发");
+    GROUP(4, "群聊");
 
     private final Integer code;
     private final String desc;

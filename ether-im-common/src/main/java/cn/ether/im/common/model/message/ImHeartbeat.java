@@ -20,8 +20,4 @@ import cn.ether.im.common.enums.ImMessageType;
 public class ImHeartbeat extends ImMessage {
 
 
-    @Override
-    public ImMessageType messageType() {
-        return ImMessageType.HEART_BEAT;
-    }
 }

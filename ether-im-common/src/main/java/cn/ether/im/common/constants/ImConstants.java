@@ -18,6 +18,9 @@ package cn.ether.im.common.constants;
 
 public class ImConstants {
 
+
+    public static final String USER_KEY = "USER";
+
     /**
      * 默认的分组名称
      */
@@ -58,17 +61,12 @@ public class ImConstants {
     /**
      * 未读私聊消息队列
      */
-    public final static String IM_MESSAGE_PRIVATE_QUEUE = "im_message_private";
-
-    /**
-     * 未读私聊消息空队列
-     */
-    public final static String IM_MESSAGE_PRIVATE_NULL_QUEUE = "im_null_private";
+    public final static String IM_MESSAGE_PERSONAL = "im_message_personal";
 
     /**
      * 监听私聊消息消费分组
      */
-    public final static String IM_MESSAGE_PRIVATE_CONSUMER_GROUP = "im_message_private_consumer_group";
+    public final static String IM_MESSAGE_PRIVATE_CONSUMER_GROUP = "im_message_personal_consumers";
     /**
      * 未读群聊消息队列
      */

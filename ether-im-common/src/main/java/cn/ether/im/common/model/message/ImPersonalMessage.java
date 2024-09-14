@@ -23,11 +23,4 @@ import lombok.Data;
 public class ImPersonalMessage extends ImMessage {
 
 
-    /**
-     * @return
-     */
-    @Override
-    public ImMessageType messageType() {
-        return null;
-    }
 }

@@ -21,8 +21,7 @@ import lombok.Data;
 @Data
 public class ImTokenMessage extends ImMessage {
 
-    @Override
-    public ImMessageType messageType() {
-        return ImMessageType.TOKEN;
+    public ImTokenMessage() {
+        this.setType(ImMessageType.TOKEN);
     }
 }

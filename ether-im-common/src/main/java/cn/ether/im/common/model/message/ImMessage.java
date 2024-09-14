@@ -13,12 +13,17 @@ import java.util.List;
  * * @Description
  **/
 @Data
-public  abstract class ImMessage {
+public class ImMessage {
+
+    /**
+     * 消息ID
+     */
+    private String id;
 
     /**
      * 发送者
      */
-     protected ImUser sender;
+    protected ImUser sender;
 
     /**
      * 接收者
@@ -28,7 +33,7 @@ public  abstract class ImMessage {
     /**
      * 消息类型
      */
-    protected ImMessageType type;
+    private ImMessageType type;
 
     /**
      * 消息内容
@@ -36,6 +41,9 @@ public  abstract class ImMessage {
     protected String content;
 
 
-    public abstract ImMessageType messageType();
+    /**
+     * 时间戳
+     */
+    private Long timestamp;
 
 }

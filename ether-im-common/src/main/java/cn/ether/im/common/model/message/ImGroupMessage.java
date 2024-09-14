@@ -23,8 +23,4 @@ import lombok.Data;
 public class ImGroupMessage extends ImMessage {
 
 
-    @Override
-    public ImMessageType messageType() {
-        return ImMessageType.GROUP;
-    }
 }
