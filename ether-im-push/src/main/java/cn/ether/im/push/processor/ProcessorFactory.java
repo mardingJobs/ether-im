@@ -3,23 +3,40 @@ package cn.ether.im.push.processor;
 
 import cn.ether.im.common.enums.ImMessageType;
 import cn.ether.im.common.util.SpringContextHolder;
+import cn.ether.im.push.processor.channel.AckMessageProcess;
+import cn.ether.im.push.processor.channel.ChannelMessageProcess;
+import cn.ether.im.push.processor.channel.HeartbeatProcess;
+import cn.ether.im.push.processor.mq.PersonalMessageProcess;
+import cn.ether.im.push.processor.mq.TopicMessageProcess;
 import org.springframework.context.ApplicationContext;
 
 public class ProcessorFactory {
 
-    public static MessageProcessor getProcessor(ImMessageType type) {
+    public static TopicMessageProcess getTopicProcessor(ImMessageType type) {
         ApplicationContext context = SpringContextHolder.getApplicationContext();
         switch (type) {
-            //登录
-            case TOKEN:
-                return context.getBean(TokenMessageProcessor.class);
-            case HEART_BEAT:
-                return context.getBean(HeartbeatProcessor.class);
             case PERSONAL:
-                return context.getBean(PersonalMessageProcessor.class);
+                return context.getBean(PersonalMessageProcess.class);
+            default:
+                return null;
+        }
+    }
+
+
+    public static ChannelMessageProcess getChannelProcessor(ImMessageType type) {
+        ApplicationContext context = SpringContextHolder.getApplicationContext();
+        switch (type) {
+            case TOKEN:
+                return context.getBean(TokenMessageProcess.class);
+            case HEART_BEAT:
+                return context.getBean(HeartbeatProcess.class);
+            case ACK_RECEIVE:
+                return context.getBean(AckMessageProcess.class);
             default:
                 return null;
 
         }
     }
+
+
 }

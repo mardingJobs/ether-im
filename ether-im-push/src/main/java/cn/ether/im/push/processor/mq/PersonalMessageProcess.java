@@ -1,4 +1,4 @@
-package cn.ether.im.push.processor;
+package cn.ether.im.push.processor.mq;
 
 import cn.ether.im.common.model.ImUser;
 import cn.ether.im.common.model.message.ImMessage;
@@ -14,13 +14,9 @@ import org.springframework.stereotype.Component;
  **/
 @Slf4j
 @Component
-public class PersonalMessageProcessor implements MessageProcessor {
+public class PersonalMessageProcess implements TopicMessageProcess {
 
-    /**
-     * 处理非长连接收到的消息数据
-     *
-     * @param message
-     */
+
     @Override
     public void process(ImMessage message) {
         ImUser receiver = message.getReceivers().get(0);

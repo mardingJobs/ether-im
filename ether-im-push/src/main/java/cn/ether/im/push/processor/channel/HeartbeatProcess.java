@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.ether.im.push.processor;
+package cn.ether.im.push.processor.channel;
 
 import cn.ether.im.common.cache.DistributedCacheService;
 import cn.ether.im.common.constants.ImConstants;
@@ -30,14 +30,15 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.TimeUnit;
 
 @Component
-public class HeartbeatProcessor implements MessageProcessor {
+public class HeartbeatProcess implements ChannelMessageProcess {
+
     @Autowired
     private DistributedCacheService distributedCacheService;
 
     @Autowired
     private ImCacheHelper cacheHelper;
 
-    @Value("${heartbeat.count}")
+    @Value("${heartbeat.count:10}")
     private Integer heartbeatCount;
 
     @Override

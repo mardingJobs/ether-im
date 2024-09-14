@@ -18,7 +18,7 @@ package cn.ether.im.push.mq;
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.enums.ImMessageType;
 import cn.ether.im.common.model.message.ImTopicMessage;
-import cn.ether.im.push.processor.MessageProcessor;
+import cn.ether.im.push.processor.mq.TopicMessageProcess;
 import cn.ether.im.push.processor.ProcessorFactory;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
@@ -58,7 +58,7 @@ public class PersonalMessageConsumer
             log.warn("PersonalMessageConsumer.onMessage|转化后的数据为空");
             return;
         }
-        MessageProcessor processor = ProcessorFactory.getProcessor(ImMessageType.PERSONAL);
+        TopicMessageProcess processor = ProcessorFactory.getTopicProcessor(ImMessageType.PERSONAL);
         processor.process(topicMessage.getMessage());
     }
 

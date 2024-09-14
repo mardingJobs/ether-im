@@ -7,6 +7,7 @@ import cn.ether.im.common.model.message.ImMessage;
 import cn.ether.im.common.model.message.ImTokenMessage;
 import cn.ether.im.common.util.JwtUtils;
 import cn.ether.im.push.cache.UserChannelCache;
+import cn.ether.im.push.processor.channel.ChannelMessageProcess;
 import com.alibaba.fastjson.JSON;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.AttributeKey;
@@ -23,7 +24,7 @@ import javax.annotation.Resource;
  **/
 @Slf4j
 @Component
-public class TokenMessageProcessor implements MessageProcessor {
+public class TokenMessageProcess implements ChannelMessageProcess {
 
 
     @Value("${jwt.accessToken.secret}")
@@ -72,13 +73,4 @@ public class TokenMessageProcessor implements MessageProcessor {
         ctx.channel().writeAndFlush(tokenResp);
     }
 
-    /**
-     * 处理非长连接收到的消息数据
-     *
-     * @param message
-     */
-    @Override
-    public void process(ImMessage message) {
-
-    }
 }

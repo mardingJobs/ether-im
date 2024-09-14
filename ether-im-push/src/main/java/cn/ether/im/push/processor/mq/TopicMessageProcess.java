@@ -1,10 +1,10 @@
-package cn.ether.im.push.processor;
+package cn.ether.im.push.processor.mq;
 
 import cn.ether.im.common.model.message.ImMessage;
 import io.netty.channel.ChannelHandlerContext;
 
 
-public interface MessageProcessor {
+public interface TopicMessageProcess {
 
     /**
      * 处理长连接收到的消息数据

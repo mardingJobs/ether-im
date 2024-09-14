@@ -1,7 +1,7 @@
 package cn.ether.im.common.enums;
 
 /**
- * 终端和push端交互使用的消息类型
+ * 消息类型
  */
 public enum ImMessageType {
 
