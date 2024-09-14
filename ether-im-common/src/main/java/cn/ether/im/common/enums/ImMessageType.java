@@ -8,6 +8,7 @@ public enum ImMessageType {
     TOKEN(0, "TOKEN"),
     HEART_BEAT(1, "心跳"),
     OFFLINE(2, "下线"),
+    ACK_RECEIVE(4, "终端确认已收到消息"),
     PERSONAL(3, "单聊"),
     GROUP(4, "群聊");
 

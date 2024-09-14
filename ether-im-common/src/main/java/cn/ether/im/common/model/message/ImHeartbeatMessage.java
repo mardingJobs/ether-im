@@ -17,7 +17,9 @@ package cn.ether.im.common.model.message;
 
 import cn.ether.im.common.enums.ImMessageType;
 
-public class ImHeartbeat extends ImMessage {
+public class ImHeartbeatMessage extends ImMessage {
 
-
+    public ImHeartbeatMessage() {
+        super.setType(ImMessageType.HEART_BEAT);
+    }
 }

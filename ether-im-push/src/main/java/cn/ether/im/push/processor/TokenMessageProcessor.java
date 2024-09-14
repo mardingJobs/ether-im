@@ -56,6 +56,7 @@ public class TokenMessageProcessor implements MessageProcessor {
         ImUser imUser = JSON.parseObject(JwtUtils.getInfo(token), ImUser.class);
         if (imUser == null) {
             log.warn("imUser is null");
+            ctx.channel().close();
             return;
         }
         // 缓存当前用户终端和连接的push服务

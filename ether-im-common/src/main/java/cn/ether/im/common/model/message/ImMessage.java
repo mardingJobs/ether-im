@@ -40,7 +40,6 @@ public class ImMessage {
      */
     protected String content;
 
-
     /**
      * 时间戳
      */

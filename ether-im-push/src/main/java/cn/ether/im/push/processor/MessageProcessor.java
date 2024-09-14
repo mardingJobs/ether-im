@@ -9,14 +9,14 @@ public interface MessageProcessor {
     /**
      * 处理长连接收到的消息数据
      */
-    void process(ChannelHandlerContext ctx, ImMessage message);
+    default void process(ChannelHandlerContext ctx, ImMessage message) {}
 
     /**
      * 处理非长连接收到的消息数据
      *
      * @param message
      */
-    void process(ImMessage message);
+    default void process(ImMessage message) {}
 
 
 }
