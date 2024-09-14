@@ -9,7 +9,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>marding-im-pusher</artifactId>
+    <artifactId>marding-im-push</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

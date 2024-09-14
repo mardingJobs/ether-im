@@ -9,10 +9,10 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-        <module>marding-im-pusher</module>
         <module>marding-im-sdk</module>
         <module>marding-im-common</module>
         <module>marding-im-test</module>
+        <module>marding-im-push</module>
     </modules>
 
     <properties>
