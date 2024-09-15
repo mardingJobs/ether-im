@@ -1,9 +1,8 @@
 package cn.ether.im.push.handler;
 
 import cn.ether.im.common.model.message.ImMessage;
-import cn.ether.im.push.processor.channel.ChannelMessageProcess;
-import cn.ether.im.push.processor.mq.TopicMessageProcess;
 import cn.ether.im.push.processor.ProcessorFactory;
+import cn.ether.im.push.processor.channel.ChannelMessageProcess;
 import com.alibaba.fastjson.JSON;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelId;

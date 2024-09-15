@@ -1,7 +1,7 @@
 package cn.ether.im.message.dto;
 
 import cn.ether.im.common.enums.MessageContentType;
-import cn.ether.im.common.model.ImUser;
+import cn.ether.im.common.model.user.ImUser;
 import lombok.Data;
 
 /**

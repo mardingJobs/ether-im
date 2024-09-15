@@ -4,7 +4,8 @@ package cn.ether.im.common.helper;
 import cn.ether.im.common.cache.DistributedCacheService;
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.enums.ImTerminalType;
-import cn.ether.im.common.model.ImUser;
+import cn.ether.im.common.model.user.ImUser;
+import cn.ether.im.common.model.user.ImUserTerminal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -54,13 +55,23 @@ public class ImCacheHelper {
         return map.values().stream().map(String::valueOf).collect(Collectors.toList());
     }
 
-    public void bindPushServer(ImUser user, Long serverId) {
-        String cacheKey = serverCacheKey(user);
-        distributedCacheService.hashPut(cacheKey, user.getTerminalType().toString(),
+    /**
+     * 将用户终端和服务绑定
+     *
+     * @param userTerminal
+     * @param serverId
+     */
+    public void bindPushServer(ImUserTerminal userTerminal, Long serverId) {
+        String cacheKey = serverCacheKey(userTerminal.getUser());
+        distributedCacheService.hashPut(cacheKey, userTerminal.getTerminalType().toString(),
                 serverId, ImConstants.ONLINE_TIMEOUT_SECONDS, TimeUnit.SECONDS);
     }
 
-
+    /**
+     * 获取缓存中的用户连接的PUSH服务的key
+     * @param userInfo
+     * @return1
+     */
     public String serverCacheKey(ImUser userInfo) {
         String cacheKey = String.join(ImConstants.REDIS_KEY_SPLIT, userInfo.getGroup(),
                 ImConstants.IM_USER_SERVER_ID, userInfo.getUserId());

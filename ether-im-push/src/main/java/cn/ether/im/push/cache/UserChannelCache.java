@@ -15,7 +15,7 @@
  */
 package cn.ether.im.push.cache;
 
-import cn.ether.im.common.model.ImUser;
+import cn.ether.im.common.model.user.ImUserTerminal;
 import io.netty.channel.ChannelHandlerContext;
 
 import java.util.Map;
@@ -35,8 +35,9 @@ public class UserChannelCache {
     }
 
 
-    public static void bindChannel(ImUser user, ChannelHandlerContext ctx) {
-        channelMap.computeIfAbsent(user.getUserId(), key -> new ConcurrentHashMap<>()).put(user.getTerminalType().toString(), ctx);
+    public static void bindChannel(ImUserTerminal userTerminal, ChannelHandlerContext ctx) {
+        channelMap.computeIfAbsent(userTerminal.getUser().getUserId(),
+                key -> new ConcurrentHashMap<>()).put(userTerminal.getTerminalType().toString(), ctx);
     }
 
     public static void removeChannelCtx(String userId, String terminal) {

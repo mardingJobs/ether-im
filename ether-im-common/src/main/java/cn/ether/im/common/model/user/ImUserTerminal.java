@@ -1,6 +1,5 @@
-package cn.ether.im.common.model;
+package cn.ether.im.common.model.user;
 
-import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.enums.ImTerminalType;
 import lombok.Data;
 
@@ -12,18 +11,19 @@ import lombok.Data;
 @Data
 public class ImUserTerminal {
 
-    /**
-     * 用户id
-     */
-    private String userId;
 
-    /**
-     * 用户分组
-     */
-    private String group = ImConstants.DEFAULT_GROUP_NAME;
+    private ImUser user;
 
     /**
      * 终端类型
      */
     private ImTerminalType terminalType;
+
+
+    public ImUserTerminal(ImUser imUser, ImTerminalType terminalType) {
+        this.user = imUser;
+        this.terminalType = terminalType;
+    }
+
+
 }

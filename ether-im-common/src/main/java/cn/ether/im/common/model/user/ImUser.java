@@ -13,16 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.ether.im.common.model;
+package cn.ether.im.common.model.user;
 
 import cn.ether.im.common.constants.ImConstants;
-import cn.ether.im.common.enums.ImTerminalType;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * IM 用户信息
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ImUser {
 
     /**
@@ -35,9 +38,8 @@ public class ImUser {
      */
     private String group = ImConstants.DEFAULT_GROUP_NAME;
 
-    /**
-     * 终端类型
-     */
-    private ImTerminalType terminalType;
 
+    public ImUser(String userId) {
+        this.userId = userId;
+    }
 }

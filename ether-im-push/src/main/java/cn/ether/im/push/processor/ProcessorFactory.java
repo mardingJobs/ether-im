@@ -6,13 +6,14 @@ import cn.ether.im.common.util.SpringContextHolder;
 import cn.ether.im.push.processor.channel.ChannelMessageProcess;
 import cn.ether.im.push.processor.channel.HeartbeatProcess;
 import cn.ether.im.push.processor.channel.PersonalAckMessageProcess;
+import cn.ether.im.push.processor.channel.TokenMessageProcess;
+import cn.ether.im.push.processor.mq.ChatMessageProcess;
 import cn.ether.im.push.processor.mq.PersonalMessageProcess;
-import cn.ether.im.push.processor.mq.TopicMessageProcess;
 import org.springframework.context.ApplicationContext;
 
 public class ProcessorFactory {
 
-    public static TopicMessageProcess getTopicProcessor(ImMessageType type) {
+    public static ChatMessageProcess getTopicProcessor(ImMessageType type) {
         ApplicationContext context = SpringContextHolder.getApplicationContext();
         switch (type) {
             case PERSONAL:

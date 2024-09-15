@@ -1,7 +1,7 @@
 package cn.ether.im.common.helper;
 
 import cn.ether.im.common.constants.ImConstants;
-import cn.ether.im.common.model.ImUser;
+import cn.ether.im.common.model.user.ImUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

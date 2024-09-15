@@ -22,14 +22,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ImTopicMessage {
+public class ImTopicMessage<T> {
 
     private static final long serialVersionUID = -7962158433664656629L;
 
     /**
      * 消息
      */
-    private ImMessage message;
+    private T message;
 
     /**
      * 消息主题

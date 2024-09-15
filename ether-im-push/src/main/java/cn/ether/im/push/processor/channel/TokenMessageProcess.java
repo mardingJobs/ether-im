@@ -1,13 +1,12 @@
-package cn.ether.im.push.processor;
+package cn.ether.im.push.processor.channel;
 
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.helper.ImCacheHelper;
-import cn.ether.im.common.model.ImUser;
+import cn.ether.im.common.model.message.ImAckMessage;
 import cn.ether.im.common.model.message.ImMessage;
-import cn.ether.im.common.model.message.ImTokenMessage;
+import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.util.JwtUtils;
 import cn.ether.im.push.cache.UserChannelCache;
-import cn.ether.im.push.processor.channel.ChannelMessageProcess;
 import com.alibaba.fastjson.JSON;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.AttributeKey;
@@ -54,23 +53,22 @@ public class TokenMessageProcess implements ChannelMessageProcess {
             return;
         }
 
-        ImUser imUser = JSON.parseObject(JwtUtils.getInfo(token), ImUser.class);
-        if (imUser == null) {
-            log.warn("imUser is null");
+        ImUserTerminal imUserTerminal = JSON.parseObject(JwtUtils.getInfo(token), ImUserTerminal.class);
+        if (imUserTerminal == null) {
+            log.warn("imUserTerminal is null");
             ctx.channel().close();
             return;
         }
         // 缓存当前用户终端和连接的push服务
-        cacheHelper.bindPushServer(imUser, serverId);
+        cacheHelper.bindPushServer(imUserTerminal, serverId);
         // 将当前用户终端和channel绑定
-        UserChannelCache.bindChannel(imUser, ctx);
+        UserChannelCache.bindChannel(imUserTerminal, ctx);
 
         // 绑定用户到channel的属性
-        AttributeKey<ImUser> userKey = AttributeKey.valueOf(ImConstants.USER_KEY);
-        ctx.channel().attr(userKey).set(imUser);
+        AttributeKey<ImUserTerminal> userKey = AttributeKey.valueOf(ImConstants.USER_KEY);
+        ctx.channel().attr(userKey).set(imUserTerminal);
 
-        ImTokenMessage tokenResp = new ImTokenMessage();
-        ctx.channel().writeAndFlush(tokenResp);
+        ctx.channel().writeAndFlush(new ImAckMessage());
     }
 
 }

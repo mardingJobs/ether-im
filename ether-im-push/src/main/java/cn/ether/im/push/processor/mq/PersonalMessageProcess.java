@@ -1,7 +1,8 @@
 package cn.ether.im.push.processor.mq;
 
-import cn.ether.im.common.model.ImUser;
-import cn.ether.im.common.model.message.ImMessage;
+import cn.ether.im.common.model.message.ImChatMessage;
+import cn.ether.im.common.model.user.ImUser;
+import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.push.cache.UserChannelCache;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
@@ -14,13 +15,15 @@ import org.springframework.stereotype.Component;
  **/
 @Slf4j
 @Component
-public class PersonalMessageProcess implements TopicMessageProcess {
+public class PersonalMessageProcess implements ChatMessageProcess {
 
 
     @Override
-    public void process(ImMessage message) {
-        ImUser receiver = message.getReceivers().get(0);
-        ChannelHandlerContext channelHandlerContext = UserChannelCache.getChannelCtx(receiver.getUserId(), receiver.getTerminalType().toString());
+    public void process(ImChatMessage message) {
+        ImUserTerminal userTerminal = message.getReceiverList().get(0);
+        ImUser receiver = userTerminal.getUser();
+        ChannelHandlerContext channelHandlerContext = UserChannelCache.getChannelCtx(receiver.getUserId(),
+                userTerminal.getTerminalType().toString());
         if (channelHandlerContext != null) {
             channelHandlerContext.writeAndFlush(message);
         } else {

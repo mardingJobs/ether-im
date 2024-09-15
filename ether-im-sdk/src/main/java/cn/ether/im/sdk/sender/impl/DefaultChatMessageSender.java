@@ -1,9 +1,9 @@
 package cn.ether.im.sdk.sender.impl;
 
 import cn.ether.im.common.helper.ImHelper;
-import cn.ether.im.common.model.ImUser;
 import cn.ether.im.common.model.message.ImPersonalMessage;
 import cn.ether.im.common.model.message.ImTopicMessage;
+import cn.ether.im.common.model.user.ImUser;
 import cn.ether.im.common.mq.ImMessageSender;
 import cn.ether.im.sdk.sender.ChatMessageSender;
 import org.apache.commons.collections.CollectionUtils;
