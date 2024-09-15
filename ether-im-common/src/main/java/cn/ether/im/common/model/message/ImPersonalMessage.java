@@ -15,14 +15,14 @@
  */
 package cn.ether.im.common.model.message;
 
-import cn.ether.im.common.enums.ImMessageType;
+import cn.ether.im.common.enums.ChatMessageType;
 import lombok.Data;
 
 
 @Data
-public class ImPersonalMessage extends ImMessage {
+public class ImPersonalMessage extends ImChatMessage {
 
     public ImPersonalMessage() {
-        this.setType(ImMessageType.PERSONAL);
+        this.setType(ChatMessageType.PERSONAL);
     }
 }

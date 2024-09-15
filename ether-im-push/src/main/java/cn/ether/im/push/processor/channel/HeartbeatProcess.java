@@ -19,7 +19,6 @@ import cn.ether.im.common.cache.DistributedCacheService;
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.helper.ImCacheHelper;
 import cn.ether.im.common.model.message.ImHeartbeatMessage;
-import cn.ether.im.common.model.message.ImMessage;
 import cn.ether.im.common.model.user.ImUser;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.AttributeKey;
@@ -30,7 +29,7 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.TimeUnit;
 
 @Component
-public class HeartbeatProcess implements ChannelMessageProcess {
+public class HeartbeatProcess implements SystemMessageProcess<ImHeartbeatMessage> {
 
     @Autowired
     private DistributedCacheService distributedCacheService;
@@ -42,7 +41,7 @@ public class HeartbeatProcess implements ChannelMessageProcess {
     private Integer heartbeatCount;
 
     @Override
-    public void process(ChannelHandlerContext ctx, ImMessage message) {
+    public void process(ChannelHandlerContext ctx, ImHeartbeatMessage message) {
         //响应ws
         this.response(ctx);
         //设置属性

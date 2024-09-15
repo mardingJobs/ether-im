@@ -15,13 +15,15 @@
  */
 package cn.ether.im.common.model.message;
 
-import cn.ether.im.common.enums.ImMessageType;
+import cn.ether.im.common.enums.SystemMessageType;
 import lombok.Data;
 
 @Data
-public class ImTokenMessage extends ImMessage {
+public class ImTokenMessage extends ImSystemMessage {
+
+    private String token;
 
     public ImTokenMessage() {
-        this.setType(ImMessageType.TOKEN);
+        this.setType(SystemMessageType.TOKEN);
     }
 }

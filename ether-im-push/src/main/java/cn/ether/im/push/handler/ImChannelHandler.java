@@ -1,8 +1,7 @@
 package cn.ether.im.push.handler;
 
 import cn.ether.im.common.model.message.ImMessage;
-import cn.ether.im.push.processor.ProcessorFactory;
-import cn.ether.im.push.processor.channel.ChannelMessageProcess;
+import cn.ether.im.push.processor.MessageProcessor;
 import com.alibaba.fastjson.JSON;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelId;
@@ -23,13 +22,7 @@ public class ImChannelHandler extends SimpleChannelInboundHandler<ImMessage> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ImMessage msg) throws Exception {
         logger.info("IMChannelHandler channelRead0: {}" ,JSON.toJSONString(msg));
-        ChannelMessageProcess processor = ProcessorFactory.getChannelProcessor(msg.getType());
-        if (processor == null) {
-            logger.error("IMChannelHandler.channelRead0 processor is null,Params:{}",msg);
-            return;
-        }
-        processor.process(ctx, msg);
-
+        MessageProcessor.processMessage(msg);
     }
 
     @Override

@@ -3,7 +3,7 @@ package cn.ether.im.push.processor.channel;
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.helper.ImCacheHelper;
 import cn.ether.im.common.model.message.ImAckMessage;
-import cn.ether.im.common.model.message.ImMessage;
+import cn.ether.im.common.model.message.ImTokenMessage;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.util.JwtUtils;
 import cn.ether.im.push.cache.UserChannelCache;
@@ -23,7 +23,7 @@ import javax.annotation.Resource;
  **/
 @Slf4j
 @Component
-public class TokenMessageProcess implements ChannelMessageProcess {
+public class TokenMessageProcess implements SystemMessageProcess<ImTokenMessage> {
 
 
     @Value("${jwt.accessToken.secret}")
@@ -44,8 +44,8 @@ public class TokenMessageProcess implements ChannelMessageProcess {
      * @param tokenMessage
      */
     @Override
-    public void process(ChannelHandlerContext ctx, ImMessage tokenMessage) {
-        String token = tokenMessage.getContent();
+    public void process(ChannelHandlerContext ctx, ImTokenMessage tokenMessage) {
+        String token = tokenMessage.getToken();
         Boolean signed = JwtUtils.checkSign(token, accessTokenSecret);
         if (!signed) {
             log.info("Token is invalid，token：{}", token);

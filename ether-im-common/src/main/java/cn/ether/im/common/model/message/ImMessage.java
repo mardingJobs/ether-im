@@ -1,12 +1,8 @@
 package cn.ether.im.common.model.message;
 
-import cn.ether.im.common.enums.ImMessageType;
-import cn.ether.im.common.enums.MessageContentType;
-import cn.ether.im.common.model.user.ImUser;
+import cn.ether.im.common.enums.ImMessageTypeEnum;
+import com.alibaba.fastjson.JSON;
 import lombok.Data;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * * @Author: Martin
@@ -14,41 +10,28 @@ import java.util.List;
  * * @Description
  **/
 @Data
-public class ImMessage {
+public class ImMessage<T> extends ImMessageType {
 
     /**
-     * 消息ID
+     * 系统消息或者对话消息
      */
-    private String id;
+    private T message;
 
-    /**
-     * 发送者
-     */
-    protected ImUser sender;
 
-    /**
-     * 接收者
-     */
-    protected List<ImUser> receivers = new LinkedList<>();
-
-    /**
-     * 消息类型
-     */
-    private ImMessageType type;
-
-    /**
-     * 消息内容
-     */
-    protected String content;
-
-    /**
-     * 消息内容类型
-     */
-    protected MessageContentType contentType;
-
-    /**
-     * 时间戳
-     */
-    protected Long timestamp;
+    public static ImMessage parseObject(String json) {
+        ImMessageType imMessageType = JSON.parseObject(json, ImMessageType.class);
+        ImMessageTypeEnum type = imMessageType.getType();
+        ImMessage message = (ImMessage) imMessageType;
+        switch (type) {
+            case CHAT:
+                ImChatMessage chatMessage = JSON.parseObject(json, ImChatMessage.class);
+                message.setMessage(chatMessage);
+            case SYSTEM:
+                ImSystemMessage imSystemMessage = JSON.parseObject(json, ImSystemMessage.class);
+                message.setMessage(imSystemMessage);
+            default:
+        }
+        return message;
+    }
 
 }
