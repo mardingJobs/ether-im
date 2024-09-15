@@ -2,9 +2,8 @@ package cn.ether.im.common.helper;
 
 
 import cn.ether.im.common.cache.DistributedCacheService;
-import cn.ether.im.common.enums.ImTerminalType;
-import cn.ether.im.common.model.ImUser;
 import cn.ether.im.common.constants.ImConstants;
+import cn.ether.im.common.model.ImUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +26,7 @@ public class ImCacheHelper {
      * @param userInfo
      * @return
      */
-    public String getUserServerId(ImUser userInfo) {
+    public String getServerId(ImUser userInfo) {
         String cacheKey = serverCacheKey(userInfo);
         String serverId = distributedCacheService.get(cacheKey);
         return serverId;

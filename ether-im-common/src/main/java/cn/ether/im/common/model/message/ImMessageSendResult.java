@@ -1,5 +1,6 @@
 package cn.ether.im.common.model.message;
 
+import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.enums.MessageSendCode;
 import lombok.Data;
 
@@ -10,16 +11,15 @@ import lombok.Data;
  * * @Description
  **/
 @Data
-public class ImMessageSendResult {
-
-    /**
-     * 消息
-     */
-    private ImMessage message;
+public class ImMessageSendResult extends ImTopicMessage {
 
     /**
      * 发送结果
      */
     private MessageSendCode sendCode;
 
+
+    public ImMessageSendResult() {
+        this.setTopic(ImConstants.TOPIC_IM_RESULT);
+    }
 }

@@ -3,9 +3,9 @@ package cn.ether.im.push.processor;
 
 import cn.ether.im.common.enums.ImMessageType;
 import cn.ether.im.common.util.SpringContextHolder;
-import cn.ether.im.push.processor.channel.AckMessageProcess;
 import cn.ether.im.push.processor.channel.ChannelMessageProcess;
 import cn.ether.im.push.processor.channel.HeartbeatProcess;
+import cn.ether.im.push.processor.channel.PersonalAckMessageProcess;
 import cn.ether.im.push.processor.mq.PersonalMessageProcess;
 import cn.ether.im.push.processor.mq.TopicMessageProcess;
 import org.springframework.context.ApplicationContext;
@@ -31,7 +31,7 @@ public class ProcessorFactory {
             case HEART_BEAT:
                 return context.getBean(HeartbeatProcess.class);
             case ACK_RECEIVE:
-                return context.getBean(AckMessageProcess.class);
+                return context.getBean(PersonalAckMessageProcess.class);
             default:
                 return null;
 
