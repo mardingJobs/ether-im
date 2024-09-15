@@ -33,8 +33,8 @@ public class DefaultChatMessageSender implements ChatMessageSender {
      */
     @Override
     public void sendPersonalMessage(ImPersonalMessage personalMessage) {
-        ImUser receiver = personalMessage.getReceivers().get(0);
-        List<String> topics = helper.relatedTopic(receiver);
+        ImUser user = personalMessage.getReceivers().get(0);
+        List<String> topics = helper.relatedTopic(user);
         if (CollectionUtils.isEmpty(topics)) {
             return;
         }

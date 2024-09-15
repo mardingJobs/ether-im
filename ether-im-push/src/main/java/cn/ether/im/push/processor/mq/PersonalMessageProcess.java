@@ -20,7 +20,7 @@ public class PersonalMessageProcess implements ChatMessageProcess {
 
     @Override
     public void process(ImChatMessage message) {
-        ImUserTerminal userTerminal = message.getReceiverList().get(0);
+        ImUserTerminal userTerminal = (ImUserTerminal) message.getReceivers().get(0);
         ImUser receiver = userTerminal.getUser();
         ChannelHandlerContext channelHandlerContext = UserChannelCache.getChannelCtx(receiver.getUserId(),
                 userTerminal.getTerminalType().toString());

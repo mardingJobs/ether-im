@@ -62,7 +62,7 @@ public class ImCacheHelper {
      * @param serverId
      */
     public void bindPushServer(ImUserTerminal userTerminal, Long serverId) {
-        String cacheKey = serverCacheKey(userTerminal.getUser());
+        String cacheKey = serverCacheKey(userTerminal);
         distributedCacheService.hashPut(cacheKey, userTerminal.getTerminalType().toString(),
                 serverId, ImConstants.ONLINE_TIMEOUT_SECONDS, TimeUnit.SECONDS);
     }
