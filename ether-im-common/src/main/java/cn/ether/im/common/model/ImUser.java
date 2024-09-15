@@ -38,6 +38,6 @@ public class ImUser {
     /**
      * 终端类型
      */
-    private ImTerminalType terminalType = ImTerminalType.WEB;
+    private ImTerminalType terminalType;
 
 }

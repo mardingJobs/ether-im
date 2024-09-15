@@ -1,6 +1,7 @@
 package cn.ether.im.common.model.message;
 
 import cn.ether.im.common.enums.ImMessageType;
+import cn.ether.im.common.enums.MessageContentType;
 import cn.ether.im.common.model.ImUser;
 import lombok.Data;
 
@@ -41,8 +42,13 @@ public class ImMessage {
     protected String content;
 
     /**
+     * 消息内容类型
+     */
+    protected MessageContentType contentType;
+
+    /**
      * 时间戳
      */
-    private Long timestamp;
+    protected Long timestamp;
 
 }

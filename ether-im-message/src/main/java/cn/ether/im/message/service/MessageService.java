@@ -1,6 +1,6 @@
 package cn.ether.im.message.service;
 
-import cn.ether.im.common.model.message.ImPersonalMessage;
+import cn.ether.im.message.dto.PersonalChatMessageReq;
 
 /**
  * * @Author: Martin
@@ -9,6 +9,6 @@ import cn.ether.im.common.model.message.ImPersonalMessage;
  **/
 public interface MessageService {
 
-    public void sendMessage(ImPersonalMessage personalMessage);
+    public void sendMessage(PersonalChatMessageReq req);
 
 }

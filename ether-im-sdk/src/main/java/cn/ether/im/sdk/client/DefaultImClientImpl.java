@@ -2,7 +2,9 @@ package cn.ether.im.sdk.client;
 
 import cn.ether.im.common.model.message.ImGroupMessage;
 import cn.ether.im.common.model.message.ImPersonalMessage;
+import cn.ether.im.common.util.SnowflakeUtil;
 import cn.ether.im.sdk.sender.ChatMessageSender;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -19,6 +21,9 @@ public class DefaultImClientImpl implements EtherImClient {
     @Resource
     private ChatMessageSender messageSender;
 
+    @Resource
+    private SnowflakeUtil snowflakeUtil;
+
 
     /**
      * 发送单聊消息
@@ -26,8 +31,18 @@ public class DefaultImClientImpl implements EtherImClient {
      * @param personalMessage
      */
     @Override
-    public void sendPersonalMessage(ImPersonalMessage personalMessage) {
+    public String sendPersonalMessage(ImPersonalMessage personalMessage) {
+        // 设置消息ID
+        if (StringUtils.isEmpty(personalMessage.getId())) {
+            String id = snowflakeUtil.nextId();
+            personalMessage.setId(id);
+        }
+        // 设置时间
+        if (personalMessage.getTimestamp() == null) {
+            personalMessage.setTimestamp(System.currentTimeMillis());
+        }
         messageSender.sendPersonalMessage(personalMessage);
+        return personalMessage.getId();
     }
 
     /**
@@ -36,7 +51,7 @@ public class DefaultImClientImpl implements EtherImClient {
      * @param groupMessage
      */
     @Override
-    public void sendGroupMessage(ImGroupMessage groupMessage) {
-
+    public String sendGroupMessage(ImGroupMessage groupMessage) {
+        return null;
     }
 }

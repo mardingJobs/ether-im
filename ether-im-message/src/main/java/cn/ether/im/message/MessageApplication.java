@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * * @Date    2024/9/15 12:28
  * * @Description
  **/
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "cn.ether.im")
 public class MessageApplication {
 
     public static void main(String[] args) {

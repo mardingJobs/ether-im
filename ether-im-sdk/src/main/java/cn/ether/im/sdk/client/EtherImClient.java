@@ -15,14 +15,14 @@ public interface EtherImClient {
      *
      * @param personalMessage
      */
-    void sendPersonalMessage(ImPersonalMessage personalMessage);
+    String sendPersonalMessage(ImPersonalMessage personalMessage);
 
     /**
      * 发送群聊消息
      *
      * @param groupMessage
      */
-    void sendGroupMessage(ImGroupMessage groupMessage);
+    String sendGroupMessage(ImGroupMessage groupMessage);
 
 
 }
