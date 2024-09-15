@@ -19,6 +19,7 @@ import cn.hutool.json.JSONUtil;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -85,6 +86,32 @@ public interface DistributedCacheService {
      */
     Long sizeSet(String key);
 
+    /**
+     * 添加hash缓存
+     *
+     * @param key
+     * @param field
+     * @param value
+     */
+    void hashPut(String key, String field, Object value, long timeout, TimeUnit unit);
+
+    /**
+     * 获取hash缓存
+     *
+     * @param key
+     * @return
+     */
+    Map hashGet(String key);
+
+    /**
+     * 获取hash缓存中的field对应的value
+     *
+     * @param key
+     * @param field
+     * @return
+     */
+    Object hashGet(String key, String field);
+
 
     /**
      * 获取缓存中的数据
@@ -132,5 +159,9 @@ public interface DistributedCacheService {
     default String getValue(Object value){
         return TypeConversion.isSimpleType(value) ? String.valueOf(value) : JSONUtil.toJsonStr(value);
     }
+
+
+
+
 
 }

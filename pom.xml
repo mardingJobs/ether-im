@@ -13,6 +13,7 @@
         <module>ether-im-common</module>
         <module>ether-im-test</module>
         <module>ether-im-push</module>
+        <module>ether-im-message</module>
     </modules>
 
     <properties>

@@ -22,5 +22,7 @@ import lombok.Data;
 @Data
 public class ImPersonalMessage extends ImMessage {
 
-
+    public ImPersonalMessage() {
+        this.setType(ImMessageType.PERSONAL);
+    }
 }

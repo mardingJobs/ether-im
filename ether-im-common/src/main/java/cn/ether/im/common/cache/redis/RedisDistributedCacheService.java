@@ -28,6 +28,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -91,6 +92,38 @@ public class RedisDistributedCacheService implements DistributedCacheService {
     @Override
     public Long sizeSet(String key) {
         return redisTemplate.opsForSet().size(key);
+    }
+
+    /**
+     * @param key
+     * @param field
+     * @param value
+     */
+    @Override
+    public void hashPut(String key, String field, Object value, long timeout, TimeUnit unit) {
+        redisTemplate.opsForHash().put(key, field, this.getValue(value));
+        expire(key, timeout, unit);
+    }
+
+    /**
+     * @param key
+     * @return
+     */
+    @Override
+    public Map hashGet(String key) {
+        return redisTemplate.opsForHash().entries(key);
+    }
+
+    /**
+     * 获取hash缓存中的field对应的value
+     *
+     * @param key
+     * @param field
+     * @return
+     */
+    @Override
+    public Object hashGet(String key, String field) {
+        return redisTemplate.opsForHash().get(key, field);
     }
 
 
