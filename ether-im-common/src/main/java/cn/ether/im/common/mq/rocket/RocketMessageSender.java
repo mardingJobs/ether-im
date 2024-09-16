@@ -13,6 +13,9 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * * @Author: Martin
  * * @Date    2024/9/14 19:10
@@ -41,5 +44,26 @@ public class RocketMessageSender implements ImMessageSender {
             log.error("send message to mq error", e);
             return false;
         }
+    }
+
+    /**
+     * 批量发送IM消息,所有消息的Topic必须相同
+     *
+     * @param messages
+     * @return
+     */
+    @Override
+    public boolean batchSend(List<ImTopicMessage> messages) {
+        try {
+            List<Message<String>> messageList = messages.stream()
+                    .map((message) -> MessageBuilder.withPayload(JSONObject.toJSONString(message.getMessage())).build())
+                    .collect(Collectors.toList());
+            SendResult sendResult = rocketMQTemplate.syncSend(messages.get(0).getTopic(), messageList);
+            return SendStatus.SEND_OK.equals(sendResult.getSendStatus());
+        } catch (Exception e) {
+            log.error("send message to mq error", e);
+            return false;
+        }
+
     }
 }

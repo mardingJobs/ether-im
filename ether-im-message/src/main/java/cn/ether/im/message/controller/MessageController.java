@@ -1,6 +1,7 @@
 package cn.ether.im.message.controller;
 
 import cn.ether.im.message.domain.Resp;
+import cn.ether.im.message.dto.GroupChatMessageReq;
 import cn.ether.im.message.dto.PersonalChatMessageReq;
 import cn.ether.im.message.service.MessageService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,5 +33,10 @@ public class MessageController {
 
 
     // 发送群聊消息
+    @PostMapping("/sendMessage/group/")
+    public Resp sendGroupMessage(@RequestBody GroupChatMessageReq req) {
+        messageService.sendGroupMessage(req);
+        return Resp.success();
+    }
 
 }

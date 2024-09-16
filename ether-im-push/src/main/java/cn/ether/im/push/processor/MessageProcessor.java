@@ -9,7 +9,7 @@ import cn.ether.im.common.model.message.ImMessage;
 import cn.ether.im.common.model.message.ImSystemMessage;
 import cn.ether.im.common.util.SpringContextHolder;
 import cn.ether.im.push.processor.chat.ChatMessageProcess;
-import cn.ether.im.push.processor.chat.PersonalMessageProcess;
+import cn.ether.im.push.processor.chat.DefaultMessageProcess;
 import cn.ether.im.push.processor.system.HeartbeatProcess;
 import cn.ether.im.push.processor.system.PersonalAckMessageProcess;
 import cn.ether.im.push.processor.system.SystemMessageProcess;
@@ -52,12 +52,15 @@ public class MessageProcessor {
 
     public static ChatMessageProcess chatMessageProcessor(ChatMessageType type) {
         ApplicationContext context = SpringContextHolder.getApplicationContext();
-        switch (type) {
-            case PERSONAL:
-                return context.getBean(PersonalMessageProcess.class);
-            default:
-                return null;
-        }
+        return context.getBean(DefaultMessageProcess.class);
+//        switch (type) {
+//            case PERSONAL:
+//                return context.getBean(DefaultMessageProcess.class);
+//            case GROUP:
+//                return context.getBean(DefaultMessageProcess.class);
+//            default:
+//                return null;
+//        }
     }
 
 

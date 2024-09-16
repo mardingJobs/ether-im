@@ -1,7 +1,9 @@
 package cn.ether.im.message.service.impl;
 
 
+import cn.ether.im.common.model.message.ImGroupMessage;
 import cn.ether.im.common.model.message.ImPersonalMessage;
+import cn.ether.im.message.dto.GroupChatMessageReq;
 import cn.ether.im.message.dto.PersonalChatMessageReq;
 import cn.ether.im.message.service.MessageService;
 import cn.ether.im.sdk.client.EtherImClient;
@@ -32,5 +34,18 @@ public class MessageServiceImpl implements MessageService {
         personalMessage.setContent(req.getContent());
         personalMessage.setContentType(req.getContentType());
         etherImClient.sendPersonalMessage(personalMessage);
+    }
+
+    /**
+     * @param req
+     */
+    @Override
+    public void sendGroupMessage(GroupChatMessageReq req) {
+        ImGroupMessage imGroupMessage = new ImGroupMessage();
+        imGroupMessage.setSender(req.getSender());
+        imGroupMessage.setReceivers(req.getReceivers());
+        imGroupMessage.setContent(req.getContent());
+        imGroupMessage.setContentType(req.getContentType());
+        etherImClient.sendGroupMessage(imGroupMessage);
     }
 }

@@ -16,7 +16,7 @@
 package cn.ether.im.push.mq;
 
 import cn.ether.im.common.constants.ImConstants;
-import cn.ether.im.common.model.message.ImPersonalMessage;
+import cn.ether.im.common.model.message.ImChatMessage;
 import cn.ether.im.push.processor.MessageProcessor;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
@@ -32,10 +32,10 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-@ConditionalOnProperty(name = "message.mq.type", havingValue = "rocketmq",matchIfMissing = true)
-@RocketMQMessageListener(consumerGroup = ImConstants.IM_MESSAGE_PRIVATE_CONSUMER_GROUP,
-        topic = ImConstants.IM_MESSAGE_PERSONAL)
-public class PersonalMessageConsumer
+@ConditionalOnProperty(name = "message.mq.type", havingValue = "rocketmq", matchIfMissing = true)
+@RocketMQMessageListener(consumerGroup = ImConstants.IM_MESSAGE_PUSH_CONSUMERS,
+        topic = ImConstants.IM_MESSAGE_PUSH_TOPIC)
+public class ChatMessageConsumer
         implements RocketMQListener<String>, RocketMQPushConsumerLifecycleListener {
 
     @Value("${server.id}")
@@ -50,12 +50,12 @@ public class PersonalMessageConsumer
             log.warn("PersonalMessageConsumer.onMessage|接收到的消息为空");
             return;
         }
-        ImPersonalMessage personalMessage = JSON.parseObject(message, ImPersonalMessage.class);
-        if (personalMessage == null) {
-            log.warn("PersonalMessageConsumer.onMessage|转化后的数据为空");
+        ImChatMessage chatMessage = JSON.parseObject(message, ImChatMessage.class);
+        if (chatMessage == null) {
+            log.warn("onMessage|转化后的数据为空");
             return;
         }
-        MessageProcessor.processChatMessage(personalMessage);
+        MessageProcessor.processChatMessage(chatMessage);
     }
 
     @Override
@@ -63,10 +63,10 @@ public class PersonalMessageConsumer
         try {
             String group = StringUtils.isEmpty(serverGroup) ? ImConstants.DEFAULT_GROUP_NAME : serverGroup;
             String topic = String.join(ImConstants.MQ_MESSAGE_KEY_SPLIT, group,
-                    ImConstants.IM_MESSAGE_PERSONAL, String.valueOf(serverId));
+                    ImConstants.IM_MESSAGE_PUSH_TOPIC, String.valueOf(serverId));
             consumer.subscribe(topic, "*");
         } catch (Exception e) {
-            log.error("PersonalMessageConsumer.prepareStart|异常:{}", e.getMessage());
+            log.error("prepareStart|异常:{}", e.getMessage());
         }
     }
 }

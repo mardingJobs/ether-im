@@ -15,11 +15,14 @@
  */
 package cn.ether.im.common.model.message;
 
+import cn.ether.im.common.enums.ChatMessageType;
 import lombok.Data;
 
 
 @Data
 public class ImGroupMessage extends ImChatMessage {
 
-
+    public ImGroupMessage() {
+        this.setType(ChatMessageType.GROUP);
+    }
 }

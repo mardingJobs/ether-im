@@ -16,6 +16,8 @@
 package cn.ether.im.common.mq;
 import cn.ether.im.common.model.message.ImTopicMessage;
 
+import java.util.List;
+
 /**
  * IM Message 发送器
  */
@@ -26,5 +28,13 @@ public interface ImMessageSender {
      * @param message 发送的消息
      */
     boolean send(ImTopicMessage message);
+
+    /**
+     * 批量发送IM消息
+     *
+     * @param messages
+     * @return
+     */
+    boolean batchSend(List<ImTopicMessage> messages);
 
 }

@@ -1,5 +1,6 @@
 package cn.ether.im.message.service;
 
+import cn.ether.im.message.dto.GroupChatMessageReq;
 import cn.ether.im.message.dto.PersonalChatMessageReq;
 
 /**
@@ -10,5 +11,7 @@ import cn.ether.im.message.dto.PersonalChatMessageReq;
 public interface MessageService {
 
     public void sendMessage(PersonalChatMessageReq req);
+
+    public void sendGroupMessage(GroupChatMessageReq req);
 
 }

@@ -50,7 +50,7 @@ public class ImUserCacheHelper {
     public List<String> relatedTopic(ImUser user) {
         List<String> serverIds = this.connectedServerIds(user);
         return serverIds.stream().map(serverId -> String.join(ImConstants.MQ_MESSAGE_KEY_SPLIT, user.getGroup(),
-                ImConstants.IM_MESSAGE_PERSONAL, serverId)).collect(Collectors.toList());
+                ImConstants.IM_MESSAGE_PUSH_TOPIC, serverId)).collect(Collectors.toList());
     }
 
 
@@ -66,6 +66,18 @@ public class ImUserCacheHelper {
             return Collections.emptyList();
         }
         return userConnections.keySet().stream().map(ImTerminalType::valueOf).collect(Collectors.toList());
+    }
+
+    /**
+     * 获取用户在线的终端信息
+     *
+     * @param userInfo
+     * @return
+     */
+    public List<ImUserTerminal> onlineTerminals(ImUser userInfo) {
+        Map<String, Object> userConnections = getUserConnections(userInfo);
+        return userConnections.entrySet().stream().map(entry -> new ImUserTerminal(userInfo, ImTerminalType.valueOf(entry.getKey())))
+                .collect(Collectors.toList());
     }
 
 

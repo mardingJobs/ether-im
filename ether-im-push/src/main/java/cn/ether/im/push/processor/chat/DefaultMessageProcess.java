@@ -17,7 +17,7 @@ import java.util.List;
  **/
 @Slf4j
 @Component
-public class PersonalMessageProcess implements ChatMessageProcess {
+public class DefaultMessageProcess implements ChatMessageProcess {
 
 
     @Override

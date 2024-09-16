@@ -52,6 +52,16 @@ public class DefaultImClientImpl implements EtherImClient {
      */
     @Override
     public String sendGroupMessage(ImGroupMessage groupMessage) {
-        return null;
+        // 设置消息ID
+        if (StringUtils.isEmpty(groupMessage.getId())) {
+            String id = snowflakeUtil.nextId();
+            groupMessage.setId(id);
+        }
+        // 设置时间
+        if (groupMessage.getTimestamp() == null) {
+            groupMessage.setTimestamp(System.currentTimeMillis());
+        }
+        messageSender.sendGroupMessage(groupMessage);
+        return groupMessage.getId();
     }
 }

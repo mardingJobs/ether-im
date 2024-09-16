@@ -16,6 +16,7 @@
 package cn.ether.im.common.model.user;
 
 import cn.ether.im.common.constants.ImConstants;
+import com.google.common.base.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -41,5 +42,19 @@ public class ImUser {
 
     public ImUser(String userId) {
         this.userId = userId;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ImUser)) return false;
+        ImUser user = (ImUser) o;
+        return Objects.equal(userId, user.userId) && Objects.equal(group, user.group);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(userId, group);
     }
 }

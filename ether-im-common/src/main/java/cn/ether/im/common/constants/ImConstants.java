@@ -58,15 +58,11 @@ public class ImConstants {
      * 消息的key
      */
     public static final String MSG_KEY = "message";
-    /**
-     * 未读私聊消息队列
-     */
-    public final static String IM_MESSAGE_PERSONAL = "im_message_personal";
 
-    /**
-     * 监听私聊消息消费分组
-     */
-    public final static String IM_MESSAGE_PRIVATE_CONSUMER_GROUP = "im_message_personal_consumers";
+    public final static String IM_MESSAGE_PUSH_TOPIC = "im_message_push_topic";
+
+
+    public final static String IM_MESSAGE_PUSH_CONSUMERS = "im_message_push_consumers";
     /**
      * 未读群聊消息队列
      */
