@@ -1,4 +1,4 @@
-package cn.ether.im.push.processor.mq;
+package cn.ether.im.push.processor.chat;
 
 import cn.ether.im.common.model.message.ImChatMessage;
 

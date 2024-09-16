@@ -1,4 +1,4 @@
-package cn.ether.im.push.processor.channel;
+package cn.ether.im.push.processor.system;
 
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.helper.ImUserCacheHelper;

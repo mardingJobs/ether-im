@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.ether.im.push.processor.channel;
+package cn.ether.im.push.processor.system;
 
 import cn.ether.im.common.cache.DistributedCacheService;
 import cn.ether.im.common.constants.ImConstants;
