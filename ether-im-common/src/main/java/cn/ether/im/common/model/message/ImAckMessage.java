@@ -1,5 +1,6 @@
 package cn.ether.im.common.model.message;
 
+import cn.ether.im.common.enums.SystemMessageType;
 import lombok.Data;
 
 /**
@@ -8,10 +9,9 @@ import lombok.Data;
  * * @Description
  **/
 @Data
-public class ImAckMessage implements ChannelMessage {
+public class ImAckMessage extends ImSystemMessage {
 
-    private final String ACK_MSG = "ack";
-
-    private String ack = ACK_MSG;
-
+    public ImAckMessage() {
+        this.setType(SystemMessageType.ACK_RECEIVE);
+    }
 }

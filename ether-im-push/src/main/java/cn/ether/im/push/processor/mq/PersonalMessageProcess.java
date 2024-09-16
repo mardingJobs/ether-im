@@ -1,7 +1,6 @@
 package cn.ether.im.push.processor.mq;
 
 import cn.ether.im.common.model.message.ImChatMessage;
-import cn.ether.im.common.model.user.ImUser;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.push.cache.UserChannelCache;
 import io.netty.channel.ChannelHandlerContext;
@@ -20,10 +19,9 @@ public class PersonalMessageProcess implements ChatMessageProcess {
 
     @Override
     public void process(ImChatMessage message) {
-        ImUserTerminal userTerminal = (ImUserTerminal) message.getReceivers().get(0);
-        ImUser receiver = userTerminal.getUser();
+        ImUserTerminal receiver = (ImUserTerminal) message.getReceivers().get(0);
         ChannelHandlerContext channelHandlerContext = UserChannelCache.getChannelCtx(receiver.getUserId(),
-                userTerminal.getTerminalType().toString());
+                receiver.getTerminalType().toString());
         if (channelHandlerContext != null) {
             channelHandlerContext.writeAndFlush(message);
         } else {

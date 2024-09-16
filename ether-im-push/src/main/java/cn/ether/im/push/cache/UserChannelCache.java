@@ -36,7 +36,7 @@ public class UserChannelCache {
 
 
     public static void bindChannel(ImUserTerminal userTerminal, ChannelHandlerContext ctx) {
-        channelMap.computeIfAbsent(userTerminal.getUser().getUserId(),
+        channelMap.computeIfAbsent(userTerminal.getUserId(),
                 key -> new ConcurrentHashMap<>()).put(userTerminal.getTerminalType().toString(), ctx);
     }
 

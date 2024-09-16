@@ -14,6 +14,6 @@ public class ImMessageType {
     /**
      * 消息类型
      */
-    private ImMessageTypeEnum type;
+    private ImMessageTypeEnum type = ImMessageTypeEnum.CHAT;
 
 }

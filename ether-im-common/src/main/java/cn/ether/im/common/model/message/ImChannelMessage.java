@@ -6,7 +6,7 @@ package cn.ether.im.common.model.message;
  * * @Date    2024/9/15 23:41
  * * @Description
  **/
-public interface ChannelMessage {
+public interface ImChannelMessage {
 
 
 }

@@ -17,21 +17,27 @@ public class ImMessage<T> extends ImMessageType {
      */
     private T message;
 
+    public ImMessage() {
+    }
+
+    public ImMessage(ImMessageTypeEnum type, T message) {
+        this.setType(type);
+        this.message = message;
+    }
 
     public static ImMessage parseObject(String json) {
         ImMessageType imMessageType = JSON.parseObject(json, ImMessageType.class);
         ImMessageTypeEnum type = imMessageType.getType();
-        ImMessage message = (ImMessage) imMessageType;
         switch (type) {
             case CHAT:
                 ImChatMessage chatMessage = JSON.parseObject(json, ImChatMessage.class);
-                message.setMessage(chatMessage);
+                return new ImMessage<>(type, chatMessage);
             case SYSTEM:
-                ImSystemMessage imSystemMessage = JSON.parseObject(json, ImSystemMessage.class);
-                message.setMessage(imSystemMessage);
+                ImSystemMessage systemMessage = JSON.parseObject(json, ImSystemMessage.class);
+                return new ImMessage<>(type, systemMessage);
             default:
+                return null;
         }
-        return message;
     }
 
 }

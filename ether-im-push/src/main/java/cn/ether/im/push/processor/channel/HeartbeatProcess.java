@@ -19,7 +19,7 @@ import cn.ether.im.common.cache.DistributedCacheService;
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.helper.ImCacheHelper;
 import cn.ether.im.common.model.message.ImHeartbeatMessage;
-import cn.ether.im.common.model.user.ImUser;
+import cn.ether.im.common.model.user.ImUserTerminal;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.AttributeKey;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,12 +47,14 @@ public class HeartbeatProcess implements SystemMessageProcess<ImHeartbeatMessage
         //设置属性
         AttributeKey<Long> heartBeatAttr = AttributeKey.valueOf(ImConstants.HEARTBEAT_TIMES);
         Long heartbeatTimes = ctx.channel().attr(heartBeatAttr).get();
+        if (heartbeatTimes == null) heartbeatTimes = 0L;
         ctx.channel().attr(heartBeatAttr).set(++heartbeatTimes);
         if (heartbeatTimes % heartbeatCount == 0) {
             //心跳10次，用户在线状态续命一次
-            AttributeKey<ImUser> userAttr = AttributeKey.valueOf(ImConstants.USER_KEY);
-            ImUser imUser = ctx.attr(userAttr).get();
-            String cacheKey = cacheHelper.serverCacheKey(imUser);
+            AttributeKey<ImUserTerminal> userAttr = AttributeKey.valueOf(ImConstants.USER_KEY);
+            ImUserTerminal userTerminal = ctx.attr(userAttr).get();
+            if (userTerminal == null) return;
+            String cacheKey = cacheHelper.serverCacheKey(userTerminal);
             distributedCacheService.expire(cacheKey, ImConstants.ONLINE_TIMEOUT_SECONDS, TimeUnit.SECONDS);
         }
     }

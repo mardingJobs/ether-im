@@ -1,6 +1,6 @@
 package cn.ether.im.push.handler;
 
-import cn.ether.im.common.model.message.ImMessage;
+import cn.ether.im.common.model.message.ImSystemMessage;
 import cn.ether.im.push.processor.MessageProcessor;
 import com.alibaba.fastjson.JSON;
 import io.netty.channel.ChannelHandlerContext;
@@ -15,14 +15,14 @@ import org.slf4j.LoggerFactory;
  * * @Description
  **/
 
-public class ImChannelHandler extends SimpleChannelInboundHandler<ImMessage> {
+public class ImChannelHandler extends SimpleChannelInboundHandler<ImSystemMessage> {
 
     private final Logger logger = LoggerFactory.getLogger(ImChannelHandler.class);
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, ImMessage msg) throws Exception {
-        logger.info("IMChannelHandler channelRead0: {}" ,JSON.toJSONString(msg));
-        MessageProcessor.processMessage(msg);
+    protected void channelRead0(ChannelHandlerContext ctx, ImSystemMessage msg) throws Exception {
+        logger.info("IMChannelHandler channelRead0: {}", JSON.toJSONString(msg));
+        MessageProcessor.processSystemMessage(ctx, msg);
     }
 
     @Override
