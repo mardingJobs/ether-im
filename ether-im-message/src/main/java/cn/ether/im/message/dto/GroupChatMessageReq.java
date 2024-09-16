@@ -2,6 +2,7 @@ package cn.ether.im.message.dto;
 
 import cn.ether.im.common.enums.MessageContentType;
 import cn.ether.im.common.model.user.ImUser;
+import cn.ether.im.common.model.user.ImUserTerminal;
 import lombok.Data;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class GroupChatMessageReq {
     /**
      * 发送者
      */
-    protected ImUser sender;
+    protected ImUserTerminal sender;
 
     /**
      * 接收者列表

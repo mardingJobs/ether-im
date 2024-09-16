@@ -22,7 +22,7 @@ public class ImChatMessage implements ImChannelMessage {
     /**
      * 发送者
      */
-    protected ImUser sender;
+    protected ImUserTerminal sender;
 
     /**
      * 接收者

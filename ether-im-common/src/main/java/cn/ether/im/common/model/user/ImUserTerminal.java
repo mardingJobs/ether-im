@@ -2,6 +2,8 @@ package cn.ether.im.common.model.user;
 
 import cn.ether.im.common.enums.ImTerminalType;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * todo 改为继承
@@ -10,6 +12,8 @@ import lombok.Data;
  * * @Description
  **/
 @Data
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public class ImUserTerminal extends ImUser {
 
 
@@ -18,6 +22,8 @@ public class ImUserTerminal extends ImUser {
      */
     private ImTerminalType terminalType;
 
+    public ImUserTerminal() {
+    }
 
     public ImUserTerminal(String userId, ImTerminalType terminalType, String group) {
         this.setUserId(userId);
@@ -29,6 +35,10 @@ public class ImUserTerminal extends ImUser {
         this.setUserId(user.getUserId());
         this.setGroup(user.getGroup());
         this.terminalType = terminalType;
+    }
+
+    public ImUser cloneUser() {
+        return new ImUser(this.getUserId(), this.getGroup());
     }
 
 

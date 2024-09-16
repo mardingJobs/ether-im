@@ -10,8 +10,6 @@ import cn.ether.im.sdk.client.EtherImClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-
 /**
  * * @Author: Martin
  * * @Date    2024/9/15 14:58
@@ -30,10 +28,10 @@ public class MessageServiceImpl implements MessageService {
     public void sendMessage(PersonalChatMessageReq req) {
         ImPersonalMessage personalMessage = new ImPersonalMessage();
         personalMessage.setSender(req.getSender());
-        personalMessage.setReceivers(Collections.singletonList(req.getReceiver()));
+        personalMessage.getReceivers().add(req.getReceiver());
         personalMessage.setContent(req.getContent());
         personalMessage.setContentType(req.getContentType());
-        etherImClient.sendPersonalMessage(personalMessage);
+        etherImClient.sendChatMessage(personalMessage);
     }
 
     /**
@@ -46,6 +44,6 @@ public class MessageServiceImpl implements MessageService {
         imGroupMessage.setReceivers(req.getReceivers());
         imGroupMessage.setContent(req.getContent());
         imGroupMessage.setContentType(req.getContentType());
-        etherImClient.sendGroupMessage(imGroupMessage);
+        etherImClient.sendChatMessage(imGroupMessage);
     }
 }

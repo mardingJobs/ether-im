@@ -1,7 +1,7 @@
 package cn.ether.im.sdk.client;
 
-import cn.ether.im.common.model.message.ImGroupMessage;
-import cn.ether.im.common.model.message.ImPersonalMessage;
+import cn.ether.im.common.model.message.ImChatMessage;
+import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.util.SnowflakeUtil;
 import cn.ether.im.sdk.sender.ChatMessageSender;
 import org.apache.commons.lang3.StringUtils;
@@ -28,40 +28,24 @@ public class DefaultImClientImpl implements EtherImClient {
     /**
      * 发送单聊消息
      *
-     * @param personalMessage
+     * @param chatMessage
      */
     @Override
-    public String sendPersonalMessage(ImPersonalMessage personalMessage) {
+    public String sendChatMessage(ImChatMessage chatMessage) {
         // 设置消息ID
-        if (StringUtils.isEmpty(personalMessage.getId())) {
+        if (StringUtils.isEmpty(chatMessage.getId())) {
             String id = snowflakeUtil.nextId();
-            personalMessage.setId(id);
+            chatMessage.setId(id);
         }
         // 设置时间
-        if (personalMessage.getTimestamp() == null) {
-            personalMessage.setTimestamp(System.currentTimeMillis());
+        if (chatMessage.getTimestamp() == null) {
+            chatMessage.setTimestamp(System.currentTimeMillis());
         }
-        messageSender.sendPersonalMessage(personalMessage);
-        return personalMessage.getId();
+        // 给自己其他终端发送消息
+        ImUserTerminal sender = chatMessage.getSender();
+        chatMessage.getReceivers().add(sender.cloneUser());
+        messageSender.sendChatMessage(chatMessage);
+        return chatMessage.getId();
     }
 
-    /**
-     * 发送群聊消息
-     *
-     * @param groupMessage
-     */
-    @Override
-    public String sendGroupMessage(ImGroupMessage groupMessage) {
-        // 设置消息ID
-        if (StringUtils.isEmpty(groupMessage.getId())) {
-            String id = snowflakeUtil.nextId();
-            groupMessage.setId(id);
-        }
-        // 设置时间
-        if (groupMessage.getTimestamp() == null) {
-            groupMessage.setTimestamp(System.currentTimeMillis());
-        }
-        messageSender.sendGroupMessage(groupMessage);
-        return groupMessage.getId();
-    }
 }

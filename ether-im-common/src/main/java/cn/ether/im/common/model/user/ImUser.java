@@ -17,7 +17,6 @@ package cn.ether.im.common.model.user;
 
 import cn.ether.im.common.constants.ImConstants;
 import com.google.common.base.Objects;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,7 +24,6 @@ import lombok.NoArgsConstructor;
  * IM 用户信息
  */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class ImUser {
 
@@ -42,6 +40,11 @@ public class ImUser {
 
     public ImUser(String userId) {
         this.userId = userId;
+    }
+
+    public ImUser(String userId, String group) {
+        this.userId = userId;
+        this.group = group;
     }
 
 

@@ -1,7 +1,6 @@
 package cn.ether.im.sdk.client;
 
-import cn.ether.im.common.model.message.ImGroupMessage;
-import cn.ether.im.common.model.message.ImPersonalMessage;
+import cn.ether.im.common.model.message.ImChatMessage;
 
 /**
  * * @Author: jack
@@ -13,16 +12,9 @@ public interface EtherImClient {
     /**
      * 发送单聊消息
      *
-     * @param personalMessage
+     * @param chatMessage
      */
-    String sendPersonalMessage(ImPersonalMessage personalMessage);
-
-    /**
-     * 发送群聊消息
-     *
-     * @param groupMessage
-     */
-    String sendGroupMessage(ImGroupMessage groupMessage);
+    String sendChatMessage(ImChatMessage chatMessage);
 
 
 }
