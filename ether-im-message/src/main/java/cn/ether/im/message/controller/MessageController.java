@@ -23,20 +23,19 @@ public class MessageController {
     @Resource
     private MessageService messageService;
 
-
     // 发送单聊消息
     @PostMapping("/sendMessage/personal/")
     public Resp sendPersonalMessage(@RequestBody PersonalChatMessageReq req) {
-        messageService.sendMessage(req);
-        return Resp.success();
+        String messageId = messageService.sendPersonalMessage(req);
+        return Resp.success(messageId);
     }
 
 
     // 发送群聊消息
     @PostMapping("/sendMessage/group/")
     public Resp sendGroupMessage(@RequestBody GroupChatMessageReq req) {
-        messageService.sendGroupMessage(req);
-        return Resp.success();
+        String messageId = messageService.sendGroupMessage(req);
+        return Resp.success(messageId);
     }
 
 }

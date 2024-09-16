@@ -25,25 +25,25 @@ public class MessageServiceImpl implements MessageService {
      * @param req
      */
     @Override
-    public void sendMessage(PersonalChatMessageReq req) {
+    public String sendPersonalMessage(PersonalChatMessageReq req) {
         ImPersonalMessage personalMessage = new ImPersonalMessage();
         personalMessage.setSender(req.getSender());
         personalMessage.getReceivers().add(req.getReceiver());
         personalMessage.setContent(req.getContent());
         personalMessage.setContentType(req.getContentType());
-        etherImClient.sendChatMessage(personalMessage);
+        return etherImClient.sendChatMessage(personalMessage);
     }
 
     /**
      * @param req
      */
     @Override
-    public void sendGroupMessage(GroupChatMessageReq req) {
+    public String sendGroupMessage(GroupChatMessageReq req) {
         ImGroupMessage imGroupMessage = new ImGroupMessage();
         imGroupMessage.setSender(req.getSender());
         imGroupMessage.setReceivers(req.getReceivers());
         imGroupMessage.setContent(req.getContent());
         imGroupMessage.setContentType(req.getContentType());
-        etherImClient.sendChatMessage(imGroupMessage);
+        return etherImClient.sendChatMessage(imGroupMessage);
     }
 }

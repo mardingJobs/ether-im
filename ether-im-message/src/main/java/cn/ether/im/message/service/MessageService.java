@@ -10,8 +10,8 @@ import cn.ether.im.message.dto.PersonalChatMessageReq;
  **/
 public interface MessageService {
 
-    public void sendMessage(PersonalChatMessageReq req);
+    public String sendPersonalMessage(PersonalChatMessageReq req);
 
-    public void sendGroupMessage(GroupChatMessageReq req);
+    public String sendGroupMessage(GroupChatMessageReq req);
 
 }
