@@ -15,8 +15,10 @@
  */
 package cn.ether.im.push.cache;
 
+import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.util.AttributeKey;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,11 +36,32 @@ public class UserChannelCache {
         channelMap.computeIfAbsent(userId, key -> new ConcurrentHashMap<>()).put(channel, ctx);
     }
 
-
+    /**
+     * 将用户终端和ChannelHandlerContext双向绑定
+     *
+     * @param userTerminal
+     * @param ctx
+     */
     public static void bindChannel(ImUserTerminal userTerminal, ChannelHandlerContext ctx) {
         channelMap.computeIfAbsent(userTerminal.getUserId(),
                 key -> new ConcurrentHashMap<>()).put(userTerminal.getTerminalType().toString(), ctx);
+
+        // 绑定用户到channel的属性
+        AttributeKey<ImUserTerminal> userKey = AttributeKey.valueOf(ImConstants.USER_KEY);
+        ctx.channel().attr(userKey).set(userTerminal);
     }
+
+    /**
+     * 获取用户终端
+     *
+     * @param ctx
+     * @return
+     */
+    public static ImUserTerminal getUserTerminal(ChannelHandlerContext ctx) {
+        AttributeKey<ImUserTerminal> userKey = AttributeKey.valueOf(ImConstants.USER_KEY);
+        return ctx.channel().attr(userKey).get();
+    }
+
 
     public static void removeChannelCtx(String userId, String terminal) {
         if (userId != null && terminal != null && channelMap.containsKey(userId)) {

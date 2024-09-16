@@ -1,6 +1,5 @@
 package cn.ether.im.push.processor.system;
 
-import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.helper.ImUserCacheHelper;
 import cn.ether.im.common.model.message.ImAckMessage;
 import cn.ether.im.common.model.message.ImTokenMessage;
@@ -9,7 +8,6 @@ import cn.ether.im.common.util.JwtUtils;
 import cn.ether.im.push.cache.UserChannelCache;
 import com.alibaba.fastjson.JSON;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.util.AttributeKey;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -63,10 +61,6 @@ public class TokenMessageProcess implements SystemMessageProcess<ImTokenMessage>
         cacheHelper.bindPushServer(imUserTerminal, serverId);
         // 将当前用户终端和channel绑定
         UserChannelCache.bindChannel(imUserTerminal, ctx);
-
-        // 绑定用户到channel的属性
-        AttributeKey<ImUserTerminal> userKey = AttributeKey.valueOf(ImConstants.USER_KEY);
-        ctx.channel().attr(userKey).set(imUserTerminal);
 
         ctx.channel().writeAndFlush(new ImAckMessage());
     }
