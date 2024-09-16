@@ -17,7 +17,7 @@ package cn.ether.im.push.processor.channel;
 
 import cn.ether.im.common.cache.DistributedCacheService;
 import cn.ether.im.common.constants.ImConstants;
-import cn.ether.im.common.helper.ImCacheHelper;
+import cn.ether.im.common.helper.ImUserCacheHelper;
 import cn.ether.im.common.model.message.ImHeartbeatMessage;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import io.netty.channel.ChannelHandlerContext;
@@ -35,7 +35,7 @@ public class HeartbeatProcess implements SystemMessageProcess<ImHeartbeatMessage
     private DistributedCacheService distributedCacheService;
 
     @Autowired
-    private ImCacheHelper cacheHelper;
+    private ImUserCacheHelper cacheHelper;
 
     @Value("${heartbeat.count:10}")
     private Integer heartbeatCount;

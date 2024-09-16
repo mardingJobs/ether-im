@@ -1,7 +1,7 @@
 package cn.ether.im.push.processor.channel;
 
 import cn.ether.im.common.constants.ImConstants;
-import cn.ether.im.common.helper.ImCacheHelper;
+import cn.ether.im.common.helper.ImUserCacheHelper;
 import cn.ether.im.common.model.message.ImAckMessage;
 import cn.ether.im.common.model.message.ImTokenMessage;
 import cn.ether.im.common.model.user.ImUserTerminal;
@@ -30,7 +30,7 @@ public class TokenMessageProcess implements SystemMessageProcess<ImTokenMessage>
     private String accessTokenSecret;
 
     @Resource
-    private ImCacheHelper cacheHelper;
+    private ImUserCacheHelper cacheHelper;
 
 
     @Value("${server.id}")

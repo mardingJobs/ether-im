@@ -7,6 +7,8 @@ import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * * @Author: Martin
  * * @Date    2024/9/14 23:22
@@ -19,13 +21,13 @@ public class PersonalMessageProcess implements ChatMessageProcess {
 
     @Override
     public void process(ImChatMessage message) {
-        ImUserTerminal receiver = (ImUserTerminal) message.getReceivers().get(0);
-        ChannelHandlerContext channelHandlerContext = UserChannelCache.getChannelCtx(receiver.getUserId(),
-                receiver.getTerminalType().toString());
-        if (channelHandlerContext != null) {
-            channelHandlerContext.writeAndFlush(message);
-        } else {
-            log.error("无接收者管道，消息接收者：{},消息ID：{}", receiver.getUserId(), message.getId());
+        List<ImUserTerminal> receiverTerminals = message.getReceiverTerminals();
+        for (ImUserTerminal terminal : receiverTerminals) {
+            ChannelHandlerContext channelHandlerContext = UserChannelCache.getChannelCtx(terminal.getUserId(),
+                    terminal.getTerminalType().toString());
+            if (channelHandlerContext != null) {
+                channelHandlerContext.writeAndFlush(message);
+            }
         }
     }
 }

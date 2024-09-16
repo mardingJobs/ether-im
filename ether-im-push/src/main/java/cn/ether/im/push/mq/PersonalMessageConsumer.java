@@ -16,11 +16,8 @@
 package cn.ether.im.push.mq;
 
 import cn.ether.im.common.constants.ImConstants;
-import cn.ether.im.common.enums.ChatMessageType;
-import cn.ether.im.common.model.message.ImChatMessage;
-import cn.ether.im.common.model.message.ImTopicMessage;
+import cn.ether.im.common.model.message.ImPersonalMessage;
 import cn.ether.im.push.processor.MessageProcessor;
-import cn.ether.im.push.processor.mq.ChatMessageProcess;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
@@ -53,14 +50,12 @@ public class PersonalMessageConsumer
             log.warn("PersonalMessageConsumer.onMessage|接收到的消息为空");
             return;
         }
-        ImTopicMessage<ImChatMessage> topicMessage = JSON.parseObject(message, ImTopicMessage.class);
-
-        if (topicMessage == null) {
+        ImPersonalMessage personalMessage = JSON.parseObject(message, ImPersonalMessage.class);
+        if (personalMessage == null) {
             log.warn("PersonalMessageConsumer.onMessage|转化后的数据为空");
             return;
         }
-        ChatMessageProcess processor = MessageProcessor.chatMessageProcessor(ChatMessageType.PERSONAL);
-        processor.process(topicMessage.getMessage());
+        MessageProcessor.processChatMessage(personalMessage);
     }
 
     @Override

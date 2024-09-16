@@ -25,5 +25,11 @@ public class ImUserTerminal extends ImUser {
         this.terminalType = terminalType;
     }
 
+    public ImUserTerminal(ImUser user, ImTerminalType terminalType) {
+        this.setUserId(user.getUserId());
+        this.setGroup(user.getGroup());
+        this.terminalType = terminalType;
+    }
+
 
 }

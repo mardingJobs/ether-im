@@ -3,6 +3,7 @@ package cn.ether.im.common.model.message;
 import cn.ether.im.common.enums.ChatMessageType;
 import cn.ether.im.common.enums.MessageContentType;
 import cn.ether.im.common.model.user.ImUser;
+import cn.ether.im.common.model.user.ImUserTerminal;
 import lombok.Data;
 
 import java.util.LinkedList;
@@ -14,7 +15,7 @@ import java.util.List;
  * * @Description
  **/
 @Data
-public class ImChatMessage {
+public class ImChatMessage implements ImChannelMessage {
 
     /**
      * 发送者
@@ -25,6 +26,11 @@ public class ImChatMessage {
      * 接收者
      */
     protected List<ImUser> receivers = new LinkedList<>();
+
+    /**
+     * 接收者终端
+     */
+    protected List<ImUserTerminal> receiverTerminals = new LinkedList<>();
 
     /**
      * 消息内容

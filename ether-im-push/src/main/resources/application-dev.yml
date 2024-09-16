@@ -1,7 +1,7 @@
 server:
   port: 8899
   id: 1
-  group: default # 给服务分组
+  group: customer # 给服务分组
 
 spring:
   redis:
@@ -30,7 +30,7 @@ jwt:
     secret: marding
 
 rocketmq:
-  name-server: localhost:9876
+  name-server: 192.168.1.4:9876
   producer:
     group: im-server-group
 
