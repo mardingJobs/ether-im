@@ -37,7 +37,9 @@ jwt:
 rocketmq:
   name-server: 192.168.1.4:9876
   producer:
-    group: im-server-group
+    group: im-message-group
+    #    重试次数，加上第一次，共4次
+    retry-times-when-send-failed: 3
 
 
 redis:

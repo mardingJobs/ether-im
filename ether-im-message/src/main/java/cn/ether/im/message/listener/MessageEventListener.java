@@ -3,6 +3,7 @@ package cn.ether.im.message.listener;
 import cn.ether.im.common.model.message.ImMessageEvent;
 import cn.ether.im.message.service.MessageService;
 import cn.ether.im.sdk.listener.ImMessageEventListener;
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +26,7 @@ public class MessageEventListener implements ImMessageEventListener {
      */
     @Override
     public void onMessageEvent(ImMessageEvent messageEvent) {
+        log.info("监听到消息事件:{}", JSON.toJSONString(messageEvent));
         messageService.onMessageEvent(messageEvent);
     }
 }

@@ -14,7 +14,10 @@ import lombok.Data;
 @AllArgsConstructor
 public class ImChatMessageSentResult {
 
-    private Long messageId;
+    /**
+     * 这里是String类型，防止客户端因为长度太长丢失精度
+     */
+    private String messageId;
 
     private ImMessageStatus status;
 
@@ -25,7 +28,7 @@ public class ImChatMessageSentResult {
      * @return
      */
     public static ImChatMessageSentResult success(Long messageId) {
-        return new ImChatMessageSentResult(messageId, ImMessageStatus.SENT);
+        return new ImChatMessageSentResult(String.valueOf(messageId), ImMessageStatus.SENT);
     }
 
     /**
@@ -35,7 +38,7 @@ public class ImChatMessageSentResult {
      * @return
      */
     public static ImChatMessageSentResult fail(Long messageId) {
-        return new ImChatMessageSentResult(messageId, ImMessageStatus.UN_SEND);
+        return new ImChatMessageSentResult(String.valueOf(messageId), ImMessageStatus.UN_SEND);
     }
 
 }
