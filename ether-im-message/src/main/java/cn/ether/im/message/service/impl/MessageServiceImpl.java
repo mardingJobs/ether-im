@@ -1,26 +1,34 @@
 package cn.ether.im.message.service.impl;
 
 
+import cn.ether.im.common.enums.ChatMessageType;
+import cn.ether.im.common.enums.ImMessageEventType;
 import cn.ether.im.common.enums.ImMessageStatus;
 import cn.ether.im.common.enums.ImTerminalType;
 import cn.ether.im.common.exception.ImException;
 import cn.ether.im.common.model.ImChatMessageSentResult;
 import cn.ether.im.common.model.message.ImChatMessage;
 import cn.ether.im.common.model.message.ImGroupMessage;
+import cn.ether.im.common.model.message.ImMessageEvent;
 import cn.ether.im.common.model.message.ImPersonalMessage;
 import cn.ether.im.common.model.user.ImUser;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.util.SnowflakeUtil;
 import cn.ether.im.message.dto.GroupChatMessageReq;
 import cn.ether.im.message.dto.PersonalChatMessageReq;
+import cn.ether.im.message.entity.ImMessageEventLogEntity;
 import cn.ether.im.message.entity.ImPersonalMessageEntity;
+import cn.ether.im.message.service.ImMessageEventLogEntityService;
 import cn.ether.im.message.service.ImPersonalMessageService;
 import cn.ether.im.message.service.MessageService;
 import cn.ether.im.sdk.client.EtherImClient;
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
@@ -33,6 +41,7 @@ import java.util.List;
  * * @Date    2024/9/15 14:58
  * * @Description
  **/
+@Slf4j
 @Service
 public class MessageServiceImpl implements MessageService {
 
@@ -44,6 +53,9 @@ public class MessageServiceImpl implements MessageService {
 
     @Resource
     private ImPersonalMessageService personalMessageService;
+
+    @Resource
+    private ImMessageEventLogEntityService messageEventLogEntityService;
 
 
     private ImPersonalMessageEntity toEntity(PersonalChatMessageReq req) {
@@ -96,5 +108,64 @@ public class MessageServiceImpl implements MessageService {
         imGroupMessage.setContent(req.getContent());
         imGroupMessage.setContentType(req.getContentType());
         return etherImClient.sendChatMessage(imGroupMessage);
+    }
+
+    /**
+     * @param eventLogEntity
+     * @return
+     */
+    @Override
+    public boolean saveMessageEventLog(ImMessageEventLogEntity eventLogEntity) {
+        return messageEventLogEntityService.save(eventLogEntity);
+    }
+
+    /**
+     * 对消息事件的处理，持久化消息事件日志，同时同步消息状态
+     * 就算消息事件是乱序的，消息的状态也不会被覆盖，始终等于顺序优先级最大的消息事件类型的消息状态
+     *
+     * @param messageEvent
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void onMessageEvent(ImMessageEvent messageEvent) {
+        ChatMessageType messageType = messageEvent.getMessageType();
+        if (messageType == ChatMessageType.PERSONAL) {
+            ImPersonalMessageEntity messageEntity = personalMessageService.getById(messageEvent.getMessageId());
+            if (messageEntity == null) {
+                return;
+            }
+            // 保存消息事件日志
+            List<ImMessageEventLogEntity> eventLogs = messageEventLogEntityService.lambdaQuery()
+                    .eq(ImMessageEventLogEntity::getMessageId, messageEntity.getId())
+                    .list();
+            // 判断是否已存在
+            boolean present = eventLogs.stream()
+                    .anyMatch((log) -> log.getEventType().equals(messageEvent.getEventType().toString()));
+            if (present) {
+                return;
+            }
+            ImMessageEventLogEntity eventLogEntity = new ImMessageEventLogEntity();
+            eventLogEntity.setMessageId(messageEntity.getId());
+            eventLogEntity.setEventType(messageEvent.getEventType().toString());
+            eventLogEntity.setEventTime(messageEvent.getEventTime());
+            eventLogEntity.setCreateTime(new Date());
+            messageEventLogEntityService.save(eventLogEntity);
+
+            // 更新消息状态
+            eventLogs = messageEventLogEntityService.lambdaQuery()
+                    .eq(ImMessageEventLogEntity::getMessageId, messageEntity.getId())
+                    .list();
+            List<ImMessageEventLogEntity> orderedEventList = new LinkedList<>();
+            for (ImMessageEventLogEntity log : eventLogs) {
+                ImMessageEventType eventType = ImMessageEventType.valueOf(log.getEventType());
+                orderedEventList.add(eventType.getOrder(), log);
+            }
+            if (CollectionUtil.isNotEmpty(orderedEventList)) {
+                ImMessageEventLogEntity newestLog = orderedEventList.get(orderedEventList.size() - 1);
+                ImMessageStatus status = ImMessageEventType.valueOf(newestLog.getEventType()).getStatus();
+                messageEntity.setStatus(status.name());
+                personalMessageService.updateById(messageEntity);
+            }
+        }
     }
 }

@@ -13,4 +13,8 @@ public class ImException extends RuntimeException {
     public ImException(String message) {
         super(message);
     }
+
+    public ImException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

@@ -27,7 +27,7 @@ public class ImTopicMessage<T> {
     private static final long serialVersionUID = -7962158433664656629L;
 
     /**
-     * 消息
+     * 发送到MQ的消息
      */
     private T message;
 

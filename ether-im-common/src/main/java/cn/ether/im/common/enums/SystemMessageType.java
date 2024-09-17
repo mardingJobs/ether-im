@@ -1,7 +1,7 @@
 package cn.ether.im.common.enums;
 
-import cn.ether.im.common.model.message.ImChatMessageAck;
 import cn.ether.im.common.model.message.ImHeartbeatMessage;
+import cn.ether.im.common.model.message.ImMessageEvent;
 import cn.ether.im.common.model.message.ImSystemMessage;
 import cn.ether.im.common.model.message.ImTokenMessage;
 
@@ -12,7 +12,7 @@ public enum SystemMessageType {
 
     TOKEN("TOKEN", ImTokenMessage.class),
     HEART_BEAT("心跳", ImHeartbeatMessage.class),
-    ACK_RECEIVE("消息确认", ImChatMessageAck.class);
+    EVENT("事件", ImMessageEvent.class);
 
     private final String desc;
     private final Class<? extends ImSystemMessage> messageClass;

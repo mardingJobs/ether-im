@@ -11,7 +11,7 @@ import cn.ether.im.common.util.SpringContextHolder;
 import cn.ether.im.push.processor.chat.ChatMessageProcess;
 import cn.ether.im.push.processor.chat.DefaultMessageProcess;
 import cn.ether.im.push.processor.system.HeartbeatProcess;
-import cn.ether.im.push.processor.system.PersonalAckMessageProcess;
+import cn.ether.im.push.processor.system.MessageEventProcess;
 import cn.ether.im.push.processor.system.SystemMessageProcess;
 import cn.ether.im.push.processor.system.TokenMessageProcess;
 import io.netty.channel.ChannelHandlerContext;
@@ -69,8 +69,8 @@ public class MessageProcessor {
                 return context.getBean(TokenMessageProcess.class);
             case HEART_BEAT:
                 return context.getBean(HeartbeatProcess.class);
-            case ACK_RECEIVE:
-                return context.getBean(PersonalAckMessageProcess.class);
+            case EVENT:
+                return context.getBean(MessageEventProcess.class);
             default:
                 return null;
 

@@ -81,10 +81,8 @@ public class ImConstants {
      * 私聊消息发送结果主题
      */
     public final static String TOPIC_IM_RESULT = "im_result";
-    /**
-     * 私聊消息结果消费分组
-     */
-    public final static String IM_RESULT_PERSONAL_CONSUMER_GROUP = "im_result_personal_consumer_group";
+
+    public final static String IM_MESSAGE_EVENT_CONSUMER_GROUP = "im_message_consumer_group";
     /**
      * 群聊消息发送结果队列
      */
@@ -161,4 +159,8 @@ public class ImConstants {
      */
     public static final String MQ_MESSAGE_KEY_SPLIT = "_";
 
+    /**
+     * 消息事件主题
+     */
+    public static final String IM_MESSAGE_EVENT_TOPIC = "im_message_event_topic";
 }
