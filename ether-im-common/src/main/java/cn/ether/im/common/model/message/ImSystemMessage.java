@@ -12,6 +12,13 @@ import lombok.Data;
 @Data
 public class ImSystemMessage implements ImChannelMessage {
 
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 表示系统消息的唯一标识 (可选)
+     */
+    private String seq;
+
     /**
      * 消息类型
      */

@@ -42,8 +42,6 @@ public class HeartbeatProcess implements SystemMessageProcess<ImHeartbeatMessage
 
     @Override
     public void process(ChannelHandlerContext ctx, ImHeartbeatMessage message) {
-        //响应ws
-        this.response(ctx);
         //设置属性
         AttributeKey<Long> heartBeatAttr = AttributeKey.valueOf(ImConstants.HEARTBEAT_TIMES);
         Long heartbeatTimes = ctx.channel().attr(heartBeatAttr).get();
@@ -57,14 +55,5 @@ public class HeartbeatProcess implements SystemMessageProcess<ImHeartbeatMessage
             String cacheKey = cacheHelper.serverCacheKey(userTerminal);
             distributedCacheService.expire(cacheKey, ImConstants.ONLINE_TIMEOUT_SECONDS, TimeUnit.SECONDS);
         }
-    }
-
-
-    /**
-     * 响应ws的数据
-     */
-    private void response(ChannelHandlerContext ctx) {
-        ImHeartbeatMessage message = new ImHeartbeatMessage();
-        ctx.channel().writeAndFlush(message);
     }
 }

@@ -6,6 +6,7 @@ import cn.ether.im.common.enums.ImMessageTypeEnum;
 import cn.ether.im.common.enums.SystemMessageType;
 import cn.ether.im.common.model.message.ImChatMessage;
 import cn.ether.im.common.model.message.ImMessage;
+import cn.ether.im.common.model.message.ImSystemAckMessage;
 import cn.ether.im.common.model.message.ImSystemMessage;
 import cn.ether.im.common.util.SpringContextHolder;
 import cn.ether.im.push.processor.chat.ChatMessageProcess;
@@ -42,6 +43,10 @@ public class MessageProcessor {
     }
 
     public static void processSystemMessage(ChannelHandlerContext ctx, ImSystemMessage systemMessage) {
+        // ACK
+        ImSystemAckMessage ackMessage = new ImSystemAckMessage(systemMessage.getSeq());
+        ctx.writeAndFlush(ackMessage);
+
         SystemMessageType type = systemMessage.getType();
         SystemMessageProcess systemMessageProcess = systemMessageProcessor(type);
         systemMessageProcess.process(ctx, systemMessage);

@@ -1,7 +1,6 @@
 package cn.ether.im.push.processor.system;
 
 import cn.ether.im.common.helper.ImUserCacheHelper;
-import cn.ether.im.common.model.message.ImAckMessage;
 import cn.ether.im.common.model.message.ImTokenMessage;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.util.JwtUtils;
@@ -61,8 +60,6 @@ public class TokenMessageProcess implements SystemMessageProcess<ImTokenMessage>
         cacheHelper.bindPushServer(imUserTerminal, serverId);
         // 将当前用户终端和channel绑定
         UserChannelCache.bindChannel(imUserTerminal, ctx);
-
-        ctx.channel().writeAndFlush(new ImAckMessage());
     }
 
 }
