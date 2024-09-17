@@ -52,7 +52,7 @@ public class ImChatMessage implements ImChannelMessage {
     /**
      * 消息ID
      */
-    private String id;
+    private Long id;
 
     /**
      * 消息类型

@@ -32,7 +32,8 @@ jwt:
 rocketmq:
   name-server: 192.168.1.4:9876
   producer:
-    group: im-server-group
+    group: im-push-group
+    retry-times-when-send-failed: 3
 
 local:
   cache:

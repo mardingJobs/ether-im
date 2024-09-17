@@ -14,7 +14,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class ImChatMessageSentResult {
 
-    private String messageId;
+    private Long messageId;
 
     private ImMessageStatus status;
 
@@ -24,7 +24,7 @@ public class ImChatMessageSentResult {
      * @param messageId 消息ID
      * @return
      */
-    public static ImChatMessageSentResult success(String messageId) {
+    public static ImChatMessageSentResult success(Long messageId) {
         return new ImChatMessageSentResult(messageId, ImMessageStatus.SENT);
     }
 
@@ -34,7 +34,7 @@ public class ImChatMessageSentResult {
      * @param messageId
      * @return
      */
-    public static ImChatMessageSentResult fail(String messageId) {
+    public static ImChatMessageSentResult fail(Long messageId) {
         return new ImChatMessageSentResult(messageId, ImMessageStatus.UN_SEND);
     }
 

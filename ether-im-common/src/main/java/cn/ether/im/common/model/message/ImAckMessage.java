@@ -12,6 +12,6 @@ import lombok.Data;
 public class ImAckMessage extends ImSystemMessage {
 
     public ImAckMessage() {
-        this.setType(SystemMessageType.ACK_RECEIVE);
+        this.setType(SystemMessageType.EVENT);
     }
 }
