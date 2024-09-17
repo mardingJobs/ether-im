@@ -1,5 +1,6 @@
 package cn.ether.im.sdk.client;
 
+import cn.ether.im.common.model.ImChatMessageSentResult;
 import cn.ether.im.common.model.message.ImChatMessage;
 
 /**
@@ -14,7 +15,7 @@ public interface EtherImClient {
      *
      * @param chatMessage
      */
-    String sendChatMessage(ImChatMessage chatMessage);
+    ImChatMessageSentResult sendChatMessage(ImChatMessage chatMessage);
 
 
 }

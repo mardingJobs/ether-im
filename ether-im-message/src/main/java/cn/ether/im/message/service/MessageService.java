@@ -1,5 +1,6 @@
 package cn.ether.im.message.service;
 
+import cn.ether.im.common.model.ImChatMessageSentResult;
 import cn.ether.im.message.dto.GroupChatMessageReq;
 import cn.ether.im.message.dto.PersonalChatMessageReq;
 
@@ -10,8 +11,8 @@ import cn.ether.im.message.dto.PersonalChatMessageReq;
  **/
 public interface MessageService {
 
-    public String sendPersonalMessage(PersonalChatMessageReq req);
+    ImChatMessageSentResult sendPersonalMessage(PersonalChatMessageReq req);
 
-    public String sendGroupMessage(GroupChatMessageReq req);
+    ImChatMessageSentResult sendGroupMessage(GroupChatMessageReq req);
 
 }

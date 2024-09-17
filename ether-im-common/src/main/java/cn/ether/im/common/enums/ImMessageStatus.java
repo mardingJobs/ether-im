@@ -13,28 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.ether.im.common.mq;
-import cn.ether.im.common.model.message.ImTopicMessage;
+package cn.ether.im.common.enums;
 
-import java.util.List;
 
-/**
- * IM Message 发送器
- */
-public interface ImMessageSender {
+public enum ImMessageStatus {
 
-    /**
-     * 发送IM消息到MQ
-     * @param message 发送的消息
-     */
-    boolean send(ImTopicMessage message) throws Exception;
+    UN_SEND("未发送"),
+    SENT("已发送"),
+    PUSHED("已推送"),
+    WITH_DRAWN("已撤回"),
+    REACHED("已触达"),
+    READ("已读");
 
-    /**
-     * 批量发送IM消息
-     *
-     * @param messages
-     * @return
-     */
-    boolean batchSend(List<ImTopicMessage> messages) throws Exception;
+    private final String desc;
+
+    ImMessageStatus(String desc) {
+        this.desc = desc;
+    }
+
 
 }

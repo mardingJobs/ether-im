@@ -1,6 +1,7 @@
 package cn.ether.im.message.service.impl;
 
 
+import cn.ether.im.common.model.ImChatMessageSentResult;
 import cn.ether.im.common.model.message.ImGroupMessage;
 import cn.ether.im.common.model.message.ImPersonalMessage;
 import cn.ether.im.message.dto.GroupChatMessageReq;
@@ -25,7 +26,7 @@ public class MessageServiceImpl implements MessageService {
      * @param req
      */
     @Override
-    public String sendPersonalMessage(PersonalChatMessageReq req) {
+    public ImChatMessageSentResult sendPersonalMessage(PersonalChatMessageReq req) {
         ImPersonalMessage personalMessage = new ImPersonalMessage();
         personalMessage.setSender(req.getSender());
         personalMessage.getReceivers().add(req.getReceiver());
@@ -38,7 +39,7 @@ public class MessageServiceImpl implements MessageService {
      * @param req
      */
     @Override
-    public String sendGroupMessage(GroupChatMessageReq req) {
+    public ImChatMessageSentResult sendGroupMessage(GroupChatMessageReq req) {
         ImGroupMessage imGroupMessage = new ImGroupMessage();
         imGroupMessage.setSender(req.getSender());
         imGroupMessage.setReceivers(req.getReceivers());

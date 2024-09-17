@@ -35,15 +35,10 @@ public class RocketMessageSender implements ImMessageSender {
      * @param message 发送的消息
      */
     @Override
-    public boolean send(ImTopicMessage message) {
-        try {
-            Message<String> msg = MessageBuilder.withPayload(JSONObject.toJSONString(message.getMessage())).build();
-            SendResult sendResult = rocketMQTemplate.syncSend(message.getTopic(), msg);
-            return SendStatus.SEND_OK.equals(sendResult.getSendStatus());
-        } catch (Exception e) {
-            log.error("send message to mq error", e);
-            return false;
-        }
+    public boolean send(ImTopicMessage message) throws Exception {
+        Message<String> msg = MessageBuilder.withPayload(JSONObject.toJSONString(message.getMessage())).build();
+        SendResult sendResult = rocketMQTemplate.syncSend(message.getTopic(), msg);
+        return SendStatus.SEND_OK.equals(sendResult.getSendStatus());
     }
 
     /**
@@ -53,17 +48,11 @@ public class RocketMessageSender implements ImMessageSender {
      * @return
      */
     @Override
-    public boolean batchSend(List<ImTopicMessage> messages) {
-        try {
-            List<Message<String>> messageList = messages.stream()
-                    .map((message) -> MessageBuilder.withPayload(JSONObject.toJSONString(message.getMessage())).build())
-                    .collect(Collectors.toList());
-            SendResult sendResult = rocketMQTemplate.syncSend(messages.get(0).getTopic(), messageList);
-            return SendStatus.SEND_OK.equals(sendResult.getSendStatus());
-        } catch (Exception e) {
-            log.error("send message to mq error", e);
-            return false;
-        }
-
+    public boolean batchSend(List<ImTopicMessage> messages) throws Exception {
+        List<Message<String>> messageList = messages.stream()
+                .map((message) -> MessageBuilder.withPayload(JSONObject.toJSONString(message.getMessage())).build())
+                .collect(Collectors.toList());
+        SendResult sendResult = rocketMQTemplate.syncSend(messages.get(0).getTopic(), messageList);
+        return SendStatus.SEND_OK.equals(sendResult.getSendStatus());
     }
 }

@@ -1,5 +1,6 @@
 package cn.ether.im.message.controller;
 
+import cn.ether.im.common.model.ImChatMessageSentResult;
 import cn.ether.im.message.domain.Resp;
 import cn.ether.im.message.dto.GroupChatMessageReq;
 import cn.ether.im.message.dto.PersonalChatMessageReq;
@@ -26,16 +27,16 @@ public class MessageController {
     // 发送单聊消息
     @PostMapping("/sendMessage/personal/")
     public Resp sendPersonalMessage(@RequestBody PersonalChatMessageReq req) {
-        String messageId = messageService.sendPersonalMessage(req);
-        return Resp.success(messageId);
+        ImChatMessageSentResult result = messageService.sendPersonalMessage(req);
+        return Resp.success(result);
     }
 
 
     // 发送群聊消息
     @PostMapping("/sendMessage/group/")
     public Resp sendGroupMessage(@RequestBody GroupChatMessageReq req) {
-        String messageId = messageService.sendGroupMessage(req);
-        return Resp.success(messageId);
+        ImChatMessageSentResult result = messageService.sendGroupMessage(req);
+        return Resp.success(result);
     }
 
 }

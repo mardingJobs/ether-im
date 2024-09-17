@@ -1,5 +1,6 @@
 package cn.ether.im.sdk.client;
 
+import cn.ether.im.common.model.ImChatMessageSentResult;
 import cn.ether.im.common.model.message.ImChatMessage;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.util.SnowflakeUtil;
@@ -26,12 +27,12 @@ public class DefaultImClientImpl implements EtherImClient {
 
 
     /**
-     * 发送单聊消息
+     * 发送消息
      *
      * @param chatMessage
      */
     @Override
-    public String sendChatMessage(ImChatMessage chatMessage) {
+    public ImChatMessageSentResult sendChatMessage(ImChatMessage chatMessage) {
         // 设置消息ID
         if (StringUtils.isEmpty(chatMessage.getId())) {
             String id = snowflakeUtil.nextId();
@@ -44,8 +45,11 @@ public class DefaultImClientImpl implements EtherImClient {
         // 给自己其他终端发送消息
         ImUserTerminal sender = chatMessage.getSender();
         chatMessage.getReceivers().add(sender.cloneUser());
-        messageSender.sendChatMessage(chatMessage);
-        return chatMessage.getId();
+        boolean send = messageSender.sendChatMessage(chatMessage);
+        if (send) {
+            return ImChatMessageSentResult.success(chatMessage.getId());
+        }
+        return ImChatMessageSentResult.fail(chatMessage.getId());
     }
 
 }
