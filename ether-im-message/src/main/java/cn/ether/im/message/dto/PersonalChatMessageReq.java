@@ -1,8 +1,5 @@
 package cn.ether.im.message.dto;
 
-import cn.ether.im.common.enums.MessageContentType;
-import cn.ether.im.common.model.user.ImUser;
-import cn.ether.im.common.model.user.ImUserTerminal;
 import lombok.Data;
 
 /**
@@ -14,29 +11,38 @@ import lombok.Data;
 public class PersonalChatMessageReq {
 
 
+    private static final long serialVersionUID = 1L;
     /**
-     * 发送者
+     * 发送者ID
      */
-    protected ImUserTerminal sender;
-
+    private String senderId;
     /**
-     * 接收者
+     * 发送者所属的组
      */
-    protected ImUser receiver;
-
+    private String senderGroup;
+    /**
+     * 发送者终端类型:WEB  APP
+     */
+    private String senderTerminal;
+    /**
+     * 接收者ID
+     */
+    private String receiverId;
+    /**
+     * 接收者所属的组
+     */
+    private String receiverGroup;
     /**
      * 消息内容
      */
-    protected String content;
-
+    private String content;
     /**
-     * 消息内容类型
+     * 消息内容类型: 文字 图片 文件 语音 视频
      */
-    private MessageContentType contentType;
-
+    private String contentType;
     /**
-     * 时间戳
+     * 时间戳 (毫秒)
      */
-    private Long timestamp;
+    private Long sendTime;
 
 }

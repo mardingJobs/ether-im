@@ -29,8 +29,12 @@ public class SnowflakeUtil {
     }
 
 
-    public String nextId() {
+    public String nextIdStr() {
         return snowflake.nextIdStr();
+    }
+
+    public Long nextId() {
+        return snowflake.nextId();
     }
 
 

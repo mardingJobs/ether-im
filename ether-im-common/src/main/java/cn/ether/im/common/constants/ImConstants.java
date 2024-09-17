@@ -33,9 +33,9 @@ public class ImConstants {
 
 
     /**
-     * 在线状态过期时间，默认是600秒，也就是10分钟
+     * 在线状态过期时间，默认是1800秒，也就是30分钟
      */
-    public static final long ONLINE_TIMEOUT_SECONDS = 600;
+    public static final long ONLINE_TIMEOUT_SECONDS = 1800;
 
     /**
      * 消息允许撤回时间，默认300秒，也就是5分钟

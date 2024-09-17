@@ -2,6 +2,16 @@ server:
   port: 8080
 
 spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.1.4:3306/ether_im?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    hikari:
+      auto-commit: true
+      maximum-pool-size: 10
+      connection-test-query: SELECT 1
+      connection-timeout: 5000
   redis:
     database: 0
     host: localhost
@@ -16,6 +26,8 @@ spring:
         min-idle: 0
         max-wait: 5000
     address: redis://localhost:6379
+
+
 
 
 jwt:

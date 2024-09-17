@@ -45,9 +45,9 @@ public class ImChatMessage implements ImChannelMessage {
     protected MessageContentType contentType;
 
     /**
-     * 时间戳
+     * 发送时间戳
      */
-    protected Long timestamp;
+    protected Long sendTime;
 
     /**
      * 消息ID
