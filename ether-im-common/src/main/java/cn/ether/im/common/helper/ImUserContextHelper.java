@@ -60,7 +60,7 @@ public class ImUserContextHelper {
      */
     public List<String> relatedTopic(ImUser user) {
         List<String> serverIds = this.connectedServerIds(user);
-        return serverIds.stream().map(serverId -> String.join(ImConstants.MQ_MESSAGE_KEY_SPLIT, user.getGroup(),
+        return serverIds.stream().map(serverId -> String.join(ImConstants.MQ_TOPIC_SPLIT, user.getGroup(),
                 ImConstants.IM_MESSAGE_PUSH_TOPIC, serverId)).collect(Collectors.toList());
     }
 
@@ -100,7 +100,7 @@ public class ImUserContextHelper {
      */
     public List<String> connectedServerIds(ImUser userInfo) {
         Map<String, Object> userConnections = getUserConnections(userInfo);
-        return userConnections.values().stream().map(String::valueOf).collect(Collectors.toList());
+        return userConnections.values().stream().map(String::valueOf).distinct().collect(Collectors.toList());
     }
 
     /**

@@ -37,18 +37,20 @@ public class DefaultChatMessageSender implements ChatMessageSender {
             List<ImUser> receivers = chatMessage.getReceivers();
 
             Map<String, List<ImUserTerminal>> topicTerminalMap = new HashMap<>();
-            List<ImUserTerminal> terminalList = receivers.stream()
-                    .map(receiver -> userCacheHelper.onlineTerminals(receiver))
-                    .flatMap(Collection::stream)
-                    .filter(terminal -> !terminal.equals(sender))
-                    .collect(Collectors.toList());
+            List<ImUserTerminal> targetTerminalList = onlineTerminals(receivers, null);
 
-            if (terminalList.isEmpty()) {
+            if (targetTerminalList.isEmpty()) {
                 log.info("无接收终端在线,MessageId:{}", chatMessage.getId());
                 return false;
             }
 
-            terminalList.stream()
+
+            // 给自己其他终端发送消息
+            List<ImUserTerminal> otherSelfTerminals = onlineTerminals(Collections.singletonList(sender.cloneUser()), sender);
+
+            targetTerminalList.addAll(otherSelfTerminals);
+
+            targetTerminalList.stream()
                     .forEach((terminal) -> {
                         List<String> topics = userCacheHelper.relatedTopic(terminal);
                         for (String topic : topics) {
@@ -71,5 +73,14 @@ public class DefaultChatMessageSender implements ChatMessageSender {
         }
 
         return true;
+    }
+
+    private List<ImUserTerminal> onlineTerminals(List<ImUser> receivers, ImUserTerminal excludeTerminal) {
+        List<ImUserTerminal> terminalList = receivers.stream()
+                .map(receiver -> userCacheHelper.onlineTerminals(receiver))
+                .flatMap(Collection::stream)
+                .filter(terminal -> !terminal.equals(excludeTerminal))
+                .collect(Collectors.toList());
+        return terminalList;
     }
 }

@@ -63,7 +63,7 @@ public class ImChatMessageConsumer
     public void prepareStart(DefaultMQPushConsumer consumer) {
         try {
             String group = StringUtils.isEmpty(serverGroup) ? ImConstants.DEFAULT_GROUP_NAME : serverGroup;
-            String topic = String.join(ImConstants.MQ_MESSAGE_KEY_SPLIT, group,
+            String topic = String.join(ImConstants.MQ_TOPIC_SPLIT, group,
                     ImConstants.IM_MESSAGE_PUSH_TOPIC, String.valueOf(serverId));
             consumer.subscribe(topic, "*");
             int cpuNums = Runtime.getRuntime().availableProcessors();
