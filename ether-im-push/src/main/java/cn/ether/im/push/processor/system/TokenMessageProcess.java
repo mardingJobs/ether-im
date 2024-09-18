@@ -1,6 +1,6 @@
 package cn.ether.im.push.processor.system;
 
-import cn.ether.im.common.helper.ImUserCacheHelper;
+import cn.ether.im.common.helper.ImUserContextHelper;
 import cn.ether.im.common.model.message.ImTokenMessage;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.util.JwtUtils;
@@ -27,7 +27,7 @@ public class TokenMessageProcess implements SystemMessageProcess<ImTokenMessage>
     private String accessTokenSecret;
 
     @Resource
-    private ImUserCacheHelper cacheHelper;
+    private ImUserContextHelper cacheHelper;
 
 
     @Value("${server.id}")

@@ -23,6 +23,7 @@ import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
+import org.apache.rocketmq.spring.annotation.ConsumeMode;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.apache.rocketmq.spring.core.RocketMQPushConsumerLifecycleListener;
@@ -34,8 +35,8 @@ import org.springframework.stereotype.Component;
 @Component
 @ConditionalOnProperty(name = "message.mq.type", havingValue = "rocketmq", matchIfMissing = true)
 @RocketMQMessageListener(consumerGroup = ImConstants.IM_MESSAGE_PUSH_CONSUMERS,
-        topic = ImConstants.IM_MESSAGE_PUSH_TOPIC)
-public class ChatMessageConsumer
+        topic = ImConstants.IM_MESSAGE_PUSH_TOPIC, consumeMode = ConsumeMode.CONCURRENTLY)
+public class ImChatMessageConsumer
         implements RocketMQListener<String>, RocketMQPushConsumerLifecycleListener {
 
     @Value("${server.id}")
@@ -65,6 +66,11 @@ public class ChatMessageConsumer
             String topic = String.join(ImConstants.MQ_MESSAGE_KEY_SPLIT, group,
                     ImConstants.IM_MESSAGE_PUSH_TOPIC, String.valueOf(serverId));
             consumer.subscribe(topic, "*");
+            int cpuNums = Runtime.getRuntime().availableProcessors();
+            consumer.setConsumeThreadMin(cpuNums);
+            consumer.setConsumeThreadMax(cpuNums * 2);
+            // 消费失败时重试
+            consumer.setMaxReconsumeTimes(3);
         } catch (Exception e) {
             log.error("prepareStart|异常:{}", e.getMessage());
         }

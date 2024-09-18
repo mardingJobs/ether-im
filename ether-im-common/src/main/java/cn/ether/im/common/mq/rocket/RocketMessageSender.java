@@ -2,6 +2,7 @@ package cn.ether.im.common.mq.rocket;
 
 import cn.ether.im.common.model.message.ImTopicMessage;
 import cn.ether.im.common.mq.ImMessageSender;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.producer.SendResult;
@@ -36,7 +37,12 @@ public class RocketMessageSender implements ImMessageSender {
      */
     @Override
     public boolean send(ImTopicMessage message) throws Exception {
-        Message<String> msg = MessageBuilder.withPayload(JSONObject.toJSONString(message.getMessage())).build();
+        if (message == null) {
+            return false;
+        }
+        String messageString = JSON.toJSONString(message.getMessage());
+        log.info("发送MQ消息：{}", messageString);
+        Message<String> msg = MessageBuilder.withPayload(messageString).build();
         SendResult sendResult = rocketMQTemplate.syncSend(message.getTopic(), msg);
         return SendStatus.SEND_OK.equals(sendResult.getSendStatus());
     }

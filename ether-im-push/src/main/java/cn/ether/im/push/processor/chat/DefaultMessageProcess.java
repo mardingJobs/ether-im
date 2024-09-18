@@ -38,21 +38,26 @@ public class DefaultMessageProcess implements ChatMessageProcess {
                 ImChatMessage copiedMessage = BeanUtil.copyProperties(message, ImChatMessage.class, "receiverTerminals", "receivers");
                 copiedMessage.setReceivers(null);
                 copiedMessage.setReceiverTerminals(null);
+                // 写入并刷新消息，这里无法知道消息是否触达终端
                 ctx.writeAndFlush(copiedMessage);
-
-                // 发送消息已推送事件
-                ImMessageEvent messageEvent = new ImMessageEvent();
-                messageEvent.setMessageId(message.getId());
-                messageEvent.setEventType(ImMessageEventType.PUSHED);
-                messageEvent.setTerminal(terminal);
-                messageEvent.setMessageType(message.getType());
-                messageEvent.setEventTime(System.currentTimeMillis());
-                try {
-                    eventProducer.publish(messageEvent);
-                } catch (Exception e) {
-                    log.error("发布消息已推送事件失败,MessageEvent:{}", JSON.toJSONString(message), e);
-                }
+                // writeAndFlush 后，如果抛出异常，会导致重复消费。
+                publishMessageEvent(message, terminal);
             }
+        }
+    }
+
+    private void publishMessageEvent(ImChatMessage message, ImUserTerminal terminal) {
+        try {
+            // 发送消息已推送事件
+            ImMessageEvent messageEvent = new ImMessageEvent();
+            messageEvent.setMessageId(message.getId());
+            messageEvent.setEventType(ImMessageEventType.PUSHED);
+            messageEvent.setTerminal(terminal);
+            messageEvent.setMessageType(message.getType());
+            messageEvent.setEventTime(System.currentTimeMillis());
+            eventProducer.publish(messageEvent);
+        } catch (Exception e) {
+            log.error("发布消息已推送事件失败,MessageEvent:{}", JSON.toJSONString(message), e);
         }
     }
 }

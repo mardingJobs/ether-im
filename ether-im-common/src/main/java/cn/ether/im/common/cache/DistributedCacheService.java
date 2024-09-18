@@ -96,6 +96,13 @@ public interface DistributedCacheService {
     void hashPut(String key, String field, Object value, long timeout, TimeUnit unit);
 
     /**
+     * 移除hash 字段
+     *
+     * @param key
+     * @param field
+     */
+    void hashRemove(String key, String field);
+    /**
      * 获取hash缓存
      *
      * @param key

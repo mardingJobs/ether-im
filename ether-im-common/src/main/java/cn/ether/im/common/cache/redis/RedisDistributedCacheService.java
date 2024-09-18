@@ -107,6 +107,15 @@ public class RedisDistributedCacheService implements DistributedCacheService {
 
     /**
      * @param key
+     * @param field
+     */
+    @Override
+    public void hashRemove(String key, String field) {
+        redisTemplate.opsForHash().delete(key, field);
+    }
+
+    /**
+     * @param key
      * @return
      */
     @Override

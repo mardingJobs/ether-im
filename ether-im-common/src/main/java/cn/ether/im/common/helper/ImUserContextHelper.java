@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  * * @Description
  **/
 @Component
-public class ImUserCacheHelper {
+public class ImUserContextHelper {
 
     @Autowired
     private DistributedCacheService distributedCacheService;
@@ -37,6 +37,17 @@ public class ImUserCacheHelper {
      */
     public boolean online(ImUser user) {
         return CollectionUtil.isNotEmpty(getUserConnections(user));
+    }
+
+    /**
+     * 当用户终端断开连接，移除与PUSH服务的绑定关系
+     *
+     * @param userTerminal
+     */
+    public void removeServerCache(ImUserTerminal userTerminal) {
+        String cacheKey = serverCacheKey(userTerminal);
+        distributedCacheService.hashRemove(cacheKey, userTerminal.getTerminalType().toString());
+
     }
 
 
@@ -103,6 +114,7 @@ public class ImUserCacheHelper {
         distributedCacheService.hashPut(cacheKey, userTerminal.getTerminalType().toString(),
                 serverId, ImConstants.ONLINE_TIMEOUT_SECONDS, TimeUnit.SECONDS);
     }
+
 
     /**
      * 获取用户连接信息,key是用户终端 value是服务器ID

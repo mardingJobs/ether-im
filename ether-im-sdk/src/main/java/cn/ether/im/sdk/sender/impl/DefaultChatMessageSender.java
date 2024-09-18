@@ -1,6 +1,6 @@
 package cn.ether.im.sdk.sender.impl;
 
-import cn.ether.im.common.helper.ImUserCacheHelper;
+import cn.ether.im.common.helper.ImUserContextHelper;
 import cn.ether.im.common.model.message.ImChatMessage;
 import cn.ether.im.common.model.message.ImTopicMessage;
 import cn.ether.im.common.model.user.ImUser;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 public class DefaultChatMessageSender implements ChatMessageSender {
 
     @Resource
-    private ImUserCacheHelper userCacheHelper;
+    private ImUserContextHelper userCacheHelper;
 
     @Resource
     private ImMessageSender messageSender;
@@ -42,6 +42,11 @@ public class DefaultChatMessageSender implements ChatMessageSender {
                     .flatMap(Collection::stream)
                     .filter(terminal -> !terminal.equals(sender))
                     .collect(Collectors.toList());
+
+            if (terminalList.isEmpty()) {
+                log.info("无接收终端在线,MessageId:{}", chatMessage.getId());
+                return false;
+            }
 
             terminalList.stream()
                     .forEach((terminal) -> {

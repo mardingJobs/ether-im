@@ -59,10 +59,10 @@ public class ImConstants {
      */
     public static final String MSG_KEY = "message";
 
-    public final static String IM_MESSAGE_PUSH_TOPIC = "im_message_push_topic";
+    public final static String IM_MESSAGE_PUSH_TOPIC = "im-push-topic";
 
 
-    public final static String IM_MESSAGE_PUSH_CONSUMERS = "im_message_push_consumers";
+    public final static String IM_MESSAGE_PUSH_CONSUMERS = "im-push-consumer";
     /**
      * 未读群聊消息队列
      */
@@ -82,7 +82,7 @@ public class ImConstants {
      */
     public final static String TOPIC_IM_RESULT = "im_result";
 
-    public final static String IM_MESSAGE_EVENT_CONSUMER_GROUP = "im_message_consumer_group";
+    public final static String IM_MESSAGE_EVENT_CONSUMER_GROUP = "im-message-event-consumer";
     /**
      * 群聊消息发送结果队列
      */

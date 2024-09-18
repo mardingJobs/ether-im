@@ -24,6 +24,7 @@ import cn.ether.im.message.service.MessageService;
 import cn.ether.im.sdk.client.EtherImClient;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -149,7 +150,13 @@ public class MessageServiceImpl implements MessageService {
             eventLogEntity.setEventType(messageEvent.getEventType().toString());
             eventLogEntity.setEventTime(messageEvent.getEventTime());
             eventLogEntity.setCreateTime(new Date());
-            messageEventLogEntityService.save(eventLogEntity);
+            try {
+                messageEventLogEntityService.save(eventLogEntity);
+            } catch (DuplicateKeyException e) {
+                // 捕获重复插入异常，避免重复消费
+                log.warn("消息事件日志重复,eventLogEntity:{}", JSON.toJSONString(eventLogEntity));
+                return;
+            }
 
             // 更新消息状态
             eventLogs = messageEventLogEntityService.lambdaQuery()
