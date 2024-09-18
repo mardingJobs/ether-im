@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 package cn.ether.im.common.mq;
+
+import cn.ether.im.common.model.message.ImMessage;
 import cn.ether.im.common.model.message.ImTopicMessage;
 
 import java.util.List;
@@ -24,10 +26,19 @@ import java.util.List;
 public interface ImMessageSender {
 
     /**
-     * 发送IM消息到MQ
+     * 同步发送IM消息到MQ
      * @param message 发送的消息
      */
     boolean send(ImTopicMessage message) throws Exception;
+
+    /**
+     * 同步发送顺序消息到MQ,按照消息ID进行顺序发送
+     *
+     * @param message
+     * @return
+     * @throws Exception
+     */
+    boolean sendOrderlyByUniqueId(ImTopicMessage<? extends ImMessage> message) throws Exception;
 
     /**
      * 批量发送IM消息

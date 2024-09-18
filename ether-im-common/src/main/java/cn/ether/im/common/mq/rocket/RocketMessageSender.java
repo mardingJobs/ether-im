@@ -1,5 +1,6 @@
 package cn.ether.im.common.mq.rocket;
 
+import cn.ether.im.common.model.message.ImMessage;
 import cn.ether.im.common.model.message.ImTopicMessage;
 import cn.ether.im.common.mq.ImMessageSender;
 import com.alibaba.fastjson.JSON;
@@ -37,13 +38,27 @@ public class RocketMessageSender implements ImMessageSender {
      */
     @Override
     public boolean send(ImTopicMessage message) throws Exception {
-        if (message == null) {
-            return false;
-        }
         String messageString = JSON.toJSONString(message.getMessage());
         log.info("发送MQ消息：{}", messageString);
         Message<String> msg = MessageBuilder.withPayload(messageString).build();
         SendResult sendResult = rocketMQTemplate.syncSend(message.getTopic(), msg);
+        return SendStatus.SEND_OK.equals(sendResult.getSendStatus());
+    }
+
+    /**
+     * 同步发送顺序消息到MQ
+     *
+     * @param message
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public boolean sendOrderlyByUniqueId(ImTopicMessage<? extends ImMessage> message) throws Exception {
+        ImMessage msgEntity = message.getMessage();
+        String messageString = JSON.toJSONString(msgEntity);
+        log.info("发送顺序MQ消息：{}", messageString);
+        Message<String> msg = MessageBuilder.withPayload(messageString).build();
+        SendResult sendResult = rocketMQTemplate.syncSendOrderly(message.getTopic(), msg, msgEntity.getUniqueId());
         return SendStatus.SEND_OK.equals(sendResult.getSendStatus());
     }
 

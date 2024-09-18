@@ -3,9 +3,9 @@ package cn.ether.im.push.processor;
 
 import cn.ether.im.common.enums.ChatMessageType;
 import cn.ether.im.common.enums.ImMessageTypeEnum;
-import cn.ether.im.common.enums.SystemMessageType;
+import cn.ether.im.common.enums.ImSystemMessageType;
 import cn.ether.im.common.model.message.ImChatMessage;
-import cn.ether.im.common.model.message.ImMessage;
+import cn.ether.im.common.model.message.ImMessageWrapper;
 import cn.ether.im.common.model.message.ImSystemAckMessage;
 import cn.ether.im.common.model.message.ImSystemMessage;
 import cn.ether.im.common.util.SpringContextHolder;
@@ -21,7 +21,7 @@ import org.springframework.context.ApplicationContext;
 public class MessageProcessor {
 
 
-    public static void processMessage(ImMessage message) {
+    public static void processMessage(ImMessageWrapper message) {
         ImMessageTypeEnum messageType = message.getType();
         switch (messageType) {
             case CHAT:
@@ -47,7 +47,7 @@ public class MessageProcessor {
         ImSystemAckMessage ackMessage = new ImSystemAckMessage(systemMessage.getSeq());
         ctx.writeAndFlush(ackMessage);
 
-        SystemMessageType type = systemMessage.getType();
+        ImSystemMessageType type = systemMessage.getType();
         SystemMessageProcess systemMessageProcess = systemMessageProcessor(type);
         systemMessageProcess.process(ctx, systemMessage);
     }
@@ -67,7 +67,7 @@ public class MessageProcessor {
     }
 
 
-    public static SystemMessageProcess systemMessageProcessor(SystemMessageType type) {
+    public static SystemMessageProcess systemMessageProcessor(ImSystemMessageType type) {
         ApplicationContext context = SpringContextHolder.getApplicationContext();
         switch (type) {
             case TOKEN:

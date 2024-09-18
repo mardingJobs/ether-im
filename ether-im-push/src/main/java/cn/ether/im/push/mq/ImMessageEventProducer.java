@@ -24,7 +24,7 @@ public class ImMessageEventProducer {
 
     public void publish(ImMessageEvent event) throws Exception {
         ImTopicMessage<ImMessageEvent> topicMessage = new ImTopicMessage<>(event, ImConstants.IM_MESSAGE_EVENT_TOPIC);
-        boolean send = sender.send(topicMessage);
+        boolean send = sender.sendOrderlyByUniqueId(topicMessage);
         if (send) {
             log.info("消息事件发布成功,MessageEvent:{}" , JSON.toJSONString(event));
         } else {

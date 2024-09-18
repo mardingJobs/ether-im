@@ -15,7 +15,7 @@ import java.util.List;
  * * @Description
  **/
 @Data
-public class ImChatMessage implements ImChannelMessage {
+public class ImChatMessage extends ImMessage {
 
     private static final long serialVersionUID = 1L;
 
@@ -59,4 +59,13 @@ public class ImChatMessage implements ImChannelMessage {
      */
     private ChatMessageType type;
 
+    /**
+     * 获取唯一标识
+     *
+     * @return
+     */
+    @Override
+    public String getUniqueId() {
+        return String.valueOf(id);
+    }
 }

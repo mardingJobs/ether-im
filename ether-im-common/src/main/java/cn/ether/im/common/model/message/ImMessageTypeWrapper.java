@@ -9,7 +9,7 @@ import lombok.Data;
  * * @Description
  **/
 @Data
-public class ImMessageType {
+public class ImMessageTypeWrapper {
 
     /**
      * 消息类型

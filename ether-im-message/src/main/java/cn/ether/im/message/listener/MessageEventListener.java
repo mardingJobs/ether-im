@@ -25,7 +25,7 @@ public class MessageEventListener implements ImMessageEventListener {
      * @param messageEvent
      */
     @Override
-    public void onMessageEvent(ImMessageEvent messageEvent) {
+    public void onMessageEvent(ImMessageEvent messageEvent) throws Exception {
         log.info("监听到消息事件:{}", JSON.toJSONString(messageEvent));
         messageService.onMessageEvent(messageEvent);
     }

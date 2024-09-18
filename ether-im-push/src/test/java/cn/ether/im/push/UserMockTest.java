@@ -17,7 +17,7 @@ public class UserMockTest {
 
     @Test
     public void sign() {
-        String userId = "123";
+        String userId = "receiver";
         String group = "customer";
         ImUserTerminal imUserTerminal = new ImUserTerminal(userId, ImTerminalType.WEB, group);
         String sign = JwtUtils.sign(userId, JSON.toJSONString(imUserTerminal), 1000000, secret);

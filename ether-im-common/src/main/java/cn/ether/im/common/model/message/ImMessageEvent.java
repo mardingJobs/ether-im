@@ -38,4 +38,14 @@ public class ImMessageEvent extends ImSystemMessage {
      */
     private Long eventTime;
 
+
+    /**
+     * 获取唯一标识
+     *
+     * @return
+     */
+    @Override
+    public String getUniqueId() {
+        return String.valueOf(this.getMessageId());
+    }
 }

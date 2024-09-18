@@ -1,6 +1,6 @@
 package cn.ether.im.common.model.message;
 
-import cn.ether.im.common.enums.SystemMessageType;
+import cn.ether.im.common.enums.ImSystemMessageType;
 import lombok.Data;
 
 /**
@@ -12,11 +12,11 @@ import lombok.Data;
 public class ImSystemAckMessage extends ImSystemMessage {
 
     public ImSystemAckMessage() {
-        this.setType(SystemMessageType.ACK);
+        this.setType(ImSystemMessageType.ACK);
     }
 
     public ImSystemAckMessage(String seq) {
-        this.setType(SystemMessageType.ACK);
+        this.setType(ImSystemMessageType.ACK);
         this.setSeq(seq);
     }
 }

@@ -5,7 +5,7 @@ import cn.ether.im.common.model.message.*;
 /**
  * 系统消息类型
  */
-public enum SystemMessageType {
+public enum ImSystemMessageType {
 
     TOKEN("TOKEN", ImTokenMessage.class),
     HEART_BEAT("心跳", ImHeartbeatMessage.class),
@@ -15,7 +15,7 @@ public enum SystemMessageType {
     private final String desc;
     private final Class<? extends ImSystemMessage> messageClass;
 
-    private SystemMessageType(String desc, Class messageClass) {
+    private ImSystemMessageType(String desc, Class messageClass) {
         this.desc = desc;
         this.messageClass = messageClass;
     }

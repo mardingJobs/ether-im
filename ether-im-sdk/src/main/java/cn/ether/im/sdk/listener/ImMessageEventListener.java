@@ -9,6 +9,6 @@ import cn.ether.im.common.model.message.ImMessageEvent;
  **/
 public interface ImMessageEventListener {
 
-    void onMessageEvent(ImMessageEvent messageEvent);
+    void onMessageEvent(ImMessageEvent messageEvent) throws Exception;
 
 }
