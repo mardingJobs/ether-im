@@ -22,6 +22,7 @@ import cn.ether.im.message.service.ImMessageEventLogEntityService;
 import cn.ether.im.message.service.ImPersonalMessageService;
 import cn.ether.im.message.service.MessageService;
 import cn.ether.im.sdk.client.EtherImClient;
+import cn.ether.im.sdk.listener.MessageEventStatusMachine;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
@@ -124,7 +125,6 @@ public class MessageServiceImpl implements MessageService {
     /**
      * 对消息事件的处理，持久化消息事件日志，同时同步消息状态
      * 就算消息事件是乱序的，消息的状态也不会被覆盖，始终等于顺序优先级最大的消息事件类型的消息状态
-     * todo
      * 1: 加分布式锁，保证相同消息顺序处理
      * 2: 使用状态模式进行重构
      *
@@ -150,18 +150,7 @@ public class MessageServiceImpl implements MessageService {
             if (present) {
                 return;
             }
-            ImMessageEventLogEntity eventLogEntity = new ImMessageEventLogEntity();
-            eventLogEntity.setMessageId(messageEntity.getId());
-            eventLogEntity.setEventType(messageEvent.getEventType().toString());
-            eventLogEntity.setEventTime(messageEvent.getEventTime());
-            eventLogEntity.setCreateTime(new Date());
-            try {
-                messageEventLogEntityService.save(eventLogEntity);
-            } catch (DuplicateKeyException e) {
-                // 捕获重复插入异常，避免重复消费
-                log.warn("消息事件日志重复,eventLogEntity:{}", JSON.toJSONString(eventLogEntity));
-                return;
-            }
+            saveMessageEventLog(messageEvent);
 
             // 更新消息状态
             eventLogs = messageEventLogEntityService.lambdaQuery()
@@ -174,10 +163,64 @@ public class MessageServiceImpl implements MessageService {
             }
             if (CollectionUtil.isNotEmpty(orderedEventList)) {
                 ImMessageEventLogEntity newestLog = orderedEventList.get(orderedEventList.size() - 1);
-                ImMessageStatus status = ImMessageEventType.valueOf(newestLog.getEventType()).getStatus();
+                ImMessageStatus status = ImMessageEventType.valueOf(newestLog.getEventType()).getNextStatus();
                 messageEntity.setStatus(status.name());
                 personalMessageService.updateById(messageEntity);
             }
         }
     }
+
+    /**
+     * 对于重复消息，采用忽略的策略，如果采用退回MQ的策略，会导致消息一直无法消费成功。
+     * 对于乱序的消息，比如 未发送状态+推送事件，也采用忽略 + 状态纠正的策略。
+     * 状态纠正指的是在更新消息状态时，比较消息事件日志表的数据，如果事件日志表中存在本该后面发生的事件A，则更新为事件A发生后的状态
+     * 对于乱序的消息，理论上应该采用退回MQ的策略，但是无法区分消息是重复消息还是乱序消息。
+     *
+     * @param messageEvent
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
+    public void onMessageEventV2(ImMessageEvent messageEvent) {
+
+        ImPersonalMessageEntity messageEntity = personalMessageService.getById(messageEvent.getMessageId());
+        String status = messageEntity.getStatus();
+        ImMessageStatus messageStatus = ImMessageStatus.valueOf(status);
+
+        ImMessageStatus nextStatus = MessageEventStatusMachine.nextStatus(messageStatus, messageEvent.getEventType());
+        if (nextStatus == null) {
+            saveMessageEventLog(messageEvent);
+            return;
+        }
+
+        // 校验nextStatus 是否是 事件日志中的最新状态
+        ImMessageEventLogEntity lastEventLogEntity = messageEventLogEntityService.lambdaQuery()
+                .eq(ImMessageEventLogEntity::getMessageId, messageEntity.getId())
+                .orderByDesc(ImMessageEventLogEntity::getEventTypeOrder)
+                .last("limit 1")
+                .one();
+
+        if (lastEventLogEntity != null) {
+            if (lastEventLogEntity.getEventTypeOrder() >= messageEvent.getEventType().getOrder()) {
+                // 说明这个事件消息晚发或者重发了,不用更新这个事件的状态
+                return;
+            }
+        }
+        messageEntity.setStatus(nextStatus.name());
+        personalMessageService.updateById(messageEntity);
+    }
+
+    private void saveMessageEventLog(ImMessageEvent messageEvent) {
+        ImMessageEventLogEntity eventLogEntity = new ImMessageEventLogEntity();
+        eventLogEntity.setMessageId(messageEvent.getMessageId());
+        eventLogEntity.setEventType(messageEvent.getEventType().name());
+        eventLogEntity.setEventTime(messageEvent.getEventTime());
+        eventLogEntity.setCreateTime(new Date());
+        try {
+            messageEventLogEntityService.save(eventLogEntity);
+        } catch (DuplicateKeyException e) {
+            // 捕获重复插入异常，避免重复消费
+            log.warn("消息事件日志重复,eventLogEntity:{}", JSON.toJSONString(eventLogEntity));
+        }
+    }
+
 }

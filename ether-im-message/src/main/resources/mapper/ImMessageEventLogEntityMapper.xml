@@ -8,6 +8,7 @@
             <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="messageId" column="message_id" jdbcType="BIGINT"/>
             <result property="eventType" column="event_type" jdbcType="VARCHAR"/>
+        <result property="eventTypeOrder" column="event_type_order" jdbcType="INTEGER"/>
             <result property="eventTime" column="event_time" jdbcType="BIGINT"/>
             <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
     </resultMap>

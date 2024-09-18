@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class MessageApplication {
 
     public static void main(String[] args) {
+        System.setProperty("rocketmq.client.logUseSlf4j", "true");
         SpringApplication.run(MessageApplication.class);
     }
 

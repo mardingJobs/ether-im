@@ -16,7 +16,7 @@ import javax.annotation.Resource;
  **/
 @Slf4j
 @Component
-public class MessageEventListener implements ImMessageEventListener {
+public class DefaultMessageEventListener implements ImMessageEventListener {
 
     @Resource
     private MessageService messageService;
@@ -27,6 +27,6 @@ public class MessageEventListener implements ImMessageEventListener {
     @Override
     public void onMessageEvent(ImMessageEvent messageEvent) throws Exception {
         log.info("监听到消息事件:{}", JSON.toJSONString(messageEvent));
-        messageService.onMessageEvent(messageEvent);
+        messageService.onMessageEventV2(messageEvent);
     }
 }

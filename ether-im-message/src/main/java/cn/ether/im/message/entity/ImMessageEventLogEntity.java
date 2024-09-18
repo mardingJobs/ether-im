@@ -4,9 +4,10 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
-import lombok.Data;
 
 /**
  * 消息事件日志表
@@ -30,6 +31,11 @@ public class ImMessageEventLogEntity implements Serializable {
      * 事件类型
      */
     private String eventType;
+
+    /**
+     * 事件类型顺序
+     */
+    private Integer eventTypeOrder;
 
     /**
      * 事件发生的时间

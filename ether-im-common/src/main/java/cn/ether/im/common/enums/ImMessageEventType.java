@@ -7,24 +7,25 @@ package cn.ether.im.common.enums;
  **/
 public enum ImMessageEventType {
 
-    PUSHED("已推送", ImMessageStatus.PUSHED, 0),
-    REACHED("已触达", ImMessageStatus.REACHED, 1),
-    READ("已读", ImMessageStatus.READ, 2),
-    WITH_DRAWN("已撤回", ImMessageStatus.WITH_DRAWN, 9);
+    SENT("已发送", ImMessageStatus.SENT, 0),
+    PUSHED("已推送", ImMessageStatus.PUSHED, 2),
+    REACHED("已触达", ImMessageStatus.REACHED, 4),
+    READ("已读", ImMessageStatus.READ, 8),
+    WITH_DRAWN("已撤回", ImMessageStatus.WITH_DRAWN, 16);
 
     private final String desc;
     /**
      * 事件发生后的消息状态
      */
-    private final ImMessageStatus status;
+    private final ImMessageStatus nextStatus;
     /**
      * 事件发生的时间顺序
      */
     private final Integer order;
 
-    ImMessageEventType(String desc, ImMessageStatus status, Integer order) {
+    ImMessageEventType(String desc, ImMessageStatus nextStatus, Integer order) {
         this.desc = desc;
-        this.status = status;
+        this.nextStatus = nextStatus;
         this.order = order;
     }
 
@@ -36,7 +37,7 @@ public enum ImMessageEventType {
         return desc;
     }
 
-    public ImMessageStatus getStatus() {
-        return status;
+    public ImMessageStatus getNextStatus() {
+        return nextStatus;
     }
 }

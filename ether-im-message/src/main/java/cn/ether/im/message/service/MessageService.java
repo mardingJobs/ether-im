@@ -21,4 +21,8 @@ public interface MessageService {
 
     void onMessageEvent(ImMessageEvent messageEvent);
 
+    void onMessageEventV2(ImMessageEvent messageEvent);
+
+
+
 }
