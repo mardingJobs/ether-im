@@ -29,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -123,12 +124,16 @@ public class MessageServiceImpl implements MessageService {
     /**
      * 对消息事件的处理，持久化消息事件日志，同时同步消息状态
      * 就算消息事件是乱序的，消息的状态也不会被覆盖，始终等于顺序优先级最大的消息事件类型的消息状态
+     * todo
+     * 1: 加分布式锁，保证相同消息顺序处理
+     * 2: 使用状态模式进行重构
      *
      * @param messageEvent
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
     public void onMessageEvent(ImMessageEvent messageEvent) {
+
         ChatMessageType messageType = messageEvent.getMessageType();
         if (messageType == ChatMessageType.PERSONAL) {
             ImPersonalMessageEntity messageEntity = personalMessageService.getById(messageEvent.getMessageId());

@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 @Slf4j
 @Component
 @RocketMQMessageListener(consumerGroup = ImConstants.IM_MESSAGE_EVENT_CONSUMER_GROUP,
-        topic = ImConstants.IM_MESSAGE_EVENT_TOPIC, consumeMode = ConsumeMode.ORDERLY)
+        topic = ImConstants.IM_MESSAGE_EVENT_TOPIC, consumeMode = ConsumeMode.CONCURRENTLY)
 public class MessageEventConsumer implements RocketMQListener<String> {
 
     @Resource
