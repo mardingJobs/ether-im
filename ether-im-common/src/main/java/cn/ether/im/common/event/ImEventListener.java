@@ -13,7 +13,8 @@ import java.lang.annotation.*;
 @Component
 public @interface ImEventListener {
 
-    @AliasFor("eventTypes")
     ImMessageEventType[] listenEventTypes() default {};
 
+    @AliasFor("listenEventTypes")
+    ImMessageEventType[] types() default {};
 }
