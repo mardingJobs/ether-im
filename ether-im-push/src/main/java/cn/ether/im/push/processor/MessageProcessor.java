@@ -1,7 +1,7 @@
 package cn.ether.im.push.processor;
 
 
-import cn.ether.im.common.enums.ChatMessageType;
+import cn.ether.im.common.enums.ImChatMessageType;
 import cn.ether.im.common.enums.ImMessageTypeEnum;
 import cn.ether.im.common.enums.ImSystemMessageType;
 import cn.ether.im.common.model.message.ImChatMessage;
@@ -37,7 +37,7 @@ public class MessageProcessor {
 
 
     public static void processChatMessage(ImChatMessage chatMessage) {
-        ChatMessageType type = chatMessage.getType();
+        ImChatMessageType type = chatMessage.getType();
         ChatMessageProcess chatMessageProcess = chatMessageProcessor(type);
         chatMessageProcess.process(chatMessage);
     }
@@ -53,7 +53,7 @@ public class MessageProcessor {
     }
 
 
-    public static ChatMessageProcess chatMessageProcessor(ChatMessageType type) {
+    public static ChatMessageProcess chatMessageProcessor(ImChatMessageType type) {
         ApplicationContext context = SpringContextHolder.getApplicationContext();
         return context.getBean(DefaultMessageProcess.class);
 //        switch (type) {

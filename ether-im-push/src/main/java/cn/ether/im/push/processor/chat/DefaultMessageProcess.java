@@ -1,5 +1,6 @@
 package cn.ether.im.push.processor.chat;
 
+import cn.ether.im.common.enums.ImChatMessageType;
 import cn.ether.im.common.enums.ImMessageEventType;
 import cn.ether.im.common.model.message.ImChatMessage;
 import cn.ether.im.common.model.message.ImMessageEvent;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -39,9 +41,12 @@ public class DefaultMessageProcess implements ChatMessageProcess {
                 copiedMessage.setReceivers(null);
                 copiedMessage.setReceiverTerminals(null);
                 // 写入并刷新消息，这里无法知道消息是否触达终端
-                ctx.writeAndFlush(copiedMessage);
-                // writeAndFlush 后，如果抛出异常，会导致重复消费。
-                publishMessageEvent(message, terminal);
+                ctx.writeAndFlush(copiedMessage); // writeAndFlush 后，如果抛出异常，会导致重复消费。
+
+                List<ImChatMessageType> noPublishTypes = Arrays.asList(ImChatMessageType.READ);
+                if (noPublishTypes.contains(message.getType())) {
+                    publishMessageEvent(message, terminal);
+                }
             }
         }
     }

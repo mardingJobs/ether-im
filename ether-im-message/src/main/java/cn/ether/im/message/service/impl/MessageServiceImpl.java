@@ -1,7 +1,7 @@
 package cn.ether.im.message.service.impl;
 
 
-import cn.ether.im.common.enums.ChatMessageType;
+import cn.ether.im.common.enums.ImChatMessageType;
 import cn.ether.im.common.enums.ImMessageEventType;
 import cn.ether.im.common.enums.ImMessageStatus;
 import cn.ether.im.common.enums.ImTerminalType;
@@ -134,8 +134,8 @@ public class MessageServiceImpl implements MessageService {
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
     public void onMessageEvent(ImMessageEvent messageEvent) {
 
-        ChatMessageType messageType = messageEvent.getMessageType();
-        if (messageType == ChatMessageType.PERSONAL) {
+        ImChatMessageType messageType = messageEvent.getMessageType();
+        if (messageType == ImChatMessageType.PERSONAL) {
             ImPersonalMessageEntity messageEntity = personalMessageService.getById(messageEvent.getMessageId());
             if (messageEntity == null) {
                 return;
@@ -181,8 +181,10 @@ public class MessageServiceImpl implements MessageService {
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
     public void onMessageEventV2(ImMessageEvent messageEvent) {
-
         ImPersonalMessageEntity messageEntity = personalMessageService.getById(messageEvent.getMessageId());
+        if (messageEntity == null) {
+            return;
+        }
         String status = messageEntity.getStatus();
         ImMessageStatus messageStatus = ImMessageStatus.valueOf(status);
 

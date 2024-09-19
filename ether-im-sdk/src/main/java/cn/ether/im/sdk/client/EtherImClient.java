@@ -11,7 +11,7 @@ import cn.ether.im.common.model.message.ImChatMessage;
 public interface EtherImClient {
 
     /**
-     * 发送单聊消息
+     * 发送对话消息
      *
      * @param chatMessage
      */

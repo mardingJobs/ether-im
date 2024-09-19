@@ -1,6 +1,6 @@
 package cn.ether.im.common.model.message;
 
-import cn.ether.im.common.enums.ChatMessageType;
+import cn.ether.im.common.enums.ImChatMessageType;
 import cn.ether.im.common.enums.MessageContentType;
 import cn.ether.im.common.model.user.ImUser;
 import cn.ether.im.common.model.user.ImUserTerminal;
@@ -57,7 +57,7 @@ public class ImChatMessage extends ImMessage {
     /**
      * 消息类型
      */
-    private ChatMessageType type;
+    private ImChatMessageType type;
 
     /**
      * 获取唯一标识

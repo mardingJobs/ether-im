@@ -1,6 +1,6 @@
 package cn.ether.im.common.model.message;
 
-import cn.ether.im.common.enums.ChatMessageType;
+import cn.ether.im.common.enums.ImChatMessageType;
 import cn.ether.im.common.enums.ImMessageEventType;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import lombok.Data;
@@ -21,7 +21,7 @@ public class ImMessageEvent extends ImSystemMessage {
     /**
      * 消息类型
      */
-    private ChatMessageType messageType;
+    private ImChatMessageType messageType;
 
     /**
      * 用户终端
