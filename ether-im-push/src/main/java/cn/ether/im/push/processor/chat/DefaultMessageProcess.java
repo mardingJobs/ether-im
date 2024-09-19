@@ -43,8 +43,8 @@ public class DefaultMessageProcess implements ChatMessageProcess {
                 // 写入并刷新消息，这里无法知道消息是否触达终端
                 ctx.writeAndFlush(copiedMessage); // writeAndFlush 后，如果抛出异常，会导致重复消费。
 
-                List<ImChatMessageType> noPublishTypes = Arrays.asList(ImChatMessageType.READ);
-                if (noPublishTypes.contains(message.getType())) {
+                List<ImChatMessageType> noPublishTypes = Arrays.asList(ImChatMessageType.READ, ImChatMessageType.WITH_DRAWN);
+                if (!noPublishTypes.contains(message.getType())) {
                     publishMessageEvent(message, terminal);
                 }
             }
