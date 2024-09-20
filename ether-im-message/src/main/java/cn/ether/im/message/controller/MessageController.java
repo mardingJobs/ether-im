@@ -25,7 +25,7 @@ public class MessageController {
     private MessageService messageService;
 
     // 发送单聊消息
-    @PostMapping("/sendMessage/personal/")
+    @PostMapping("/send/personal/")
     public Resp sendPersonalMessage(@RequestBody PersonalChatMessageReq req) {
         ImChatMessageSentResult result = messageService.sendPersonalMessage(req);
         return Resp.success(result);
@@ -33,7 +33,7 @@ public class MessageController {
 
 
     // 发送群聊消息
-    @PostMapping("/sendMessage/group/")
+    @PostMapping("/send/group/")
     public Resp sendGroupMessage(@RequestBody GroupChatMessageReq req) {
         ImChatMessageSentResult result = messageService.sendGroupMessage(req);
         return Resp.success(result);
