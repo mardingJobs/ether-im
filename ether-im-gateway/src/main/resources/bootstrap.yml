@@ -1,8 +1,4 @@
 spring:
-  profiles:
-    active: dev-kefu
-  application:
-    name: ether-im-push
   cloud:
     nacos:
       discovery:
