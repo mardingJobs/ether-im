@@ -57,7 +57,7 @@ public class WithDrawnMessageEventListener implements ImMessageEventListener {
             return;
         }
         messageService.onMessageEventV2(messageEvent);
-        ImUser receiver = new ImUser(messageEntity.getSenderId(), messageEntity.getSenderGroup());
+        ImUser receiver = new ImUser(messageEntity.getSenderId());
         ImChatMessage chatMessage = new ImChatMessage();
         chatMessage.setId(messageId);
         chatMessage.setSender(messageEvent.getTerminal());

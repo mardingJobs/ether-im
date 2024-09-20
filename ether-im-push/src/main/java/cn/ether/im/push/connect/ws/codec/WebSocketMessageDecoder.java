@@ -20,7 +20,6 @@ public class WebSocketMessageDecoder extends MessageToMessageDecoder<TextWebSock
     @Override
     protected void decode(ChannelHandlerContext ctx, TextWebSocketFrame msg, List<Object> out) throws Exception {
         String text = msg.text();
-        log.info("WebSocketMessageDecoder decode|{}",text);
         ImSystemMessage message = ImSystemMessage.parseObject(text);
         out.add(message);
     }

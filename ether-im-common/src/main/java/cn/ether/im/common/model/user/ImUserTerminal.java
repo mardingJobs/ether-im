@@ -27,18 +27,16 @@ public class ImUserTerminal extends ImUser {
 
     public ImUserTerminal(String userId, ImTerminalType terminalType, String group) {
         this.setUserId(userId);
-        this.setGroup(group);
         this.terminalType = terminalType;
     }
 
     public ImUserTerminal(ImUser user, ImTerminalType terminalType) {
         this.setUserId(user.getUserId());
-        this.setGroup(user.getGroup());
         this.terminalType = terminalType;
     }
 
     public ImUser cloneUser() {
-        return new ImUser(this.getUserId(), this.getGroup());
+        return new ImUser(this.getUserId());
     }
 
 

@@ -54,20 +54,18 @@
 
 
     <!--开发环境:打印控制台-->
-    <springProfile name="dev">
-        <!-- 打印sql -->
-        <root level="INFO">
-            <appender-ref ref="STDOUT"/>
-        </root>
-    </springProfile>
+    <!-- 打印sql -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
 
     <!-- 输出格式 appender -->
-    <springProfile name="!dev">
-        <root level="${LOG_LEVEL}">
-            <appender-ref ref="STDOUT"/>
-            <appender-ref ref="asyncFileAppender"/>
-        </root>
-    </springProfile>
+    <!--    <springProfile name="!dev">-->
+    <!--        <root level="${LOG_LEVEL}">-->
+    <!--            <appender-ref ref="STDOUT"/>-->
+    <!--            <appender-ref ref="asyncFileAppender"/>-->
+    <!--        </root>-->
+    <!--    </springProfile>-->
 
 
 </configuration>

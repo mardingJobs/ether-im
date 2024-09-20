@@ -35,4 +35,14 @@ public class ImTopicMessage<T extends ImMessage> {
      * 消息主题
      */
     private String topic;
+
+    /**
+     * 消息标签
+     */
+    private String tag;
+
+    public ImTopicMessage(T message, String topic) {
+        this.message = message;
+        this.topic = topic;
+    }
 }

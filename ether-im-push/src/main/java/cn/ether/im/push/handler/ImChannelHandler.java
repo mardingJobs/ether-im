@@ -25,7 +25,6 @@ public class ImChannelHandler extends SimpleChannelInboundHandler<ImSystemMessag
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ImSystemMessage msg) throws Exception {
-        logger.info("channelRead0: {}", JSON.toJSONString(msg));
         MessageProcessor.processSystemMessage(ctx, msg);
     }
 

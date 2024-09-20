@@ -15,7 +15,6 @@
  */
 package cn.ether.im.common.model.user;
 
-import cn.ether.im.common.constants.ImConstants;
 import com.google.common.base.Objects;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,19 +31,9 @@ public class ImUser {
      */
     private String userId;
 
-    /**
-     * 用户分组
-     */
-    private String group = ImConstants.DEFAULT_GROUP_NAME;
-
 
     public ImUser(String userId) {
         this.userId = userId;
-    }
-
-    public ImUser(String userId, String group) {
-        this.userId = userId;
-        this.group = group;
     }
 
 
@@ -53,11 +42,11 @@ public class ImUser {
         if (this == o) return true;
         if (!(o instanceof ImUser)) return false;
         ImUser user = (ImUser) o;
-        return Objects.equal(userId, user.userId) && Objects.equal(group, user.group);
+        return Objects.equal(userId, user.userId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(userId, group);
+        return Objects.hashCode(userId);
     }
 }

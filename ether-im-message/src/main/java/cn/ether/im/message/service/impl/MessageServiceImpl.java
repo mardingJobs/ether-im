@@ -94,7 +94,7 @@ public class MessageServiceImpl implements MessageService {
         ImChatMessage personalMessage = new ImPersonalMessage();
         BeanUtil.copyProperties(entity, personalMessage);
         personalMessage.setSender(new ImUserTerminal(entity.getSenderId(), ImTerminalType.valueOf(entity.getSenderTerminal()), entity.getSenderGroup()));
-        List<ImUser> receivers = new LinkedList<>(Arrays.asList(new ImUser(entity.getReceiverId(), entity.getReceiverGroup())));
+        List<ImUser> receivers = new LinkedList<>(Arrays.asList(new ImUser(entity.getReceiverId())));
         personalMessage.setReceivers(receivers);
 
         return etherImClient.sendChatMessage(personalMessage);
@@ -216,6 +216,7 @@ public class MessageServiceImpl implements MessageService {
         eventLogEntity.setMessageId(messageEvent.getMessageId());
         eventLogEntity.setEventType(messageEvent.getEventType().name());
         eventLogEntity.setEventTime(messageEvent.getEventTime());
+        eventLogEntity.setEventTypeOrder(messageEvent.getEventType().getOrder());
         eventLogEntity.setCreateTime(new Date());
         try {
             messageEventLogEntityService.save(eventLogEntity);

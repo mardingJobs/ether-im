@@ -119,7 +119,7 @@ public class RedisDistributedCacheService implements DistributedCacheService {
      * @return
      */
     @Override
-    public Map hashGet(String key) {
+    public Map<Object, Object> hashGet(String key) {
         return redisTemplate.opsForHash().entries(key);
     }
 

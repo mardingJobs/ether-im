@@ -43,11 +43,18 @@ public class ImConstants {
      */
     public final static String IM_USER_SERVER_ID = "im:user:server_id";
 
+    /**
+     * 对话消息Topic
+     */
+    public final static String IM_CHAT_MESSAGE_TOPIC = "im-chat-message-topic";
 
-    public final static String IM_MESSAGE_PUSH_TOPIC = "im-push-topic";
+    /**
+     * 对话消息Topic
+     */
+    public final static String IM_CHAT_MESSAGE_TAG_PREFIX = "tag-server-id";
 
 
-    public final static String IM_MESSAGE_PUSH_CONSUMERS = "im-push-consumer";
+    public final static String IM_MESSAGE_PUSH_CONSUMER_GROUP = "im-push-consumer-group";
 
 
     public final static String IM_MESSAGE_EVENT_CONSUMER_GROUP = "im-message-event-consumer";

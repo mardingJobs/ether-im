@@ -7,6 +7,8 @@ import cn.ether.im.common.enums.ImTerminalType;
 import cn.ether.im.common.model.user.ImUser;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.map.MapUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -36,7 +38,7 @@ public class ImUserContextHelper {
      * @return
      */
     public boolean online(ImUser user) {
-        return CollectionUtil.isNotEmpty(getUserConnections(user));
+        return CollectionUtil.isNotEmpty(terminalBindServerIds(user));
     }
 
     /**
@@ -51,17 +53,12 @@ public class ImUserContextHelper {
     }
 
 
-    /**
-     * 返回用户在线时连接的push服务订阅的topic
-     * 如果用户不在线，返回空列表
-     *
-     * @param user
-     * @return
-     */
-    public List<String> relatedTopic(ImUser user) {
-        List<String> serverIds = this.connectedServerIds(user);
-        return serverIds.stream().map(serverId -> String.join(ImConstants.MQ_TOPIC_SPLIT, user.getGroup(),
-                ImConstants.IM_MESSAGE_PUSH_TOPIC, serverId)).collect(Collectors.toList());
+    public String getMessageTag(ImUserTerminal userTerminal) {
+        String serverId = this.connectedServerId(userTerminal);
+        if (StringUtils.isEmpty(serverId)) {
+            return null;
+        }
+        return ImConstants.IM_CHAT_MESSAGE_TAG_PREFIX + ImConstants.MQ_TOPIC_SPLIT + serverId;
     }
 
 
@@ -72,7 +69,7 @@ public class ImUserContextHelper {
      * @return
      */
     public List<ImTerminalType> onlineTerminalTypes(ImUser userInfo) {
-        Map<String, Object> userConnections = getUserConnections(userInfo);
+        Map<String, String> userConnections = terminalBindServerIds(userInfo);
         if (userConnections == null || userConnections.isEmpty()) {
             return Collections.emptyList();
         }
@@ -86,7 +83,7 @@ public class ImUserContextHelper {
      * @return
      */
     public List<ImUserTerminal> onlineTerminals(ImUser userInfo) {
-        Map<String, Object> userConnections = getUserConnections(userInfo);
+        Map<String, String> userConnections = terminalBindServerIds(userInfo);
         return userConnections.entrySet().stream().map(entry -> new ImUserTerminal(userInfo, ImTerminalType.valueOf(entry.getKey())))
                 .collect(Collectors.toList());
     }
@@ -99,8 +96,16 @@ public class ImUserContextHelper {
      * @return
      */
     public List<String> connectedServerIds(ImUser userInfo) {
-        Map<String, Object> userConnections = getUserConnections(userInfo);
-        return userConnections.values().stream().map(String::valueOf).distinct().collect(Collectors.toList());
+        Map<String, String> userConnections = terminalBindServerIds(userInfo);
+        return userConnections.values().stream().distinct().collect(Collectors.toList());
+    }
+
+    public String connectedServerId(ImUserTerminal userTerminal) {
+        Map<String, String> terminalBindedServerIds = terminalBindServerIds(userTerminal);
+        if (MapUtil.isNotEmpty(terminalBindedServerIds)) {
+            return terminalBindedServerIds.get(userTerminal.getTerminalType().name());
+        }
+        return null;
     }
 
     /**
@@ -117,15 +122,16 @@ public class ImUserContextHelper {
 
 
     /**
-     * 获取用户连接信息,key是用户终端 value是服务器ID
+     * 获取用户连接信息,key是用户终端类型 value是服务器ID
      *
      * @param userInfo
      * @return
      */
-    public Map<String, Object> getUserConnections(ImUser userInfo) {
-        Map<String, Object> map = distributedCacheService.hashGet(serverCacheKey(userInfo));
+    public Map<String, String> terminalBindServerIds(ImUser userInfo) {
+        Map<String, String> map = distributedCacheService.hashGet(serverCacheKey(userInfo));
         return map;
     }
+
 
     /**
      * 获取缓存中的用户连接的PUSH服务的key
@@ -134,7 +140,7 @@ public class ImUserContextHelper {
      * @return1
      */
     public String serverCacheKey(ImUser userInfo) {
-        String cacheKey = String.join(ImConstants.REDIS_KEY_SPLIT, userInfo.getGroup(),
+        String cacheKey = String.join(ImConstants.REDIS_KEY_SPLIT,
                 ImConstants.IM_USER_SERVER_ID, userInfo.getUserId());
         return cacheKey;
     }

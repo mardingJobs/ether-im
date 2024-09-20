@@ -9,11 +9,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * * @Description
  **/
 @SpringBootApplication(scanBasePackages = "cn.ether.im")
-public class MessageApplication {
+public class EtherImMessageApplication {
 
     public static void main(String[] args) {
-        System.setProperty("rocketmq.client.logUseSlf4j", "true");
-        SpringApplication.run(MessageApplication.class);
+        System.setProperty("rocketmq.client.logUseSlf4j", "false");
+        SpringApplication.run(EtherImMessageApplication.class);
     }
 
 }

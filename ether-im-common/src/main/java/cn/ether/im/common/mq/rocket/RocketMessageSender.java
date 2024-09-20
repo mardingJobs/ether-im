@@ -63,17 +63,21 @@ public class RocketMessageSender implements ImMessageSender {
     }
 
     /**
-     * 批量发送IM消息,所有消息的Topic必须相同
+     * 批量发送IM消息,所有消息的Topic必须相同,Tag 可以不同。
      *
      * @param messages
      * @return
      */
+
     @Override
     public boolean batchSend(List<ImTopicMessage> messages) throws Exception {
-        List<Message<String>> messageList = messages.stream()
-                .map((message) -> MessageBuilder.withPayload(JSONObject.toJSONString(message.getMessage())).build())
+        List<org.apache.rocketmq.common.message.Message> msgs = messages.stream()
+                .map((message) -> {
+                    org.apache.rocketmq.common.message.Message msg = new org.apache.rocketmq.common.message.Message(message.getTopic(), message.getTag(), JSONObject.toJSONString(message.getMessage()).getBytes());
+                    return msg;
+                })
                 .collect(Collectors.toList());
-        SendResult sendResult = rocketMQTemplate.syncSend(messages.get(0).getTopic(), messageList);
+        SendResult sendResult = rocketMQTemplate.getProducer().send(msgs);
         return SendStatus.SEND_OK.equals(sendResult.getSendStatus());
     }
 }

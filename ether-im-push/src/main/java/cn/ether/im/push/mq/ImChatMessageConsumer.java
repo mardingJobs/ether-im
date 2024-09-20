@@ -21,7 +21,6 @@ import cn.ether.im.push.processor.MessageProcessor;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.spring.annotation.ConsumeMode;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
@@ -31,24 +30,23 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
+import static cn.ether.im.common.constants.ImConstants.IM_MESSAGE_PUSH_CONSUMER_GROUP;
+
 @Slf4j
 @Component
 @ConditionalOnProperty(name = "message.mq.type", havingValue = "rocketmq", matchIfMissing = true)
-@RocketMQMessageListener(consumerGroup = ImConstants.IM_MESSAGE_PUSH_CONSUMERS,
-        topic = ImConstants.IM_MESSAGE_PUSH_TOPIC, consumeMode = ConsumeMode.CONCURRENTLY)
+@RocketMQMessageListener(consumerGroup = IM_MESSAGE_PUSH_CONSUMER_GROUP,
+        topic = ImConstants.IM_CHAT_MESSAGE_TOPIC, consumeMode = ConsumeMode.CONCURRENTLY)
 public class ImChatMessageConsumer
         implements RocketMQListener<String>, RocketMQPushConsumerLifecycleListener {
 
     @Value("${server.id}")
     private Long serverId;
 
-    @Value("${server.group}")
-    private String serverGroup;
-
     @Override
     public void onMessage(String message) {
+        log.info("收到MQ消息|{}", message);
         if (StrUtil.isEmpty(message)) {
-            log.warn("PersonalMessageConsumer.onMessage|接收到的消息为空");
             return;
         }
         ImChatMessage chatMessage = JSON.parseObject(message, ImChatMessage.class);
@@ -62,15 +60,17 @@ public class ImChatMessageConsumer
     @Override
     public void prepareStart(DefaultMQPushConsumer consumer) {
         try {
-            String group = StringUtils.isEmpty(serverGroup) ? ImConstants.DEFAULT_GROUP_NAME : serverGroup;
-            String topic = String.join(ImConstants.MQ_TOPIC_SPLIT, group,
-                    ImConstants.IM_MESSAGE_PUSH_TOPIC, String.valueOf(serverId));
-            consumer.subscribe(topic, "*");
+            String topic = String.join(ImConstants.MQ_TOPIC_SPLIT,
+                    ImConstants.IM_CHAT_MESSAGE_TOPIC);
+            String tag = ImConstants.IM_CHAT_MESSAGE_TAG_PREFIX + ImConstants.MQ_TOPIC_SPLIT + serverId;
+            consumer.subscribe(topic, tag);
             int cpuNums = Runtime.getRuntime().availableProcessors();
             consumer.setConsumeThreadMin(cpuNums);
             consumer.setConsumeThreadMax(cpuNums * 2);
             // 消费失败时重试
             consumer.setMaxReconsumeTimes(3);
+            //  每个消费者的消费者分组都是不一样的
+            consumer.setConsumerGroup(IM_MESSAGE_PUSH_CONSUMER_GROUP + ImConstants.MQ_TOPIC_SPLIT + serverId);
         } catch (Exception e) {
             log.error("prepareStart|异常:{}", e.getMessage());
         }

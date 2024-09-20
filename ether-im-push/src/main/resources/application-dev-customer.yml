@@ -1,5 +1,5 @@
 server:
-  port: 8899
+  port: 8800
   id: 1
 
 spring:
@@ -20,7 +20,7 @@ spring:
 
 websocket:
   enable: true
-  port: 8878
+  port: 9000
 
 
 

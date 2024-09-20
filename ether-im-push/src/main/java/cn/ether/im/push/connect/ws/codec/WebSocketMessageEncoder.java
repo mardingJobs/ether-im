@@ -20,7 +20,6 @@ public class WebSocketMessageEncoder extends MessageToMessageEncoder<ImChannelMe
     @Override
     protected void encode(ChannelHandlerContext ctx, ImChannelMessage msg, List<Object> out) throws Exception {
         String jsonString = JSON.toJSONString(msg);
-        log.info("WebSocketMessageEncoder.encode|msg:{}", jsonString);
         TextWebSocketFrame socketFrame = new TextWebSocketFrame(jsonString);
         out.add(socketFrame);
     }

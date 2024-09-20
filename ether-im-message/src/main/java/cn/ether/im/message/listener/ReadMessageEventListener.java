@@ -49,7 +49,7 @@ public class ReadMessageEventListener implements ImMessageEventListener {
         if (messageEntity == null) {
             return;
         }
-        ImUser receiver = new ImUser(messageEntity.getSenderId(), messageEntity.getSenderGroup());
+        ImUser receiver = new ImUser(messageEntity.getSenderId());
         ImChatMessage chatMessage = new ImChatMessage();
         chatMessage.setId(messageId);
         chatMessage.setSender(messageEvent.getTerminal());

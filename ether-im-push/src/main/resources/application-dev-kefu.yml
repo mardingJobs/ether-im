@@ -1,6 +1,6 @@
 server:
-  port: 8899
-  id: 1
+  port: 8801
+  id: 2
 
 spring:
   redis:
@@ -20,7 +20,7 @@ spring:
 
 websocket:
   enable: true
-  port: 8878
+  port: 9002
 
 
 

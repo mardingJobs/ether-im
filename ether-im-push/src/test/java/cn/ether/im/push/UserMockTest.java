@@ -17,10 +17,10 @@ public class UserMockTest {
 
     @Test
     public void sign() {
-        String userId = "receiver";
+        String userId = "customer-01";
         String group = "customer";
-        ImUserTerminal imUserTerminal = new ImUserTerminal(userId, ImTerminalType.WEB, group);
-        String sign = JwtUtils.sign(userId, JSON.toJSONString(imUserTerminal), 1000000, secret);
+        ImUserTerminal imUserTerminal = new ImUserTerminal(userId, ImTerminalType.APP, group);
+        String sign = JwtUtils.sign(userId, JSON.toJSONString(imUserTerminal), 10000000, secret);
         System.out.println(sign);
     }
 
