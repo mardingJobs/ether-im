@@ -2,6 +2,7 @@ package cn.ether.im.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
  * * @Author: Martin(微信：martin-jobs)
@@ -9,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * * @Description
  * * @Github <a href="https://github.com/mardingJobs">Github链接</a>
  **/
+@EnableDiscoveryClient
 @SpringBootApplication
 public class EtherImGateway {
 
