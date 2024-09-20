@@ -21,6 +21,7 @@ spring:
 websocket:
   enable: true
   port: 9002
+  name: ether-im-ws
 
 
 

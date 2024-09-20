@@ -14,9 +14,9 @@ spring:
           enabled: true
       routes:
         - id: im-push
-          uri: lb://ether-im-push
+          uri: lb:ws://ether-im-ws
           predicates:
-            - Path=/connect/**
+            - Path=/im/**
         # 服务的ID，唯一即可一般与微服务的service name一致
         - id: im-message
           # lb表示负载均衡

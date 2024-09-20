@@ -4,6 +4,10 @@ import cn.ether.im.push.connect.ImPushServer;
 import cn.ether.im.push.connect.ws.codec.WebSocketMessageDecoder;
 import cn.ether.im.push.connect.ws.codec.WebSocketMessageEncoder;
 import cn.ether.im.push.handler.ImChannelHandler;
+import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
+import com.alibaba.nacos.api.PropertyKeyConst;
+import com.alibaba.nacos.api.naming.NamingFactory;
+import com.alibaba.nacos.api.naming.NamingService;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -19,6 +23,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
+import java.net.InetAddress;
+import java.util.Properties;
+
 /**
  * * @Author: Martin
  * * @Date    2024/9/3 14:28
@@ -27,7 +35,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @ConditionalOnProperty(prefix = "websocket", value = "enable", havingValue = "true", matchIfMissing = true)
-public class WebSocketIMServerIm implements ImPushServer {
+public class WebSocketImServer implements ImPushServer {
 
 
     private boolean ready = false;
@@ -35,9 +43,15 @@ public class WebSocketIMServerIm implements ImPushServer {
     @Value("${websocket.port}")
     private int port;
 
+    @Value("${websocket.name}")
+    private String name;
+
     private NioEventLoopGroup bossGroup = new NioEventLoopGroup(1);
 
     private NioEventLoopGroup workerGroup = new NioEventLoopGroup();
+
+    @Resource
+    private NacosDiscoveryProperties nacosDiscoveryProperties;
 
 
     /**
@@ -82,7 +96,7 @@ public class WebSocketIMServerIm implements ImPushServer {
                     }
                 });
 
-
+        registerNamingService(name, port);
         try {
             ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
             this.ready = true;
@@ -95,6 +109,25 @@ public class WebSocketIMServerIm implements ImPushServer {
             channelFuture.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * 将Netty服务注册进Nacos
+     *
+     * @param nettyName 服务名称
+     * @param nettyPort 服务端口号
+     */
+    private void registerNamingService(String nettyName, Integer nettyPort) {
+        try {
+            Properties properties = new Properties();
+            properties.setProperty(PropertyKeyConst.SERVER_ADDR, nacosDiscoveryProperties.getServerAddr());
+            properties.setProperty(PropertyKeyConst.NAMESPACE, nacosDiscoveryProperties.getNamespace());
+            NamingService namingService = NamingFactory.createNamingService(properties);
+            InetAddress address = InetAddress.getLocalHost();
+            namingService.registerInstance(nettyName, address.getHostAddress(), nettyPort);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
