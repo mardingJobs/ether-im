@@ -9,6 +9,7 @@ import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.mq.ImMessageSender;
 import cn.ether.im.sdk.sender.ChatMessageSender;
 import cn.hutool.core.bean.BeanUtil;
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,7 @@ import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -58,21 +59,22 @@ public class DefaultChatMessageSender implements ChatMessageSender {
         return true;
     }
 
-    private void doSendToTargetTerminal(ImChatMessage chatMessage, List<ImUserTerminal> targetTerminalList) throws Exception {
-        ImChatMessage newChatMessage = new ImChatMessage();
-        BeanUtil.copyProperties(chatMessage, newChatMessage);
-        newChatMessage.setReceiverTerminals(targetTerminalList);
+    private void doSendToTargetTerminal(ImChatMessage chatMessage, List<ImUserTerminal> onlineTerminals) throws Exception {
+        Map<String, List<ImUserTerminal>> messageTagMap = onlineTerminals.stream()
+                .collect(Collectors.groupingBy((terminal) -> userCacheHelper.getMessageTag(terminal)));
 
-        List<ImTopicMessage> topicMessages = targetTerminalList.stream()
-                .map(terminal -> userCacheHelper.getMessageTag(terminal))
-                .filter(Objects::nonNull)
-                .map((tag) -> new ImTopicMessage(newChatMessage, ImConstants.IM_CHAT_MESSAGE_TOPIC, tag))
-                .collect(Collectors.toList());
+        List<ImTopicMessage> topicMessages = messageTagMap.entrySet().stream().map((entry) -> {
+            ImChatMessage newChatMessage = new ImChatMessage();
+            BeanUtil.copyProperties(chatMessage, newChatMessage);
+            newChatMessage.setReceiverTerminals(entry.getValue());
+            return new ImTopicMessage<>(newChatMessage, ImConstants.IM_CHAT_MESSAGE_TOPIC, entry.getKey());
+        }).collect(Collectors.toList());
+
         boolean send = messageSender.batchSend(topicMessages);
         if (send) {
-            log.info("发送对话MQ消息成功，TopicMessage:{}", topicMessages);
+            log.info("发送对话MQ消息成功，TopicMessage:{}", JSON.toJSONString(topicMessages));
         } else {
-            log.error("发送对话MQ消息失败，TopicMessage:{}", topicMessages);
+            log.error("发送对话MQ消息失败，TopicMessage:{}", JSON.toJSONString(topicMessages));
         }
     }
 
