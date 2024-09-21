@@ -37,8 +37,8 @@ public class ImChatMessageSentResult {
      * @param messageId
      * @return
      */
-    public static ImChatMessageSentResult unSend(Long messageId) {
-        return new ImChatMessageSentResult(String.valueOf(messageId), ImMessageStatus.UN_SEND);
+    public static ImChatMessageSentResult sentFail(Long messageId) {
+        return new ImChatMessageSentResult(String.valueOf(messageId), ImMessageStatus.INTI);
     }
 
 }

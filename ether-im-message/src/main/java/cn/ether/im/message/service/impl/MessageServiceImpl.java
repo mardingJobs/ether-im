@@ -68,7 +68,7 @@ public class MessageServiceImpl implements MessageService {
         ImPersonalMessageEntity entity = new ImPersonalMessageEntity();
         BeanUtil.copyProperties(req, entity);
         entity.setId(snowflakeUtil.nextId());
-        entity.setStatus(ImMessageStatus.UN_SEND.toString());
+        entity.setStatus(ImMessageStatus.INTI.name());
         entity.setCreateTime(new Date());
         return entity;
     }
@@ -100,7 +100,16 @@ public class MessageServiceImpl implements MessageService {
         List<ImUser> receivers = new LinkedList<>(Arrays.asList(new ImUser(entity.getReceiverId())));
         personalMessage.setReceivers(receivers);
 
-        return etherImClient.sendChatMessage(personalMessage);
+        boolean sent = etherImClient.sendChatMessage(personalMessage);
+        if (sent) {
+            entity.setStatus(ImMessageStatus.SENT.name());
+            return ImChatMessageSentResult.success(entity.getId());
+        } else {
+            log.error("发送消息失败|参数:{}", JSON.toJSONString(personalMessage));
+            entity.setStatus(ImMessageStatus.SENT_FAIL.name());
+            personalMessageService.updateById(entity);
+            return ImChatMessageSentResult.sentFail(entity.getId());
+        }
     }
 
     /**
@@ -137,7 +146,8 @@ public class MessageServiceImpl implements MessageService {
         imGroupMessage.setReceivers(req.getReceivers());
         imGroupMessage.setContent(req.getContent());
         imGroupMessage.setContentType(req.getContentType());
-        return etherImClient.sendChatMessage(imGroupMessage);
+        boolean sent = etherImClient.sendChatMessage(imGroupMessage);
+        return sent ? ImChatMessageSentResult.success(imGroupMessage.getId()) : ImChatMessageSentResult.sentFail(imGroupMessage.getId());
     }
 
     /**

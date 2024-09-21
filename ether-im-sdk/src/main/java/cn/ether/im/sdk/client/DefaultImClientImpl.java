@@ -1,6 +1,5 @@
 package cn.ether.im.sdk.client;
 
-import cn.ether.im.common.model.ImChatMessageSentResult;
 import cn.ether.im.common.model.message.ImChatMessage;
 import cn.ether.im.common.util.SnowflakeUtil;
 import cn.ether.im.sdk.sender.ChatMessageSender;
@@ -30,12 +29,8 @@ public class DefaultImClientImpl implements EtherImClient {
      * @param chatMessage
      */
     @Override
-    public ImChatMessageSentResult sendChatMessage(ImChatMessage chatMessage) {
-        boolean send = messageSender.sendChatMessage(chatMessage);
-        if (send) {
-            return ImChatMessageSentResult.success(chatMessage.getId());
-        }
-        return ImChatMessageSentResult.unSend(chatMessage.getId());
+    public boolean sendChatMessage(ImChatMessage chatMessage) {
+        return messageSender.sendChatMessage(chatMessage);
     }
 
 }

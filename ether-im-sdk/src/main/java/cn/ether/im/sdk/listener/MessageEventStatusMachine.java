@@ -23,8 +23,8 @@ public class MessageEventStatusMachine {
     private static final Map<ImmutablePair<ImMessageStatus, ImMessageEventType>, ImMessageStatus> statusContext = new HashMap<>();
 
     static {
-        put(ImMessageStatus.UN_SEND, ImMessageEventType.SENT);
-        put(ImMessageStatus.UN_SEND, ImMessageEventType.WITH_DRAWN);
+//        put(ImMessageStatus.INTI, ImMessageEventType.SENT);
+        put(ImMessageStatus.INTI, ImMessageEventType.WITH_DRAWN);
         put(ImMessageStatus.SENT, ImMessageEventType.PUSHED);
         put(ImMessageStatus.SENT, ImMessageEventType.WITH_DRAWN);
         put(ImMessageStatus.PUSHED, ImMessageEventType.REACHED);
