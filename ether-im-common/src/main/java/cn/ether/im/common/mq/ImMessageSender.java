@@ -17,6 +17,7 @@ package cn.ether.im.common.mq;
 
 import cn.ether.im.common.model.message.ImMessage;
 import cn.ether.im.common.model.message.ImTopicMessage;
+import org.apache.rocketmq.client.producer.TransactionSendResult;
 
 import java.util.List;
 
@@ -47,5 +48,8 @@ public interface ImMessageSender {
      * @return
      */
     boolean batchSend(List<ImTopicMessage> messages) throws Exception;
+
+
+    TransactionSendResult sendMessageInTransaction(ImTopicMessage message, Object arg);
 
 }

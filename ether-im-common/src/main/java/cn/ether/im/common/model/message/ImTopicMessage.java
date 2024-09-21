@@ -18,6 +18,7 @@ package cn.ether.im.common.model.message;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 @Data
 @NoArgsConstructor
@@ -44,5 +45,12 @@ public class ImTopicMessage<T extends ImMessage> {
     public ImTopicMessage(T message, String topic) {
         this.message = message;
         this.topic = topic;
+    }
+
+    public String getDestination() {
+        if (StringUtils.isEmpty(tag)) {
+            return topic;
+        }
+        return topic + ":" + tag;
     }
 }

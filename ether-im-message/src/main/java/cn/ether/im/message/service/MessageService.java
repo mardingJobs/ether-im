@@ -13,7 +13,22 @@ import cn.ether.im.message.entity.ImMessageEventLogEntity;
  **/
 public interface MessageService {
 
+    /**
+     * 发送个人消息,先保存消息，然后发送MQ消息
+     * 问题：保存消息成功，但是发送MQ消息失败，数据不一致。
+     *
+     * @param req
+     * @return
+     */
     ImChatMessageSentResult sendPersonalMessage(PersonalChatMessageReq req);
+
+    /**
+     * 发送个人消息，使用事务保证保存消息到数据库和发送MQ消息一致性
+     *
+     * @param req
+     * @return
+     */
+    Long sendPersonalMessageTransaction(PersonalChatMessageReq req);
 
     ImChatMessageSentResult sendGroupMessage(GroupChatMessageReq req);
 

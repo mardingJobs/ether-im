@@ -7,12 +7,10 @@ import cn.ether.im.common.enums.ImMessageStatus;
 import cn.ether.im.common.enums.ImTerminalType;
 import cn.ether.im.common.exception.ImException;
 import cn.ether.im.common.model.ImChatMessageSentResult;
-import cn.ether.im.common.model.message.ImChatMessage;
-import cn.ether.im.common.model.message.ImGroupMessage;
-import cn.ether.im.common.model.message.ImMessageEvent;
-import cn.ether.im.common.model.message.ImPersonalMessage;
+import cn.ether.im.common.model.message.*;
 import cn.ether.im.common.model.user.ImUser;
 import cn.ether.im.common.model.user.ImUserTerminal;
+import cn.ether.im.common.mq.ImMessageSender;
 import cn.ether.im.common.util.SnowflakeUtil;
 import cn.ether.im.message.dto.GroupChatMessageReq;
 import cn.ether.im.message.dto.PersonalChatMessageReq;
@@ -27,6 +25,8 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.client.producer.SendStatus;
+import org.apache.rocketmq.client.producer.TransactionSendResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -59,6 +59,9 @@ public class MessageServiceImpl implements MessageService {
 
     @Resource
     private ImMessageEventLogEntityService messageEventLogEntityService;
+
+    @Resource
+    private ImMessageSender messageSender;
 
 
     private ImPersonalMessageEntity toEntity(PersonalChatMessageReq req) {
@@ -98,6 +101,30 @@ public class MessageServiceImpl implements MessageService {
         personalMessage.setReceivers(receivers);
 
         return etherImClient.sendChatMessage(personalMessage);
+    }
+
+    /**
+     * 发送个人消息，使用事务保证保存消息到数据库和发送MQ消息一致性
+     *
+     * @param req
+     * @return
+     */
+    @Override
+    public Long sendPersonalMessageTransaction(PersonalChatMessageReq req) {
+        ImPersonalMessageEntity entity = toEntity(req);
+
+        ImChatMessage personalMessage = new ImPersonalMessage();
+        BeanUtil.copyProperties(entity, personalMessage);
+        personalMessage.setSender(new ImUserTerminal(entity.getSenderId(), ImTerminalType.valueOf(entity.getSenderTerminal()), entity.getSenderGroup()));
+        List<ImUser> receivers = new LinkedList<>(Arrays.asList(new ImUser(entity.getReceiverId())));
+        personalMessage.setReceivers(receivers);
+        // 组装事物消息
+        ImTopicMessage<ImChatMessage> topicMessage = new ImTopicMessage<>(personalMessage, "im-chat-message-tx-topic", "");
+        TransactionSendResult sendResult = messageSender.sendMessageInTransaction(topicMessage, null);
+        if (sendResult.getSendStatus() != SendStatus.SEND_OK) {
+            log.error("发送事务消息失败|参数:{}", JSON.toJSONString(topicMessage));
+        }
+        return entity.getId();
     }
 
     /**

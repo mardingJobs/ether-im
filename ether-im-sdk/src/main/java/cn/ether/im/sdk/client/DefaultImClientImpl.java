@@ -35,7 +35,7 @@ public class DefaultImClientImpl implements EtherImClient {
         if (send) {
             return ImChatMessageSentResult.success(chatMessage.getId());
         }
-        return ImChatMessageSentResult.fail(chatMessage.getId());
+        return ImChatMessageSentResult.unSend(chatMessage.getId());
     }
 
 }

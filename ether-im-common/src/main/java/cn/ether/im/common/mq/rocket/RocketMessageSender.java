@@ -8,6 +8,7 @@ import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.client.producer.SendStatus;
+import org.apache.rocketmq.client.producer.TransactionSendResult;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -79,5 +80,17 @@ public class RocketMessageSender implements ImMessageSender {
                 .collect(Collectors.toList());
         SendResult sendResult = rocketMQTemplate.getProducer().send(msgs);
         return SendStatus.SEND_OK.equals(sendResult.getSendStatus());
+    }
+
+    /**
+     * @param message
+     * @param arg
+     * @return
+     */
+    @Override
+    public TransactionSendResult sendMessageInTransaction(ImTopicMessage message, Object arg) {
+        ImMessage payload = message.getMessage();
+        Message<String> build = MessageBuilder.withPayload(JSON.toJSONString(payload)).build();
+        return this.rocketMQTemplate.sendMessageInTransaction(message.getDestination(), build, arg);
     }
 }

@@ -32,12 +32,12 @@ public class ImChatMessageSentResult {
     }
 
     /**
-     * 消息发送失败
+     * 消息未发送
      *
      * @param messageId
      * @return
      */
-    public static ImChatMessageSentResult fail(Long messageId) {
+    public static ImChatMessageSentResult unSend(Long messageId) {
         return new ImChatMessageSentResult(String.valueOf(messageId), ImMessageStatus.UN_SEND);
     }
 
