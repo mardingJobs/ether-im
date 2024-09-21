@@ -26,4 +26,9 @@ public class ImTokenMessage extends ImSystemMessage {
     public ImTokenMessage() {
         this.setType(ImSystemMessageType.TOKEN);
     }
+
+    public ImTokenMessage(String token) {
+        this.token = token;
+        this.setType(ImSystemMessageType.TOKEN);
+    }
 }

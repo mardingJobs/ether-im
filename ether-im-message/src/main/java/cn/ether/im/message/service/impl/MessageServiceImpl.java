@@ -140,7 +140,7 @@ public class MessageServiceImpl implements MessageService {
      * @param req
      */
     @Override
-    public ImChatMessageSentResult sendGroupMessage(GroupChatMessageReq req) {
+    public ImChatMessageSentResult sendGroupMessage(GroupChatMessageReq req) { 
         ImGroupMessage imGroupMessage = new ImGroupMessage();
         imGroupMessage.setSender(req.getSender());
         imGroupMessage.setReceivers(req.getReceivers());

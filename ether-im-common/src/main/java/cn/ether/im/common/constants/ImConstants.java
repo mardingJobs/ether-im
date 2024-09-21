@@ -75,4 +75,5 @@ public class ImConstants {
      * 消息可撤回时间 单位秒
      */
     public static final Integer IM_MESSAGE_WITH_DRAWN_SEC = 120;
+    public static final String IM_TOKEN = "token";
 }

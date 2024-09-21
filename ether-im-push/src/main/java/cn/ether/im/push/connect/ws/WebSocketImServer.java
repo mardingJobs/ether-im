@@ -4,6 +4,7 @@ import cn.ether.im.push.connect.ImPushServer;
 import cn.ether.im.push.connect.ws.codec.WebSocketMessageDecoder;
 import cn.ether.im.push.connect.ws.codec.WebSocketMessageEncoder;
 import cn.ether.im.push.handler.ImChannelHandler;
+import cn.ether.im.push.handler.ImIdentityChannelHandler;
 import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
 import com.alibaba.nacos.api.PropertyKeyConst;
 import com.alibaba.nacos.api.naming.NamingFactory;
@@ -90,6 +91,7 @@ public class WebSocketImServer implements ImPushServer {
                                 .addLast("aggregator", new HttpObjectAggregator(65535))
                                 .addLast("http-chunked", new ChunkedWriteHandler())
                                 .addLast(new WebSocketServerProtocolHandler("/im"))
+                                .addLast("im-identity", new ImIdentityChannelHandler())
                                 .addLast(new WebSocketMessageDecoder())
                                 .addLast(new WebSocketMessageEncoder())
                                 .addLast(new ImChannelHandler());
