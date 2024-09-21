@@ -91,9 +91,9 @@ public class WebSocketImServer implements ImPushServer {
                                 .addLast("aggregator", new HttpObjectAggregator(65535))
                                 .addLast("http-chunked", new ChunkedWriteHandler())
                                 .addLast(new WebSocketServerProtocolHandler("/im"))
-                                .addLast("im-identity", new ImIdentityChannelHandler())
                                 .addLast(new WebSocketMessageDecoder())
                                 .addLast(new WebSocketMessageEncoder())
+                                .addLast("im-identity", new ImIdentityChannelHandler()) // 位置不能放在前面
                                 .addLast(new ImChannelHandler());
                     }
                 });

@@ -8,6 +8,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -16,22 +17,13 @@ import org.apache.commons.lang3.StringUtils;
  * * @Description
  * * @Github <a href="https://github.com/mardingJobs">Github链接</a>
  **/
+@Slf4j
 public class ImIdentityChannelHandler extends SimpleChannelInboundHandler<Object> {
 
-    /**
-     * <strong>Please keep in mind that this method will be renamed to
-     * {@code messageReceived(ChannelHandlerContext, I)} in 5.0.</strong>
-     * <p>
-     * Is called for each message of type {@link I}.
-     *
-     * @param ctx the {@link ChannelHandlerContext} which this {@link SimpleChannelInboundHandler}
-     *            belongs to
-     * @param msg the message to handle
-     * @throws Exception is thrown if an error occurred
-     */
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
-
+        log.info("msg:{}", msg);
     }
 
     @Override
