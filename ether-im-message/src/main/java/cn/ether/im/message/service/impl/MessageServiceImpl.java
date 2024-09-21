@@ -1,10 +1,7 @@
 package cn.ether.im.message.service.impl;
 
 
-import cn.ether.im.common.enums.ImChatMessageType;
-import cn.ether.im.common.enums.ImMessageEventType;
-import cn.ether.im.common.enums.ImMessageStatus;
-import cn.ether.im.common.enums.ImTerminalType;
+import cn.ether.im.common.enums.*;
 import cn.ether.im.common.exception.ImException;
 import cn.ether.im.common.model.ImChatMessageSentResult;
 import cn.ether.im.common.model.message.*;
@@ -12,10 +9,10 @@ import cn.ether.im.common.model.user.ImUser;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.mq.ImMessageSender;
 import cn.ether.im.common.util.SnowflakeUtil;
-import cn.ether.im.message.dto.GroupChatMessageReq;
-import cn.ether.im.message.dto.PersonalChatMessageReq;
-import cn.ether.im.message.entity.ImMessageEventLogEntity;
-import cn.ether.im.message.entity.ImPersonalMessageEntity;
+import cn.ether.im.message.model.dto.GroupChatMessageReq;
+import cn.ether.im.message.model.dto.PersonalChatMessageReq;
+import cn.ether.im.message.model.entity.ImMessageEventLogEntity;
+import cn.ether.im.message.model.entity.ImPersonalMessageEntity;
 import cn.ether.im.message.service.ImMessageEventLogEntityService;
 import cn.ether.im.message.service.ImPersonalMessageService;
 import cn.ether.im.message.service.MessageService;
@@ -79,9 +76,9 @@ public class MessageServiceImpl implements MessageService {
             boolean saved = personalMessageService.save(entity);
             if (!saved) throw new RuntimeException();
         } catch (DuplicateKeyException e) {
-            throw new ImException("消息重复");
+            throw new ImException(ImExceptionCode.MESSAGE_DUPLICATION);
         } catch (Exception e) {
-            throw new ImException("消息持久化失败");
+            throw new ImException(ImExceptionCode.MESSAGE_PERSIST_FAIL);
         }
         return entity;
     }
@@ -140,7 +137,7 @@ public class MessageServiceImpl implements MessageService {
      * @param req
      */
     @Override
-    public ImChatMessageSentResult sendGroupMessage(GroupChatMessageReq req) { 
+    public ImChatMessageSentResult sendGroupMessage(GroupChatMessageReq req) {
         ImGroupMessage imGroupMessage = new ImGroupMessage();
         imGroupMessage.setSender(req.getSender());
         imGroupMessage.setReceivers(req.getReceivers());

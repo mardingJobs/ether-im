@@ -1,6 +1,6 @@
 package cn.ether.im.message.service;
 
-import cn.ether.im.message.entity.ImMessageEventLogEntity;
+import cn.ether.im.message.model.entity.ImMessageEventLogEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

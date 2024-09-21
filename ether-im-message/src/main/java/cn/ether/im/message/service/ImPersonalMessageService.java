@@ -1,6 +1,6 @@
 package cn.ether.im.message.service;
 
-import cn.ether.im.message.entity.ImPersonalMessageEntity;
+import cn.ether.im.message.model.entity.ImPersonalMessageEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

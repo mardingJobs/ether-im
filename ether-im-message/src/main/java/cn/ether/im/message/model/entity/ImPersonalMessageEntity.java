@@ -1,4 +1,4 @@
-package cn.ether.im.message.entity;
+package cn.ether.im.message.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;

@@ -1,7 +1,7 @@
 package cn.ether.im.message.service.impl;
 
-import cn.ether.im.message.entity.ImPersonalMessageEntity;
 import cn.ether.im.message.mapper.ImPersonalMessageMapper;
+import cn.ether.im.message.model.entity.ImPersonalMessageEntity;
 import cn.ether.im.message.service.ImPersonalMessageService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;

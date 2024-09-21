@@ -1,9 +1,9 @@
 package cn.ether.im.message.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import cn.ether.im.message.entity.ImMessageEventLogEntity;
-import cn.ether.im.message.service.ImMessageEventLogEntityService;
 import cn.ether.im.message.mapper.ImMessageEventLogEntityMapper;
+import cn.ether.im.message.model.entity.ImMessageEventLogEntity;
+import cn.ether.im.message.service.ImMessageEventLogEntityService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**

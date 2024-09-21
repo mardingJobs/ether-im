@@ -2,7 +2,7 @@ package cn.ether.im.message.controller.advice;
 
 
 import cn.ether.im.common.exception.ImException;
-import cn.ether.im.message.domain.Resp;
+import cn.ether.im.message.model.dto.Resp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -22,6 +22,6 @@ public class MessageControllerAdvice {
     @ExceptionHandler(ImException.class)
     public Resp handleException(ImException e) {
         log.error("ImException caught", e);
-        return Resp.fail(e.getMessage());
+        return Resp.fail(e);
     }
 }

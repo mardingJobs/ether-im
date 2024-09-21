@@ -1,4 +1,4 @@
-package cn.ether.im.message.dto;
+package cn.ether.im.message.model.dto;
 
 import lombok.Data;
 

@@ -6,7 +6,7 @@ import cn.ether.im.common.event.ImEventListener;
 import cn.ether.im.common.model.message.ImChatMessage;
 import cn.ether.im.common.model.message.ImMessageEvent;
 import cn.ether.im.common.model.user.ImUser;
-import cn.ether.im.message.entity.ImPersonalMessageEntity;
+import cn.ether.im.message.model.entity.ImPersonalMessageEntity;
 import cn.ether.im.message.service.ImPersonalMessageService;
 import cn.ether.im.message.service.MessageService;
 import cn.ether.im.sdk.client.EtherImClient;

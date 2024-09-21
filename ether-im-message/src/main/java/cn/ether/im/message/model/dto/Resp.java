@@ -1,5 +1,7 @@
-package cn.ether.im.message.domain;
+package cn.ether.im.message.model.dto;
 
+import cn.ether.im.common.enums.ImExceptionCode;
+import cn.ether.im.common.exception.ImException;
 import lombok.Data;
 
 /**
@@ -10,7 +12,7 @@ import lombok.Data;
 @Data
 public class Resp {
 
-    private String code;
+    private Integer code;
     private String msg;
     private Object data;
 
@@ -18,7 +20,7 @@ public class Resp {
     // success 方法
     public static Resp success(Object data) {
         Resp resp = new Resp();
-        resp.setCode("200");
+        resp.setCode(ImExceptionCode.SUCCESS.getCode());
         resp.setMsg("success");
         resp.setData(data);
         return resp;
@@ -32,8 +34,16 @@ public class Resp {
     // fail
     public static Resp fail(String msg) {
         Resp resp = new Resp();
-        resp.setCode("500");
+        resp.setCode(ImExceptionCode.SUCCESS.getCode());
         resp.setMsg(msg);
+        return resp;
+    }
+
+    public static Resp fail(ImException exception) {
+        ImExceptionCode exceptionCode = exception.getExceptionCode();
+        Resp resp = new Resp();
+        resp.setCode(exceptionCode.getCode());
+        resp.setMsg(exceptionCode.getMsg());
         return resp;
     }
 

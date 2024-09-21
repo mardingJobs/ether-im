@@ -1,5 +1,6 @@
 package cn.ether.im.push.processor.system;
 
+import cn.ether.im.common.enums.ImExceptionCode;
 import cn.ether.im.common.exception.ImException;
 import cn.ether.im.common.model.message.ImMessageEvent;
 import cn.ether.im.push.mq.ImMessageEventProducer;
@@ -27,8 +28,8 @@ public class MessageEventProcess implements SystemMessageProcess<ImMessageEvent>
         try {
             eventProducer.publish(message);
         } catch (Exception e) {
-            log.error("发布消息事件失败,MessageEvent:{}", JSON.toJSONString(message));
-            throw new ImException("发布消息事件失败", e);
+            log.error("发布消息事件失败,MessageEvent:{}", JSON.toJSONString(message), e);
+            throw new ImException(ImExceptionCode.PUBLISH_MESSAGE_EVENT_FAIL);
         }
     }
 }

@@ -1,4 +1,4 @@
-package cn.ether.im.message.dto;
+package cn.ether.im.message.model.dto;
 
 import cn.ether.im.common.enums.MessageContentType;
 import cn.ether.im.common.model.user.ImUser;
