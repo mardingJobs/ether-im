@@ -10,7 +10,6 @@ import cn.ether.im.common.mq.ImMessageSender;
 import cn.ether.im.sdk.sender.ChatMessageSender;
 import cn.hutool.core.bean.BeanUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -64,15 +63,11 @@ public class DefaultChatMessageSender implements ChatMessageSender {
         BeanUtil.copyProperties(chatMessage, newChatMessage);
         newChatMessage.setReceiverTerminals(targetTerminalList);
 
-        List<ImTopicMessage> topicMessages = targetTerminalList.stream().map(terminal -> {
-            String messageTag = userCacheHelper.getMessageTag(terminal);
-            if (StringUtils.isNotEmpty(messageTag)) {
-                ImTopicMessage topicMessage = new ImTopicMessage(newChatMessage, ImConstants.IM_CHAT_MESSAGE_TOPIC, messageTag);
-                return topicMessage;
-            } else {
-                return null;
-            }
-        }).filter(Objects::nonNull).collect(Collectors.toList());
+        List<ImTopicMessage> topicMessages = targetTerminalList.stream()
+                .map(terminal -> userCacheHelper.getMessageTag(terminal))
+                .filter(Objects::nonNull)
+                .map((tag) -> new ImTopicMessage(newChatMessage, ImConstants.IM_CHAT_MESSAGE_TOPIC, tag))
+                .collect(Collectors.toList());
         boolean send = messageSender.batchSend(topicMessages);
         if (send) {
             log.info("发送对话MQ消息成功，TopicMessage:{}", topicMessages);
