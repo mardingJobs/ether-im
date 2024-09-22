@@ -21,7 +21,7 @@ public class MessageControllerAdvice {
 
     @ExceptionHandler(ImException.class)
     public Resp handleException(ImException e) {
-        log.error("ImException caught", e);
+        log.error("ImException caught: {}", e.getMessage());
         return Resp.fail(e);
     }
 }

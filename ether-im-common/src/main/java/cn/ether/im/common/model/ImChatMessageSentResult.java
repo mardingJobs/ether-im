@@ -21,6 +21,14 @@ public class ImChatMessageSentResult {
 
     private ImMessageStatus status;
 
+    private String errorMsg;
+
+
+    public ImChatMessageSentResult(String messageId, ImMessageStatus status) {
+        this.messageId = messageId;
+        this.status = status;
+    }
+
     /**
      * 消息发送成功，发到MQ就代表发送成功
      *
@@ -37,8 +45,8 @@ public class ImChatMessageSentResult {
      * @param messageId
      * @return
      */
-    public static ImChatMessageSentResult sentFail(Long messageId) {
-        return new ImChatMessageSentResult(String.valueOf(messageId), ImMessageStatus.INTI);
+    public static ImChatMessageSentResult sentFail(Long messageId, String errorMsg) {
+        return new ImChatMessageSentResult(String.valueOf(messageId), ImMessageStatus.INTI, errorMsg);
     }
 
 }

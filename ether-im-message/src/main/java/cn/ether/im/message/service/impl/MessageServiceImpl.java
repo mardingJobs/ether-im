@@ -102,19 +102,25 @@ public class MessageServiceImpl implements MessageService {
         chatMessage.setSender(new ImUserTerminal(entity.getSenderId(), ImTerminalType.valueOf(entity.getSenderTerminal())));
 
         // 群消息
+        List<ImUser> receivers = null;
         ImChatMessageType messageType = req.getMessageType();
         if (messageType == ImChatMessageType.GROUP) {
             String receiverId = req.getReceiverId();
             List<ImGroupUser> groupUsers = groupUserService.lambdaQuery().eq(ImGroupUser::getGroupId, receiverId).list();
-            List<ImUser> receivers = groupUsers.stream()
+            receivers = groupUsers.stream()
                     .map((groupUser) -> new ImUser(groupUser.getUserId()))
                     .collect(Collectors.toList());
 
             chatMessage.setReceivers(receivers);
         } else if (messageType == ImChatMessageType.PERSONAL) {
-            List<ImUser> receivers = new LinkedList<>(Collections.singletonList(new ImUser(entity.getReceiverId())));
+            receivers = new LinkedList<>(Collections.singletonList(new ImUser(entity.getReceiverId())));
             chatMessage.setReceivers(receivers);
         }
+
+        if (CollectionUtil.isEmpty(receivers)) {
+            return ImChatMessageSentResult.sentFail(entity.getId(), "无消息接收者");
+        }
+
         boolean sent = etherImClient.sendChatMessage(chatMessage);
         if (sent) {
             entity.setStatus(ImMessageStatus.SENT.name());
@@ -123,7 +129,7 @@ public class MessageServiceImpl implements MessageService {
             log.error("发送消息失败|参数:{}", JSON.toJSONString(chatMessage));
             entity.setStatus(ImMessageStatus.SENT_FAIL.name());
             chatMessageService.updateById(entity);
-            return ImChatMessageSentResult.sentFail(entity.getId());
+            return ImChatMessageSentResult.sentFail(entity.getId(), "消息发送失败");
         }
     }
 
