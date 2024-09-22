@@ -7,7 +7,7 @@ import cn.ether.im.common.model.message.ImChatMessage;
 import cn.ether.im.common.model.message.ImMessageEvent;
 import cn.ether.im.common.model.user.ImUser;
 import cn.ether.im.message.model.entity.ImChatMessageEntity;
-import cn.ether.im.message.service.ImPersonalMessageService;
+import cn.ether.im.message.service.ImChatMessageService;
 import cn.ether.im.message.service.MessageService;
 import cn.ether.im.sdk.client.EtherImClient;
 import cn.ether.im.sdk.listener.ImMessageEventListener;
@@ -31,7 +31,7 @@ public class ReadMessageEventListener implements ImMessageEventListener {
     private MessageService messageService;
 
     @Resource
-    private ImPersonalMessageService personalMessageService;
+    private ImChatMessageService personalMessageService;
 
     @Resource
     private EtherImClient imClient;

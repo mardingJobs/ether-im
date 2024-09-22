@@ -23,7 +23,7 @@ public class ChatMessageSendReq {
      */
     private String senderTerminal;
     /**
-     * 接收者ID
+     * 接收者ID 单聊是用户ID，群聊是群ID
      */
     private String receiverId;
 

@@ -2,7 +2,7 @@ package cn.ether.im.message.service.impl;
 
 import cn.ether.im.message.mapper.ImChatMessageMapper;
 import cn.ether.im.message.model.entity.ImChatMessageEntity;
-import cn.ether.im.message.service.ImPersonalMessageService;
+import cn.ether.im.message.service.ImChatMessageService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
  * @createDate 2024-09-17 14:30:22
  */
 @Service
-public class ImPersonalMessageServiceImpl extends ServiceImpl<ImChatMessageMapper, ImChatMessageEntity>
-        implements ImPersonalMessageService {
+public class ImChatMessageServiceImpl extends ServiceImpl<ImChatMessageMapper, ImChatMessageEntity>
+        implements ImChatMessageService {
 
 }
 

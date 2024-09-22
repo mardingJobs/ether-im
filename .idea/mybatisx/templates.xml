@@ -61,16 +61,14 @@
                 </ModuleInfoGo>
               </list>
             </option>
-            <option name="needToStringHashcodeEquals" value="true" />
-            <option name="needsComment" value="true" />
             <option name="needsModel" value="true" />
-            <option name="relativePackage" value="domain" />
+            <option name="relativePackage" value="model.entity" />
             <option name="superClass" value="" />
             <option name="tableUIInfoList">
               <list>
                 <TableUIInfo>
-                  <option name="className" value="ImMessageEventLogEntity" />
-                  <option name="tableName" value="im_message_event_log" />
+                  <option name="className" value="ImGroupUser" />
+                  <option name="tableName" value="im_group_user" />
                 </TableUIInfo>
               </list>
             </option>

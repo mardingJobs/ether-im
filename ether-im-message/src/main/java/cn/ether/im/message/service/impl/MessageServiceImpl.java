@@ -14,9 +14,11 @@ import cn.ether.im.common.mq.ImMessageSender;
 import cn.ether.im.common.util.SnowflakeUtil;
 import cn.ether.im.message.model.dto.ChatMessageSendReq;
 import cn.ether.im.message.model.entity.ImChatMessageEntity;
+import cn.ether.im.message.model.entity.ImGroupUser;
 import cn.ether.im.message.model.entity.ImMessageEventLogEntity;
+import cn.ether.im.message.service.ImChatMessageService;
+import cn.ether.im.message.service.ImGroupUserService;
 import cn.ether.im.message.service.ImMessageEventLogEntityService;
-import cn.ether.im.message.service.ImPersonalMessageService;
 import cn.ether.im.message.service.MessageService;
 import cn.ether.im.sdk.client.EtherImClient;
 import cn.ether.im.sdk.listener.MessageEventStatusMachine;
@@ -33,10 +35,8 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * * @Author: Martin
@@ -54,13 +54,16 @@ public class MessageServiceImpl implements MessageService {
     private SnowflakeUtil snowflakeUtil;
 
     @Resource
-    private ImPersonalMessageService personalMessageService;
+    private ImChatMessageService chatMessageService;
 
     @Resource
     private ImMessageEventLogEntityService messageEventLogEntityService;
 
     @Resource
     private ImMessageSender messageSender;
+
+    @Resource
+    private ImGroupUserService groupUserService;
 
 
     private ImChatMessageEntity toEntity(ChatMessageSendReq req) {
@@ -75,11 +78,12 @@ public class MessageServiceImpl implements MessageService {
     private ImChatMessageEntity saveMessage(ChatMessageSendReq req) {
         ImChatMessageEntity entity = toEntity(req);
         try {
-            boolean saved = personalMessageService.save(entity);
+            boolean saved = chatMessageService.save(entity);
             if (!saved) throw new RuntimeException();
         } catch (DuplicateKeyException e) {
             throw new ImException(ImExceptionCode.MESSAGE_DUPLICATION);
         } catch (Exception e) {
+            log.error("消息持久化失败|参数:{}", JSON.toJSONString(entity), e);
             throw new ImException(ImExceptionCode.MESSAGE_PERSIST_FAIL);
         }
         return entity;
@@ -96,9 +100,21 @@ public class MessageServiceImpl implements MessageService {
         ImChatMessage chatMessage = new ImChatMessage();
         BeanUtil.copyProperties(entity, chatMessage);
         chatMessage.setSender(new ImUserTerminal(entity.getSenderId(), ImTerminalType.valueOf(entity.getSenderTerminal())));
-        List<ImUser> receivers = new LinkedList<>(Arrays.asList(new ImUser(entity.getReceiverId())));
-        chatMessage.setReceivers(receivers);
 
+        // 群消息
+        ImChatMessageType messageType = req.getMessageType();
+        if (messageType == ImChatMessageType.GROUP) {
+            String receiverId = req.getReceiverId();
+            List<ImGroupUser> groupUsers = groupUserService.lambdaQuery().eq(ImGroupUser::getGroupId, receiverId).list();
+            List<ImUser> receivers = groupUsers.stream()
+                    .map((groupUser) -> new ImUser(groupUser.getUserId()))
+                    .collect(Collectors.toList());
+
+            chatMessage.setReceivers(receivers);
+        } else if (messageType == ImChatMessageType.PERSONAL) {
+            List<ImUser> receivers = new LinkedList<>(Collections.singletonList(new ImUser(entity.getReceiverId())));
+            chatMessage.setReceivers(receivers);
+        }
         boolean sent = etherImClient.sendChatMessage(chatMessage);
         if (sent) {
             entity.setStatus(ImMessageStatus.SENT.name());
@@ -106,7 +122,7 @@ public class MessageServiceImpl implements MessageService {
         } else {
             log.error("发送消息失败|参数:{}", JSON.toJSONString(chatMessage));
             entity.setStatus(ImMessageStatus.SENT_FAIL.name());
-            personalMessageService.updateById(entity);
+            chatMessageService.updateById(entity);
             return ImChatMessageSentResult.sentFail(entity.getId());
         }
     }
@@ -158,7 +174,7 @@ public class MessageServiceImpl implements MessageService {
 
         ImChatMessageType messageType = messageEvent.getMessageType();
         if (messageType == ImChatMessageType.PERSONAL) {
-            ImChatMessageEntity messageEntity = personalMessageService.getById(messageEvent.getMessageId());
+            ImChatMessageEntity messageEntity = chatMessageService.getById(messageEvent.getMessageId());
             if (messageEntity == null) {
                 return;
             }
@@ -187,7 +203,7 @@ public class MessageServiceImpl implements MessageService {
                 ImMessageEventLogEntity newestLog = orderedEventList.get(orderedEventList.size() - 1);
                 ImMessageStatus status = ImMessageEventType.valueOf(newestLog.getEventType()).getNextStatus();
                 messageEntity.setStatus(status.name());
-                personalMessageService.updateById(messageEntity);
+                chatMessageService.updateById(messageEntity);
             }
         }
     }
@@ -203,7 +219,7 @@ public class MessageServiceImpl implements MessageService {
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
     public void onMessageEventV2(ImMessageEvent messageEvent) {
-        ImChatMessageEntity messageEntity = personalMessageService.getById(messageEvent.getMessageId());
+        ImChatMessageEntity messageEntity = chatMessageService.getById(messageEvent.getMessageId());
         if (messageEntity == null) {
             return;
         }
@@ -230,7 +246,7 @@ public class MessageServiceImpl implements MessageService {
             }
         }
         messageEntity.setStatus(nextStatus.name());
-        personalMessageService.updateById(messageEntity);
+        chatMessageService.updateById(messageEntity);
     }
 
     private void saveMessageEventLog(ImMessageEvent messageEvent) {

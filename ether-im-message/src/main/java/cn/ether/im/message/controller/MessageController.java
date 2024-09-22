@@ -31,7 +31,7 @@ public class MessageController {
      * @return
      */
     @PostMapping("/send/")
-    public Resp sendPersonalMessage(@RequestBody ChatMessageSendReq req) {
+    public Resp send(@RequestBody ChatMessageSendReq req) {
         ImChatMessageSentResult result = messageService.sendMessage(req);
         return Resp.success(result);
     }
