@@ -14,19 +14,9 @@ import lombok.Data;
 @Data
 public class ChatMessageSendReq {
 
-
     private static final long serialVersionUID = 1L;
-    /**
-     * 发送者ID
-     */
-    @Schema(name = "senderId", description = "发送者ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "customer-01")
-    private String senderId;
 
-    /**
-     * 发送者终端类型:WEB  APP
-     */
-    @Schema(name = "senderTerminal", description = "发送终端类型", example = "WEB|APP")
-    private String senderTerminal;
+
     /**
      * 接收者ID 单聊是用户ID，群聊是群ID
      */
@@ -43,11 +33,13 @@ public class ChatMessageSendReq {
      */
     @Schema(name = "content", description = "消息内容", example = "测试消息-01")
     private String content;
+
     /**
      * 消息内容类型: 文字 图片 文件 语音 视频
      */
     @Schema(name = "contentType", description = "消息内容类型: 文字 图片 文件 语音 视频", example = "TEXT|IMAGE|VIDEO|AUDIO|FILE")
     private ImChatMessageContentType contentType;
+
     /**
      * 发送时间戳 (毫秒)
      */

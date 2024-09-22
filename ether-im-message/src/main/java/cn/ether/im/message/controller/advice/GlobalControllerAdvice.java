@@ -34,7 +34,7 @@ public class GlobalControllerAdvice {
         log.warn("-----全局异常处理---------------");
         e.printStackTrace();
         String requestURI = request.getRequestURI();
-        log.error("请求地址'{}',发生系统异常:{}", requestURI, e.getCause());
+        log.error("请求地址'{}',发生系统异常:{}", requestURI, e.getMessage());
     }
 
 

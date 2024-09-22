@@ -18,6 +18,7 @@ import cn.ether.im.message.model.entity.ImChatMessageEntity;
 import cn.ether.im.message.model.entity.ImChatMessageInbox;
 import cn.ether.im.message.model.entity.ImGroupUser;
 import cn.ether.im.message.model.entity.ImMessageEventLogEntity;
+import cn.ether.im.message.model.session.SessionContext;
 import cn.ether.im.message.service.*;
 import cn.ether.im.sdk.client.EtherImClient;
 import cn.ether.im.sdk.listener.MessageEventStatusMachine;
@@ -71,9 +72,12 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
 
     private ImChatMessageEntity toEntity(ChatMessageSendReq req) {
+        ImUserTerminal userTerminal = SessionContext.loggedUser();
         ImChatMessageEntity entity = new ImChatMessageEntity();
         BeanUtil.copyProperties(req, entity);
         entity.setId(snowflakeUtil.nextId());
+        entity.setSenderId(userTerminal.getUserId());
+        entity.setSenderTerminal(userTerminal.getTerminalType().name());
         entity.setStatus(ImChatMessageStatus.INTI.name());
         entity.setCreateTime(new Date());
         return entity;

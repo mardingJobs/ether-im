@@ -2,13 +2,17 @@ package cn.ether.im.message.config;
 
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.boot.SpringBootConfiguration;
 
-
+@SecurityScheme(name = "token", type = SecuritySchemeType.HTTP, scheme = "bearer", in = SecuritySchemeIn.HEADER)
 @SpringBootConfiguration
 @OpenAPIDefinition(
         // ## API的基本信息，包括标题、版本号、描述、联系人等
@@ -31,7 +35,10 @@ import org.springframework.boot.SpringBootConfiguration;
         servers = {
                 @Server(url = "http://localhost:8888/im-message/", description = "本地服务器")
         },
-        externalDocs = @ExternalDocumentation(description = "更多内容请查看该链接", url = "www.google.com"))
+        externalDocs = @ExternalDocumentation(description = "更多内容请查看该链接", url = "www.google.com"),
+        security = {@SecurityRequirement(name = "token")})
 public class SwaggerOpenApiConfig {
+
+    private static final String headerName = "Authorization";//请求头名称
 
 }

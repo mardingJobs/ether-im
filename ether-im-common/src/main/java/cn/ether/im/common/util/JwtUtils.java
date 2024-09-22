@@ -19,6 +19,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
 
@@ -85,7 +86,10 @@ public class JwtUtils {
      * @param secret 秘钥
      * @return true/false
      * */
-    public static Boolean checkSign(String token,String secret) {
+    public static boolean checkSign(String token, String secret) {
+        if (StringUtils.isEmpty(token)) {
+            return false;
+        }
         try{
             Algorithm algorithm  = Algorithm.HMAC256(secret);
             JWTVerifier verifier = JWT.require(algorithm).build();

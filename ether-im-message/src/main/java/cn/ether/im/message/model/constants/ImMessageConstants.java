@@ -8,5 +8,5 @@ package cn.ether.im.message.model.constants;
  **/
 public class ImMessageConstants {
 
-    public static final String SESSION = "session";
+    public static final String SESSION_KEY = "user";
 }

@@ -32,8 +32,8 @@ spring:
 
 
 
-jwt:
-  accessToken:
+im:
+  token:
     secret: marding
 
 rocketmq:
