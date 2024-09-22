@@ -17,10 +17,7 @@ public enum ImExceptionCode {
     MESSAGE_PERSIST_FAIL(1002, "消息持久化失败"),
     PUBLISH_MESSAGE_EVENT_FAIL(1003, "发布消息事件失败"),
     NO_MESSAGE_RECEIVER(1004, "没有消息接收人"),
-    /**
-     * 发送消息到MQ失败
-     */
-    SEND_MESSAGE_TO_MQ_FAIL(1005, "发送消息失败");
+    SEND_MESSAGE_FAIL(1005, "发送消息失败");
 
 
     private Integer code;

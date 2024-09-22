@@ -141,7 +141,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
             chatMessageService.updateById(entity);
         } else {
             log.error("发送消息失败|参数:{}", JSON.toJSONString(chatMessage));
-            throw new ImException(ImExceptionCode.SEND_MESSAGE_TO_MQ_FAIL);
+            throw new ImException(ImExceptionCode.SEND_MESSAGE_FAIL);
         }
         return entity.getId().toString();
     }

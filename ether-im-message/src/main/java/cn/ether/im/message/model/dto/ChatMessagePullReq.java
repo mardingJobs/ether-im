@@ -1,6 +1,7 @@
 package cn.ether.im.message.model.dto;
 
 import cn.ether.im.common.enums.ImChatMessageType;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -19,11 +20,10 @@ public class ChatMessagePullReq {
 
     private String receiverId;
 
+    @Schema(description = "消息类型", example = "PERSONAL｜GROUP")
     private ImChatMessageType messageType;
 
+    @Schema(description = "最小消息ID", example = "1837884110291472384")
     private Long minMessageId;
-
-    private Integer maxSize = 100;
-
 
 }

@@ -52,6 +52,7 @@ public class ChatMessageController {
      * @param req
      * @return
      */
+    @Operation(summary = "拉取最近一个月内的消息", description = "拉取最近的消息，包括收件箱和发件箱消息各100条")
     @PostMapping("/pullRecentMessages")
     public Resp pullRecentMessages(@RequestBody ChatMessagePullReq req) {
         ChatMessagePullResult result = messageService.pullRecentMessages(req);
