@@ -2,8 +2,7 @@ package cn.ether.im.message.service;
 
 import cn.ether.im.common.model.ImChatMessageSentResult;
 import cn.ether.im.common.model.message.ImMessageEvent;
-import cn.ether.im.message.model.dto.GroupChatMessageReq;
-import cn.ether.im.message.model.dto.PersonalChatMessageReq;
+import cn.ether.im.message.model.dto.ChatMessageSendReq;
 import cn.ether.im.message.model.entity.ImMessageEventLogEntity;
 
 /**
@@ -14,7 +13,7 @@ import cn.ether.im.message.model.entity.ImMessageEventLogEntity;
 public interface MessageService {
 
     /**
-     * 发送个人消息,先保存消息，然后发送MQ消息
+     * 发送消息,先保存消息，然后发送MQ消息
      * 保存消息成功,消息状态是INIT
      * 如果发送MQ消息失败，消息状态是SENT_FAIL
      * 如果消息发送成功，消息状态是SENT
@@ -23,17 +22,16 @@ public interface MessageService {
      * @param req
      * @return
      */
-    ImChatMessageSentResult sendPersonalMessage(PersonalChatMessageReq req);
+    ImChatMessageSentResult sendMessage(ChatMessageSendReq req);
 
     /**
-     * 发送个人消息，使用事务保证保存消息到数据库和发送MQ消息一致性
+     * 发送消息，使用事务保证保存消息到数据库和发送MQ消息一致性
      *
      * @param req
      * @return 消息ID
      */
-    Long sendPersonalMessageTransaction(PersonalChatMessageReq req);
+    Long sendMessageTransaction(ChatMessageSendReq req);
 
-    ImChatMessageSentResult sendGroupMessage(GroupChatMessageReq req);
 
     boolean saveMessageEventLog(ImMessageEventLogEntity eventLogEntity);
 

@@ -7,7 +7,7 @@ import cn.ether.im.common.event.ImEventListener;
 import cn.ether.im.common.model.message.ImChatMessage;
 import cn.ether.im.common.model.message.ImMessageEvent;
 import cn.ether.im.common.model.user.ImUser;
-import cn.ether.im.message.model.entity.ImPersonalMessageEntity;
+import cn.ether.im.message.model.entity.ImChatMessageEntity;
 import cn.ether.im.message.service.ImPersonalMessageService;
 import cn.ether.im.message.service.MessageService;
 import cn.ether.im.sdk.client.EtherImClient;
@@ -45,7 +45,7 @@ public class WithDrawnMessageEventListener implements ImMessageEventListener {
     public void onMessageEvent(ImMessageEvent messageEvent) throws Exception {
         log.info("监听到消息事件:{}", JSON.toJSONString(messageEvent));
         Long messageId = messageEvent.getMessageId();
-        ImPersonalMessageEntity messageEntity = personalMessageService.getById(messageId);
+        ImChatMessageEntity messageEntity = personalMessageService.getById(messageId);
         if (messageEntity == null) {
             log.warn("onMessageEvent|消息不存在,MessageId:{}", messageId);
             return;

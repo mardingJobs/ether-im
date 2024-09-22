@@ -25,7 +25,7 @@ public class ImUserTerminal extends ImUser {
     public ImUserTerminal() {
     }
 
-    public ImUserTerminal(String userId, ImTerminalType terminalType, String group) {
+    public ImUserTerminal(String userId, ImTerminalType terminalType) {
         this.setUserId(userId);
         this.terminalType = terminalType;
     }

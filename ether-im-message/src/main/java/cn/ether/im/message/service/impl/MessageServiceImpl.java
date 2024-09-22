@@ -4,15 +4,17 @@ package cn.ether.im.message.service.impl;
 import cn.ether.im.common.enums.*;
 import cn.ether.im.common.exception.ImException;
 import cn.ether.im.common.model.ImChatMessageSentResult;
-import cn.ether.im.common.model.message.*;
+import cn.ether.im.common.model.message.ImChatMessage;
+import cn.ether.im.common.model.message.ImMessageEvent;
+import cn.ether.im.common.model.message.ImPersonalMessage;
+import cn.ether.im.common.model.message.ImTopicMessage;
 import cn.ether.im.common.model.user.ImUser;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.mq.ImMessageSender;
 import cn.ether.im.common.util.SnowflakeUtil;
-import cn.ether.im.message.model.dto.GroupChatMessageReq;
-import cn.ether.im.message.model.dto.PersonalChatMessageReq;
+import cn.ether.im.message.model.dto.ChatMessageSendReq;
+import cn.ether.im.message.model.entity.ImChatMessageEntity;
 import cn.ether.im.message.model.entity.ImMessageEventLogEntity;
-import cn.ether.im.message.model.entity.ImPersonalMessageEntity;
 import cn.ether.im.message.service.ImMessageEventLogEntityService;
 import cn.ether.im.message.service.ImPersonalMessageService;
 import cn.ether.im.message.service.MessageService;
@@ -61,8 +63,8 @@ public class MessageServiceImpl implements MessageService {
     private ImMessageSender messageSender;
 
 
-    private ImPersonalMessageEntity toEntity(PersonalChatMessageReq req) {
-        ImPersonalMessageEntity entity = new ImPersonalMessageEntity();
+    private ImChatMessageEntity toEntity(ChatMessageSendReq req) {
+        ImChatMessageEntity entity = new ImChatMessageEntity();
         BeanUtil.copyProperties(req, entity);
         entity.setId(snowflakeUtil.nextId());
         entity.setStatus(ImMessageStatus.INTI.name());
@@ -70,8 +72,8 @@ public class MessageServiceImpl implements MessageService {
         return entity;
     }
 
-    private ImPersonalMessageEntity savePersonalMessage(PersonalChatMessageReq req) {
-        ImPersonalMessageEntity entity = toEntity(req);
+    private ImChatMessageEntity saveMessage(ChatMessageSendReq req) {
+        ImChatMessageEntity entity = toEntity(req);
         try {
             boolean saved = personalMessageService.save(entity);
             if (!saved) throw new RuntimeException();
@@ -87,22 +89,22 @@ public class MessageServiceImpl implements MessageService {
      * @param req
      */
     @Override
-    public ImChatMessageSentResult sendPersonalMessage(PersonalChatMessageReq req) {
+    public ImChatMessageSentResult sendMessage(ChatMessageSendReq req) {
         // 保存消息
-        ImPersonalMessageEntity entity = savePersonalMessage(req);
+        ImChatMessageEntity entity = saveMessage(req);
         // 发送消息
-        ImChatMessage personalMessage = new ImPersonalMessage();
-        BeanUtil.copyProperties(entity, personalMessage);
-        personalMessage.setSender(new ImUserTerminal(entity.getSenderId(), ImTerminalType.valueOf(entity.getSenderTerminal()), entity.getSenderGroup()));
+        ImChatMessage chatMessage = new ImChatMessage();
+        BeanUtil.copyProperties(entity, chatMessage);
+        chatMessage.setSender(new ImUserTerminal(entity.getSenderId(), ImTerminalType.valueOf(entity.getSenderTerminal())));
         List<ImUser> receivers = new LinkedList<>(Arrays.asList(new ImUser(entity.getReceiverId())));
-        personalMessage.setReceivers(receivers);
+        chatMessage.setReceivers(receivers);
 
-        boolean sent = etherImClient.sendChatMessage(personalMessage);
+        boolean sent = etherImClient.sendChatMessage(chatMessage);
         if (sent) {
             entity.setStatus(ImMessageStatus.SENT.name());
             return ImChatMessageSentResult.success(entity.getId());
         } else {
-            log.error("发送消息失败|参数:{}", JSON.toJSONString(personalMessage));
+            log.error("发送消息失败|参数:{}", JSON.toJSONString(chatMessage));
             entity.setStatus(ImMessageStatus.SENT_FAIL.name());
             personalMessageService.updateById(entity);
             return ImChatMessageSentResult.sentFail(entity.getId());
@@ -116,12 +118,12 @@ public class MessageServiceImpl implements MessageService {
      * @return
      */
     @Override
-    public Long sendPersonalMessageTransaction(PersonalChatMessageReq req) {
-        ImPersonalMessageEntity entity = toEntity(req);
+    public Long sendMessageTransaction(ChatMessageSendReq req) {
+        ImChatMessageEntity entity = toEntity(req);
 
         ImChatMessage personalMessage = new ImPersonalMessage();
         BeanUtil.copyProperties(entity, personalMessage);
-        personalMessage.setSender(new ImUserTerminal(entity.getSenderId(), ImTerminalType.valueOf(entity.getSenderTerminal()), entity.getSenderGroup()));
+        personalMessage.setSender(new ImUserTerminal(entity.getSenderId(), ImTerminalType.valueOf(entity.getSenderTerminal())));
         List<ImUser> receivers = new LinkedList<>(Arrays.asList(new ImUser(entity.getReceiverId())));
         personalMessage.setReceivers(receivers);
         // 组装事物消息
@@ -131,20 +133,6 @@ public class MessageServiceImpl implements MessageService {
             log.error("发送事务消息失败|参数:{}", JSON.toJSONString(topicMessage));
         }
         return entity.getId();
-    }
-
-    /**
-     * @param req
-     */
-    @Override
-    public ImChatMessageSentResult sendGroupMessage(GroupChatMessageReq req) {
-        ImGroupMessage imGroupMessage = new ImGroupMessage();
-        imGroupMessage.setSender(req.getSender());
-        imGroupMessage.setReceivers(req.getReceivers());
-        imGroupMessage.setContent(req.getContent());
-        imGroupMessage.setContentType(req.getContentType());
-        boolean sent = etherImClient.sendChatMessage(imGroupMessage);
-        return sent ? ImChatMessageSentResult.success(imGroupMessage.getId()) : ImChatMessageSentResult.sentFail(imGroupMessage.getId());
     }
 
     /**
@@ -170,7 +158,7 @@ public class MessageServiceImpl implements MessageService {
 
         ImChatMessageType messageType = messageEvent.getMessageType();
         if (messageType == ImChatMessageType.PERSONAL) {
-            ImPersonalMessageEntity messageEntity = personalMessageService.getById(messageEvent.getMessageId());
+            ImChatMessageEntity messageEntity = personalMessageService.getById(messageEvent.getMessageId());
             if (messageEntity == null) {
                 return;
             }
@@ -215,7 +203,7 @@ public class MessageServiceImpl implements MessageService {
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
     public void onMessageEventV2(ImMessageEvent messageEvent) {
-        ImPersonalMessageEntity messageEntity = personalMessageService.getById(messageEvent.getMessageId());
+        ImChatMessageEntity messageEntity = personalMessageService.getById(messageEvent.getMessageId());
         if (messageEntity == null) {
             return;
         }

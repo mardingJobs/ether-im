@@ -1,5 +1,6 @@
 package cn.ether.im.message.model.dto;
 
+import cn.ether.im.common.enums.ImChatMessageType;
 import lombok.Data;
 
 /**
@@ -8,7 +9,7 @@ import lombok.Data;
  * * @Description
  **/
 @Data
-public class PersonalChatMessageReq {
+public class ChatMessageSendReq {
 
 
     private static final long serialVersionUID = 1L;
@@ -16,10 +17,7 @@ public class PersonalChatMessageReq {
      * 发送者ID
      */
     private String senderId;
-    /**
-     * 发送者所属的组
-     */
-    private String senderGroup;
+
     /**
      * 发送者终端类型:WEB  APP
      */
@@ -28,10 +26,11 @@ public class PersonalChatMessageReq {
      * 接收者ID
      */
     private String receiverId;
+
     /**
-     * 接收者所属的组
+     * 消息类型: 单聊 群聊
      */
-    private String receiverGroup;
+    private ImChatMessageType messageType;
     /**
      * 消息内容
      */
