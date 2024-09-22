@@ -12,6 +12,8 @@ import cn.ether.im.common.model.user.ImUser;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.mq.ImMessageSender;
 import cn.ether.im.common.util.SnowflakeUtil;
+import cn.ether.im.message.model.dto.ChatMessagePullReq;
+import cn.ether.im.message.model.dto.ChatMessagePullResult;
 import cn.ether.im.message.model.dto.ChatMessageSendReq;
 import cn.ether.im.message.model.entity.ImChatMessageEntity;
 import cn.ether.im.message.model.entity.ImChatMessageInbox;
@@ -24,6 +26,8 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.rocketmq.client.producer.SendStatus;
 import org.apache.rocketmq.client.producer.TransactionSendResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,6 +138,7 @@ public class MessageServiceImpl implements MessageService {
         boolean sent = etherImClient.sendChatMessage(chatMessage);
         if (sent) {
             entity.setStatus(ImMessageStatus.SENT.name());
+            chatMessageService.updateById(entity);
             return ImChatMessageSentResult.success(entity.getId());
         } else {
             log.error("发送消息失败|参数:{}", JSON.toJSONString(chatMessage));
@@ -141,6 +146,50 @@ public class MessageServiceImpl implements MessageService {
             chatMessageService.updateById(entity);
             return ImChatMessageSentResult.sentFail(entity.getId(), "消息发送失败");
         }
+    }
+
+    /**
+     * 离线拉取用户最近一个月内最多100消息，包括发送给该用户的收件箱消息自己发送的消息
+     *
+     * @param pullReq
+     * @return
+     */
+    @Override
+    public ChatMessagePullResult pullRecentMessages(ChatMessagePullReq pullReq) {
+        List<ImChatMessageEntity> list = new LinkedList<>();
+
+        long startTime = DateUtils.addMonths(new Date(), -1).getTime();
+        // 收件箱
+        List<ImChatMessageInbox> recentlyInboxMessages = inboxService.lambdaQuery()
+                .eq(ImChatMessageInbox::getReceiverId, pullReq.getUserId())
+                .eq(pullReq.getMessageType() != null, ImChatMessageInbox::getMessageType, pullReq.getMessageType())
+                .lt(ImChatMessageInbox::getSendTime, startTime)
+                .lt(pullReq.getMinMessageId() != null, ImChatMessageInbox::getMessageId, pullReq.getMinMessageId())
+                .eq(StringUtils.isNotEmpty(pullReq.getSenderId()), ImChatMessageInbox::getSenderId, pullReq.getSenderId())
+                .last("limit 100")
+                .list();
+
+        if (CollectionUtil.isNotEmpty(recentlyInboxMessages)) {
+            List<ImChatMessageEntity> recentlyInboxMessageList = chatMessageService.lambdaQuery()
+                    .in(ImChatMessageEntity::getSenderId, recentlyInboxMessages.stream().map(ImChatMessageInbox::getSenderId).collect(Collectors.toList()))
+                    .in(ImChatMessageEntity::getId, recentlyInboxMessages.stream().map(ImChatMessageInbox::getMessageId).collect(Collectors.toList()))
+                    .list();
+            list.addAll(recentlyInboxMessageList);
+
+        }
+
+        List<ImChatMessageEntity> recentlySentMessages = chatMessageService.lambdaQuery()
+                .eq(ImChatMessageEntity::getSenderId, pullReq.getUserId())
+                .eq(pullReq.getMessageType() != null, ImChatMessageEntity::getMessageType, pullReq.getMessageType())
+                .lt(ImChatMessageEntity::getSendTime, startTime)
+                .lt(pullReq.getMinMessageId() != null, ImChatMessageEntity::getId, pullReq.getMinMessageId())
+                .eq(StringUtils.isNotEmpty(pullReq.getReceiverId()), ImChatMessageEntity::getReceiverId, pullReq.getReceiverId())
+                .last("limit 100")
+                .list();
+
+        list.addAll(recentlySentMessages);
+
+        return new ChatMessagePullResult(list);
     }
 
     /**

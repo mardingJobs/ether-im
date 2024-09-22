@@ -47,3 +47,7 @@ rocketmq:
 redis:
   arrange:
     type: single # single or cluster
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

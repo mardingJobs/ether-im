@@ -1,7 +1,8 @@
 package cn.ether.im.message.controller;
 
 import cn.ether.im.common.model.ImChatMessageSentResult;
-import cn.ether.im.message.model.dto.ChatMessageQueryReq;
+import cn.ether.im.message.model.dto.ChatMessagePullReq;
+import cn.ether.im.message.model.dto.ChatMessagePullResult;
 import cn.ether.im.message.model.dto.ChatMessageSendReq;
 import cn.ether.im.message.model.dto.Resp;
 import cn.ether.im.message.service.MessageService;
@@ -37,14 +38,15 @@ public class MessageController {
     }
 
     /**
-     * 查询消息
+     * 拉取最近用户的收件箱消息和发件箱消息
      *
      * @param req
      * @return
      */
-    @PostMapping("/query")
-    public Resp queryMessage(@RequestBody ChatMessageQueryReq req) {
-        return Resp.success(null);
+    @PostMapping("/pullRecentMessages")
+    public Resp pullRecentMessages(@RequestBody ChatMessagePullReq req) {
+        ChatMessagePullResult result = messageService.pullRecentMessages(req);
+        return Resp.success(result);
     }
 
 

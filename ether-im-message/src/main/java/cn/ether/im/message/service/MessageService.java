@@ -2,6 +2,8 @@ package cn.ether.im.message.service;
 
 import cn.ether.im.common.model.ImChatMessageSentResult;
 import cn.ether.im.common.model.message.ImMessageEvent;
+import cn.ether.im.message.model.dto.ChatMessagePullReq;
+import cn.ether.im.message.model.dto.ChatMessagePullResult;
 import cn.ether.im.message.model.dto.ChatMessageSendReq;
 import cn.ether.im.message.model.entity.ImMessageEventLogEntity;
 
@@ -25,6 +27,11 @@ public interface MessageService {
     ImChatMessageSentResult sendMessage(ChatMessageSendReq req);
 
     /**
+     * @return
+     */
+    ChatMessagePullResult pullRecentMessages(ChatMessagePullReq pullReq);
+
+    /**
      * 发送消息，使用事务保证保存消息到数据库和发送MQ消息一致性
      *
      * @param req
@@ -38,6 +45,7 @@ public interface MessageService {
     void onMessageEvent(ImMessageEvent messageEvent);
 
     void onMessageEventV2(ImMessageEvent messageEvent);
+
 
 
 
