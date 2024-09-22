@@ -18,7 +18,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,sender_id,sender_group,
+        id,message_type,sender_id,sender_group,
         sender_terminal,receiver_id,receiver_group,
         status,content,content_type,
         send_time,create_time
