@@ -26,7 +26,7 @@ import javax.annotation.Resource;
         externalDocs = @ExternalDocumentation(
                 description = "对话消息接口文档",
                 url = "https://www.google.com"))
-@RequestMapping("/message")
+@RequestMapping("/chatMessage")
 @RestController
 public class ChatMessageController {
 

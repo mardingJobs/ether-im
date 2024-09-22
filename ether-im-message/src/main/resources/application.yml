@@ -9,3 +9,8 @@ spring:
         server-addr: 192.168.1.4:8848
         username: nacos
         password: nacos
+
+
+server:
+  servlet:
+    context-path: /im-message
