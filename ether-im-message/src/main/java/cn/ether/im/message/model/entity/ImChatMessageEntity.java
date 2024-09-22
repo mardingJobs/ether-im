@@ -31,7 +31,7 @@ public class ImChatMessageEntity implements Serializable {
     /**
      * 消息类型：单聊 群聊
      */
-    private ImChatMessageType type;
+    private ImChatMessageType messageType;
     /**
      * 发送者ID
      */
