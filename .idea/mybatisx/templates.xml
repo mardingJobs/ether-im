@@ -67,8 +67,8 @@
             <option name="tableUIInfoList">
               <list>
                 <TableUIInfo>
-                  <option name="className" value="ImGroupUser" />
-                  <option name="tableName" value="im_group_user" />
+                  <option name="className" value="ImChatMessageInbox" />
+                  <option name="tableName" value="im_chat_message_inbox" />
                 </TableUIInfo>
               </list>
             </option>

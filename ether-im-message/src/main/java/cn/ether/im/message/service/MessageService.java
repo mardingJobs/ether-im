@@ -17,7 +17,7 @@ public interface MessageService {
      * 保存消息成功,消息状态是INIT
      * 如果发送MQ消息失败，消息状态是SENT_FAIL
      * 如果消息发送成功，消息状态是SENT
-     * 对于消息发送失败的消息，可以通过定时任务重试
+     * 对于消息发送失败的消息，这里不处理，由调用方自己处理
      *
      * @param req
      * @return

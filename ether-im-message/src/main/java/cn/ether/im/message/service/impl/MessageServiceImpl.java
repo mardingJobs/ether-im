@@ -14,12 +14,10 @@ import cn.ether.im.common.mq.ImMessageSender;
 import cn.ether.im.common.util.SnowflakeUtil;
 import cn.ether.im.message.model.dto.ChatMessageSendReq;
 import cn.ether.im.message.model.entity.ImChatMessageEntity;
+import cn.ether.im.message.model.entity.ImChatMessageInbox;
 import cn.ether.im.message.model.entity.ImGroupUser;
 import cn.ether.im.message.model.entity.ImMessageEventLogEntity;
-import cn.ether.im.message.service.ImChatMessageService;
-import cn.ether.im.message.service.ImGroupUserService;
-import cn.ether.im.message.service.ImMessageEventLogEntityService;
-import cn.ether.im.message.service.MessageService;
+import cn.ether.im.message.service.*;
 import cn.ether.im.sdk.client.EtherImClient;
 import cn.ether.im.sdk.listener.MessageEventStatusMachine;
 import cn.hutool.core.bean.BeanUtil;
@@ -57,6 +55,9 @@ public class MessageServiceImpl implements MessageService {
     private ImChatMessageService chatMessageService;
 
     @Resource
+    private ImChatMessageInboxService inboxService;
+
+    @Resource
     private ImMessageEventLogEntityService messageEventLogEntityService;
 
     @Resource
@@ -79,6 +80,15 @@ public class MessageServiceImpl implements MessageService {
         ImChatMessageEntity entity = toEntity(req);
         try {
             boolean saved = chatMessageService.save(entity);
+            if (saved) {
+                ImChatMessageInbox inbox = new ImChatMessageInbox();
+                inbox.setMessageId(entity.getId());
+                inbox.setMessageType(entity.getMessageType());
+                inbox.setReceiverId(entity.getReceiverId());
+                inbox.setSenderId(entity.getSenderId());
+                inbox.setSendTime(entity.getSendTime());
+                saved = inboxService.save(inbox);
+            }
             if (!saved) throw new RuntimeException();
         } catch (DuplicateKeyException e) {
             throw new ImException(ImExceptionCode.MESSAGE_DUPLICATION);
