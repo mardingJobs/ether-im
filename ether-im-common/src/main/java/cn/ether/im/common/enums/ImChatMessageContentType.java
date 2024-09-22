@@ -5,7 +5,7 @@ package cn.ether.im.common.enums;
  * * @Date    2024/9/15 20:57
  * * @Description
  **/
-public enum MessageContentType {
+public enum ImChatMessageContentType {
 
     TEXT,
     IMAGE,

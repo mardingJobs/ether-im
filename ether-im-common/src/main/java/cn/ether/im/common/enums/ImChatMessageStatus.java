@@ -16,7 +16,7 @@
 package cn.ether.im.common.enums;
 
 
-public enum ImMessageStatus {
+public enum ImChatMessageStatus {
 
     /**
      * 消息初始化状态，刚保存到数据库的状态
@@ -49,7 +49,7 @@ public enum ImMessageStatus {
 
     private final String desc;
 
-    ImMessageStatus(String desc) {
+    ImChatMessageStatus(String desc) {
         this.desc = desc;
     }
 

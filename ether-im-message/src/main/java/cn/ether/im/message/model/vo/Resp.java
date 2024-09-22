@@ -1,7 +1,8 @@
-package cn.ether.im.message.model.dto;
+package cn.ether.im.message.model.vo;
 
 import cn.ether.im.common.enums.ImExceptionCode;
 import cn.ether.im.common.exception.ImException;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -9,11 +10,25 @@ import lombok.Data;
  * * @Date    2024/9/15 15:10
  * * @Description
  **/
+@Schema(description = "响应返回数据对象")
 @Data
 public class Resp {
-
+    @Schema(
+            title = "code",
+            description = "响应码",
+            format = "int32",
+            requiredMode = Schema.RequiredMode.REQUIRED
+    )
     private Integer code;
+    @Schema(
+            title = "msg",
+            description = "响应信息",
+            accessMode = Schema.AccessMode.READ_ONLY,
+            example = "success",
+            requiredMode = Schema.RequiredMode.REQUIRED
+    )
     private String msg;
+    @Schema(title = "data", description = "响应数据", accessMode = Schema.AccessMode.READ_ONLY)
     private Object data;
 
 

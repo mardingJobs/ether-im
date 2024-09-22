@@ -1,7 +1,7 @@
 package cn.ether.im.message.controller.advice;
 
 
-import cn.ether.im.message.model.dto.Resp;
+import cn.ether.im.message.model.vo.Resp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.ExceptionHandler;

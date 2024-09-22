@@ -8,8 +8,8 @@ import cn.ether.im.common.model.message.ImChatMessage;
 import cn.ether.im.common.model.message.ImMessageEvent;
 import cn.ether.im.common.model.user.ImUser;
 import cn.ether.im.message.model.entity.ImChatMessageEntity;
+import cn.ether.im.message.service.ChatMessageService;
 import cn.ether.im.message.service.ImChatMessageService;
-import cn.ether.im.message.service.MessageService;
 import cn.ether.im.sdk.client.EtherImClient;
 import cn.ether.im.sdk.listener.ImMessageEventListener;
 import com.alibaba.fastjson.JSON;
@@ -29,7 +29,7 @@ import java.util.Collections;
 public class WithDrawnMessageEventListener implements ImMessageEventListener {
 
     @Resource
-    private MessageService messageService;
+    private ChatMessageService messageService;
 
     @Resource
     private ImChatMessageService personalMessageService;

@@ -1,7 +1,7 @@
 package cn.ether.im.common.model.message;
 
+import cn.ether.im.common.enums.ImChatMessageContentType;
 import cn.ether.im.common.enums.ImChatMessageType;
-import cn.ether.im.common.enums.MessageContentType;
 import cn.ether.im.common.model.user.ImUser;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import lombok.Data;
@@ -42,7 +42,7 @@ public class ImChatMessage extends ImMessage {
     /**
      * 消息内容类型
      */
-    protected MessageContentType contentType;
+    protected ImChatMessageContentType contentType;
 
     /**
      * 发送时间戳

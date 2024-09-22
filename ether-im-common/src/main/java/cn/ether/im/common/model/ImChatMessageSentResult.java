@@ -1,6 +1,6 @@
 package cn.ether.im.common.model;
 
-import cn.ether.im.common.enums.ImMessageStatus;
+import cn.ether.im.common.enums.ImChatMessageStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -19,12 +19,12 @@ public class ImChatMessageSentResult {
      */
     private String messageId;
 
-    private ImMessageStatus status;
+    private ImChatMessageStatus status;
 
     private String errorMsg;
 
 
-    public ImChatMessageSentResult(String messageId, ImMessageStatus status) {
+    public ImChatMessageSentResult(String messageId, ImChatMessageStatus status) {
         this.messageId = messageId;
         this.status = status;
     }
@@ -36,7 +36,7 @@ public class ImChatMessageSentResult {
      * @return
      */
     public static ImChatMessageSentResult success(Long messageId) {
-        return new ImChatMessageSentResult(String.valueOf(messageId), ImMessageStatus.SENT);
+        return new ImChatMessageSentResult(String.valueOf(messageId), ImChatMessageStatus.SENT);
     }
 
     /**
@@ -46,7 +46,7 @@ public class ImChatMessageSentResult {
      * @return
      */
     public static ImChatMessageSentResult sentFail(Long messageId, String errorMsg) {
-        return new ImChatMessageSentResult(String.valueOf(messageId), ImMessageStatus.INTI, errorMsg);
+        return new ImChatMessageSentResult(String.valueOf(messageId), ImChatMessageStatus.INTI, errorMsg);
     }
 
 }

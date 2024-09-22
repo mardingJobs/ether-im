@@ -1,11 +1,13 @@
 package cn.ether.im.message.controller;
 
-import cn.ether.im.common.model.ImChatMessageSentResult;
 import cn.ether.im.message.model.dto.ChatMessagePullReq;
 import cn.ether.im.message.model.dto.ChatMessagePullResult;
 import cn.ether.im.message.model.dto.ChatMessageSendReq;
-import cn.ether.im.message.model.dto.Resp;
-import cn.ether.im.message.service.MessageService;
+import cn.ether.im.message.model.vo.Resp;
+import cn.ether.im.message.service.ChatMessageService;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,12 +20,18 @@ import javax.annotation.Resource;
  * * @Date    2024/9/15 12:29
  * * @Description
  **/
+@Tag(
+        name = "MessageController",
+        description = "对话消息接口",
+        externalDocs = @ExternalDocumentation(
+                description = "对话消息接口文档",
+                url = "https://www.google.com"))
 @RequestMapping("/message")
 @RestController
-public class MessageController {
+public class ChatMessageController {
 
     @Resource
-    private MessageService messageService;
+    private ChatMessageService messageService;
 
     /**
      * 发送消息
@@ -31,10 +39,11 @@ public class MessageController {
      * @param req
      * @return
      */
+    @Operation(summary = "发送对话消息", description = "包括单聊和群聊消息，如果发送成功的话，会返回消息ID")
     @PostMapping("/send/")
     public Resp send(@RequestBody ChatMessageSendReq req) {
-        ImChatMessageSentResult result = messageService.sendMessage(req);
-        return Resp.success(result);
+        String messageId = messageService.sendMessage(req);
+        return Resp.success(messageId);
     }
 
     /**

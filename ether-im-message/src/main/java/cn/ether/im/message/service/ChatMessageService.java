@@ -1,6 +1,5 @@
 package cn.ether.im.message.service;
 
-import cn.ether.im.common.model.ImChatMessageSentResult;
 import cn.ether.im.common.model.message.ImMessageEvent;
 import cn.ether.im.message.model.dto.ChatMessagePullReq;
 import cn.ether.im.message.model.dto.ChatMessagePullResult;
@@ -12,7 +11,7 @@ import cn.ether.im.message.model.entity.ImMessageEventLogEntity;
  * * @Date    2024/9/15 14:57
  * * @Description
  **/
-public interface MessageService {
+public interface ChatMessageService {
 
     /**
      * 发送消息,先保存消息，然后发送MQ消息
@@ -24,7 +23,7 @@ public interface MessageService {
      * @param req
      * @return
      */
-    ImChatMessageSentResult sendMessage(ChatMessageSendReq req);
+    String sendMessage(ChatMessageSendReq req);
 
     /**
      * @return

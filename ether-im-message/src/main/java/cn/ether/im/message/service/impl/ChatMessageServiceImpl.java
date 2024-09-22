@@ -3,7 +3,6 @@ package cn.ether.im.message.service.impl;
 
 import cn.ether.im.common.enums.*;
 import cn.ether.im.common.exception.ImException;
-import cn.ether.im.common.model.ImChatMessageSentResult;
 import cn.ether.im.common.model.message.ImChatMessage;
 import cn.ether.im.common.model.message.ImMessageEvent;
 import cn.ether.im.common.model.message.ImPersonalMessage;
@@ -47,7 +46,7 @@ import java.util.stream.Collectors;
  **/
 @Slf4j
 @Service
-public class MessageServiceImpl implements MessageService {
+public class ChatMessageServiceImpl implements ChatMessageService {
 
     @Autowired
     private EtherImClient etherImClient;
@@ -75,7 +74,7 @@ public class MessageServiceImpl implements MessageService {
         ImChatMessageEntity entity = new ImChatMessageEntity();
         BeanUtil.copyProperties(req, entity);
         entity.setId(snowflakeUtil.nextId());
-        entity.setStatus(ImMessageStatus.INTI.name());
+        entity.setStatus(ImChatMessageStatus.INTI.name());
         entity.setCreateTime(new Date());
         return entity;
     }
@@ -107,7 +106,8 @@ public class MessageServiceImpl implements MessageService {
      * @param req
      */
     @Override
-    public ImChatMessageSentResult sendMessage(ChatMessageSendReq req) {
+    @Transactional
+    public String sendMessage(ChatMessageSendReq req) {
         // 保存消息
         ImChatMessageEntity entity = saveMessage(req);
         // 发送消息
@@ -132,20 +132,18 @@ public class MessageServiceImpl implements MessageService {
         }
 
         if (CollectionUtil.isEmpty(receivers)) {
-            return ImChatMessageSentResult.sentFail(entity.getId(), "无消息接收者");
+            throw new ImException(ImExceptionCode.NO_MESSAGE_RECEIVER);
         }
 
         boolean sent = etherImClient.sendChatMessage(chatMessage);
         if (sent) {
-            entity.setStatus(ImMessageStatus.SENT.name());
+            entity.setStatus(ImChatMessageStatus.SENT.name());
             chatMessageService.updateById(entity);
-            return ImChatMessageSentResult.success(entity.getId());
         } else {
             log.error("发送消息失败|参数:{}", JSON.toJSONString(chatMessage));
-            entity.setStatus(ImMessageStatus.SENT_FAIL.name());
-            chatMessageService.updateById(entity);
-            return ImChatMessageSentResult.sentFail(entity.getId(), "消息发送失败");
+            throw new ImException(ImExceptionCode.SEND_MESSAGE_TO_MQ_FAIL);
         }
+        return entity.getId().toString();
     }
 
     /**
@@ -266,7 +264,7 @@ public class MessageServiceImpl implements MessageService {
             }
             if (CollectionUtil.isNotEmpty(orderedEventList)) {
                 ImMessageEventLogEntity newestLog = orderedEventList.get(orderedEventList.size() - 1);
-                ImMessageStatus status = ImMessageEventType.valueOf(newestLog.getEventType()).getNextStatus();
+                ImChatMessageStatus status = ImMessageEventType.valueOf(newestLog.getEventType()).getNextStatus();
                 messageEntity.setStatus(status.name());
                 chatMessageService.updateById(messageEntity);
             }
@@ -289,9 +287,9 @@ public class MessageServiceImpl implements MessageService {
             return;
         }
         String status = messageEntity.getStatus();
-        ImMessageStatus messageStatus = ImMessageStatus.valueOf(status);
+        ImChatMessageStatus messageStatus = ImChatMessageStatus.valueOf(status);
 
-        ImMessageStatus nextStatus = MessageEventStatusMachine.nextStatus(messageStatus, messageEvent.getEventType());
+        ImChatMessageStatus nextStatus = MessageEventStatusMachine.nextStatus(messageStatus, messageEvent.getEventType());
         if (nextStatus == null) {
             saveMessageEventLog(messageEvent);
             return;
