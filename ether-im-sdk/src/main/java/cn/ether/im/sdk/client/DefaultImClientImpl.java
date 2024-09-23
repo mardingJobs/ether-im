@@ -29,8 +29,8 @@ public class DefaultImClientImpl implements EtherImClient {
      * @param chatMessage
      */
     @Override
-    public boolean sendChatMessage(ImChatMessage chatMessage) {
-        return messageSender.sendChatMessage(chatMessage);
+    public void sendChatMessage(ImChatMessage chatMessage) throws Exception {
+        messageSender.sendChatMessage(chatMessage);
     }
 
 }

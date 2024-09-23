@@ -23,7 +23,7 @@ public interface ChatMessageService {
      * @param req
      * @return
      */
-    String sendMessage(ChatMessageSendReq req);
+    String sendMessage(ChatMessageSendReq req) throws Exception;
 
     /**
      * @return

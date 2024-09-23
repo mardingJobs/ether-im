@@ -41,7 +41,7 @@ public class ChatMessageController {
      */
     @Operation(summary = "发送对话消息", description = "包括单聊和群聊消息，如果发送成功的话，会返回消息ID")
     @PostMapping("/send/")
-    public Resp send(@RequestBody ChatMessageSendReq req) {
+    public Resp send(@RequestBody ChatMessageSendReq req) throws Exception {
         String messageId = messageService.sendMessage(req);
         return Resp.success(messageId);
     }

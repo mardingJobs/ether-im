@@ -14,6 +14,6 @@ public interface ChatMessageSender {
      *
      * @param chatMessage
      */
-    boolean sendChatMessage(ImChatMessage chatMessage);
+    void sendChatMessage(ImChatMessage chatMessage) throws Exception;
 
 }

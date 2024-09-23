@@ -111,7 +111,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
      */
     @Override
     @Transactional
-    public String sendMessage(ChatMessageSendReq req) {
+    public String sendMessage(ChatMessageSendReq req) throws Exception {
         // 保存消息
         ImChatMessageEntity entity = saveMessage(req);
         // 发送消息
@@ -138,15 +138,9 @@ public class ChatMessageServiceImpl implements ChatMessageService {
         if (CollectionUtil.isEmpty(receivers)) {
             throw new ImException(ImExceptionCode.NO_MESSAGE_RECEIVER);
         }
-
-        boolean sent = etherImClient.sendChatMessage(chatMessage);
-        if (sent) {
-            entity.setStatus(ImChatMessageStatus.SENT.name());
-            chatMessageService.updateById(entity);
-        } else {
-            log.error("发送消息失败|参数:{}", JSON.toJSONString(chatMessage));
-            throw new ImException(ImExceptionCode.SEND_MESSAGE_FAIL);
-        }
+        etherImClient.sendChatMessage(chatMessage);
+        entity.setStatus(ImChatMessageStatus.SENT.name());
+        chatMessageService.updateById(entity);
         return entity.getId().toString();
     }
 
@@ -312,6 +306,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
                 return;
             }
         }
+        saveMessageEventLog(messageEvent);
         messageEntity.setStatus(nextStatus.name());
         chatMessageService.updateById(messageEntity);
     }

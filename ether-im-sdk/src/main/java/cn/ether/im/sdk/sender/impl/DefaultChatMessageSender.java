@@ -1,6 +1,8 @@
 package cn.ether.im.sdk.sender.impl;
 
 import cn.ether.im.common.constants.ImConstants;
+import cn.ether.im.common.enums.ImExceptionCode;
+import cn.ether.im.common.exception.ImException;
 import cn.ether.im.common.helper.ImUserContextHelper;
 import cn.ether.im.common.model.message.ImChatMessage;
 import cn.ether.im.common.model.message.ImTopicMessage;
@@ -9,7 +11,6 @@ import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.mq.ImMessageSender;
 import cn.ether.im.sdk.sender.ChatMessageSender;
 import cn.hutool.core.bean.BeanUtil;
-import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -37,26 +38,18 @@ public class DefaultChatMessageSender implements ChatMessageSender {
 
 
     @Override
-    public boolean sendChatMessage(ImChatMessage chatMessage) {
-        try {
-            ImUserTerminal sender = chatMessage.getSender();
-            List<ImUser> receivers = chatMessage.getReceivers();
+    public void sendChatMessage(ImChatMessage chatMessage) throws Exception {
+        ImUserTerminal sender = chatMessage.getSender();
+        List<ImUser> receivers = chatMessage.getReceivers();
 
-            List<ImUserTerminal> targetTerminalList = onlineTerminals(receivers, null);
-            if (targetTerminalList.isEmpty()) {
-                log.info("无接收终端在线,MessageId:{}", chatMessage.getId());
-                return false;
-            }
-            doSendToTargetTerminal(chatMessage, targetTerminalList);
-
-            // 发送消息到自己的其他终端
-            List<ImUserTerminal> otherSelfTerminals = onlineTerminals(Collections.singletonList(sender.cloneUser()), sender);
-            doSendToTargetTerminal(chatMessage, otherSelfTerminals);
-        } catch (Exception e) {
-            log.error("消息发送失败,消息ID：{}", chatMessage.getId(), e);
-            return false;
+        List<ImUserTerminal> targetTerminalList = onlineTerminals(receivers, null);
+        if (targetTerminalList.isEmpty()) {
+            throw new ImException(ImExceptionCode.NO_ONLINE_TERMINAL);
         }
-        return true;
+        // 获取自己其他在线终端
+        List<ImUserTerminal> otherSelfTerminals = onlineTerminals(Collections.singletonList(sender.cloneUser()), sender);
+        targetTerminalList.addAll(otherSelfTerminals);
+        doSendToTargetTerminal(chatMessage, targetTerminalList);
     }
 
     private void doSendToTargetTerminal(ImChatMessage chatMessage, List<ImUserTerminal> onlineTerminals) throws Exception {
@@ -69,12 +62,9 @@ public class DefaultChatMessageSender implements ChatMessageSender {
             newChatMessage.setReceiverTerminals(entry.getValue());
             return new ImTopicMessage<>(newChatMessage, ImConstants.IM_CHAT_MESSAGE_TOPIC, entry.getKey());
         }).collect(Collectors.toList());
-
         boolean send = messageSender.batchSend(topicMessages);
-        if (send) {
-            log.info("发送对话MQ消息成功，TopicMessage:{}", JSON.toJSONString(topicMessages));
-        } else {
-            log.error("发送对话MQ消息失败，TopicMessage:{}", JSON.toJSONString(topicMessages));
+        if (!send) {
+            throw new ImException(ImExceptionCode.MESSAGE_SENT_TO_MQ_FAIL);
         }
     }
 
