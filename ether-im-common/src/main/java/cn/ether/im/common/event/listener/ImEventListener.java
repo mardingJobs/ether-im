@@ -1,7 +1,7 @@
-package cn.ether.im.common.event;
+package cn.ether.im.common.event.listener;
 
 
-import cn.ether.im.common.enums.ImMessageEventType;
+import cn.ether.im.common.event.ImMessageEventType;
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.stereotype.Component;
 

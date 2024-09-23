@@ -23,7 +23,8 @@ public class ImIdentityChannelHandler extends SimpleChannelInboundHandler<Object
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
-        log.info("msg:{}", msg);
+        // 传递给下一个handler
+        ctx.fireChannelRead(msg);
     }
 
     @Override

@@ -1,15 +1,15 @@
 package cn.ether.im.message.listener;
 
-import cn.ether.im.common.event.ImEventListener;
+import cn.ether.im.common.event.listener.ImEventListener;
+import cn.ether.im.common.event.listener.ImMessageEventListener;
 import cn.ether.im.common.model.message.ImMessageEvent;
 import cn.ether.im.message.service.ChatMessageService;
-import cn.ether.im.sdk.listener.ImMessageEventListener;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Resource;
 
-import static cn.ether.im.common.enums.ImMessageEventType.*;
+import static cn.ether.im.common.event.ImMessageEventType.*;
 
 /** 消息状态持久化
  * * @Author: Martin

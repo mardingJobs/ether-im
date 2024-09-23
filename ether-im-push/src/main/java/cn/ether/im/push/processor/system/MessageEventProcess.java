@@ -1,6 +1,7 @@
 package cn.ether.im.push.processor.system;
 
 import cn.ether.im.common.enums.ImExceptionCode;
+import cn.ether.im.common.event.MessageEventBroadcast;
 import cn.ether.im.common.exception.ImException;
 import cn.ether.im.common.model.message.ImMessageEvent;
 import cn.ether.im.push.mq.ImMessageEventProducer;
@@ -20,15 +21,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class MessageEventProcess implements SystemMessageProcess<ImMessageEvent> {
 
+
+    @Autowired
+    private MessageEventBroadcast messageBroadcast;
+
     @Autowired
     private ImMessageEventProducer eventProducer;
 
     @Override
-    public void process(ChannelHandlerContext ctx, ImMessageEvent message) {
+    public void process(ChannelHandlerContext ctx, ImMessageEvent messageEvent) {
+
+        messageBroadcast.broadcast(messageEvent);
         try {
-            eventProducer.publish(message);
+            eventProducer.publish(messageEvent);
         } catch (Exception e) {
-            log.error("发布消息事件失败,MessageEvent:{}", JSON.toJSONString(message), e);
+            log.error("发布消息事件失败,MessageEvent:{}", JSON.toJSONString(messageEvent), e);
             throw new ImException(ImExceptionCode.PUBLISH_MESSAGE_EVENT_FAIL);
         }
     }

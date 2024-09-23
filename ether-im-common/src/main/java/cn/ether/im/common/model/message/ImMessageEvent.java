@@ -1,7 +1,7 @@
 package cn.ether.im.common.model.message;
 
 import cn.ether.im.common.enums.ImChatMessageType;
-import cn.ether.im.common.enums.ImMessageEventType;
+import cn.ether.im.common.event.ImMessageEventType;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import lombok.Data;
 

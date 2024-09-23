@@ -1,4 +1,4 @@
-package cn.ether.im.sdk.listener;
+package cn.ether.im.common.event;
 
 import cn.ether.im.common.model.message.ImMessageEvent;
 

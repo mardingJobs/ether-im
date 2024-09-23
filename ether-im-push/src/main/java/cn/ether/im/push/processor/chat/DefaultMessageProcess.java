@@ -1,20 +1,15 @@
 package cn.ether.im.push.processor.chat;
 
-import cn.ether.im.common.enums.ImChatMessageType;
-import cn.ether.im.common.enums.ImMessageEventType;
+import cn.ether.im.common.event.ImMessageEventType;
 import cn.ether.im.common.model.message.ImChatMessage;
 import cn.ether.im.common.model.message.ImMessageEvent;
 import cn.ether.im.common.model.user.ImUserTerminal;
-import cn.ether.im.push.cache.UserChannelCache;
 import cn.ether.im.push.mq.ImMessageEventProducer;
-import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.fastjson.JSON;
-import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -29,25 +24,15 @@ public class DefaultMessageProcess implements ChatMessageProcess {
     @Resource
     private ImMessageEventProducer eventProducer;
 
+    @Resource
+    private RetryableMessageFlusher messageFlusher;
+
 
     @Override
     public void process(ImChatMessage message) {
         List<ImUserTerminal> receiverTerminals = message.getReceiverTerminals();
         for (ImUserTerminal terminal : receiverTerminals) {
-            ChannelHandlerContext ctx = UserChannelCache.getChannelCtx(terminal.getUserId(),
-                    terminal.getTerminalType().toString());
-            if (ctx != null) {
-                ImChatMessage copiedMessage = BeanUtil.copyProperties(message, ImChatMessage.class, "receiverTerminals", "receivers");
-                copiedMessage.setReceivers(null);
-                copiedMessage.setReceiverTerminals(null);
-                // 写入并刷新消息，这里无法知道消息是否触达终端
-                ctx.writeAndFlush(copiedMessage); // writeAndFlush 后，如果抛出异常，会导致重复消费。
-
-                List<ImChatMessageType> noPublishTypes = Arrays.asList(ImChatMessageType.READ, ImChatMessageType.WITH_DRAWN);
-                if (!noPublishTypes.contains(message.getType())) {
-                    publishMessageEvent(message, terminal);
-                }
-            }
+            messageFlusher.flush(terminal, message);
         }
     }
 

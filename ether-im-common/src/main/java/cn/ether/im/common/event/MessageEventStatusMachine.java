@@ -1,7 +1,6 @@
-package cn.ether.im.sdk.listener;
+package cn.ether.im.common.event;
 
 import cn.ether.im.common.enums.ImChatMessageStatus;
-import cn.ether.im.common.enums.ImMessageEventType;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import java.util.HashMap;

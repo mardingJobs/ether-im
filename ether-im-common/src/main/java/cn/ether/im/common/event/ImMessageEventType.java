@@ -1,4 +1,6 @@
-package cn.ether.im.common.enums;
+package cn.ether.im.common.event;
+
+import cn.ether.im.common.enums.ImChatMessageStatus;
 
 /**
  * * @Author: Martin
