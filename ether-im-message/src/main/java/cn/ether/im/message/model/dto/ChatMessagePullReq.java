@@ -14,11 +14,8 @@ import lombok.Data;
 @Data
 public class ChatMessagePullReq {
 
-    private String userId;
-
-    private String senderId;
-
-    private String receiverId;
+    @Schema(description = "联系人ID")
+    private String contactId;
 
     @Schema(description = "消息类型", example = "PERSONAL｜GROUP")
     private ImChatMessageType messageType;

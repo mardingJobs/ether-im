@@ -83,6 +83,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
         entity.setSenderId(userTerminal.getUserId());
         entity.setSenderTerminal(userTerminal.getTerminalType().name());
         entity.setStatus(ImChatMessageStatus.INTI.name());
+        entity.setSendTime(new Date().getTime());
         entity.setCreateTime(new Date());
         return entity;
     }
@@ -100,7 +101,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
                 inbox.setSendTime(entity.getSendTime());
                 saved = inboxService.save(inbox);
             }
-            if (!saved) throw new RuntimeException();
+            if (!saved) throw new ImException(ImExceptionCode.MESSAGE_PERSIST_FAIL);
         } catch (DuplicateKeyException e) {
             throw new ImException(ImExceptionCode.MESSAGE_DUPLICATION);
         } catch (Exception e) {
@@ -156,16 +157,18 @@ public class ChatMessageServiceImpl implements ChatMessageService {
      */
     @Override
     public ChatMessagePullResult pullRecentMessages(ChatMessagePullReq pullReq) {
+        ImUserTerminal userTerminal = SessionContext.loggedUser();
+
         List<ImChatMessageEntity> list = new LinkedList<>();
 
         long startTime = DateUtils.addMonths(new Date(), -1).getTime();
         // 收件箱
         List<ImChatMessageInbox> recentlyInboxMessages = inboxService.lambdaQuery()
-                .eq(ImChatMessageInbox::getReceiverId, pullReq.getUserId())
+                .eq(ImChatMessageInbox::getReceiverId, userTerminal.getUserId())
                 .eq(pullReq.getMessageType() != null, ImChatMessageInbox::getMessageType, pullReq.getMessageType())
                 .lt(ImChatMessageInbox::getSendTime, startTime)
                 .lt(pullReq.getMinMessageId() != null, ImChatMessageInbox::getMessageId, pullReq.getMinMessageId())
-                .eq(StringUtils.isNotEmpty(pullReq.getSenderId()), ImChatMessageInbox::getSenderId, pullReq.getSenderId())
+                .eq(StringUtils.isNotEmpty(pullReq.getContactId()), ImChatMessageInbox::getSenderId, pullReq.getContactId())
                 .last("limit 100")
                 .list();
 
@@ -179,11 +182,11 @@ public class ChatMessageServiceImpl implements ChatMessageService {
         }
 
         List<ImChatMessageEntity> recentlySentMessages = chatMessageService.lambdaQuery()
-                .eq(ImChatMessageEntity::getSenderId, pullReq.getUserId())
+                .eq(ImChatMessageEntity::getSenderId, pullReq.getContactId())
                 .eq(pullReq.getMessageType() != null, ImChatMessageEntity::getMessageType, pullReq.getMessageType())
                 .lt(ImChatMessageEntity::getSendTime, startTime)
                 .lt(pullReq.getMinMessageId() != null, ImChatMessageEntity::getId, pullReq.getMinMessageId())
-                .eq(StringUtils.isNotEmpty(pullReq.getReceiverId()), ImChatMessageEntity::getReceiverId, pullReq.getReceiverId())
+                .eq(StringUtils.isNotEmpty(pullReq.getContactId()), ImChatMessageEntity::getReceiverId, pullReq.getContactId())
                 .last("limit 100")
                 .list();
 
