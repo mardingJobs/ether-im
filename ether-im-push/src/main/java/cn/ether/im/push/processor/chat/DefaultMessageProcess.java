@@ -32,7 +32,12 @@ public class DefaultMessageProcess implements ChatMessageProcess {
     public void process(ImChatMessage message) {
         List<ImUserTerminal> receiverTerminals = message.getReceiverTerminals();
         for (ImUserTerminal terminal : receiverTerminals) {
-            messageFlusher.flush(terminal, message);
+            try {
+                messageFlusher.flush(terminal, message);
+            } catch (Exception e) {
+                log.error("消息发送失败,Message:{}", JSON.toJSONString(message), e);
+            }
+
         }
     }
 

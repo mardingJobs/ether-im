@@ -5,6 +5,8 @@ import cn.ether.im.common.enums.ImChatMessageType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * * @Author: Martin
  * * @Date    2024/9/15 15:00
@@ -12,7 +14,7 @@ import lombok.Data;
  **/
 @Schema(description = "发送消息请求对象")
 @Data
-public class ChatMessageSendReq {
+public class ChatMessageSendReq implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
