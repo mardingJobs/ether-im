@@ -11,7 +11,6 @@
     <modules>
         <module>ether-im-sdk</module>
         <module>ether-im-common</module>
-        <module>ether-im-test</module>
         <module>ether-im-push</module>
         <module>ether-im-message</module>
         <module>ether-im-gateway</module>
