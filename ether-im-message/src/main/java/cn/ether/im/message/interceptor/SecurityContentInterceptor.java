@@ -33,13 +33,6 @@ public class SecurityContentInterceptor implements HandlerInterceptor {
                 }
             }
         }
-
-        // 检查body
-        String body = getBody(request);
-        if (XssUtils.checkXss(body)) {
-            response.setStatus(403);
-            return false;
-        }
         return true;
     }
 
