@@ -5,6 +5,7 @@ import cn.ether.im.common.model.message.ImChatMessage;
 import cn.ether.im.common.model.message.ImMessageEvent;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.push.mq.ImMessageEventProducer;
+import cn.ether.im.push.processor.flusher.ImMessageFlusher;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -25,7 +26,7 @@ public class DefaultMessageProcess implements ChatMessageProcess {
     private ImMessageEventProducer eventProducer;
 
     @Resource
-    private RetryableMessageFlusher messageFlusher;
+    private ImMessageFlusher messageFlusher;
 
 
     @Override

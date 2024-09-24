@@ -1,4 +1,4 @@
-package cn.ether.im.push.processor.chat;
+package cn.ether.im.push.processor.flusher;
 
 /**
  * * @Author: Martin(微信：martin-jobs)
@@ -29,12 +29,16 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @ImEventListener(listenEventTypes = ImMessageEventType.REACHED)
 @Component
-public class RetryableMessageFlusher implements ImMessageEventListener {
+public class RetryableMessageFlusher implements ImMessageEventListener, ImMessageFlusher {
 
-    private static Cache<String, String> REACHED_MESSAGES = CacheBuilder.newBuilder().
-            maximumSize(10).build();
+    private static Cache<String, String> REACHED_MESSAGES = CacheBuilder.newBuilder()
+            .initialCapacity(10)
+            .concurrencyLevel(8)
+            .expireAfterWrite(60, java.util.concurrent.TimeUnit.SECONDS)
+            .maximumSize(100).build();
 
     @Retryable(value = RetryException.class, maxAttempts = 3, backoff = @Backoff(delay = 2000, multiplier = 2))
+    @Override
     public void flush(ImUserTerminal receiverTerminal, ImChatMessage message) {
         String cacheKey = cacheKey(message.getId(), receiverTerminal.getUserId(), receiverTerminal.getTerminalType());
         if (REACHED_MESSAGES.asMap().containsKey(cacheKey)) {
