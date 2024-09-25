@@ -19,7 +19,7 @@ public enum ImExceptionCode {
     NO_MESSAGE_RECEIVER(1004, "没有消息接收人"),
     NO_ONLINE_TERMINAL(1005, "没有在线终端"),
     MESSAGE_SENT_TO_MQ_FAIL(1007, "发送到MQ失败"),
-    SEND_MESSAGE_FAIL(1010, "发送消息失败");
+    SEND_MESSAGE_FAIL(1010, "发送消息失败"), CONVERSATION_NOT_EXIST(1011, "会话不存在");
 
 
     private Integer code;

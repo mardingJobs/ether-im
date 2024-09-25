@@ -6,6 +6,7 @@
 
     <resultMap id="BaseResultMap" type="cn.ether.im.message.model.entity.ImChatMessageEntity">
         <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="conversationId" column="conversation_id" jdbcType="BIGINT"/>
         <result property="messageType" column="message_type" jdbcType="VARCHAR"/>
         <result property="senderId" column="sender_id" jdbcType="VARCHAR"/>
         <result property="senderTerminal" column="sender_terminal" jdbcType="VARCHAR"/>
@@ -18,7 +19,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,message_type,sender_id,sender_group,
+        id,conversation_id,message_type,sender_id,sender_group,
         sender_terminal,receiver_id,receiver_group,
         status,content,content_type,
         send_time,create_time

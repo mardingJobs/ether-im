@@ -54,6 +54,13 @@ public class Resp {
         return resp;
     }
 
+    public static Resp fail() {
+        Resp resp = new Resp();
+        resp.setCode(ImExceptionCode.SUCCESS.getCode());
+        resp.setMsg("操作失败");
+        return resp;
+    }
+
     public static Resp fail(ImException exception) {
         ImExceptionCode exceptionCode = exception.getExceptionCode();
         Resp resp = new Resp();

@@ -19,10 +19,7 @@ import cn.ether.im.common.util.SnowflakeUtil;
 import cn.ether.im.message.model.dto.ChatMessagePullReq;
 import cn.ether.im.message.model.dto.ChatMessagePullResult;
 import cn.ether.im.message.model.dto.ChatMessageSendReq;
-import cn.ether.im.message.model.entity.ImChatMessageEntity;
-import cn.ether.im.message.model.entity.ImChatMessageInbox;
-import cn.ether.im.message.model.entity.ImGroupUser;
-import cn.ether.im.message.model.entity.ImMessageEventLogEntity;
+import cn.ether.im.message.model.entity.*;
 import cn.ether.im.message.model.session.SessionContext;
 import cn.ether.im.message.service.*;
 import cn.ether.im.sdk.client.EtherImClient;
@@ -74,12 +71,22 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     @Resource
     private ImGroupUserService groupUserService;
 
+    @Resource
+    private ImConversationService conversationService;
+
 
     private ImChatMessageEntity toEntity(ChatMessageSendReq req) {
         ImUserTerminal userTerminal = SessionContext.loggedUser();
         ImChatMessageEntity entity = new ImChatMessageEntity();
         BeanUtil.copyProperties(req, entity);
         entity.setId(snowflakeUtil.nextId());
+        if (req.getConversationId() != null) {
+            ImConversationEntity conversation = conversationService.getById(req.getConversationId());
+            if (conversation == null) {
+                throw new ImException(ImExceptionCode.CONVERSATION_NOT_EXIST);
+            }
+        }
+        entity.setConversationId(req.getConversationId());
         entity.setSenderId(userTerminal.getUserId());
         entity.setSenderTerminal(userTerminal.getTerminalType().name());
         entity.setStatus(ImChatMessageStatus.INTI.name());

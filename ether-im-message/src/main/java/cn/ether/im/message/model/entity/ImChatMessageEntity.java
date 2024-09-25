@@ -28,6 +28,11 @@ public class ImChatMessageEntity implements Serializable {
      */
     @TableId
     private Long id;
+
+    /**
+     * 会话ID
+     */
+    private Long conversationId;
     /**
      * 消息类型：单聊 群聊
      */

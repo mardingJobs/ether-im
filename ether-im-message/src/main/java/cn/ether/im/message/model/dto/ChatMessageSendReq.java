@@ -18,6 +18,8 @@ public class ChatMessageSendReq implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Schema(description = "会话ID", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private Long conversationId;
 
     /**
      * 接收者ID 单聊是用户ID，群聊是群ID
