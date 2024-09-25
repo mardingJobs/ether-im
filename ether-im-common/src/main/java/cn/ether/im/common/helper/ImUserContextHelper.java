@@ -38,7 +38,7 @@ public class ImUserContextHelper {
      * @return
      */
     public boolean online(ImUser user) {
-        return CollectionUtil.isNotEmpty(getConnectedServerIds(user));
+        return CollectionUtil.isNotEmpty(getConnectionInfo(user));
     }
 
     /**
@@ -69,7 +69,7 @@ public class ImUserContextHelper {
      * @return
      */
     public List<ImTerminalType> onlineTerminalTypes(ImUser userInfo) {
-        Map<String, String> userConnections = getConnectedServerIds(userInfo);
+        Map<String, String> userConnections = getConnectionInfo(userInfo);
         if (userConnections == null || userConnections.isEmpty()) {
             return Collections.emptyList();
         }
@@ -83,7 +83,7 @@ public class ImUserContextHelper {
      * @return
      */
     public List<ImUserTerminal> onlineTerminals(ImUser userInfo) {
-        Map<String, String> userConnections = getConnectedServerIds(userInfo);
+        Map<String, String> userConnections = getConnectionInfo(userInfo);
         return userConnections.entrySet().stream().map(entry -> new ImUserTerminal(userInfo, ImTerminalType.valueOf(entry.getKey())))
                 .collect(Collectors.toList());
     }
@@ -96,12 +96,12 @@ public class ImUserContextHelper {
      * @return
      */
     public List<String> connectedServerIds(ImUser userInfo) {
-        Map<String, String> userConnections = getConnectedServerIds(userInfo);
+        Map<String, String> userConnections = getConnectionInfo(userInfo);
         return userConnections.values().stream().distinct().collect(Collectors.toList());
     }
 
     public String connectedServerId(ImUserTerminal userTerminal) {
-        Map<String, String> terminalBindedServerIds = getConnectedServerIds(userTerminal);
+        Map<String, String> terminalBindedServerIds = getConnectionInfo(userTerminal);
         if (MapUtil.isNotEmpty(terminalBindedServerIds)) {
             return terminalBindedServerIds.get(userTerminal.getTerminalType().name());
         }
@@ -127,7 +127,7 @@ public class ImUserContextHelper {
      * @param userInfo
      * @return
      */
-    public Map<String, String> getConnectedServerIds(ImUser userInfo) {
+    public Map<String, String> getConnectionInfo(ImUser userInfo) {
         Map<String, String> map = distributedCacheService.hashGet(serverCacheKey(userInfo));
         return map;
     }
