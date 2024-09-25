@@ -1,6 +1,7 @@
 package cn.ether.im.sdk.client;
 
 import cn.ether.im.common.model.message.ImChatMessage;
+import cn.ether.im.common.model.user.ImUser;
 
 /**
  * * @Author: jack
@@ -16,5 +17,9 @@ public interface EtherImClient {
      */
     void sendChatMessage(ImChatMessage chatMessage) throws Exception;
 
+    /**
+     * 判断用户是否在线
+     */
+    boolean isOnline(ImUser user);
 
 }

@@ -1,11 +1,15 @@
-package cn.ether.im.sdk.client;
+package cn.ether.im.sdk.client.impl;
 
+import cn.ether.im.common.helper.ImUserContextHelper;
 import cn.ether.im.common.model.message.ImChatMessage;
-import cn.ether.im.common.util.SnowflakeUtil;
+import cn.ether.im.common.model.user.ImUser;
+import cn.ether.im.sdk.client.EtherImClient;
 import cn.ether.im.sdk.sender.ChatMessageSender;
+import cn.hutool.core.collection.CollectionUtil;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * * @Author: Martin
@@ -20,7 +24,7 @@ public class DefaultImClientImpl implements EtherImClient {
     private ChatMessageSender messageSender;
 
     @Resource
-    private SnowflakeUtil snowflakeUtil;
+    private ImUserContextHelper contextHelper;
 
 
     /**
@@ -31,6 +35,12 @@ public class DefaultImClientImpl implements EtherImClient {
     @Override
     public void sendChatMessage(ImChatMessage chatMessage) throws Exception {
         messageSender.sendChatMessage(chatMessage);
+    }
+
+    @Override
+    public boolean isOnline(ImUser user) {
+        Map<String, String> connectedServerIds = contextHelper.getConnectedServerIds(user);
+        return CollectionUtil.isNotEmpty(connectedServerIds);
     }
 
 }
