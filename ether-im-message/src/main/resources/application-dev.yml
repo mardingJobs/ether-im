@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8081
 
 spring:
   datasource:
@@ -14,7 +14,7 @@ spring:
       connection-timeout: 5000
   redis:
     database: 0
-    host: localhost
+    host: 192.168.1.4
     port: 6379
     password:
     timeout: 3000
@@ -25,7 +25,7 @@ spring:
         max-idle: 8
         min-idle: 0
         max-wait: 5000
-    address: redis://localhost:6379
+    address: redis://192.168.1.4:6379
   application:
     name: ether-im-message
 
