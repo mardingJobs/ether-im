@@ -24,6 +24,12 @@ public class ImSystemMessage extends ImMessage {
      */
     private ImSystemMessageType type;
 
+    public ImSystemMessage() {
+    }
+
+    public ImSystemMessage(ImSystemMessageType type) {
+        this.type = type;
+    }
 
     public static ImSystemMessage parseObject(String json) {
         ImSystemMessage imSystemMessage = JSON.parseObject(json, ImSystemMessage.class);

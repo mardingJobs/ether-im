@@ -86,7 +86,8 @@ public class WebSocketImServer implements ImPushServer {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
                         ch.pipeline()
-                                .addLast(new IdleStateHandler(20, 0, 0))
+                                // 读空闲时间为 4分钟，小于一般运营商的NAT超时时间。
+                                .addLast(new IdleStateHandler(5, 0, 0))
                                 .addLast("http-codec", new HttpServerCodec())
                                 .addLast("aggregator", new HttpObjectAggregator(65535))
                                 .addLast("http-chunked", new ChunkedWriteHandler())

@@ -20,14 +20,16 @@ import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.helper.ImUserContextHelper;
 import cn.ether.im.common.model.message.ImHeartbeatMessage;
 import cn.ether.im.common.model.user.ImUserTerminal;
+import cn.ether.im.push.cache.UserChannelCache;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.AttributeKey;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Component
 public class HeartbeatProcess implements SystemMessageProcess<ImHeartbeatMessage> {
 
@@ -37,23 +39,18 @@ public class HeartbeatProcess implements SystemMessageProcess<ImHeartbeatMessage
     @Autowired
     private ImUserContextHelper cacheHelper;
 
-    @Value("${heartbeat.count:10}")
-    private Integer heartbeatCount;
-
     @Override
     public void process(ChannelHandlerContext ctx, ImHeartbeatMessage message) {
-        //设置属性
-        AttributeKey<Long> heartBeatAttr = AttributeKey.valueOf(ImConstants.HEARTBEAT_TIMES);
-        Long heartbeatTimes = ctx.channel().attr(heartBeatAttr).get();
-        if (heartbeatTimes == null) heartbeatTimes = 0L;
-        ctx.channel().attr(heartBeatAttr).set(++heartbeatTimes);
-        if (heartbeatTimes % heartbeatCount == 0) {
-            //心跳10次，用户在线状态续命一次
-            AttributeKey<ImUserTerminal> userAttr = AttributeKey.valueOf(ImConstants.USER_KEY);
-            ImUserTerminal userTerminal = ctx.attr(userAttr).get();
-            if (userTerminal == null) return;
-            String cacheKey = cacheHelper.serverCacheKey(userTerminal);
-            distributedCacheService.expire(cacheKey, ImConstants.ONLINE_TIMEOUT_SECONDS, TimeUnit.SECONDS);
+        ImUserTerminal userTerminal = UserChannelCache.getUserTerminal(ctx);
+        if (userTerminal == null) {
+            log.warn("UserTerminal is null,close channel.RemoteAddress:{}", ctx.channel().remoteAddress());
+            ctx.close();
+            return;
         }
+        // 延续在线时间
+        String cacheKey = cacheHelper.serverCacheKey(userTerminal);
+        distributedCacheService.expire(cacheKey, ImConstants.ONLINE_TIMEOUT_SECONDS, TimeUnit.SECONDS);
+        // 心跳次数清零,重新计算心跳超时时间
+        ctx.channel().attr(AttributeKey.valueOf(ImConstants.HEARTBEAT_TIMES)).set(0);
     }
 }

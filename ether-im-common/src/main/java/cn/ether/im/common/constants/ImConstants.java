@@ -62,7 +62,12 @@ public class ImConstants {
     /**
      * 心跳次数
      */
-    public static final String HEARTBEAT_TIMES = "ht_times";
+    public static final String HEARTBEAT_TIMES = "hb_times";
+
+    /**
+     * 服务器发送心跳最大次数，超过则断开连接
+     */
+    public static final Integer HEARTBEAT_MAX_TIMES = 3;
 
     public static final String MQ_TOPIC_SPLIT = "-";
 

@@ -8,7 +8,7 @@ import cn.ether.im.common.model.message.*;
 public enum ImSystemMessageType {
 
     TOKEN("TOKEN", ImTokenMessage.class),
-    HEART_BEAT("心跳", ImHeartbeatMessage.class),
+    HB("心跳", ImHeartbeatMessage.class),
     EVENT("事件", ImMessageEvent.class),
     ACK("ACK", ImSystemAckMessage.class);
 

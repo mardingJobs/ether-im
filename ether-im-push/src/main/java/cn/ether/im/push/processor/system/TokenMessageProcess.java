@@ -49,10 +49,8 @@ public class TokenMessageProcess implements SystemMessageProcess<ImTokenMessage>
             ctx.channel().close();
             return;
         }
-
         ImUserTerminal imUserTerminal = JSON.parseObject(JwtUtils.getInfo(token), ImUserTerminal.class);
         if (imUserTerminal == null) {
-            log.warn("imUserTerminal is null");
             ctx.channel().close();
             return;
         }

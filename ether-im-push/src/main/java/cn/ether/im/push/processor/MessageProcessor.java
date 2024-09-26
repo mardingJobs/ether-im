@@ -72,7 +72,7 @@ public class MessageProcessor {
         switch (type) {
             case TOKEN:
                 return context.getBean(TokenMessageProcess.class);
-            case HEART_BEAT:
+            case HB:
                 return context.getBean(HeartbeatProcess.class);
             case EVENT:
                 return context.getBean(MessageEventProcess.class);
