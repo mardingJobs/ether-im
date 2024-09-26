@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev-kefu
+    active: dev
   application:
     name: ether-im-push
   cloud:

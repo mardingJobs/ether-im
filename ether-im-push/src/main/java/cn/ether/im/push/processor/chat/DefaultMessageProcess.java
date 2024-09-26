@@ -1,6 +1,7 @@
 package cn.ether.im.push.processor.chat;
 
 import cn.ether.im.common.event.ImMessageEventType;
+import cn.ether.im.common.exception.RetryException;
 import cn.ether.im.common.model.message.ImChatMessage;
 import cn.ether.im.common.model.message.ImMessageEvent;
 import cn.ether.im.common.model.user.ImUserTerminal;
@@ -35,8 +36,10 @@ public class DefaultMessageProcess implements ChatMessageProcess {
         for (ImUserTerminal terminal : receiverTerminals) {
             try {
                 messageFlusher.flush(terminal, message);
+            } catch (RetryException e) {
+                log.warn("重复推送消息后未收到触达消息，MessageId:{},UserTerminal:{}", message.getId(), JSON.toJSONString(terminal));
             } catch (Exception e) {
-                log.error("消息发送失败,Message:{}", JSON.toJSONString(message), e);
+                log.error("消息推送失败,Message:{}", JSON.toJSONString(message), e);
             }
 
         }

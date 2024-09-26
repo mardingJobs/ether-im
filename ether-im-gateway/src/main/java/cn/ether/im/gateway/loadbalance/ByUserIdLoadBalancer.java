@@ -75,7 +75,7 @@ public class ByUserIdLoadBalancer implements ReactorServiceInstanceLoadBalancer 
         }
         int index = Math.abs(userId.hashCode()) % serviceInstances.size();
         ServiceInstance chosenInstance = serviceInstances.get(index);
-        log.info("Chosen Push Server Instance: {}", chosenInstance.getInstanceId());
+        log.info("Chosen Push Server Instance: {}", chosenInstance);
 
         return new DefaultResponse(chosenInstance);
     }
