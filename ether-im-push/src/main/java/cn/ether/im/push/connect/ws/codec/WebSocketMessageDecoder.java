@@ -1,6 +1,6 @@
 package cn.ether.im.push.connect.ws.codec;
 
-import cn.ether.im.common.model.message.ImSystemMessage;
+import cn.ether.im.common.model.message.ImMessage;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
@@ -20,7 +20,10 @@ public class WebSocketMessageDecoder extends MessageToMessageDecoder<TextWebSock
     @Override
     protected void decode(ChannelHandlerContext ctx, TextWebSocketFrame msg, List<Object> out) throws Exception {
         String text = msg.text();
-        ImSystemMessage message = ImSystemMessage.parseObject(text);
-        out.add(message);
+        if (log.isDebugEnabled()) {
+            log.debug("decode message: {}", text);
+        }
+        ImMessage imMessage = ImMessage.parseObject(text);
+        out.add(imMessage);
     }
 }

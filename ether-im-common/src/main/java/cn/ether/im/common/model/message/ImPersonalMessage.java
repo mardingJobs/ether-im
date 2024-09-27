@@ -23,6 +23,6 @@ import lombok.Data;
 public class ImPersonalMessage extends ImChatMessage {
 
     public ImPersonalMessage() {
-        this.setType(ImChatMessageType.PERSONAL);
+        this.setChatMessageType(ImChatMessageType.PERSONAL);
     }
 }

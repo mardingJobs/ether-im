@@ -19,6 +19,6 @@ spring:
             # 路径匹配,所有order的请求都转发到cloud-order-service
             - Path=/im-message/**
   profiles:
-    active: test
+    active: dev
 server:
   port: 8888

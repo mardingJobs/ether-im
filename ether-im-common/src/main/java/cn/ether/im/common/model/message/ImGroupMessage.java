@@ -23,6 +23,6 @@ import lombok.Data;
 public class ImGroupMessage extends ImChatMessage {
 
     public ImGroupMessage() {
-        this.setType(ImChatMessageType.GROUP);
+        this.setChatMessageType(ImChatMessageType.GROUP);
     }
 }

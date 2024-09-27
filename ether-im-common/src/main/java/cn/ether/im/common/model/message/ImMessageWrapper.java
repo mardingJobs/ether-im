@@ -1,6 +1,6 @@
 package cn.ether.im.common.model.message;
 
-import cn.ether.im.common.enums.ImMessageTypeEnum;
+import cn.ether.im.common.enums.ImMessageType;
 import com.alibaba.fastjson.JSON;
 import lombok.Data;
 
@@ -20,14 +20,14 @@ public class ImMessageWrapper<T> extends ImMessageTypeWrapper {
     public ImMessageWrapper() {
     }
 
-    public ImMessageWrapper(ImMessageTypeEnum type, T message) {
+    public ImMessageWrapper(ImMessageType type, T message) {
         this.setType(type);
         this.message = message;
     }
 
     public static ImMessageWrapper parseObject(String json) {
         ImMessageTypeWrapper imMessageTypeWrapper = JSON.parseObject(json, ImMessageTypeWrapper.class);
-        ImMessageTypeEnum type = imMessageTypeWrapper.getType();
+        ImMessageType type = imMessageTypeWrapper.getType();
         switch (type) {
             case CHAT:
                 ImChatMessage chatMessage = JSON.parseObject(json, ImChatMessage.class);

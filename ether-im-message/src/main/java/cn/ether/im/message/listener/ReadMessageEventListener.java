@@ -54,7 +54,7 @@ public class ReadMessageEventListener implements ImMessageEventListener {
         chatMessage.setId(messageId);
         chatMessage.setSender(messageEvent.getTerminal());
         chatMessage.setReceivers(Collections.singletonList(receiver));
-        chatMessage.setType(ImChatMessageType.READ);
+        chatMessage.setChatMessageType(ImChatMessageType.READ);
         chatMessage.setSendTime(messageEvent.getEventTime());
         imClient.sendChatMessage(chatMessage);
     }

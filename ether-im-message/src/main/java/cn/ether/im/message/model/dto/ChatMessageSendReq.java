@@ -31,7 +31,7 @@ public class ChatMessageSendReq implements Serializable {
      * 消息类型: 单聊 群聊
      */
     @Schema(name = "messageType", description = "消息类型", requiredMode = Schema.RequiredMode.REQUIRED, example = "PERSONAL｜GROUP")
-    private ImChatMessageType messageType;
+    private ImChatMessageType chatMessageType;
     /**
      * 消息内容
      */

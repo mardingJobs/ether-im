@@ -13,6 +13,6 @@ public interface IdentifiableMessage {
      *
      * @return
      */
-    String getUniqueId();
+    String uniqueId();
 
 }

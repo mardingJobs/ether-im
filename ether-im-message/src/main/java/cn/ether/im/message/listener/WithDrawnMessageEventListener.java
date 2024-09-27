@@ -62,7 +62,7 @@ public class WithDrawnMessageEventListener implements ImMessageEventListener {
         chatMessage.setId(messageId);
         chatMessage.setSender(messageEvent.getTerminal());
         chatMessage.setReceivers(Collections.singletonList(receiver));
-        chatMessage.setType(ImChatMessageType.WITH_DRAWN);
+        chatMessage.setChatMessageType(ImChatMessageType.WITH_DRAWN);
         chatMessage.setSendTime(messageEvent.getEventTime());
         imClient.sendChatMessage(chatMessage);
     }

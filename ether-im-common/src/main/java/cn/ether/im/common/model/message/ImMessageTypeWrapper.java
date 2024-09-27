@@ -1,6 +1,6 @@
 package cn.ether.im.common.model.message;
 
-import cn.ether.im.common.enums.ImMessageTypeEnum;
+import cn.ether.im.common.enums.ImMessageType;
 import lombok.Data;
 
 /**
@@ -14,6 +14,6 @@ public class ImMessageTypeWrapper {
     /**
      * 消息类型
      */
-    private ImMessageTypeEnum type = ImMessageTypeEnum.CHAT;
+    private ImMessageType type = ImMessageType.CHAT;
 
 }

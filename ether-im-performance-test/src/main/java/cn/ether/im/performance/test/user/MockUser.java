@@ -34,4 +34,9 @@ public class MockUser {
         return users;
     }
 
+
+    @Override
+    public String toString() {
+        return this.getUserId() + ":" + this.getTerminalType();
+    }
 }

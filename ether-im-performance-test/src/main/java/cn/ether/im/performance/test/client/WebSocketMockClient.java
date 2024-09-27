@@ -1,8 +1,12 @@
 package cn.ether.im.performance.test.client;
 
+import cn.ether.im.common.enums.ImChatMessageType;
+import cn.ether.im.common.enums.ImMessageType;
 import cn.ether.im.common.enums.ImSystemMessageType;
-import cn.ether.im.common.model.message.ImHeartbeatMessage;
-import cn.ether.im.common.model.message.ImSystemMessage;
+import cn.ether.im.common.enums.ImTerminalType;
+import cn.ether.im.common.event.ImMessageEventType;
+import cn.ether.im.common.model.message.*;
+import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.util.JwtUtils;
 import cn.ether.im.performance.test.user.MockUser;
 import com.alibaba.fastjson.JSON;
@@ -11,6 +15,8 @@ import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
+import java.util.Date;
+import java.util.Random;
 
 /**
  * * @Author: Martin(微信：martin-jobs)
@@ -43,10 +49,38 @@ public class WebSocketMockClient extends WebSocketClient {
     @Override
     public void onMessage(String message) {
         log.info("onMessage|{},message:{}", JSON.toJSONString(mockUser), message);
-        ImSystemMessage systemMessage = ImSystemMessage.parseObject(message);
-        if (systemMessage.getType() == ImSystemMessageType.HB) {
-            this.send(JSON.toJSONString(new ImHeartbeatMessage()));
+        ImMessage imMessage = ImMessage.parseObject(message);
+        if (imMessage.getMessageType() == ImMessageType.SYSTEM) {
+            ImSystemMessage systemMessage = (ImSystemMessage) imMessage;
+            if (systemMessage.getSystemMessageType() == ImSystemMessageType.HB) {
+                this.send(JSON.toJSONString(new ImHeartbeatMessage()));
+            }
+        } else if (imMessage.getMessageType() == ImMessageType.CHAT) {
+            ImChatMessage chatMessage = (ImChatMessage) imMessage;
+            log.info("【{}】收到对话消息：{}", mockUser, chatMessage);
+
+            int sleepTimes = new Random().nextInt(10);
+            try {
+                log.info("【{}】模拟客户端返回触达事件延迟,时间：{}", mockUser, sleepTimes);
+                Thread.sleep(sleepTimes * 1000);
+                sendReachedEvent(chatMessage);
+            } catch (Exception e) {
+                log.error("【用户终端】处理消息异常", e);
+            }
+
         }
+    }
+
+    private void sendReachedEvent(ImChatMessage chatMessage) {
+        ImMessageEvent messageEvent = new ImMessageEvent();
+        messageEvent.setMessageId(chatMessage.getId());
+        messageEvent.setEventTime(new Date().getTime());
+        messageEvent.setTerminal(new ImUserTerminal(mockUser.getUserId(), ImTerminalType.valueOf(mockUser.getTerminalType())));
+        messageEvent.setEventType(ImMessageEventType.REACHED);
+        messageEvent.setChatMessageType(ImChatMessageType.PERSONAL);
+        messageEvent.setSystemMessageType(ImSystemMessageType.EVENT);
+        this.send(JSON.toJSONString(messageEvent));
+        log.info("【{}】已回复触达事件,MessageId:{}", mockUser, messageEvent.getMessageId());
     }
 
     @Override

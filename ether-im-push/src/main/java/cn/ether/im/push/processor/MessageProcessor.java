@@ -2,7 +2,7 @@ package cn.ether.im.push.processor;
 
 
 import cn.ether.im.common.enums.ImChatMessageType;
-import cn.ether.im.common.enums.ImMessageTypeEnum;
+import cn.ether.im.common.enums.ImMessageType;
 import cn.ether.im.common.enums.ImSystemMessageType;
 import cn.ether.im.common.model.message.ImChatMessage;
 import cn.ether.im.common.model.message.ImMessageWrapper;
@@ -21,7 +21,7 @@ public class MessageProcessor {
 
 
     public static void processMessage(ImMessageWrapper message) {
-        ImMessageTypeEnum messageType = message.getType();
+        ImMessageType messageType = message.getType();
         switch (messageType) {
             case CHAT:
                 processChatMessage((ImChatMessage) message.getMessage());
@@ -36,7 +36,7 @@ public class MessageProcessor {
 
 
     public static void processChatMessage(ImChatMessage chatMessage) {
-        ImChatMessageType type = chatMessage.getType();
+        ImChatMessageType type = chatMessage.getChatMessageType();
         ChatMessageProcess chatMessageProcess = chatMessageProcessor(type);
         chatMessageProcess.process(chatMessage);
     }
@@ -45,7 +45,7 @@ public class MessageProcessor {
         // ACK
 //        ImSystemAckMessage ackMessage = new ImSystemAckMessage(systemMessage.getSeq());
 //        ctx.writeAndFlush(ackMessage);
-        ImSystemMessageType type = systemMessage.getType();
+        ImSystemMessageType type = systemMessage.getSystemMessageType();
         SystemMessageProcess systemMessageProcess = systemMessageProcessor(type);
         systemMessageProcess.process(ctx, systemMessage);
     }

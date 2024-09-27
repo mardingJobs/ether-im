@@ -1,6 +1,7 @@
 package cn.ether.im.common.model.message;
 
 import cn.ether.im.common.enums.ImChatMessageType;
+import cn.ether.im.common.enums.ImSystemMessageType;
 import cn.ether.im.common.event.ImMessageEventType;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import lombok.Data;
@@ -14,17 +15,17 @@ import lombok.Data;
 public class ImMessageEvent extends ImSystemMessage {
 
     /**
-     * 消息id
+     * 原始消息id
      */
     private Long messageId;
 
     /**
      * 消息类型
      */
-    private ImChatMessageType messageType;
+    private ImChatMessageType chatMessageType;
 
     /**
-     * 用户终端
+     * 触发事件的用户终端
      */
     private ImUserTerminal terminal;
 
@@ -38,6 +39,12 @@ public class ImMessageEvent extends ImSystemMessage {
      */
     private Long eventTime;
 
+    public ImMessageEvent() {
+    }
+
+    public ImMessageEvent(ImSystemMessageType systemMessageType) {
+        this.setSystemMessageType(ImSystemMessageType.EVENT);
+    }
 
     /**
      * 获取唯一标识
@@ -45,7 +52,7 @@ public class ImMessageEvent extends ImSystemMessage {
      * @return
      */
     @Override
-    public String getUniqueId() {
+    public String uniqueId() {
         return String.valueOf(this.getMessageId());
     }
 }

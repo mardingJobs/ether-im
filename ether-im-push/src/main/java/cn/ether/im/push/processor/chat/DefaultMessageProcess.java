@@ -33,15 +33,16 @@ public class DefaultMessageProcess implements ChatMessageProcess {
     @Override
     public void process(ImChatMessage message) {
         List<ImUserTerminal> receiverTerminals = message.getReceiverTerminals();
+        // todo 应该使用多线程推送！
         for (ImUserTerminal terminal : receiverTerminals) {
             try {
                 messageFlusher.flush(terminal, message);
+                log.info("flush|消息已推送，等待确认。Message:{}", JSON.toJSONString(message));
             } catch (RetryException e) {
                 log.warn("重复推送消息后未收到触达消息，MessageId:{},UserTerminal:{}", message.getId(), JSON.toJSONString(terminal));
             } catch (Exception e) {
                 log.error("消息推送失败,Message:{}", JSON.toJSONString(message), e);
             }
-
         }
     }
 
@@ -52,7 +53,7 @@ public class DefaultMessageProcess implements ChatMessageProcess {
             messageEvent.setMessageId(message.getId());
             messageEvent.setEventType(ImMessageEventType.PUSHED);
             messageEvent.setTerminal(terminal);
-            messageEvent.setMessageType(message.getType());
+            messageEvent.setChatMessageType(message.getChatMessageType());
             messageEvent.setEventTime(System.currentTimeMillis());
             eventProducer.publish(messageEvent);
         } catch (Exception e) {

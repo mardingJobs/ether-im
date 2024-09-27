@@ -61,7 +61,7 @@
 
     <!-- 输出格式 appender -->
     <springProfile name="dev">
-        <root level="INFO">
+        <root level="DEBUG">
             <appender-ref ref="STDOUT"/>
         </root>
     </springProfile>

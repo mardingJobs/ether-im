@@ -59,7 +59,7 @@ public class RocketMessageSender implements ImMessageSender {
         String messageString = JSON.toJSONString(msgEntity);
         log.info("发送顺序MQ消息：{}", messageString);
         Message<String> msg = MessageBuilder.withPayload(messageString).build();
-        SendResult sendResult = rocketMQTemplate.syncSendOrderly(message.getTopic(), msg, msgEntity.getUniqueId());
+        SendResult sendResult = rocketMQTemplate.syncSendOrderly(message.getTopic(), msg, msgEntity.uniqueId());
         return SendStatus.SEND_OK.equals(sendResult.getSendStatus());
     }
 

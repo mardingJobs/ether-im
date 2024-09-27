@@ -20,6 +20,6 @@ import cn.ether.im.common.enums.ImSystemMessageType;
 public class ImHeartbeatMessage extends ImSystemMessage {
 
     public ImHeartbeatMessage() {
-        super.setType(ImSystemMessageType.HB);
+        super.setSystemMessageType(ImSystemMessageType.HB);
     }
 }

@@ -53,3 +53,9 @@ distribute:
 redis:
   arrange:
     type: single # single or cluster
+
+logging:
+  level:
+    sun:
+      rmi: info
+

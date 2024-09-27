@@ -42,7 +42,7 @@ public class RetryableMessageFlusher implements ImMessageEventListener, ImMessag
     public void flush(ImUserTerminal receiverTerminal, ImChatMessage message) {
         String cacheKey = cacheKey(message.getId(), receiverTerminal.getUserId(), receiverTerminal.getTerminalType());
         if (REACHED_MESSAGES.asMap().containsKey(cacheKey)) {
-            log.info("flush|消息已触达，无需重发");
+            log.info("flush|消息已触达,MessageId:{}", message.getId());
             return;
         }
         ChannelHandlerContext ctx = UserChannelCache.getChannelCtx(receiverTerminal.getUserId(),
@@ -52,7 +52,9 @@ public class RetryableMessageFlusher implements ImMessageEventListener, ImMessag
             copiedMessage.setReceivers(null);
             copiedMessage.setReceiverTerminals(null);
             ctx.writeAndFlush(copiedMessage);
-            log.info("flush|消息已推送，等待确认。Message:{}", JSON.toJSONString(copiedMessage));
+            if (log.isDebugEnabled()) {
+                log.debug("flush|消息已推送，等待确认。Message:{},Terminal:{}", JSON.toJSONString(copiedMessage), JSON.toJSONString(receiverTerminal));
+            }
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
@@ -67,7 +69,7 @@ public class RetryableMessageFlusher implements ImMessageEventListener, ImMessag
 
     @Override
     public void onMessageEvent(ImMessageEvent messageEvent) throws Exception {
-        log.info("监听到消息事件｜{}", JSON.toJSONString(messageEvent));
+        log.info("【MessageFlusher】监听到消息事件｜{}", JSON.toJSONString(messageEvent));
         ImUserTerminal terminal = messageEvent.getTerminal();
         String cacheKey = cacheKey(messageEvent.getMessageId(), terminal.getUserId(), terminal.getTerminalType());
         REACHED_MESSAGES.put(cacheKey, "");

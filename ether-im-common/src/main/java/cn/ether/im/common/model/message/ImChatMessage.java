@@ -2,6 +2,7 @@ package cn.ether.im.common.model.message;
 
 import cn.ether.im.common.enums.ImChatMessageContentType;
 import cn.ether.im.common.enums.ImChatMessageType;
+import cn.ether.im.common.enums.ImMessageType;
 import cn.ether.im.common.model.user.ImUser;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import lombok.Data;
@@ -57,7 +58,11 @@ public class ImChatMessage extends ImMessage {
     /**
      * 消息类型
      */
-    private ImChatMessageType type;
+    private ImChatMessageType chatMessageType;
+
+    public ImChatMessage() {
+        this.setMessageType(ImMessageType.CHAT);
+    }
 
     /**
      * 获取唯一标识
@@ -65,7 +70,7 @@ public class ImChatMessage extends ImMessage {
      * @return
      */
     @Override
-    public String getUniqueId() {
+    public String uniqueId() {
         return String.valueOf(id);
     }
 }

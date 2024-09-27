@@ -79,6 +79,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
         ImUserTerminal userTerminal = SessionContext.loggedUser();
         ImChatMessageEntity entity = new ImChatMessageEntity();
         BeanUtil.copyProperties(req, entity);
+        entity.setType(req.getChatMessageType());
         entity.setId(snowflakeUtil.nextId());
         if (req.getConversationId() != null) {
             ImConversationEntity conversation = conversationService.getById(req.getConversationId());
@@ -102,7 +103,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
             if (saved) {
                 ImChatMessageInbox inbox = new ImChatMessageInbox();
                 inbox.setMessageId(entity.getId());
-                inbox.setMessageType(entity.getMessageType());
+                inbox.setMessageType(entity.getType());
                 inbox.setReceiverId(entity.getReceiverId());
                 inbox.setSenderId(entity.getSenderId());
                 inbox.setSendTime(entity.getSendTime());
@@ -133,7 +134,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
         // 群消息
         List<ImUser> receivers = null;
-        ImChatMessageType messageType = req.getMessageType();
+        ImChatMessageType messageType = req.getChatMessageType();
         if (messageType == ImChatMessageType.GROUP) {
             String receiverId = req.getReceiverId();
             List<ImGroupUser> groupUsers = groupUserService.lambdaQuery().eq(ImGroupUser::getGroupId, receiverId).list();
@@ -190,7 +191,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
         List<ImChatMessageEntity> recentlySentMessages = chatMessageService.lambdaQuery()
                 .eq(ImChatMessageEntity::getSenderId, pullReq.getContactId())
-                .eq(pullReq.getMessageType() != null, ImChatMessageEntity::getMessageType, pullReq.getMessageType())
+                .eq(pullReq.getMessageType() != null, ImChatMessageEntity::getType, pullReq.getMessageType())
                 .lt(ImChatMessageEntity::getSendTime, startTime)
                 .lt(pullReq.getMinMessageId() != null, ImChatMessageEntity::getId, pullReq.getMinMessageId())
                 .eq(StringUtils.isNotEmpty(pullReq.getContactId()), ImChatMessageEntity::getReceiverId, pullReq.getContactId())
@@ -247,7 +248,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
     public void onMessageEvent(ImMessageEvent messageEvent) {
 
-        ImChatMessageType messageType = messageEvent.getMessageType();
+        ImChatMessageType messageType = messageEvent.getChatMessageType();
         if (messageType == ImChatMessageType.PERSONAL) {
             ImChatMessageEntity messageEntity = chatMessageService.getById(messageEvent.getMessageId());
             if (messageEntity == null) {

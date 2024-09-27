@@ -12,11 +12,11 @@ import lombok.Data;
 public class ImSystemAckMessage extends ImSystemMessage {
 
     public ImSystemAckMessage() {
-        this.setType(ImSystemMessageType.ACK);
+        this.setSystemMessageType(ImSystemMessageType.ACK);
     }
 
     public ImSystemAckMessage(String seq) {
-        this.setType(ImSystemMessageType.ACK);
+        this.setSystemMessageType(ImSystemMessageType.ACK);
         this.setSeq(seq);
     }
 }

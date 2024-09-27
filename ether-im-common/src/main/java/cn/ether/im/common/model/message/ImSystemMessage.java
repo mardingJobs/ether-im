@@ -1,5 +1,6 @@
 package cn.ether.im.common.model.message;
 
+import cn.ether.im.common.enums.ImMessageType;
 import cn.ether.im.common.enums.ImSystemMessageType;
 import com.alibaba.fastjson.JSON;
 import lombok.Data;
@@ -15,36 +16,23 @@ public class ImSystemMessage extends ImMessage {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 表示系统消息的唯一标识 (可选)
-     */
-    private String seq;
-
-    /**
      * 消息类型
      */
-    private ImSystemMessageType type;
+    private ImSystemMessageType systemMessageType;
 
     public ImSystemMessage() {
+        this.setMessageType(ImMessageType.SYSTEM);
     }
 
-    public ImSystemMessage(ImSystemMessageType type) {
-        this.type = type;
+    public ImSystemMessage(ImSystemMessageType systemMessageType) {
+        this();
+        this.systemMessageType = systemMessageType;
     }
 
     public static ImSystemMessage parseObject(String json) {
         ImSystemMessage imSystemMessage = JSON.parseObject(json, ImSystemMessage.class);
-        ImSystemMessageType messageType = imSystemMessage.getType();
+        ImSystemMessageType messageType = imSystemMessage.getSystemMessageType();
         Class<? extends ImSystemMessage> messageClass = messageType.getMessageClass();
         return JSON.parseObject(json, messageClass);
-    }
-
-    /**
-     * 获取唯一标识
-     *
-     * @return
-     */
-    @Override
-    public String getUniqueId() {
-        return seq;
     }
 }

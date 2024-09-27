@@ -8,7 +8,6 @@ import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.util.SpringContextHolder;
 import cn.ether.im.push.cache.UserChannelCache;
 import cn.ether.im.push.processor.MessageProcessor;
-import com.alibaba.fastjson.JSON;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.timeout.IdleState;
@@ -62,6 +61,7 @@ public class ImChannelHandler extends SimpleChannelInboundHandler<ImSystemMessag
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        logger.info("channelInactive|{}断开连接", ctx.channel().remoteAddress());
         ImUserTerminal userTerminal = UserChannelCache.getUserTerminal(ctx);
         if (userTerminal == null) {
             ctx.close();
@@ -70,7 +70,6 @@ public class ImChannelHandler extends SimpleChannelInboundHandler<ImSystemMessag
         ImUserContextHelper userContextHelper = SpringContextHolder.getBean(ImUserContextHelper.class);
         userContextHelper.removeServerCache(userTerminal);
         UserChannelCache.removeChannelCtx(userTerminal.getUserId(), userTerminal.getTerminalType().name());
-        logger.info("channelInactive|{}断开连接", JSON.toJSONString(userTerminal));
     }
 
     @Override
