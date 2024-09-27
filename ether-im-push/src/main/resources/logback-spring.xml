@@ -60,12 +60,11 @@
     </root>
 
     <!-- 输出格式 appender -->
-    <!--    <springProfile name="!dev">-->
-    <!--        <root level="${LOG_LEVEL}">-->
-    <!--            <appender-ref ref="STDOUT"/>-->
-    <!--            <appender-ref ref="asyncFileAppender"/>-->
-    <!--        </root>-->
-    <!--    </springProfile>-->
+    <springProfile name="dev">
+        <root level="INFO">
+            <appender-ref ref="STDOUT"/>
+        </root>
+    </springProfile>
 
 
 </configuration>

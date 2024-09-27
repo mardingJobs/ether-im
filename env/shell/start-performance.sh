@@ -1,0 +1,1 @@
+nohup java -Xmx512m -Xmx1024m -jar -Dspring.profiles.active=test ether-im-performance-test-jar-with-dependencies.jar > ./performance.log 2>&1 &
