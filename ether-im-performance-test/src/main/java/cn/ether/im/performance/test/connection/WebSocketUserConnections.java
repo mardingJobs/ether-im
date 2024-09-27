@@ -2,7 +2,6 @@ package cn.ether.im.performance.test.connection;
 
 import cn.ether.im.performance.test.client.WebSocketMockClient;
 import cn.ether.im.performance.test.user.MockUser;
-import com.alibaba.fastjson.JSON;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,7 +51,6 @@ public class WebSocketUserConnections {
             WebSocketMockClient webSocketMockClient = new WebSocketMockClient(mockUser, new URI(url));
             boolean connected = webSocketMockClient.connectBlocking();
             if (connected) {
-                log.info("编号:{},用户{}已连接", i, JSON.toJSONString(mockUser));
                 clients.add(webSocketMockClient);
             }
         }

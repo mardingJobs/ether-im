@@ -17,6 +17,7 @@ import org.java_websocket.handshake.ServerHandshake;
 import java.net.URI;
 import java.util.Date;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 /**
  * * @Author: Martin(微信：martin-jobs)
@@ -43,7 +44,7 @@ public class WebSocketMockClient extends WebSocketClient {
 
     @Override
     public void onOpen(ServerHandshake handshakedata) {
-        log.info("onOpen|{}", JSON.toJSONString(mockUser));
+        log.info("{}已连接", mockUser);
     }
 
     @Override
@@ -54,13 +55,13 @@ public class WebSocketMockClient extends WebSocketClient {
             ImSystemMessage systemMessage = (ImSystemMessage) imMessage;
             if (systemMessage.getSystemMessageType() == ImSystemMessageType.HB) {
                 log.info("【{}】发送心跳", mockUser);
-                this.send(JSON.toJSONString(new ImHeartbeatMessage()));
+                sendMessage(new ImHeartbeatMessage());
             }
         } else if (imMessage.getMessageType() == ImMessageType.CHAT) {
             ImChatMessage chatMessage = (ImChatMessage) imMessage;
             log.info("【{}】收到对话消息：{}", mockUser, chatMessage);
 
-            int sleepTimes = new Random().nextInt(10);
+            int sleepTimes = new Random().nextInt(5);
             try {
                 log.info("【{}】模拟客户端返回触达事件延迟,时间：{}", mockUser, sleepTimes);
                 Thread.sleep(sleepTimes * 1000);
@@ -80,18 +81,38 @@ public class WebSocketMockClient extends WebSocketClient {
         messageEvent.setEventType(ImMessageEventType.REACHED);
         messageEvent.setChatMessageType(ImChatMessageType.PERSONAL);
         messageEvent.setSystemMessageType(ImSystemMessageType.EVENT);
-        this.send(JSON.toJSONString(messageEvent));
+        sendMessage(messageEvent);
         log.info("【{}】已回复触达事件,MessageId:{}", mockUser, messageEvent.getMessageId());
     }
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
-        log.info("onClose|{},code:{},reason:{}", JSON.toJSONString(mockUser), code, reason);
-
+        log.info("【{}】onClose|{},code:{},reason:{}", mockUser, JSON.toJSONString(mockUser), code, reason);
+        try {
+            this.connectBlocking(3, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+        }
+        log.error("【{}】重连结果：{}", mockUser, this.isOpen());
     }
 
     @Override
     public void onError(Exception ex) {
         log.info("onError|{}", JSON.toJSONString(mockUser), ex.getCause());
+    }
+
+
+    private void sendMessage(ImSystemMessage message) {
+        boolean ok = true;
+        if (!this.isOpen()) {
+            try {
+                ok = this.reconnectBlocking();
+            } catch (InterruptedException e) {
+
+            }
+        }
+        if (ok) {
+            this.send(JSON.toJSONString(message));
+        }
+
     }
 }
