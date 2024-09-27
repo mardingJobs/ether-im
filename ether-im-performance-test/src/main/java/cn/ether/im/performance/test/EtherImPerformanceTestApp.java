@@ -1,8 +1,10 @@
 package cn.ether.im.performance.test;
 
 import cn.ether.im.performance.test.connection.WebSocketUserConnections;
+import lombok.extern.slf4j.Slf4j;
 
 import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -11,9 +13,14 @@ import java.util.concurrent.CountDownLatch;
  * * @Description
  * * @Github <a href="https://github.com/mardingJobs">Github链接</a>
  **/
+@Slf4j
 public class EtherImPerformanceTestApp {
 
     public static void main(String[] args) throws URISyntaxException, InterruptedException {
+        for (String arg : Arrays.asList(args)) {
+            log.info("参数：{}", arg);
+        }
+
         int length = args.length;
         WebSocketUserConnections webSocketUserConnections = new WebSocketUserConnections();
         if (length == 1) {

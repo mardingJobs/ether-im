@@ -1,7 +1,10 @@
 package cn.ether.im.performance.test.client;
 
+import cn.ether.im.common.enums.ImSystemMessageType;
+import cn.ether.im.common.model.message.ImHeartbeatMessage;
+import cn.ether.im.common.model.message.ImSystemMessage;
+import cn.ether.im.common.util.JwtUtils;
 import cn.ether.im.performance.test.user.MockUser;
-import cn.ether.im.performance.test.util.JwtUtils;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.java_websocket.client.WebSocketClient;
@@ -40,6 +43,10 @@ public class WebSocketMockClient extends WebSocketClient {
     @Override
     public void onMessage(String message) {
         log.info("onMessage|{},message:{}", JSON.toJSONString(mockUser), message);
+        ImSystemMessage systemMessage = ImSystemMessage.parseObject(message);
+        if (systemMessage.getType() == ImSystemMessageType.HB) {
+            this.send(JSON.toJSONString(new ImHeartbeatMessage()));
+        }
     }
 
     @Override

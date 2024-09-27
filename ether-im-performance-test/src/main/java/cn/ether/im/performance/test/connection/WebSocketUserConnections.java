@@ -21,7 +21,7 @@ import java.util.List;
 @Data
 public class WebSocketUserConnections {
 
-    private static final int DEFAULT_USER_COUNT = 1000 * 10;
+    private static final int DEFAULT_USER_COUNT = 10;
 
     private static final String DEFAULT_URL = "ws://localhost:8888/im";
 
