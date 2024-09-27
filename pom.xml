@@ -14,6 +14,7 @@
         <module>ether-im-push</module>
         <module>ether-im-message</module>
         <module>ether-im-gateway</module>
+        <module>ether-im-performance-test</module>
     </modules>
 
     <properties>
