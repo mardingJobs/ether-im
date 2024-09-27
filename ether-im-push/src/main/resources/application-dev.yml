@@ -3,6 +3,13 @@ server:
   id: 1
 
 spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.1.4:8848
+        username: nacos
+        password: nacos
+        namespace: 292fa4e1-6904-48c2-acc8-ab2dae7a1d9e
   redis:
     database: 0
     host: 192.168.1.4
@@ -23,11 +30,6 @@ websocket:
   port: 8878
   name: ether-im-ws
 
-
-
-jwt:
-  accessToken:
-    secret: marding
 
 rocketmq:
   name-server: 192.168.1.4:9876

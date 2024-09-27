@@ -1,5 +1,6 @@
 package cn.ether.im.push.processor.system;
 
+import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.helper.ImUserContextHelper;
 import cn.ether.im.common.model.message.ImTokenMessage;
 import cn.ether.im.common.model.user.ImUserTerminal;
@@ -22,9 +23,7 @@ import javax.annotation.Resource;
 @Component
 public class TokenMessageProcess implements SystemMessageProcess<ImTokenMessage> {
 
-
-    @Value("${jwt.accessToken.secret}")
-    private String accessTokenSecret;
+    private String accessTokenSecret = ImConstants.TOKEN_SECRET;
 
     @Resource
     private ImUserContextHelper cacheHelper;

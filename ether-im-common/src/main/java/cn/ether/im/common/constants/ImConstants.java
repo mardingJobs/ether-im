@@ -81,4 +81,5 @@ public class ImConstants {
      */
     public static final Integer IM_MESSAGE_WITH_DRAWN_SEC = 120;
     public static final String IM_TOKEN = "token";
+    public static final String TOKEN_SECRET = "marding";
 }

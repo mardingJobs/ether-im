@@ -2,13 +2,6 @@ server:
   port: 8081
 
 spring:
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 192.168.1.4:8848
-        username: nacos
-        password: nacos
-        namespace: 292fa4e1-6904-48c2-acc8-ab2dae7a1d9e
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://192.168.1.4:3306/ether_im?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
@@ -35,6 +28,13 @@ spring:
     address: redis://192.168.1.4:6379
   application:
     name: ether-im-message
+
+
+
+
+im:
+  token:
+    secret: marding
 
 rocketmq:
   name-server: 192.168.1.4:9876

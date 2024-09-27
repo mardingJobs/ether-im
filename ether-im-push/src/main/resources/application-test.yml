@@ -1,13 +1,13 @@
 server:
-  port: 8801
-  id: 2
+  port: 8899
+  id: 1
 
 spring:
   redis:
     database: 0
-    host: localhost
+    host: 192.168.1.4
     port: 6379
-    password:
+    password: redis
     timeout: 3000
     lettuce:
       pool:
@@ -16,18 +16,12 @@ spring:
         max-idle: 8
         min-idle: 0
         max-wait: 5000
-    address: redis://localhost:6379
+    address: redis://192.168.1.4:6379
 
 websocket:
   enable: true
-  port: 9002
+  port: 8878
   name: ether-im-ws
-
-
-
-jwt:
-  accessToken:
-    secret: marding
 
 rocketmq:
   name-server: 192.168.1.4:9876

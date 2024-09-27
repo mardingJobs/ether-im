@@ -1,19 +1,17 @@
 package cn.ether.im.message.interceptor;
 
+import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.util.JwtUtils;
 import cn.ether.im.message.model.session.SessionContext;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  * 身份校验拦截器
@@ -26,11 +24,7 @@ import javax.servlet.http.HttpSession;
 @Component
 public class IdentityValidationInterceptor implements HandlerInterceptor {
 
-    @Resource
-    private HttpSession session;
-
-    @Value("${im.token.secret}")
-    private String secret;
+    private String secret = ImConstants.TOKEN_SECRET;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
