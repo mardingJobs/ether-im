@@ -58,6 +58,7 @@
                                     </mainClass>
                                 </manifest>
                             </archive>
+                            <outputDirectory>${session.executionRootDirectory}/target/</outputDirectory>
                             <descriptorRefs>
                                 <descriptorRef>jar-with-dependencies</descriptorRef>
                             </descriptorRefs>

@@ -72,6 +72,7 @@
                 <version>${spring-boot.version}</version>
                 <configuration>
                     <mainClass>cn.ether.im.message.EtherImMessageApplication</mainClass>
+                    <outputDirectory>${session.executionRootDirectory}/target/</outputDirectory>
                 </configuration>
                 <executions>
                     <execution>

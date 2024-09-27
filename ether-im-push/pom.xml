@@ -80,6 +80,8 @@
                 <version>${spring-boot.version}</version>
                 <configuration>
                     <mainClass>cn.ether.im.push.EtherImPushApplication</mainClass>
+                    <!--    统一打到指定目录-->
+                    <outputDirectory>${session.executionRootDirectory}/target/</outputDirectory>
                 </configuration>
                 <executions>
                     <execution>

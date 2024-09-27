@@ -53,6 +53,7 @@ public class WebSocketMockClient extends WebSocketClient {
         if (imMessage.getMessageType() == ImMessageType.SYSTEM) {
             ImSystemMessage systemMessage = (ImSystemMessage) imMessage;
             if (systemMessage.getSystemMessageType() == ImSystemMessageType.HB) {
+                log.info("【{}】发送心跳", mockUser);
                 this.send(JSON.toJSONString(new ImHeartbeatMessage()));
             }
         } else if (imMessage.getMessageType() == ImMessageType.CHAT) {
@@ -86,6 +87,7 @@ public class WebSocketMockClient extends WebSocketClient {
     @Override
     public void onClose(int code, String reason, boolean remote) {
         log.info("onClose|{},code:{},reason:{}", JSON.toJSONString(mockUser), code, reason);
+
     }
 
     @Override

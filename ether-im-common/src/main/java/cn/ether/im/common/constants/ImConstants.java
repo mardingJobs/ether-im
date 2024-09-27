@@ -21,10 +21,10 @@ public class ImConstants {
 
     public static final String USER_KEY = "USER";
 
-    /**
-     * 默认的分组名称
-     */
-    public static final String DEFAULT_GROUP_NAME = "default";
+
+    public static final Integer PRD_READER_IDLE_TIME_SEC = 60 * 4;
+
+    public static final Integer TEST_READER_IDLE_TIME_SEC = 20;
 
     /**
      * Redis Key的分隔符
