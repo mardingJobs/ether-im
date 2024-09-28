@@ -13,10 +13,7 @@ import cn.ether.im.common.model.user.ImUser;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.mq.ImMessageSender;
 import cn.ether.im.common.util.SnowflakeUtil;
-import cn.ether.im.message.model.dto.ChatMessagePullReq;
-import cn.ether.im.message.model.dto.ChatMessagePullResult;
-import cn.ether.im.message.model.dto.ChatMessageSendReq;
-import cn.ether.im.message.model.dto.PersonalMessageSendReq;
+import cn.ether.im.message.model.dto.*;
 import cn.ether.im.message.model.entity.*;
 import cn.ether.im.message.model.session.SessionContext;
 import cn.ether.im.message.service.*;
@@ -122,7 +119,6 @@ public class ChatMessageServiceImpl implements ChatMessageService {
      */
     @Override
     @Transactional
-
     public String sendMessage(ChatMessageSendReq req) throws Exception {
         // 先判断对方是否在线
         if (req.getChatMessageType() == ImChatMessageType.PERSONAL) {
@@ -167,11 +163,6 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
     @Override
     public String sendPersonalMessage(PersonalMessageSendReq req) throws Exception {
-        // 先判断对方是否在线
-        boolean online = etherImClient.isOnline(new ImUser(req.getReceiverId()));
-        if (!online) {
-            throw new ImException(ImExceptionCode.RECEIVER_NOT_ONLINE);
-        }
         ImChatMessage chatMessage = new ImChatMessage();
         chatMessage.setId(snowflakeUtil.nextId());
         chatMessage.setChatMessageType(ImChatMessageType.PERSONAL);
@@ -180,6 +171,22 @@ public class ChatMessageServiceImpl implements ChatMessageService {
         chatMessage.setSendTime(new Date().getTime());
         chatMessage.setSender(SessionContext.loggedUser());
         chatMessage.setReceivers(new LinkedList<>(Collections.singletonList(new ImUser(req.getReceiverId()))));
+        etherImClient.sendChatMessage(chatMessage);
+        return chatMessage.getId().toString();
+    }
+
+    @Override
+    public String sendGroupMessage(GroupMessageSendReq req) throws Exception {
+        ImChatMessage chatMessage = new ImChatMessage();
+        chatMessage.setId(snowflakeUtil.nextId());
+        chatMessage.setChatMessageType(ImChatMessageType.GROUP);
+        chatMessage.setContent(req.getContent());
+        chatMessage.setContentType(ImChatMessageContentType.valueOf(req.getContentType()));
+        chatMessage.setSendTime(new Date().getTime());
+        chatMessage.setSender(SessionContext.loggedUser());
+        List<String> onlineGroupMembers = etherImClient.getOnlineGroupMembers(req.getReceiverId());
+        List<ImUser> receivers = onlineGroupMembers.stream().map((userId) -> new ImUser(req.getReceiverId())).collect(Collectors.toList());
+        chatMessage.setReceivers(receivers);
         etherImClient.sendChatMessage(chatMessage);
         return chatMessage.getId().toString();
     }
@@ -352,6 +359,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
         messageEntity.setStatus(nextStatus.name());
         chatMessageService.updateById(messageEntity);
     }
+
 
     private void saveMessageEventLog(ImMessageEvent messageEvent) {
         ImMessageEventLogEntity eventLogEntity = new ImMessageEventLogEntity();

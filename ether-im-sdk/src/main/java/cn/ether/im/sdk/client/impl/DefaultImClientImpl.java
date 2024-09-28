@@ -1,5 +1,7 @@
 package cn.ether.im.sdk.client.impl;
 
+import cn.ether.im.common.enums.ImExceptionCode;
+import cn.ether.im.common.exception.ImException;
 import cn.ether.im.common.helper.ImUserContextHelper;
 import cn.ether.im.common.model.message.ImChatMessage;
 import cn.ether.im.common.model.user.ImUser;
@@ -9,6 +11,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,6 +44,20 @@ public class DefaultImClientImpl implements EtherImClient {
     public boolean isOnline(ImUser user) {
         Map<String, String> connectedServerIds = contextHelper.getConnectionInfo(user);
         return CollectionUtil.isNotEmpty(connectedServerIds);
+    }
+
+    @Override
+    public void requireReceiverOnline(String receiverId) {
+        // 先判断对方是否在线
+        boolean online = this.isOnline(new ImUser(receiverId));
+        if (!online) {
+            throw new ImException(ImExceptionCode.RECEIVER_NOT_ONLINE);
+        }
+    }
+
+    @Override
+    public List<String> getOnlineGroupMembers(String groupId) {
+        return contextHelper.getUserIdsByGroupId(groupId);
     }
 
 }

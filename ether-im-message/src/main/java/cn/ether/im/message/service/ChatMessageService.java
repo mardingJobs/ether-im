@@ -1,10 +1,7 @@
 package cn.ether.im.message.service;
 
 import cn.ether.im.common.model.message.ImMessageEvent;
-import cn.ether.im.message.model.dto.ChatMessagePullReq;
-import cn.ether.im.message.model.dto.ChatMessagePullResult;
-import cn.ether.im.message.model.dto.ChatMessageSendReq;
-import cn.ether.im.message.model.dto.PersonalMessageSendReq;
+import cn.ether.im.message.model.dto.*;
 import cn.ether.im.message.model.entity.ImMessageEventLogEntity;
 
 /**
@@ -51,6 +48,5 @@ public interface ChatMessageService {
     void onMessageEventV2(ImMessageEvent messageEvent);
 
 
-
-
+    String sendGroupMessage(GroupMessageSendReq req) throws Exception;
 }

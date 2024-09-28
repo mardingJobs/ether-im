@@ -1,9 +1,6 @@
 package cn.ether.im.message.controller;
 
-import cn.ether.im.message.model.dto.ChatMessagePullReq;
-import cn.ether.im.message.model.dto.ChatMessagePullResult;
-import cn.ether.im.message.model.dto.ChatMessageSendReq;
-import cn.ether.im.message.model.dto.PersonalMessageSendReq;
+import cn.ether.im.message.model.dto.*;
 import cn.ether.im.message.model.vo.Resp;
 import cn.ether.im.message.service.ChatMessageService;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
@@ -49,16 +46,23 @@ public class ChatMessageController {
 
 
     /**
-     * 发送消息 V2
+     * 发送单聊消息
      * 主要用于提升发送消息性能，不用数据库
      *
      * @param req
      * @return
      */
-    @Operation(summary = "发送对话消息", description = "包括单聊，如果发送成功的话，会返回消息ID")
-    @PostMapping("/send/v2")
-    public Resp sendV2(@RequestBody PersonalMessageSendReq req) throws Exception {
+    @Operation(summary = "发送单聊消息", description = "如果发送成功的话，会返回消息ID")
+    @PostMapping("/send/personal")
+    public Resp sendPersonal(@RequestBody PersonalMessageSendReq req) throws Exception {
         String messageId = messageService.sendPersonalMessage(req);
+        return Resp.success(messageId);
+    }
+
+    @Operation(summary = "发送群聊消息", description = "如果发送成功的话，会返回消息ID")
+    @PostMapping("/send/group")
+    public Resp sendGroup(@RequestBody GroupMessageSendReq req) throws Exception {
+        String messageId = messageService.sendGroupMessage(req);
         return Resp.success(messageId);
     }
 

@@ -32,6 +32,9 @@ public class ImConstants {
     public static final String REDIS_KEY_SPLIT = ":";
 
 
+    public static final String GROUP_MEMBERS_PREFIX = "group:member:";
+
+
     /**
      * 在线状态过期时间，默认是1800秒，也就是30分钟
      */

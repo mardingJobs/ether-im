@@ -1,6 +1,7 @@
 package cn.ether.im.sdk.sender.impl;
 
 import cn.ether.im.common.constants.ImConstants;
+import cn.ether.im.common.enums.ImChatMessageType;
 import cn.ether.im.common.enums.ImExceptionCode;
 import cn.ether.im.common.exception.ImException;
 import cn.ether.im.common.helper.ImUserContextHelper;
@@ -11,6 +12,7 @@ import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.mq.ImMessageSender;
 import cn.ether.im.sdk.sender.ChatMessageSender;
 import cn.hutool.core.bean.BeanUtil;
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -41,14 +43,12 @@ public class DefaultChatMessageSender implements ChatMessageSender {
     public void sendChatMessage(ImChatMessage chatMessage) throws Exception {
         ImUserTerminal sender = chatMessage.getSender();
         List<ImUser> receivers = chatMessage.getReceivers();
-
         List<ImUserTerminal> targetTerminalList = onlineTerminals(receivers, null);
-        if (targetTerminalList.isEmpty()) {
-            throw new ImException(ImExceptionCode.RECEIVER_NOT_ONLINE);
-        }
         // 获取自己其他在线终端
-        List<ImUserTerminal> otherSelfTerminals = onlineTerminals(Collections.singletonList(sender.cloneUser()), sender);
-        targetTerminalList.addAll(otherSelfTerminals);
+        if (ImChatMessageType.PERSONAL.equals(chatMessage.getChatMessageType())) {
+            List<ImUserTerminal> otherSelfTerminals = onlineTerminals(Collections.singletonList(sender.cloneUser()), sender);
+            targetTerminalList.addAll(otherSelfTerminals);
+        }
         doSendToTargetTerminal(chatMessage, targetTerminalList);
     }
 
@@ -62,9 +62,15 @@ public class DefaultChatMessageSender implements ChatMessageSender {
             newChatMessage.setReceiverTerminals(entry.getValue());
             return new ImTopicMessage<>(newChatMessage, ImConstants.IM_CHAT_MESSAGE_TOPIC, entry.getKey());
         }).collect(Collectors.toList());
+        if (topicMessages.isEmpty()) {
+            return;
+        }
         boolean send = messageSender.batchSend(topicMessages);
         if (!send) {
             throw new ImException(ImExceptionCode.MESSAGE_SENT_TO_MQ_FAIL);
+        }
+        if (log.isDebugEnabled()) {
+            log.debug("已发送消息到MQ：{}", JSON.toJSONString(topicMessages));
         }
     }
 
