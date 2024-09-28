@@ -17,6 +17,7 @@ package cn.ether.im.push.mq;
 
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.model.message.ImChatMessage;
+import cn.ether.im.common.util.ThreadPoolUtils;
 import cn.ether.im.push.processor.MessageProcessor;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
@@ -54,7 +55,9 @@ public class ImChatMessageConsumer
             log.warn("onMessage|转化后的数据为空");
             return;
         }
-        MessageProcessor.processChatMessage(chatMessage);
+        ThreadPoolUtils.execute(() -> {
+            MessageProcessor.processChatMessage(chatMessage);
+        });
     }
 
     @Override

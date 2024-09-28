@@ -1,5 +1,7 @@
 package cn.ether.im.message;
 
+import cn.ether.im.common.util.ThreadPoolUtils;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -9,11 +11,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * * @Description
  **/
 @SpringBootApplication(scanBasePackages = "cn.ether.im")
-public class EtherImMessageApplication {
+public class EtherImMessageApplication implements DisposableBean {
 
     public static void main(String[] args) {
         System.setProperty("rocketmq.client.logUseSlf4j", "false");
         SpringApplication.run(EtherImMessageApplication.class);
     }
 
+    @Override
+    public void destroy() throws Exception {
+        ThreadPoolUtils.shutdown();
+    }
 }
