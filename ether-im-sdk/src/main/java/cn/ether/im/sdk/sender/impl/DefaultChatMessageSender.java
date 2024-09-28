@@ -44,7 +44,7 @@ public class DefaultChatMessageSender implements ChatMessageSender {
 
         List<ImUserTerminal> targetTerminalList = onlineTerminals(receivers, null);
         if (targetTerminalList.isEmpty()) {
-            throw new ImException(ImExceptionCode.NO_ONLINE_TERMINAL);
+            throw new ImException(ImExceptionCode.RECEIVER_NOT_ONLINE);
         }
         // 获取自己其他在线终端
         List<ImUserTerminal> otherSelfTerminals = onlineTerminals(Collections.singletonList(sender.cloneUser()), sender);

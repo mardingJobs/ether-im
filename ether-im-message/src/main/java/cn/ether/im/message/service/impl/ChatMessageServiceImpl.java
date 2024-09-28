@@ -107,13 +107,13 @@ public class ChatMessageServiceImpl implements ChatMessageService {
                 inbox.setReceiverId(entity.getReceiverId());
                 inbox.setSenderId(entity.getSenderId());
                 inbox.setSendTime(entity.getSendTime());
-                saved = inboxService.save(inbox);
+                //saved = inboxService.save(inbox);
             }
             if (!saved) throw new ImException(ImExceptionCode.MESSAGE_PERSIST_FAIL);
         } catch (DuplicateKeyException e) {
             throw new ImException(ImExceptionCode.MESSAGE_DUPLICATION);
         } catch (Exception e) {
-            log.error("消息持久化失败|参数:{}", JSON.toJSONString(entity), e);
+            log.error("消息持久化失败|MessageId:{}", entity.getId(), e);
             throw new ImException(ImExceptionCode.MESSAGE_PERSIST_FAIL);
         }
         return entity;
@@ -125,6 +125,14 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     @Override
     @Transactional
     public String sendMessage(ChatMessageSendReq req) throws Exception {
+        // 先判断对方是否在线
+        if (req.getChatMessageType() == ImChatMessageType.PERSONAL) {
+            boolean online = etherImClient.isOnline(new ImUser(req.getReceiverId()));
+            if (!online) {
+                throw new ImException(ImExceptionCode.RECEIVER_NOT_ONLINE);
+            }
+        }
+
         // 保存消息
         ImChatMessageEntity entity = saveMessage(req);
         // 发送消息
@@ -152,8 +160,9 @@ public class ChatMessageServiceImpl implements ChatMessageService {
             throw new ImException(ImExceptionCode.NO_MESSAGE_RECEIVER);
         }
         etherImClient.sendChatMessage(chatMessage);
-        entity.setStatus(ImChatMessageStatus.SENT.name());
-        chatMessageService.updateById(entity);
+        // todo 不要更新
+        // entity.setStatus(ImChatMessageStatus.SENT.name());
+        //chatMessageService.updateById(entity);
         return entity.getId().toString();
     }
 
