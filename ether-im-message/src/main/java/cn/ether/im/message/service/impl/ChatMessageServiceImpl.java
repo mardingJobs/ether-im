@@ -1,10 +1,7 @@
 package cn.ether.im.message.service.impl;
 
 
-import cn.ether.im.common.enums.ImChatMessageStatus;
-import cn.ether.im.common.enums.ImChatMessageType;
-import cn.ether.im.common.enums.ImExceptionCode;
-import cn.ether.im.common.enums.ImTerminalType;
+import cn.ether.im.common.enums.*;
 import cn.ether.im.common.event.ImMessageEventType;
 import cn.ether.im.common.event.MessageEventStatusMachine;
 import cn.ether.im.common.exception.ImException;
@@ -19,6 +16,7 @@ import cn.ether.im.common.util.SnowflakeUtil;
 import cn.ether.im.message.model.dto.ChatMessagePullReq;
 import cn.ether.im.message.model.dto.ChatMessagePullResult;
 import cn.ether.im.message.model.dto.ChatMessageSendReq;
+import cn.ether.im.message.model.dto.PersonalMessageSendReq;
 import cn.ether.im.message.model.entity.*;
 import cn.ether.im.message.model.session.SessionContext;
 import cn.ether.im.message.service.*;
@@ -124,6 +122,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
      */
     @Override
     @Transactional
+
     public String sendMessage(ChatMessageSendReq req) throws Exception {
         // 先判断对方是否在线
         if (req.getChatMessageType() == ImChatMessageType.PERSONAL) {
@@ -164,6 +163,25 @@ public class ChatMessageServiceImpl implements ChatMessageService {
         // entity.setStatus(ImChatMessageStatus.SENT.name());
         //chatMessageService.updateById(entity);
         return entity.getId().toString();
+    }
+
+    @Override
+    public String sendPersonalMessage(PersonalMessageSendReq req) throws Exception {
+        // 先判断对方是否在线
+        boolean online = etherImClient.isOnline(new ImUser(req.getReceiverId()));
+        if (!online) {
+            throw new ImException(ImExceptionCode.RECEIVER_NOT_ONLINE);
+        }
+        ImChatMessage chatMessage = new ImChatMessage();
+        chatMessage.setId(snowflakeUtil.nextId());
+        chatMessage.setChatMessageType(ImChatMessageType.PERSONAL);
+        chatMessage.setContent(req.getContent());
+        chatMessage.setContentType(ImChatMessageContentType.valueOf(req.getContentType()));
+        chatMessage.setSendTime(new Date().getTime());
+        chatMessage.setSender(SessionContext.loggedUser());
+        chatMessage.setReceivers(new LinkedList<>(Collections.singletonList(new ImUser(req.getReceiverId()))));
+        etherImClient.sendChatMessage(chatMessage);
+        return chatMessage.getId().toString();
     }
 
     /**

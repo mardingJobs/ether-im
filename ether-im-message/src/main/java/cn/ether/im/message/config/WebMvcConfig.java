@@ -21,15 +21,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(identityValidationInterceptor)
                 // 拦截规则 ，拦截那些路径
-                .addPathPatterns("/**")
+                //.addPathPatterns("/**")
                 // 那些路径不拦截
-                .excludePathPatterns("/swagger-ui/**", "/v3/api-docs/**");
+                .excludePathPatterns("/swagger-ui/**", "/v3/api-docs/**", "/actuator/**");
 
         registry.addInterceptor(securityContentInterceptor)
                 // 拦截规则 ，拦截那些路径
                 .addPathPatterns("/**")
                 // 那些路径不拦截
-                .excludePathPatterns("/swagger-ui/**", "/v3/api-docs/**");
+                .excludePathPatterns("/swagger-ui/**", "/v3/api-docs/**", "/actuator/**");
     }
 
 }

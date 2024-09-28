@@ -4,6 +4,7 @@ import cn.ether.im.common.model.message.ImMessageEvent;
 import cn.ether.im.message.model.dto.ChatMessagePullReq;
 import cn.ether.im.message.model.dto.ChatMessagePullResult;
 import cn.ether.im.message.model.dto.ChatMessageSendReq;
+import cn.ether.im.message.model.dto.PersonalMessageSendReq;
 import cn.ether.im.message.model.entity.ImMessageEventLogEntity;
 
 /**
@@ -23,7 +24,11 @@ public interface ChatMessageService {
      * @param req
      * @return
      */
+    @Deprecated
     String sendMessage(ChatMessageSendReq req) throws Exception;
+
+
+    String sendPersonalMessage(PersonalMessageSendReq req) throws Exception;
 
     /**
      * @return

@@ -12,6 +12,7 @@ import cn.ether.im.performance.test.user.MockUser;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.enums.ReadyState;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
@@ -73,6 +74,42 @@ public class WebSocketMockClient extends WebSocketClient {
         }
     }
 
+
+    @Override
+    public void send(String text) {
+        boolean open = isConnectOpen();
+        if (open) {
+            super.send(text);
+        }
+    }
+
+    /**
+     * 在连接断开时尝试重连
+     *
+     * @return
+     */
+    public boolean isConnectOpen() {
+        int t = 0;
+        // 连接断开
+        while (!this.isOpen()) {
+            try {
+                Thread.sleep(2000);
+                log.info("重连服务器...");
+                if (this.getReadyState().equals(ReadyState.NOT_YET_CONNECTED)) {
+                    super.connectBlocking();
+                    return true;
+                } else if (this.getReadyState().equals(ReadyState.CLOSING)
+                        || this.getReadyState().equals(ReadyState.CLOSED)) {
+                    super.reconnectBlocking();
+                    return true;
+                }
+            } catch (Exception e) {
+                log.error("reconnect error ", e);
+            }
+        }
+        return true;
+    }
+
     private void sendReachedEvent(ImChatMessage chatMessage) {
         ImMessageEvent messageEvent = new ImMessageEvent();
         messageEvent.setMessageId(chatMessage.getId());
@@ -102,17 +139,6 @@ public class WebSocketMockClient extends WebSocketClient {
 
 
     private void sendMessage(ImSystemMessage message) {
-        boolean ok = true;
-        if (!this.isOpen()) {
-            try {
-                ok = this.reconnectBlocking();
-            } catch (InterruptedException e) {
-
-            }
-        }
-        if (ok) {
-            this.send(JSON.toJSONString(message));
-        }
-
+        this.send(JSON.toJSONString(message));
     }
 }
