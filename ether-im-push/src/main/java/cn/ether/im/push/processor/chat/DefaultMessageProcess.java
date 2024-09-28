@@ -5,6 +5,7 @@ import cn.ether.im.common.exception.RetryException;
 import cn.ether.im.common.model.message.ImChatMessage;
 import cn.ether.im.common.model.message.ImMessageEvent;
 import cn.ether.im.common.model.user.ImUserTerminal;
+import cn.ether.im.common.util.ThreadPoolUtils;
 import cn.ether.im.push.mq.ImMessageEventProducer;
 import cn.ether.im.push.processor.flusher.ImMessageFlusher;
 import com.alibaba.fastjson.JSON;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * * @Author: Martin
@@ -29,19 +31,22 @@ public class DefaultMessageProcess implements ChatMessageProcess {
     @Resource
     private ImMessageFlusher messageFlusher;
 
+    private ThreadPoolExecutor flushExecutor = ThreadPoolUtils.createExecutor(10, 1024);
+
 
     @Override
     public void process(ImChatMessage message) {
         List<ImUserTerminal> receiverTerminals = message.getReceiverTerminals();
-        // todo 应该使用多线程推送！
+
         for (ImUserTerminal terminal : receiverTerminals) {
             try {
-                messageFlusher.flush(terminal, message);
-                log.info("flush|消息已推送，等待确认。Message:{}", JSON.toJSONString(message));
+                flushExecutor.execute(() -> {
+                    messageFlusher.flush(terminal, message);
+                });
             } catch (RetryException e) {
                 log.warn("重复推送消息后未收到触达消息，MessageId:{},UserTerminal:{}", message.getId(), JSON.toJSONString(terminal));
             } catch (Exception e) {
-                log.error("消息推送失败,Message:{}", JSON.toJSONString(message), e);
+                log.error("消息推送失败,MessageId:{}", message.getId(), e);
             }
         }
     }

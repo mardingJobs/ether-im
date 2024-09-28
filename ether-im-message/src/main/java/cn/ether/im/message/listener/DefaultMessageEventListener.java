@@ -29,6 +29,6 @@ public class DefaultMessageEventListener implements ImMessageEventListener {
     @Override
     public void onMessageEvent(ImMessageEvent messageEvent) throws Exception {
         log.info("监听到消息事件:{}", JSON.toJSONString(messageEvent));
-        messageService.onMessageEventV2(messageEvent);
+        //messageService.onMessageEventV2(messageEvent);
     }
 }

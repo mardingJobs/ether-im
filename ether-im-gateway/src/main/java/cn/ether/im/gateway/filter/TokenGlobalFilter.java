@@ -27,11 +27,11 @@ public class TokenGlobalFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
         URI uri = request.getURI();
-        log.info("原始请求URI {}", uri);
-
         URI proxyRequestUri = exchange.getAttribute(ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR);
-        log.info("PROXY_URI {}", proxyRequestUri);
-
+        if (log.isDebugEnabled()) {
+            log.debug("Origin URI {}", uri);
+            log.debug("PROXY URI {}", proxyRequestUri);
+        }
         Mono<Void> ret = chain.filter(exchange);
         return ret;
     }

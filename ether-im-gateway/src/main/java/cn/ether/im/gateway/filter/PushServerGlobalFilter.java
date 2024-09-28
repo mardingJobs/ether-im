@@ -53,8 +53,8 @@ public class PushServerGlobalFilter implements GlobalFilter, Ordered {
                 URI uri = exchange.getRequest().getURI();
                 DelegatingServiceInstance serviceInstance = new DelegatingServiceInstance((ServiceInstance) response.getServer(), scheme);
                 URI requestUrl = LoadBalancerUriTools.reconstructURI(serviceInstance, uri);
-                if (log.isTraceEnabled()) {
-                    log.trace("LoadBalancerClientFilter url chosen: {}", requestUrl);
+                if (log.isDebugEnabled()) {
+                    log.debug("LoadBalancerClientFilter url chosen: {}", requestUrl);
                 }
 
                 exchange.getAttributes().put(ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR, requestUrl);

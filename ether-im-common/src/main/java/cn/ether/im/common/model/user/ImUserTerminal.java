@@ -3,7 +3,6 @@ package cn.ether.im.common.model.user;
 import cn.ether.im.common.enums.ImTerminalType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
  * todo 改为继承
@@ -13,7 +12,6 @@ import lombok.ToString;
  **/
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ToString(callSuper = true)
 public class ImUserTerminal extends ImUser {
 
 
@@ -40,4 +38,8 @@ public class ImUserTerminal extends ImUser {
     }
 
 
+    @Override
+    public String toString() {
+        return this.getUserId() + "@" + this.terminalType;
+    }
 }

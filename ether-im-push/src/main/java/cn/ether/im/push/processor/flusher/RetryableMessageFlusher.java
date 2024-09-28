@@ -17,7 +17,6 @@ import cn.ether.im.common.model.message.ImMessageEvent;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.push.cache.UserChannelCache;
 import cn.hutool.core.bean.BeanUtil;
-import com.alibaba.fastjson.JSON;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import io.netty.channel.ChannelHandlerContext;
@@ -42,7 +41,7 @@ public class RetryableMessageFlusher implements ImMessageEventListener, ImMessag
     public void flush(ImUserTerminal receiverTerminal, ImChatMessage message) {
         String cacheKey = cacheKey(message.getId(), receiverTerminal.getUserId(), receiverTerminal.getTerminalType());
         if (REACHED_MESSAGES.asMap().containsKey(cacheKey)) {
-            log.info("flush|消息已触达,MessageId:{}", message.getId());
+            log.info("消息已触达,MessageId:{},Terminal:{}", message.getId(), receiverTerminal);
             return;
         }
         ChannelHandlerContext ctx = UserChannelCache.getChannelCtx(receiverTerminal.getUserId(),
@@ -53,7 +52,7 @@ public class RetryableMessageFlusher implements ImMessageEventListener, ImMessag
             copiedMessage.setReceiverTerminals(null);
             ctx.writeAndFlush(copiedMessage);
             if (log.isDebugEnabled()) {
-                log.debug("flush|消息已推送，等待确认。Message:{},Terminal:{}", JSON.toJSONString(copiedMessage), JSON.toJSONString(receiverTerminal));
+                log.debug("flush|消息已推送，等待确认。MessageId:{},Terminal:{}", copiedMessage.getId(), receiverTerminal);
             }
             try {
                 Thread.sleep(2000);
@@ -69,7 +68,7 @@ public class RetryableMessageFlusher implements ImMessageEventListener, ImMessag
 
     @Override
     public void onMessageEvent(ImMessageEvent messageEvent) throws Exception {
-        log.info("【MessageFlusher】监听到消息事件｜{}", JSON.toJSONString(messageEvent));
+        log.info("收到消息触达事件,MessageId:{}", messageEvent.getMessageId());
         ImUserTerminal terminal = messageEvent.getTerminal();
         String cacheKey = cacheKey(messageEvent.getMessageId(), terminal.getUserId(), terminal.getTerminalType());
         REACHED_MESSAGES.put(cacheKey, "");
