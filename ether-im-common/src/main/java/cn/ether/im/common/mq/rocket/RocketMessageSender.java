@@ -2,8 +2,8 @@ package cn.ether.im.common.mq.rocket;
 
 import cn.ether.im.common.enums.ImExceptionCode;
 import cn.ether.im.common.exception.ImException;
-import cn.ether.im.common.model.message.ImMessage;
-import cn.ether.im.common.model.message.ImTopicMessage;
+import cn.ether.im.common.model.info.ImInfo;
+import cn.ether.im.common.model.info.ImTopicInfo;
 import cn.ether.im.common.mq.ImMqMessageSender;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -39,7 +39,7 @@ public class RocketMessageSender implements ImMqMessageSender {
     private RocketMQTemplate rocketMQTemplate;
 
 
-    private static Message createMqMessage(ImTopicMessage topicMessage, String messageString) {
+    private static Message createMqMessage(ImTopicInfo topicMessage, String messageString) {
         Message message = new Message(topicMessage.getTopic(), topicMessage.getTag(), messageString.getBytes(StandardCharsets.UTF_8));
         message.setKeys(topicMessage.getMessage().getUid());
         return message;
@@ -51,7 +51,7 @@ public class RocketMessageSender implements ImMqMessageSender {
      * @param topicMessage 发送的消息
      */
     @Override
-    public boolean send(ImTopicMessage topicMessage) throws Exception {
+    public boolean send(ImTopicInfo topicMessage) throws Exception {
         String messageString = JSON.toJSONString(topicMessage.getMessage());
         if (log.isDebugEnabled()) {
             log.debug("同步发送MQ消息：{}", messageString);
@@ -63,7 +63,7 @@ public class RocketMessageSender implements ImMqMessageSender {
 
 
     @Override
-    public void asyncSend(ImTopicMessage topicMessage, SendCallback callback) {
+    public void asyncSend(ImTopicInfo topicMessage, SendCallback callback) {
         String messageString = JSON.toJSONString(topicMessage.getMessage());
         if (log.isDebugEnabled()) {
             log.debug("异步发送MQ消息：{}", messageString);
@@ -85,8 +85,8 @@ public class RocketMessageSender implements ImMqMessageSender {
      * @throws Exception
      */
     @Override
-    public boolean sendOrderlyByUid(ImTopicMessage<? extends ImMessage> topicMessage) throws Exception {
-        ImMessage imMessage = topicMessage.getMessage();
+    public boolean sendOrderlyByUid(ImTopicInfo<? extends ImInfo> topicMessage) throws Exception {
+        ImInfo imMessage = topicMessage.getMessage();
         String messageString = JSON.toJSONString(imMessage);
         if (log.isDebugEnabled()) {
             log.info("发送顺序MQ消息：{}", messageString);
@@ -104,7 +104,7 @@ public class RocketMessageSender implements ImMqMessageSender {
      */
 
     @Override
-    public boolean batchSend(List<ImTopicMessage> messages) throws Exception {
+    public boolean batchSend(List<ImTopicInfo> messages) throws Exception {
         List<Message> msgs = messages.stream()
                 .map((message) -> {
                     Message msg = new Message(message.getTopic(), message.getTag(), JSONObject.toJSONString(message.getMessage()).getBytes());
@@ -116,7 +116,7 @@ public class RocketMessageSender implements ImMqMessageSender {
     }
 
     @Override
-    public void asyncBatchSend(List<ImTopicMessage> messages, SendCallback callback) throws Exception {
+    public void asyncBatchSend(List<ImTopicInfo> messages, SendCallback callback) throws Exception {
         List<Message> msgs = messages.stream()
                 .map((message) -> {
                     Message msg = new Message(message.getTopic(), message.getTag(), JSONObject.toJSONString(message.getMessage()).getBytes());
@@ -132,7 +132,7 @@ public class RocketMessageSender implements ImMqMessageSender {
      * @return
      */
     @Override
-    public TransactionSendResult sendMessageInTransaction(ImTopicMessage topicMessage, Object arg) {
+    public TransactionSendResult sendMessageInTransaction(ImTopicInfo topicMessage, Object arg) {
         String messageString = JSON.toJSONString(topicMessage.getMessage());
         if (log.isDebugEnabled()) {
             log.debug("发送事务消息：{}", messageString);

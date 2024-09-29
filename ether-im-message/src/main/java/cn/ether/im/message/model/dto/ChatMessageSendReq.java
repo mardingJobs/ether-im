@@ -1,7 +1,7 @@
 package cn.ether.im.message.model.dto;
 
-import cn.ether.im.common.enums.ImChatMessageType;
 import cn.ether.im.common.enums.ImMessageContentType;
+import cn.ether.im.common.enums.ImMessageType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -31,7 +31,7 @@ public class ChatMessageSendReq implements Serializable {
      * 消息类型: 单聊 群聊
      */
     @Schema(name = "messageType", description = "消息类型", requiredMode = Schema.RequiredMode.REQUIRED, example = "PERSONAL｜GROUP")
-    private ImChatMessageType chatMessageType;
+    private ImMessageType chatMessageType;
     /**
      * 消息内容
      */

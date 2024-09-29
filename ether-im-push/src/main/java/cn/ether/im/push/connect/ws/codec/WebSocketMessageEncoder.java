@@ -1,6 +1,6 @@
 package cn.ether.im.push.connect.ws.codec;
 
-import cn.ether.im.common.model.message.ImChannelMessage;
+import cn.ether.im.common.model.info.ImInfo;
 import com.alibaba.fastjson.JSON;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageEncoder;
@@ -15,10 +15,10 @@ import java.util.List;
  * * @Description
  **/
 @Slf4j
-public class WebSocketMessageEncoder extends MessageToMessageEncoder<ImChannelMessage> {
+public class WebSocketMessageEncoder extends MessageToMessageEncoder<ImInfo> {
 
     @Override
-    protected void encode(ChannelHandlerContext ctx, ImChannelMessage msg, List<Object> out) throws Exception {
+    protected void encode(ChannelHandlerContext ctx, ImInfo msg, List<Object> out) throws Exception {
         String jsonString = JSON.toJSONString(msg);
         TextWebSocketFrame socketFrame = new TextWebSocketFrame(jsonString);
         out.add(socketFrame);

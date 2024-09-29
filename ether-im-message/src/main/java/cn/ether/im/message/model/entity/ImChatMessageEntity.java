@@ -1,6 +1,6 @@
 package cn.ether.im.message.model.entity;
 
-import cn.ether.im.common.enums.ImChatMessageType;
+import cn.ether.im.common.enums.ImMessageType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -36,7 +36,7 @@ public class ImChatMessageEntity implements Serializable {
     /**
      * 消息类型：单聊 群聊
      */
-    private ImChatMessageType type;
+    private ImMessageType type;
     /**
      * 发送者ID
      */

@@ -2,7 +2,7 @@ package cn.ether.im.sdk.event;
 
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.event.MessageEventBroadcast;
-import cn.ether.im.common.model.message.ImMessageEvent;
+import cn.ether.im.common.model.info.message.event.ImMessageEvent;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

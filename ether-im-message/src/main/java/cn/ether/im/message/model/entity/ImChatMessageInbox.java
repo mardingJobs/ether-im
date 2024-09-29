@@ -1,6 +1,6 @@
 package cn.ether.im.message.model.entity;
 
-import cn.ether.im.common.enums.ImChatMessageType;
+import cn.ether.im.common.enums.ImMessageType;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -17,6 +17,6 @@ public class ImChatMessageInbox implements Serializable {
     private String receiverId;
     private String senderId;
     private Long messageId;
-    private ImChatMessageType messageType;
+    private ImMessageType messageType;
     private Long sendTime;
 }

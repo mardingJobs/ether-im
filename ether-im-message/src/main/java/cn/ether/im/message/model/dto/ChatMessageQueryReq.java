@@ -1,6 +1,6 @@
 package cn.ether.im.message.model.dto;
 
-import cn.ether.im.common.enums.ImChatMessageType;
+import cn.ether.im.common.enums.ImMessageType;
 import lombok.Data;
 
 /**
@@ -16,7 +16,7 @@ public class ChatMessageQueryReq {
 
     private String receiverId;
 
-    private ImChatMessageType messageType;
+    private ImMessageType messageType;
 
     private Long minMessageId;
 

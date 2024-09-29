@@ -1,6 +1,6 @@
 package cn.ether.im.common.model.conversation;
 
-import cn.ether.im.common.model.message.ImChatMessage;
+import cn.ether.im.common.model.info.message.ImMessage;
 import lombok.Data;
 
 /**
@@ -10,7 +10,7 @@ import lombok.Data;
  * * @Github <a href="https://github.com/mardingJobs">Github链接</a>
  **/
 @Data
-public class ImConversationMessage extends ImChatMessage {
+public class ImConversationMessage extends ImMessage {
 
     /**
      * 对话ID

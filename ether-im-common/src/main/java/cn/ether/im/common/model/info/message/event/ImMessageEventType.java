@@ -1,4 +1,4 @@
-package cn.ether.im.common.event;
+package cn.ether.im.common.model.info.message.event;
 
 import cn.ether.im.common.enums.ImChatMessageStatus;
 

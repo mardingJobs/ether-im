@@ -1,7 +1,7 @@
 package cn.ether.im.message.model.vo;
 
-import cn.ether.im.common.enums.ImChatMessageType;
 import cn.ether.im.common.enums.ImMessageContentType;
+import cn.ether.im.common.enums.ImMessageType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -38,7 +38,7 @@ public class ImChatMessageVo {
      * 消息类型
      */
     @Schema(name = "对话消息类型", description = "", example = "PERSONAL｜GROUP")
-    private ImChatMessageType type;
+    private ImMessageType type;
     /**
      * 消息ID
      */

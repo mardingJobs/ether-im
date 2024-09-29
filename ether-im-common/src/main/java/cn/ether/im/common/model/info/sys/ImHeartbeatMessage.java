@@ -13,16 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.ether.im.common.model.message;
+package cn.ether.im.common.model.info.sys;
 
-import cn.ether.im.common.enums.ImChatMessageType;
-import lombok.Data;
+import cn.ether.im.common.enums.ImSysMessageType;
 
+public class ImHeartbeatMessage extends ImSysMessage {
 
-@Data
-public class ImPersonalMessage extends ImChatMessage {
-
-    public ImPersonalMessage() {
-        this.setChatMessageType(ImChatMessageType.PERSONAL);
+    public ImHeartbeatMessage() {
+        super.setSystemMessageType(ImSysMessageType.HB);
     }
 }

@@ -144,8 +144,8 @@ public class ImUserContextHelper {
     }
 
     public List<String> getUserIdsByGroupId(String groupId) {
-        Set<String> membersSet = remoteCacheService.membersSet(ImConstants.GROUP_MEMBERS_PREFIX + groupId);
-        return new LinkedList<>(membersSet);
+        Set<?> membersSet = remoteCacheService.membersSet(ImConstants.GROUP_MEMBERS_PREFIX + groupId);
+        return new LinkedList<Object>(membersSet).stream().map(Object::toString).collect(Collectors.toList());
     }
 
 

@@ -1,6 +1,6 @@
 package cn.ether.im.sdk.sender;
 
-import cn.ether.im.common.model.message.ImChatMessage;
+import cn.ether.im.common.model.info.message.ImMessage;
 
 /**
  * * @Author: Martin
@@ -13,15 +13,10 @@ public interface ChatMessageSender {
      * 发送聊天消息，支持单聊和群聊，支持发送者多端同步
      *
      * @param chatMessage
+     * @param async 是否是异步发送
      */
-    void sendChatMessage(ImChatMessage chatMessage) throws Exception;
+    void sendChatMessage(ImMessage chatMessage, boolean async) throws Exception;
 
 
-    /**
-     * 发送聊天消息，支持单聊和群聊，支持发送者多端同步
-     *
-     * @param chatMessage
-     */
-    void asyncSendChatMessage(ImChatMessage chatMessage) throws Exception;
 
 }

@@ -16,9 +16,9 @@
 package cn.ether.im.push.mq;
 
 import cn.ether.im.common.constants.ImConstants;
-import cn.ether.im.common.model.message.ImChatMessage;
+import cn.ether.im.common.model.info.message.ImMessage;
 import cn.ether.im.common.util.ThreadPoolUtils;
-import cn.ether.im.push.processor.MessageProcessor;
+import cn.ether.im.push.processor.InfoProcessor;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +38,7 @@ import static cn.ether.im.common.constants.ImConstants.IM_MESSAGE_PUSH_CONSUMER_
 @ConditionalOnProperty(name = "message.mq.type", havingValue = "rocketmq", matchIfMissing = true)
 @RocketMQMessageListener(consumerGroup = IM_MESSAGE_PUSH_CONSUMER_GROUP,
         topic = ImConstants.IM_CHAT_MESSAGE_TOPIC, consumeMode = ConsumeMode.CONCURRENTLY)
-public class ImChatMessageConsumer
+public class ImChatMessageMQListener
         implements RocketMQListener<String>, RocketMQPushConsumerLifecycleListener {
 
     @Value("${server.id}")
@@ -50,13 +50,13 @@ public class ImChatMessageConsumer
         if (StrUtil.isEmpty(message)) {
             return;
         }
-        ImChatMessage chatMessage = JSON.parseObject(message, ImChatMessage.class);
+        ImMessage chatMessage = JSON.parseObject(message, ImMessage.class);
         if (chatMessage == null) {
             log.warn("onMessage|转化后的数据为空");
             return;
         }
         ThreadPoolUtils.execute(() -> {
-            MessageProcessor.processChatMessage(chatMessage);
+            InfoProcessor.processChatMessage(chatMessage);
         });
     }
 

@@ -22,7 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -49,8 +49,8 @@ public class RedisRemoteCacheService implements RemoteCacheService {
     private static final long THREAD_SLEEP_MILLISECONDS = 50;
 
     @Autowired
-    @Qualifier("stringRedisTemplate")
-    private StringRedisTemplate redisTemplate;
+    @Qualifier("redisTemplate")
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public void set(String key, Object value) {
@@ -78,7 +78,7 @@ public class RedisRemoteCacheService implements RemoteCacheService {
     }
 
     @Override
-    public Set<String> membersSet(String key) {
+    public Set<?> membersSet(String key) {
         return redisTemplate.opsForSet().members(key);
     }
 
@@ -141,7 +141,7 @@ public class RedisRemoteCacheService implements RemoteCacheService {
 
 
     @Override
-    public String get(String key) {
+    public Object get(String key) {
         return redisTemplate.opsForValue().get(key);
     }
 
@@ -159,7 +159,7 @@ public class RedisRemoteCacheService implements RemoteCacheService {
     }
 
     @Override
-    public List<String> multiGet(Collection<String> keys) {
+    public List<?> multiGet(Collection<String> keys) {
         return redisTemplate.opsForValue().multiGet(keys);
     }
 

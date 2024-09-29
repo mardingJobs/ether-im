@@ -70,7 +70,7 @@ public interface RemoteCacheService {
      * @param key 缓存的key
      * @return 当前key下的所有元素
      */
-    Set<String> membersSet(String key);
+    Set<?> membersSet(String key);
 
     /**
      * 移除Set集合中的元素
@@ -133,7 +133,7 @@ public interface RemoteCacheService {
      * @param key 缓存key
      * @return 缓存value
      */
-    String get(String key);
+    Object get(String key);
 
     /**
      * 获取缓存数据
@@ -149,7 +149,7 @@ public interface RemoteCacheService {
      * @param keys key列表
      * @return value集合
      */
-    List<String> multiGet(Collection<String> keys);
+    List<?> multiGet(Collection<String> keys);
 
     /**
      * 根据正则表达式获取所有的key集合

@@ -15,8 +15,8 @@
  */
 package cn.ether.im.common.mq;
 
-import cn.ether.im.common.model.message.ImMessage;
-import cn.ether.im.common.model.message.ImTopicMessage;
+import cn.ether.im.common.model.info.ImInfo;
+import cn.ether.im.common.model.info.ImTopicInfo;
 import org.apache.rocketmq.client.producer.SendCallback;
 import org.apache.rocketmq.client.producer.TransactionSendResult;
 
@@ -31,14 +31,14 @@ public interface ImMqMessageSender {
      * 同步发送IM消息到MQ
      * @param message 发送的消息
      */
-    boolean send(ImTopicMessage message) throws Exception;
+    boolean send(ImTopicInfo message) throws Exception;
 
     /**
      * 异步发送IM消息到MQ
      *
      * @param message
      */
-    void asyncSend(ImTopicMessage message, SendCallback callback);
+    void asyncSend(ImTopicInfo message, SendCallback callback);
 
     /**
      * 同步发送顺序消息到MQ,按照消息ID进行顺序发送
@@ -47,7 +47,7 @@ public interface ImMqMessageSender {
      * @return
      * @throws Exception
      */
-    boolean sendOrderlyByUid(ImTopicMessage<? extends ImMessage> message) throws Exception;
+    boolean sendOrderlyByUid(ImTopicInfo<? extends ImInfo> message) throws Exception;
 
     /**
      * 批量发送IM消息
@@ -55,7 +55,7 @@ public interface ImMqMessageSender {
      * @param messages
      * @return
      */
-    boolean batchSend(List<ImTopicMessage> messages) throws Exception;
+    boolean batchSend(List<ImTopicInfo> messages) throws Exception;
 
     /**
      * 异步批量发送IM消息
@@ -64,9 +64,9 @@ public interface ImMqMessageSender {
      * @param callback
      * @return
      */
-    void asyncBatchSend(List<ImTopicMessage> messages, SendCallback callback) throws Exception;
+    void asyncBatchSend(List<ImTopicInfo> messages, SendCallback callback) throws Exception;
 
 
-    TransactionSendResult sendMessageInTransaction(ImTopicMessage message, Object arg);
+    TransactionSendResult sendMessageInTransaction(ImTopicInfo message, Object arg);
 
 }

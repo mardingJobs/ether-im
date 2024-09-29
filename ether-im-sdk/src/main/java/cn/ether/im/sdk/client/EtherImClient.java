@@ -1,6 +1,6 @@
 package cn.ether.im.sdk.client;
 
-import cn.ether.im.common.model.message.ImChatMessage;
+import cn.ether.im.common.model.info.message.ImMessage;
 import cn.ether.im.common.model.user.ImUser;
 
 import java.util.List;
@@ -17,14 +17,14 @@ public interface EtherImClient {
      *
      * @param chatMessage
      */
-    void sendChatMessage(ImChatMessage chatMessage) throws Exception;
+    void sendChatMessage(ImMessage chatMessage) throws Exception;
 
     /**
      * 异步发送对话消息
      *
      * @param chatMessage
      */
-    void asyncSendChatMessage(ImChatMessage chatMessage) throws Exception;
+    void asyncSendChatMessage(ImMessage chatMessage) throws Exception;
 
     /**
      * 判断用户是否在线

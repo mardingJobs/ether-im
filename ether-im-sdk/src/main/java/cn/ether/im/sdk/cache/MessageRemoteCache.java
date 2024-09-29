@@ -1,7 +1,6 @@
 package cn.ether.im.sdk.cache;
 
 import cn.ether.im.common.cache.RemoteCacheService;
-import cn.ether.im.common.model.message.ImChatMessage;
 import cn.hutool.core.bean.BeanUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -28,10 +27,10 @@ public class MessageRemoteCache {
      *
      * @param message
      */
-    public void putMessage(ImChatMessage message) {
+    public void putMessage(ImCacheMessage message) {
         Map<String, Object> map = BeanUtil.beanToMap(message, false, true);
         String key = "im_message:" + message.getId();
-        cacheService.hashPut(key, map, 5, TimeUnit.SECONDS);
+        cacheService.hashPut(key, map, 5, TimeUnit.MINUTES);
     }
 
     public void removeMessage(Long messageId) {

@@ -1,6 +1,6 @@
 package cn.ether.im.common.event.listener;
 
-import cn.ether.im.common.model.message.ImMessageEvent;
+import cn.ether.im.common.model.info.message.event.ImMessageEvent;
 
 /**
  * * todo

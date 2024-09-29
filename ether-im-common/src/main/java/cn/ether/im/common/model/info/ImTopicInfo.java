@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.ether.im.common.model.message;
+package cn.ether.im.common.model.info;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,7 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ImTopicMessage<T extends ImMessage> {
+public class ImTopicInfo<T extends ImInfo> {
 
     private static final long serialVersionUID = -7962158433664656629L;
 
@@ -42,7 +42,7 @@ public class ImTopicMessage<T extends ImMessage> {
      */
     private String tag;
 
-    public ImTopicMessage(T message, String topic) {
+    public ImTopicInfo(T message, String topic) {
         this.message = message;
         this.topic = topic;
     }

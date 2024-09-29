@@ -1,4 +1,4 @@
-package cn.ether.im.common.model.message;
+package cn.ether.im.common.model.info;
 
 /**
  * * @Author: Martin(微信：martin-jobs)
@@ -6,7 +6,7 @@ package cn.ether.im.common.model.message;
  * * @Description
  * * @Github https://github.com/mardingJobs
  **/
-public interface IdentifiableMessage {
+public interface IdentifiableInfo {
 
     /**
      * 获取唯一标识

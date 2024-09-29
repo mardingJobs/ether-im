@@ -8,12 +8,12 @@ package cn.ether.im.push.processor.flusher;
  **/
 
 import cn.ether.im.common.enums.ImTerminalType;
-import cn.ether.im.common.event.ImMessageEventType;
 import cn.ether.im.common.event.listener.ImEventListener;
 import cn.ether.im.common.event.listener.ImMessageEventListener;
 import cn.ether.im.common.exception.RetryException;
-import cn.ether.im.common.model.message.ImChatMessage;
-import cn.ether.im.common.model.message.ImMessageEvent;
+import cn.ether.im.common.model.info.message.ImMessage;
+import cn.ether.im.common.model.info.message.event.ImMessageEvent;
+import cn.ether.im.common.model.info.message.event.ImMessageEventType;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.push.cache.UserChannelCache;
 import cn.hutool.core.bean.BeanUtil;
@@ -38,7 +38,7 @@ public class RetryableMessageFlusher implements ImMessageEventListener, ImMessag
 
     @Retryable(value = RetryException.class, maxAttempts = 3, backoff = @Backoff(delay = 2000, multiplier = 2))
     @Override
-    public void flush(ImUserTerminal receiverTerminal, ImChatMessage message) {
+    public void flush(ImUserTerminal receiverTerminal, ImMessage message) {
         String cacheKey = cacheKey(message.getId(), receiverTerminal.getUserId(), receiverTerminal.getTerminalType());
         if (REACHED_MESSAGES.asMap().containsKey(cacheKey)) {
             log.info("消息已触达,MessageId:{},Terminal:{}", message.getId(), receiverTerminal);
@@ -47,7 +47,7 @@ public class RetryableMessageFlusher implements ImMessageEventListener, ImMessag
         ChannelHandlerContext ctx = UserChannelCache.getChannelCtx(receiverTerminal.getUserId(),
                 receiverTerminal.getTerminalType().toString());
         if (ctx != null) {
-            ImChatMessage copiedMessage = BeanUtil.copyProperties(message, ImChatMessage.class, "receiverTerminals", "receivers");
+            ImMessage copiedMessage = BeanUtil.copyProperties(message, ImMessage.class, "receiverTerminals", "receivers");
             copiedMessage.setReceivers(null);
             copiedMessage.setReceiverTerminals(null);
             ctx.writeAndFlush(copiedMessage);

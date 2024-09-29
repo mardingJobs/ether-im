@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.ether.im.push.processor.system;
+package cn.ether.im.push.processor.sys;
 
 import cn.ether.im.common.cache.RemoteCacheService;
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.helper.ImUserContextHelper;
-import cn.ether.im.common.model.message.ImHeartbeatMessage;
+import cn.ether.im.common.model.info.sys.ImHeartbeatMessage;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.push.cache.UserChannelCache;
 import io.netty.channel.ChannelHandlerContext;

@@ -1,12 +1,11 @@
 package cn.ether.im.message.listener;
 
 import cn.ether.im.common.constants.ImConstants;
-import cn.ether.im.common.enums.ImChatMessageType;
-import cn.ether.im.common.event.ImMessageEventType;
 import cn.ether.im.common.event.listener.ImEventListener;
 import cn.ether.im.common.event.listener.ImMessageEventListener;
-import cn.ether.im.common.model.message.ImChatMessage;
-import cn.ether.im.common.model.message.ImMessageEvent;
+import cn.ether.im.common.model.info.message.ImMessage;
+import cn.ether.im.common.model.info.message.event.ImMessageEvent;
+import cn.ether.im.common.model.info.message.event.ImMessageEventType;
 import cn.ether.im.common.model.user.ImUser;
 import cn.ether.im.message.model.entity.ImChatMessageEntity;
 import cn.ether.im.message.service.ChatMessageService;
@@ -58,11 +57,11 @@ public class WithDrawnMessageEventListener implements ImMessageEventListener {
         }
         messageService.onMessageEventV2(messageEvent);
         ImUser receiver = new ImUser(messageEntity.getSenderId());
-        ImChatMessage chatMessage = new ImChatMessage();
+        ImMessage chatMessage = new ImMessage();
         chatMessage.setId(messageId);
         chatMessage.setSender(messageEvent.getTerminal());
         chatMessage.setReceivers(Collections.singletonList(receiver));
-        chatMessage.setChatMessageType(ImChatMessageType.WITH_DRAWN);
+//        chatMessage.setChatMessageType(ImChatMessageType.WITH_DRAWN);
         chatMessage.setSendTime(messageEvent.getEventTime());
         imClient.sendChatMessage(chatMessage);
     }

@@ -2,7 +2,8 @@ package cn.ether.im.common.event;
 
 import cn.ether.im.common.event.listener.ImEventListener;
 import cn.ether.im.common.event.listener.ImMessageEventListener;
-import cn.ether.im.common.model.message.ImMessageEvent;
+import cn.ether.im.common.model.info.message.event.ImMessageEvent;
+import cn.ether.im.common.model.info.message.event.ImMessageEventType;
 import cn.ether.im.common.util.ThreadPoolUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;

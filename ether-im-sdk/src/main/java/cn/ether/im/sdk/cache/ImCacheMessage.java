@@ -1,7 +1,6 @@
 package cn.ether.im.sdk.cache;
 
-import cn.ether.im.common.enums.ImChatMessageType;
-import cn.ether.im.common.enums.ImMessageContentType;
+import cn.ether.im.common.enums.ImMessageType;
 import lombok.Data;
 
 /**
@@ -11,7 +10,7 @@ import lombok.Data;
  * * @Github <a href="https://github.com/mardingJobs">Github链接</a>
  **/
 @Data
-public class CachedMessage {
+public class ImCacheMessage {
 
     private static final long serialVersionUID = 1L;
     /**
@@ -25,7 +24,7 @@ public class CachedMessage {
     /**
      * 消息内容类型
      */
-    protected ImMessageContentType contentType;
+    protected String contentType;
     /**
      * 发送时间戳
      */
@@ -37,7 +36,7 @@ public class CachedMessage {
     /**
      * 消息类型
      */
-    private ImChatMessageType chatMessageType;
+    private ImMessageType chatMessageType;
     private String sendTerminal;
     private String receiverId;
 

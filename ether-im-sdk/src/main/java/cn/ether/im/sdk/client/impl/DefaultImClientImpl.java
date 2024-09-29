@@ -3,7 +3,7 @@ package cn.ether.im.sdk.client.impl;
 import cn.ether.im.common.enums.ImExceptionCode;
 import cn.ether.im.common.exception.ImException;
 import cn.ether.im.common.helper.ImUserContextHelper;
-import cn.ether.im.common.model.message.ImChatMessage;
+import cn.ether.im.common.model.info.message.ImMessage;
 import cn.ether.im.common.model.user.ImUser;
 import cn.ether.im.sdk.client.EtherImClient;
 import cn.ether.im.sdk.sender.ChatMessageSender;
@@ -36,13 +36,13 @@ public class DefaultImClientImpl implements EtherImClient {
      * @param chatMessage
      */
     @Override
-    public void sendChatMessage(ImChatMessage chatMessage) throws Exception {
-        messageSender.sendChatMessage(chatMessage);
+    public void sendChatMessage(ImMessage chatMessage) throws Exception {
+        messageSender.sendChatMessage(chatMessage, false);
     }
 
     @Override
-    public void asyncSendChatMessage(ImChatMessage chatMessage) throws Exception {
-        messageSender.asyncSendChatMessage(chatMessage);
+    public void asyncSendChatMessage(ImMessage chatMessage) throws Exception {
+        messageSender.sendChatMessage(chatMessage, true);
     }
 
     @Override

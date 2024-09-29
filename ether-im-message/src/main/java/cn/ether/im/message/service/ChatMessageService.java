@@ -1,6 +1,6 @@
 package cn.ether.im.message.service;
 
-import cn.ether.im.common.model.message.ImMessageEvent;
+import cn.ether.im.common.model.info.message.event.ImMessageEvent;
 import cn.ether.im.message.model.dto.*;
 import cn.ether.im.message.model.entity.ImMessageEventLogEntity;
 

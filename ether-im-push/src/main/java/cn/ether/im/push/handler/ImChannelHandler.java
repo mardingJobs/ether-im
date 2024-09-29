@@ -1,13 +1,13 @@
 package cn.ether.im.push.handler;
 
 import cn.ether.im.common.constants.ImConstants;
-import cn.ether.im.common.enums.ImSystemMessageType;
+import cn.ether.im.common.enums.ImSysMessageType;
 import cn.ether.im.common.helper.ImUserContextHelper;
-import cn.ether.im.common.model.message.ImSystemMessage;
+import cn.ether.im.common.model.info.sys.ImSysMessage;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.util.SpringContextHolder;
 import cn.ether.im.push.cache.UserChannelCache;
-import cn.ether.im.push.processor.MessageProcessor;
+import cn.ether.im.push.processor.InfoProcessor;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.timeout.IdleState;
@@ -24,13 +24,13 @@ import org.slf4j.LoggerFactory;
  * * @Description
  **/
 
-public class ImChannelHandler extends SimpleChannelInboundHandler<ImSystemMessage> {
+public class ImChannelHandler extends SimpleChannelInboundHandler<ImSysMessage> {
 
     private final Logger logger = LoggerFactory.getLogger(ImChannelHandler.class);
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, ImSystemMessage msg) throws Exception {
-        MessageProcessor.processSystemMessage(ctx, msg);
+    protected void channelRead0(ChannelHandlerContext ctx, ImSysMessage msg) throws Exception {
+        InfoProcessor.processSystemMessage(ctx, msg);
     }
 
 
@@ -42,7 +42,7 @@ public class ImChannelHandler extends SimpleChannelInboundHandler<ImSystemMessag
                 Attribute<Integer> heartBeatTimesKey = ctx.channel().attr(AttributeKey.valueOf(ImConstants.HEARTBEAT_TIMES));
                 Integer failedTimes = heartBeatTimesKey.get();
                 if (failedTimes == null || failedTimes < ImConstants.HEARTBEAT_MAX_TIMES) {
-                    ImSystemMessage systemMessage = new ImSystemMessage(ImSystemMessageType.HB);
+                    ImSysMessage systemMessage = new ImSysMessage(ImSysMessageType.HB);
                     ctx.writeAndFlush(systemMessage);
                     heartBeatTimesKey.set(failedTimes == null ? 1 : failedTimes + 1);
                 } else {

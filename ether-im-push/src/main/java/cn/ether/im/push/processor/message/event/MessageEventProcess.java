@@ -1,8 +1,8 @@
-package cn.ether.im.push.processor.system;
+package cn.ether.im.push.processor.message.event;
 
-import cn.ether.im.common.event.ImMessageEventType;
-import cn.ether.im.common.model.message.ImMessageEvent;
-import cn.ether.im.push.mq.MessageEventMQProducer;
+import cn.ether.im.common.model.info.message.event.ImMessageEvent;
+import cn.ether.im.common.model.info.message.event.ImMessageEventType;
+import cn.ether.im.push.mq.ImMessageEventMQProducer;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +16,11 @@ import org.springframework.stereotype.Component;
  **/
 @Slf4j
 @Component
-public class MessageEventProcess implements SystemMessageProcess<ImMessageEvent> {
+public class MessageEventProcess {
 
     @Autowired
-    private MessageEventMQProducer eventProducer;
+    private ImMessageEventMQProducer eventProducer;
 
-    @Override
     public void process(ChannelHandlerContext ctx, ImMessageEvent messageEvent) {
         // 判断能否自己处理
         Long messageId = messageEvent.getMessageId();

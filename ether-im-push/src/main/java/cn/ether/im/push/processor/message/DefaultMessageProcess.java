@@ -1,12 +1,12 @@
-package cn.ether.im.push.processor.chat;
+package cn.ether.im.push.processor.message;
 
-import cn.ether.im.common.event.ImMessageEventType;
 import cn.ether.im.common.exception.RetryException;
-import cn.ether.im.common.model.message.ImChatMessage;
-import cn.ether.im.common.model.message.ImMessageEvent;
+import cn.ether.im.common.model.info.message.ImMessage;
+import cn.ether.im.common.model.info.message.event.ImMessageEvent;
+import cn.ether.im.common.model.info.message.event.ImMessageEventType;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.util.ThreadPoolUtils;
-import cn.ether.im.push.mq.MessageEventMQProducer;
+import cn.ether.im.push.mq.ImMessageEventMQProducer;
 import cn.ether.im.push.processor.flusher.ImMessageFlusher;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
@@ -23,10 +23,10 @@ import java.util.concurrent.ThreadPoolExecutor;
  **/
 @Slf4j
 @Component
-public class DefaultMessageProcess implements ChatMessageProcess {
+public class DefaultMessageProcess implements ImMessageProcess {
 
     @Resource
-    private MessageEventMQProducer eventProducer;
+    private ImMessageEventMQProducer eventProducer;
 
     @Resource
     private ImMessageFlusher messageFlusher;
@@ -35,7 +35,7 @@ public class DefaultMessageProcess implements ChatMessageProcess {
 
 
     @Override
-    public void process(ImChatMessage message) {
+    public void process(ImMessage message) {
         List<ImUserTerminal> receiverTerminals = message.getReceiverTerminals();
 
         for (ImUserTerminal terminal : receiverTerminals) {
@@ -51,7 +51,7 @@ public class DefaultMessageProcess implements ChatMessageProcess {
         }
     }
 
-    private void publishMessageEvent(ImChatMessage message, ImUserTerminal terminal) {
+    private void publishMessageEvent(ImMessage message, ImUserTerminal terminal) {
         try {
             // 发送消息已推送事件
             ImMessageEvent messageEvent = new ImMessageEvent();

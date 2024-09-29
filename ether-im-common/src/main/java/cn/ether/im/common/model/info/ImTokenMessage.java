@@ -13,22 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.ether.im.common.model.message;
+package cn.ether.im.common.model.info;
 
-import cn.ether.im.common.enums.ImSystemMessageType;
+import cn.ether.im.common.enums.ImSysMessageType;
+import cn.ether.im.common.model.info.sys.ImSysMessage;
 import lombok.Data;
 
 @Data
-public class ImTokenMessage extends ImSystemMessage {
+public class ImTokenMessage extends ImSysMessage {
 
     private String token;
 
     public ImTokenMessage() {
-        this.setSystemMessageType(ImSystemMessageType.TOKEN);
+        this.setSystemMessageType(ImSysMessageType.TOKEN);
     }
 
     public ImTokenMessage(String token) {
         this.token = token;
-        this.setSystemMessageType(ImSystemMessageType.TOKEN);
+        this.setSystemMessageType(ImSysMessageType.TOKEN);
     }
 }

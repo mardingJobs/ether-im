@@ -2,13 +2,12 @@ package cn.ether.im.message.service.impl;
 
 
 import cn.ether.im.common.enums.*;
-import cn.ether.im.common.event.ImMessageEventType;
 import cn.ether.im.common.event.MessageEventStatusMachine;
 import cn.ether.im.common.exception.ImException;
-import cn.ether.im.common.model.message.ImChatMessage;
-import cn.ether.im.common.model.message.ImMessageEvent;
-import cn.ether.im.common.model.message.ImPersonalMessage;
-import cn.ether.im.common.model.message.ImTopicMessage;
+import cn.ether.im.common.model.info.ImTopicInfo;
+import cn.ether.im.common.model.info.message.ImMessage;
+import cn.ether.im.common.model.info.message.event.ImMessageEvent;
+import cn.ether.im.common.model.info.message.event.ImMessageEventType;
 import cn.ether.im.common.model.user.ImUser;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.mq.ImMqMessageSender;
@@ -121,7 +120,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     @Transactional
     public String sendMessage(ChatMessageSendReq req) throws Exception {
         // 先判断对方是否在线
-        if (req.getChatMessageType() == ImChatMessageType.PERSONAL) {
+        if (req.getChatMessageType() == ImMessageType.PERSONAL) {
             boolean online = etherImClient.isOnline(new ImUser(req.getReceiverId()));
             if (!online) {
                 throw new ImException(ImExceptionCode.RECEIVER_NOT_ONLINE);
@@ -131,14 +130,14 @@ public class ChatMessageServiceImpl implements ChatMessageService {
         // 保存消息
         ImChatMessageEntity entity = saveMessage(req);
         // 发送消息
-        ImChatMessage chatMessage = new ImChatMessage();
+        ImMessage chatMessage = new ImMessage();
         BeanUtil.copyProperties(entity, chatMessage);
         chatMessage.setSender(new ImUserTerminal(entity.getSenderId(), ImTerminalType.valueOf(entity.getSenderTerminal())));
 
         // 群消息
         List<ImUser> receivers = null;
-        ImChatMessageType messageType = req.getChatMessageType();
-        if (messageType == ImChatMessageType.GROUP) {
+        ImMessageType messageType = req.getChatMessageType();
+        if (messageType == ImMessageType.GROUP) {
             String receiverId = req.getReceiverId();
             List<ImGroupUser> groupUsers = groupUserService.lambdaQuery().eq(ImGroupUser::getGroupId, receiverId).list();
             receivers = groupUsers.stream()
@@ -146,7 +145,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
                     .collect(Collectors.toList());
 
             chatMessage.setReceivers(receivers);
-        } else if (messageType == ImChatMessageType.PERSONAL) {
+        } else if (messageType == ImMessageType.PERSONAL) {
             receivers = new LinkedList<>(Collections.singletonList(new ImUser(entity.getReceiverId())));
             chatMessage.setReceivers(receivers);
         }
@@ -163,9 +162,9 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
     @Override
     public String sendPersonalMessage(PersonalMessageSendReq req) throws Exception {
-        ImChatMessage chatMessage = new ImChatMessage();
+        ImMessage chatMessage = new ImMessage();
         chatMessage.setId(snowflakeUtil.nextId());
-        chatMessage.setChatMessageType(ImChatMessageType.PERSONAL);
+        chatMessage.setChatMessageType(ImMessageType.PERSONAL);
         chatMessage.setContent(req.getContent());
         chatMessage.setContentType(ImMessageContentType.valueOf(req.getContentType()));
         chatMessage.setSendTime(new Date().getTime());
@@ -177,9 +176,9 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
     @Override
     public String sendGroupMessage(GroupMessageSendReq req) throws Exception {
-        ImChatMessage chatMessage = new ImChatMessage();
+        ImMessage chatMessage = new ImMessage();
         chatMessage.setId(snowflakeUtil.nextId());
-        chatMessage.setChatMessageType(ImChatMessageType.GROUP);
+        chatMessage.setChatMessageType(ImMessageType.GROUP);
         chatMessage.setContent(req.getContent());
         chatMessage.setContentType(ImMessageContentType.valueOf(req.getContentType()));
         chatMessage.setSendTime(new Date().getTime());
@@ -193,9 +192,9 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
     @Override
     public void asyncSendPersonalMessage(PersonalMessageSendReq req) throws Exception {
-        ImChatMessage chatMessage = new ImChatMessage();
+        ImMessage chatMessage = new ImMessage();
         chatMessage.setId(snowflakeUtil.nextId());
-        chatMessage.setChatMessageType(ImChatMessageType.PERSONAL);
+        chatMessage.setChatMessageType(ImMessageType.PERSONAL);
         chatMessage.setContent(req.getContent());
         chatMessage.setContentType(ImMessageContentType.valueOf(req.getContentType()));
         chatMessage.setSendTime(new Date().getTime());
@@ -260,13 +259,14 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     public Long sendMessageTransaction(ChatMessageSendReq req) {
         ImChatMessageEntity entity = toEntity(req);
 
-        ImChatMessage personalMessage = new ImPersonalMessage();
+        ImMessage personalMessage = new ImMessage();
+        personalMessage.setChatMessageType(ImMessageType.PERSONAL);
         BeanUtil.copyProperties(entity, personalMessage);
         personalMessage.setSender(new ImUserTerminal(entity.getSenderId(), ImTerminalType.valueOf(entity.getSenderTerminal())));
         List<ImUser> receivers = new LinkedList<>(Arrays.asList(new ImUser(entity.getReceiverId())));
         personalMessage.setReceivers(receivers);
         // 组装事物消息
-        ImTopicMessage<ImChatMessage> topicMessage = new ImTopicMessage<>(personalMessage, "im-chat-message-tx-topic", "");
+        ImTopicInfo<ImMessage> topicMessage = new ImTopicInfo<>(personalMessage, "im-chat-message-tx-topic", "");
         TransactionSendResult sendResult = messageSender.sendMessageInTransaction(topicMessage, null);
         if (sendResult.getSendStatus() != SendStatus.SEND_OK) {
             log.error("发送事务消息失败|参数:{}", JSON.toJSONString(topicMessage));
@@ -295,8 +295,8 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
     public void onMessageEvent(ImMessageEvent messageEvent) {
 
-        ImChatMessageType messageType = messageEvent.getChatMessageType();
-        if (messageType == ImChatMessageType.PERSONAL) {
+        ImMessageType messageType = messageEvent.getChatMessageType();
+        if (messageType == ImMessageType.PERSONAL) {
             ImChatMessageEntity messageEntity = chatMessageService.getById(messageEvent.getMessageId());
             if (messageEntity == null) {
                 return;
