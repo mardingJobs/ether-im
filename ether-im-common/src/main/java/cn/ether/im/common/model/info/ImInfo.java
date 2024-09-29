@@ -25,13 +25,13 @@ public class ImInfo implements IdentifiableInfo {
 
     public static ImInfo parseObject(String json) {
         ImInfo message = JSON.parseObject(json, ImInfo.class);
-        ImInfoType messageType = message.getInfoType();
-        if (messageType == ImInfoType.MESSAGE) {
+        ImInfoType infoType = message.getInfoType();
+        if (infoType == ImInfoType.MESSAGE) {
             return JSON.parseObject(json, ImMessage.class);
-        } else if (messageType == ImInfoType.SYSTEM) {
+        } else if (infoType == ImInfoType.SYSTEM) {
             return ImSysMessage.parseObject(json);
         }
-        throw new IllegalArgumentException("不支持的消息类型:" + messageType);
+        throw new IllegalArgumentException("不支持的消息类型:" + infoType);
     }
 
     public String uid() {

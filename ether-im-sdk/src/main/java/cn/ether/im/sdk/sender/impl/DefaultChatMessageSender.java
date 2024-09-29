@@ -16,6 +16,7 @@ import cn.ether.im.sdk.sender.ChatMessageSender;
 import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -42,6 +43,9 @@ public class DefaultChatMessageSender implements ChatMessageSender {
 
     @Resource
     private ImMqMessageSender messageSender;
+
+    @Value("${spring.profiles.active:default}")
+    private String environmentName;
 
 
     private void cacheMessage(ImMessage message) {
@@ -80,7 +84,8 @@ public class DefaultChatMessageSender implements ChatMessageSender {
             ImMessage newChatMessage = new ImMessage();
             BeanUtil.copyProperties(chatMessage, newChatMessage);
             newChatMessage.setReceiverTerminals(entry.getValue());
-            return new ImTopicInfo<>(newChatMessage, ImConstants.IM_CHAT_MESSAGE_TOPIC, entry.getKey());
+            String topic = ImConstants.IM_CHAT_MESSAGE_TOPIC + "-" + environmentName;
+            return new ImTopicInfo<>(newChatMessage, topic, entry.getKey());
         }).collect(Collectors.toList());
         if (topicMessages.isEmpty()) {
             if (log.isDebugEnabled()) {

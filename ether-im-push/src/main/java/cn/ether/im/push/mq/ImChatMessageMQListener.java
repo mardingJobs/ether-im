@@ -31,18 +31,22 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
+import static cn.ether.im.common.constants.ImConstants.IM_CHAT_MESSAGE_TOPIC;
 import static cn.ether.im.common.constants.ImConstants.IM_MESSAGE_PUSH_CONSUMER_GROUP;
 
 @Slf4j
 @Component
 @ConditionalOnProperty(name = "message.mq.type", havingValue = "rocketmq", matchIfMissing = true)
 @RocketMQMessageListener(consumerGroup = IM_MESSAGE_PUSH_CONSUMER_GROUP,
-        topic = ImConstants.IM_CHAT_MESSAGE_TOPIC, consumeMode = ConsumeMode.CONCURRENTLY)
+        topic = IM_CHAT_MESSAGE_TOPIC, consumeMode = ConsumeMode.CONCURRENTLY)
 public class ImChatMessageMQListener
         implements RocketMQListener<String>, RocketMQPushConsumerLifecycleListener {
 
     @Value("${server.id}")
     private Long serverId;
+
+    @Value("${spring.profiles.active:default}")
+    private String environmentName;
 
     @Override
     public void onMessage(String message) {
@@ -63,17 +67,16 @@ public class ImChatMessageMQListener
     @Override
     public void prepareStart(DefaultMQPushConsumer consumer) {
         try {
-            String topic = String.join(ImConstants.MQ_TOPIC_SPLIT,
-                    ImConstants.IM_CHAT_MESSAGE_TOPIC);
             String tag = ImConstants.IM_CHAT_MESSAGE_TAG_PREFIX + ImConstants.MQ_TOPIC_SPLIT + serverId;
-            consumer.subscribe(topic, tag);
+
+            consumer.subscribe(IM_CHAT_MESSAGE_TOPIC + "-" + environmentName, tag);
             int cpuNums = Runtime.getRuntime().availableProcessors();
             consumer.setConsumeThreadMin(cpuNums);
             consumer.setConsumeThreadMax(cpuNums * 2);
             // 消费失败时重试
             consumer.setMaxReconsumeTimes(3);
             //  每个消费者的消费者分组都是不一样的
-            consumer.setConsumerGroup(IM_MESSAGE_PUSH_CONSUMER_GROUP + ImConstants.MQ_TOPIC_SPLIT + serverId);
+            consumer.setConsumerGroup(consumer.getConsumerGroup() + ImConstants.MQ_TOPIC_SPLIT + serverId);
         } catch (Exception e) {
             log.error("prepareStart|异常:{}", e.getMessage());
         }

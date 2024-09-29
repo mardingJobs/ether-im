@@ -3,6 +3,7 @@ package cn.ether.im.push.handler;
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.enums.ImSysMessageType;
 import cn.ether.im.common.helper.ImUserContextHelper;
+import cn.ether.im.common.model.info.ImInfo;
 import cn.ether.im.common.model.info.sys.ImSysMessage;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.util.SpringContextHolder;
@@ -24,13 +25,15 @@ import org.slf4j.LoggerFactory;
  * * @Description
  **/
 
-public class ImChannelHandler extends SimpleChannelInboundHandler<ImSysMessage> {
+public class ImChannelHandler extends SimpleChannelInboundHandler<ImInfo> {
 
     private final Logger logger = LoggerFactory.getLogger(ImChannelHandler.class);
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, ImSysMessage msg) throws Exception {
-        InfoProcessor.processSystemMessage(ctx, msg);
+    protected void channelRead0(ChannelHandlerContext ctx, ImInfo msg) throws Exception {
+        if (msg instanceof ImSysMessage) {
+            InfoProcessor.processSystemMessage(ctx, (ImSysMessage) msg);
+        }
     }
 
 
