@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * IM Message 发送器
  */
-public interface ImMessageSender {
+public interface ImMqMessageSender {
 
     /**
      * 同步发送IM消息到MQ

@@ -1,4 +1,4 @@
-package cn.ether.im.sdk.mq;
+package cn.ether.im.sdk.event;
 
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.event.MessageEventBroadcast;
@@ -20,7 +20,7 @@ import javax.annotation.Resource;
 @Component
 @RocketMQMessageListener(consumerGroup = ImConstants.IM_MESSAGE_EVENT_CONSUMER_GROUP,
         topic = ImConstants.IM_MESSAGE_EVENT_TOPIC, consumeMode = ConsumeMode.CONCURRENTLY)
-public class MessageEventConsumer implements RocketMQListener<MessageExt>, RocketMQPushConsumerLifecycleListener {
+public class MessageEventMQListener implements RocketMQListener<MessageExt>, RocketMQPushConsumerLifecycleListener {
 
     @Resource
     private MessageEventBroadcast messageEventBroadcast;

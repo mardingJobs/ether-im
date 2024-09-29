@@ -1,7 +1,7 @@
 package cn.ether.im.common.helper;
 
 
-import cn.ether.im.common.cache.DistributedCacheService;
+import cn.ether.im.common.cache.RemoteCacheService;
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.enums.ImTerminalType;
 import cn.ether.im.common.model.user.ImUser;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public class ImUserContextHelper {
 
     @Autowired
-    private DistributedCacheService distributedCacheService;
+    private RemoteCacheService remoteCacheService;
 
 
     /**
@@ -46,7 +46,7 @@ public class ImUserContextHelper {
      */
     public void removeServerCache(ImUserTerminal userTerminal) {
         String cacheKey = serverCacheKey(userTerminal);
-        distributedCacheService.hashRemove(cacheKey, userTerminal.getTerminalType().toString());
+        remoteCacheService.hashRemove(cacheKey, userTerminal.getTerminalType().toString());
 
     }
 
@@ -114,7 +114,7 @@ public class ImUserContextHelper {
      */
     public void bindPushServer(ImUserTerminal userTerminal, Long serverId) {
         String cacheKey = serverCacheKey(userTerminal);
-        distributedCacheService.hashPut(cacheKey, userTerminal.getTerminalType().toString(),
+        remoteCacheService.hashPut(cacheKey, userTerminal.getTerminalType().toString(),
                 serverId, ImConstants.ONLINE_TIMEOUT_SECONDS, TimeUnit.SECONDS);
     }
 
@@ -126,7 +126,7 @@ public class ImUserContextHelper {
      * @return
      */
     public Map<String, String> getConnectionInfo(ImUser userInfo) {
-        Map<String, String> map = distributedCacheService.hashGet(serverCacheKey(userInfo));
+        Map<String, String> map = remoteCacheService.hashGet(serverCacheKey(userInfo));
         return map;
     }
 
@@ -144,7 +144,7 @@ public class ImUserContextHelper {
     }
 
     public List<String> getUserIdsByGroupId(String groupId) {
-        Set<String> membersSet = distributedCacheService.membersSet(ImConstants.GROUP_MEMBERS_PREFIX + groupId);
+        Set<String> membersSet = remoteCacheService.membersSet(ImConstants.GROUP_MEMBERS_PREFIX + groupId);
         return new LinkedList<>(membersSet);
     }
 

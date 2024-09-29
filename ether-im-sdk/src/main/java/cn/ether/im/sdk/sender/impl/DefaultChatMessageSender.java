@@ -9,7 +9,8 @@ import cn.ether.im.common.model.message.ImChatMessage;
 import cn.ether.im.common.model.message.ImTopicMessage;
 import cn.ether.im.common.model.user.ImUser;
 import cn.ether.im.common.model.user.ImUserTerminal;
-import cn.ether.im.common.mq.ImMessageSender;
+import cn.ether.im.common.mq.ImMqMessageSender;
+import cn.ether.im.sdk.cache.MessageRemoteCache;
 import cn.ether.im.sdk.sender.ChatMessageSender;
 import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.fastjson.JSON;
@@ -36,11 +37,15 @@ public class DefaultChatMessageSender implements ChatMessageSender {
     private ImUserContextHelper userCacheHelper;
 
     @Resource
-    private ImMessageSender messageSender;
+    private MessageRemoteCache messageRemoteCache;
+
+    @Resource
+    private ImMqMessageSender messageSender;
 
 
     @Override
     public void sendChatMessage(ImChatMessage chatMessage) throws Exception {
+        messageRemoteCache.putMessage(chatMessage);
         ImUserTerminal sender = chatMessage.getSender();
         List<ImUser> receivers = chatMessage.getReceivers();
         List<ImUserTerminal> targetTerminalList = onlineTerminals(receivers, null);
@@ -54,6 +59,7 @@ public class DefaultChatMessageSender implements ChatMessageSender {
 
     @Override
     public void asyncSendChatMessage(ImChatMessage chatMessage) throws Exception {
+        messageRemoteCache.putMessage(chatMessage);
         ImUserTerminal sender = chatMessage.getSender();
         List<ImUser> receivers = chatMessage.getReceivers();
         List<ImUserTerminal> targetTerminalList = onlineTerminals(receivers, null);

@@ -6,7 +6,7 @@ import cn.ether.im.common.model.message.ImChatMessage;
 import cn.ether.im.common.model.message.ImMessageEvent;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.util.ThreadPoolUtils;
-import cn.ether.im.push.mq.ImMessageEventDefaultMqListener;
+import cn.ether.im.push.mq.MessageEventMQProducer;
 import cn.ether.im.push.processor.flusher.ImMessageFlusher;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class DefaultMessageProcess implements ChatMessageProcess {
 
     @Resource
-    private ImMessageEventDefaultMqListener eventProducer;
+    private MessageEventMQProducer eventProducer;
 
     @Resource
     private ImMessageFlusher messageFlusher;

@@ -1,6 +1,6 @@
 package cn.ether.im.common.model.conversation;
 
-import cn.ether.im.common.enums.ImChatMessageContentType;
+import cn.ether.im.common.enums.ImMessageContentType;
 import lombok.Data;
 
 import java.util.Date;
@@ -32,7 +32,7 @@ public class ImConversation {
     /**
      * 最后一条消息类型
      */
-    private ImChatMessageContentType lastMessageContentType;
+    private ImMessageContentType lastMessageContentType;
 
     /**
      * 更新时间

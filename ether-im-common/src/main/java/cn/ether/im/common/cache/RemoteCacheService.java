@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-public interface DistributedCacheService {
+public interface RemoteCacheService {
 
     /**
      * 永久缓存
@@ -93,7 +93,15 @@ public interface DistributedCacheService {
      * @param field
      * @param value
      */
-    void hashPut(String key, String field, Object value, long timeout, TimeUnit unit);
+    void hashPut(String key, String field, Object value, long expireTime, TimeUnit unit);
+
+    /**
+     * 添加hash缓存
+     *
+     * @param key
+     * @param value
+     */
+    void hashPut(String key, Map value, long expireTime, TimeUnit unit);
 
     /**
      * 移除hash 字段

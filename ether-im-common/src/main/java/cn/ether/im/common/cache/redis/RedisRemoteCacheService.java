@@ -15,14 +15,13 @@
  */
 package cn.ether.im.common.cache.redis;
 
-import cn.ether.im.common.cache.DistributedCacheService;
+import cn.ether.im.common.cache.RemoteCacheService;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -34,10 +33,9 @@ import java.util.concurrent.TimeUnit;
 
 
 @Component
-@ConditionalOnProperty(name = "distribute.cache.type", havingValue = "redis", matchIfMissing = true)
-public class RedisDistributedCacheService implements DistributedCacheService {
+public class RedisRemoteCacheService implements RemoteCacheService {
 
-    private final Logger logger = LoggerFactory.getLogger(RedisDistributedCacheService.class);
+    private final Logger logger = LoggerFactory.getLogger(RedisRemoteCacheService.class);
 
     //缓存空数据的时长，单位秒
     private static final Long CACHE_NULL_TTL = 60L;
@@ -100,9 +98,15 @@ public class RedisDistributedCacheService implements DistributedCacheService {
      * @param value
      */
     @Override
-    public void hashPut(String key, String field, Object value, long timeout, TimeUnit unit) {
+    public void hashPut(String key, String field, Object value, long expireTime, TimeUnit unit) {
         redisTemplate.opsForHash().put(key, field, this.getValue(value));
-        expire(key, timeout, unit);
+        expire(key, expireTime, unit);
+    }
+
+    @Override
+    public void hashPut(String key, Map value, long expireTime, TimeUnit unit) {
+        redisTemplate.opsForHash().putAll(key, value);
+        expire(key, expireTime, unit);
     }
 
     /**

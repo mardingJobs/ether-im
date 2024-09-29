@@ -15,7 +15,7 @@
  */
 package cn.ether.im.push.processor.system;
 
-import cn.ether.im.common.cache.DistributedCacheService;
+import cn.ether.im.common.cache.RemoteCacheService;
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.helper.ImUserContextHelper;
 import cn.ether.im.common.model.message.ImHeartbeatMessage;
@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 public class HeartbeatProcess implements SystemMessageProcess<ImHeartbeatMessage> {
 
     @Autowired
-    private DistributedCacheService distributedCacheService;
+    private RemoteCacheService remoteCacheService;
 
     @Autowired
     private ImUserContextHelper cacheHelper;
@@ -49,7 +49,7 @@ public class HeartbeatProcess implements SystemMessageProcess<ImHeartbeatMessage
         }
         // 延续在线时间
         String cacheKey = cacheHelper.serverCacheKey(userTerminal);
-        distributedCacheService.expire(cacheKey, ImConstants.ONLINE_TIMEOUT_SECONDS, TimeUnit.SECONDS);
+        remoteCacheService.expire(cacheKey, ImConstants.ONLINE_TIMEOUT_SECONDS, TimeUnit.SECONDS);
         // 心跳次数清零,重新计算心跳超时时间
         ctx.channel().attr(AttributeKey.valueOf(ImConstants.HEARTBEAT_TIMES)).set(0);
     }

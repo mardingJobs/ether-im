@@ -1,7 +1,7 @@
 package cn.ether.im.message.model.dto;
 
-import cn.ether.im.common.enums.ImChatMessageContentType;
 import cn.ether.im.common.enums.ImChatMessageType;
+import cn.ether.im.common.enums.ImMessageContentType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -42,6 +42,6 @@ public class ChatMessageSendReq implements Serializable {
      * 消息内容类型: 文字 图片 文件 语音 视频
      */
     @Schema(name = "contentType", description = "消息内容类型: 文字 图片 文件 语音 视频", example = "TEXT|IMAGE|VIDEO|AUDIO|FILE")
-    private ImChatMessageContentType contentType;
+    private ImMessageContentType contentType;
 
 }

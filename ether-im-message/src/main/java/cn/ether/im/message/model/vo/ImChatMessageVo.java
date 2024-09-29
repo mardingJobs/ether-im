@@ -1,7 +1,7 @@
 package cn.ether.im.message.model.vo;
 
-import cn.ether.im.common.enums.ImChatMessageContentType;
 import cn.ether.im.common.enums.ImChatMessageType;
+import cn.ether.im.common.enums.ImMessageContentType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -24,7 +24,7 @@ public class ImChatMessageVo {
      * 消息内容类型
      */
     @Schema(name = "消息内容类型", description = "消息内容类型", example = "TEXT｜IMAGE｜VIDEO｜AUDIO｜FILE")
-    protected ImChatMessageContentType contentType;
+    protected ImMessageContentType contentType;
     /**
      * 发送时间戳
      */

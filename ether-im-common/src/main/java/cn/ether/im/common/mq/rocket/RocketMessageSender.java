@@ -4,7 +4,7 @@ import cn.ether.im.common.enums.ImExceptionCode;
 import cn.ether.im.common.exception.ImException;
 import cn.ether.im.common.model.message.ImMessage;
 import cn.ether.im.common.model.message.ImTopicMessage;
-import cn.ether.im.common.mq.ImMessageSender;
+import cn.ether.im.common.mq.ImMqMessageSender;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 @ConditionalOnProperty(name = "message.mq.type", havingValue = "rocketmq", matchIfMissing = true)
-public class RocketMessageSender implements ImMessageSender {
+public class RocketMessageSender implements ImMqMessageSender {
 
     @Autowired
     private RocketMQTemplate rocketMQTemplate;
