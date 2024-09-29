@@ -1,11 +1,8 @@
 package cn.ether.im.push.processor.system;
 
-import cn.ether.im.common.enums.ImExceptionCode;
 import cn.ether.im.common.event.MessageEventBroadcast;
-import cn.ether.im.common.exception.ImException;
 import cn.ether.im.common.model.message.ImMessageEvent;
-import cn.ether.im.push.mq.ImMessageEventProducer;
-import com.alibaba.fastjson.JSON;
+import cn.ether.im.push.mq.ImMessageEventDefaultMqListener;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +23,10 @@ public class MessageEventProcess implements SystemMessageProcess<ImMessageEvent>
     private MessageEventBroadcast messageBroadcast;
 
     @Autowired
-    private ImMessageEventProducer eventProducer;
+    private ImMessageEventDefaultMqListener eventProducer;
 
     @Override
     public void process(ChannelHandlerContext ctx, ImMessageEvent messageEvent) {
-
         messageBroadcast.broadcast(messageEvent);
-        try {
-            eventProducer.publish(messageEvent);
-        } catch (Exception e) {
-            log.error("发布消息事件失败,MessageEvent:{}", JSON.toJSONString(messageEvent), e);
-            throw new ImException(ImExceptionCode.PUBLISH_MESSAGE_EVENT_FAIL);
-        }
     }
 }

@@ -13,6 +13,11 @@ import java.lang.annotation.*;
 @Component
 public @interface ImEventListener {
 
+    /**
+     * 如果为空，代表监听所有消息事件类型
+     *
+     * @return
+     */
     ImMessageEventType[] listenEventTypes() default {};
 
     @AliasFor("listenEventTypes")
