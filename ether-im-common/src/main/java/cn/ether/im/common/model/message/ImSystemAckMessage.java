@@ -17,6 +17,6 @@ public class ImSystemAckMessage extends ImSystemMessage {
 
     public ImSystemAckMessage(String seq) {
         this.setSystemMessageType(ImSystemMessageType.ACK);
-        this.setSeq(seq);
+        this.setUid(seq);
     }
 }

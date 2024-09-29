@@ -50,7 +50,7 @@ public class WebSocketMockClient extends WebSocketClient {
 
     @Override
     public void onMessage(String message) {
-        log.info("【{}】,message:{}", mockUser, message);
+        log.info("【{}】收到消息:{}", mockUser, message);
         ImMessage imMessage = ImMessage.parseObject(message);
         if (imMessage.getMessageType() == ImMessageType.SYSTEM) {
             ImSystemMessage systemMessage = (ImSystemMessage) imMessage;
@@ -60,8 +60,6 @@ public class WebSocketMockClient extends WebSocketClient {
             }
         } else if (imMessage.getMessageType() == ImMessageType.CHAT) {
             ImChatMessage chatMessage = (ImChatMessage) imMessage;
-            log.info("【{}】收到对话消息：{}", mockUser, chatMessage);
-
             int sleepTimes = new Random().nextInt(1);
             try {
                 log.info("【{}】模拟客户端返回触达事件延迟,时间：{}", mockUser, sleepTimes);

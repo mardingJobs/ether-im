@@ -70,7 +70,7 @@ public class ImChatMessage extends ImMessage {
      * @return
      */
     @Override
-    public String uniqueId() {
+    public String uid() {
         return String.valueOf(id);
     }
 }

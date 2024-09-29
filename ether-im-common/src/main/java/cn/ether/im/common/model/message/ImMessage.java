@@ -15,8 +15,9 @@ public class ImMessage implements IdentifiableMessage, ImChannelMessage {
 
     /**
      * 表示消息的唯一标识 (可选)
+     * 对于对话消息，是消息ID；对于系统消息，是可以不是消息ID
      */
-    private String seq;
+    private String uid;
 
     private ImMessageType messageType;
 
@@ -31,8 +32,8 @@ public class ImMessage implements IdentifiableMessage, ImChannelMessage {
         throw new IllegalArgumentException("不支持的消息类型:" + messageType);
     }
 
-    public String uniqueId() {
-        return seq;
+    public String uid() {
+        return uid;
     }
 
 }

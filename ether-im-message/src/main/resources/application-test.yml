@@ -4,7 +4,7 @@ server:
     threads:
       max: 512
       min-spare: 64
-    max-connections: 8192 # 一瞬间最大支持的并发的连接数
+    max-connections: 2048 # 一瞬间最大支持的并发的连接数
     accept-count: 1024 # 等待队列长度
 
 spring:

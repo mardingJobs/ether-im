@@ -52,7 +52,7 @@ public class ImMessageEvent extends ImSystemMessage {
      * @return
      */
     @Override
-    public String uniqueId() {
+    public String uid() {
         return String.valueOf(this.getMessageId());
     }
 }
