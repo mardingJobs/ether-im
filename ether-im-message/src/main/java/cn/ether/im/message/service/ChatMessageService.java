@@ -49,4 +49,6 @@ public interface ChatMessageService {
 
 
     String sendGroupMessage(GroupMessageSendReq req) throws Exception;
+
+    void asyncSendPersonalMessage(PersonalMessageSendReq req) throws Exception;
 }

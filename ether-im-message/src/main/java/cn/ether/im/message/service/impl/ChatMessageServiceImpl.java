@@ -191,6 +191,19 @@ public class ChatMessageServiceImpl implements ChatMessageService {
         return chatMessage.getId().toString();
     }
 
+    @Override
+    public void asyncSendPersonalMessage(PersonalMessageSendReq req) throws Exception {
+        ImChatMessage chatMessage = new ImChatMessage();
+        chatMessage.setId(snowflakeUtil.nextId());
+        chatMessage.setChatMessageType(ImChatMessageType.PERSONAL);
+        chatMessage.setContent(req.getContent());
+        chatMessage.setContentType(ImChatMessageContentType.valueOf(req.getContentType()));
+        chatMessage.setSendTime(new Date().getTime());
+        chatMessage.setSender(SessionContext.loggedUser());
+        chatMessage.setReceivers(new LinkedList<>(Collections.singletonList(new ImUser(req.getReceiverId()))));
+        etherImClient.asyncSendChatMessage(chatMessage);
+    }
+
     /**
      * 离线拉取用户最近一个月内最多100消息，包括发送给该用户的收件箱消息自己发送的消息
      *

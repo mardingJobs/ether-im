@@ -16,4 +16,12 @@ public interface ChatMessageSender {
      */
     void sendChatMessage(ImChatMessage chatMessage) throws Exception;
 
+
+    /**
+     * 发送聊天消息，支持单聊和群聊，支持发送者多端同步
+     *
+     * @param chatMessage
+     */
+    void asyncSendChatMessage(ImChatMessage chatMessage) throws Exception;
+
 }

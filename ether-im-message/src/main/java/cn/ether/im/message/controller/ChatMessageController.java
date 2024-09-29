@@ -59,6 +59,20 @@ public class ChatMessageController {
         return Resp.success(messageId);
     }
 
+
+    /**
+     * 异步发送单聊消息
+     *
+     * @param req
+     * @return
+     */
+    @Operation(summary = "异步发送单聊消息")
+    @PostMapping("/send/personal/async")
+    public Resp sendPersonalAsync(@RequestBody PersonalMessageSendReq req) throws Exception {
+        messageService.asyncSendPersonalMessage(req);
+        return Resp.success();
+    }
+
     @Operation(summary = "发送群聊消息", description = "如果发送成功的话，会返回消息ID")
     @PostMapping("/send/group")
     public Resp sendGroup(@RequestBody GroupMessageSendReq req) throws Exception {

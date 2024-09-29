@@ -49,10 +49,23 @@ public class DefaultChatMessageSender implements ChatMessageSender {
             List<ImUserTerminal> otherSelfTerminals = onlineTerminals(Collections.singletonList(sender.cloneUser()), sender);
             targetTerminalList.addAll(otherSelfTerminals);
         }
-        doSendToTargetTerminal(chatMessage, targetTerminalList);
+        doSendToTargetTerminal(chatMessage, targetTerminalList, false);
     }
 
-    private void doSendToTargetTerminal(ImChatMessage chatMessage, List<ImUserTerminal> onlineTerminals) throws Exception {
+    @Override
+    public void asyncSendChatMessage(ImChatMessage chatMessage) throws Exception {
+        ImUserTerminal sender = chatMessage.getSender();
+        List<ImUser> receivers = chatMessage.getReceivers();
+        List<ImUserTerminal> targetTerminalList = onlineTerminals(receivers, null);
+        // 获取自己其他在线终端
+        if (ImChatMessageType.PERSONAL.equals(chatMessage.getChatMessageType())) {
+            List<ImUserTerminal> otherSelfTerminals = onlineTerminals(Collections.singletonList(sender.cloneUser()), sender);
+            targetTerminalList.addAll(otherSelfTerminals);
+        }
+        doSendToTargetTerminal(chatMessage, targetTerminalList, true);
+    }
+
+    private void doSendToTargetTerminal(ImChatMessage chatMessage, List<ImUserTerminal> onlineTerminals, boolean async) throws Exception {
         Map<String, List<ImUserTerminal>> messageTagMap = onlineTerminals.stream()
                 .collect(Collectors.groupingBy((terminal) -> userCacheHelper.getMessageTag(terminal)));
 
@@ -63,11 +76,18 @@ public class DefaultChatMessageSender implements ChatMessageSender {
             return new ImTopicMessage<>(newChatMessage, ImConstants.IM_CHAT_MESSAGE_TOPIC, entry.getKey());
         }).collect(Collectors.toList());
         if (topicMessages.isEmpty()) {
+            if (log.isDebugEnabled()) {
+                log.debug("没有在线终端，消息发送失败：{}", JSON.toJSONString(chatMessage));
+            }
             return;
         }
-        boolean send = messageSender.batchSend(topicMessages);
-        if (!send) {
-            throw new ImException(ImExceptionCode.MESSAGE_SENT_TO_MQ_FAIL);
+        if (async) {
+            messageSender.asyncBatchSend(topicMessages, null);
+        } else {
+            boolean send = messageSender.batchSend(topicMessages);
+            if (!send) {
+                throw new ImException(ImExceptionCode.MESSAGE_SENT_TO_MQ_FAIL);
+            }
         }
         if (log.isDebugEnabled()) {
             log.debug("已发送消息到MQ：{}", JSON.toJSONString(topicMessages));

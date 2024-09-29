@@ -41,6 +41,11 @@ public class DefaultImClientImpl implements EtherImClient {
     }
 
     @Override
+    public void asyncSendChatMessage(ImChatMessage chatMessage) throws Exception {
+        messageSender.asyncSendChatMessage(chatMessage);
+    }
+
+    @Override
     public boolean isOnline(ImUser user) {
         Map<String, String> connectedServerIds = contextHelper.getConnectionInfo(user);
         return CollectionUtil.isNotEmpty(connectedServerIds);
