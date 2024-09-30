@@ -1,14 +1,13 @@
 package cn.ether.im.push.handler;
 
+import cn.ether.im.common.cache.ImUserContextCache;
 import cn.ether.im.common.constants.ImConstants;
-import cn.ether.im.common.enums.ImSysMessageType;
-import cn.ether.im.common.helper.ImUserContextHelper;
 import cn.ether.im.common.model.info.ImInfo;
-import cn.ether.im.common.model.info.sys.ImSysMessage;
+import cn.ether.im.common.model.info.sys.ImHeartbeatInfo;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.util.SpringContextHolder;
 import cn.ether.im.push.cache.UserChannelCache;
-import cn.ether.im.push.processor.InfoProcessor;
+import cn.ether.im.push.processor.ImInfoProcessorContext;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.timeout.IdleState;
@@ -31,9 +30,8 @@ public class ImChannelHandler extends SimpleChannelInboundHandler<ImInfo> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ImInfo msg) throws Exception {
-        if (msg instanceof ImSysMessage) {
-            InfoProcessor.processSystemMessage(ctx, (ImSysMessage) msg);
-        }
+        ImInfoProcessorContext context = SpringContextHolder.getBean(ImInfoProcessorContext.class);
+        context.process(ctx, msg);
     }
 
 
@@ -45,8 +43,8 @@ public class ImChannelHandler extends SimpleChannelInboundHandler<ImInfo> {
                 Attribute<Integer> heartBeatTimesKey = ctx.channel().attr(AttributeKey.valueOf(ImConstants.HEARTBEAT_TIMES));
                 Integer failedTimes = heartBeatTimesKey.get();
                 if (failedTimes == null || failedTimes < ImConstants.HEARTBEAT_MAX_TIMES) {
-                    ImSysMessage systemMessage = new ImSysMessage(ImSysMessageType.HB);
-                    ctx.writeAndFlush(systemMessage);
+                    ImHeartbeatInfo heartbeatMessage = new ImHeartbeatInfo();
+                    ctx.writeAndFlush(heartbeatMessage);
                     heartBeatTimesKey.set(failedTimes == null ? 1 : failedTimes + 1);
                 } else {
                     logger.info("网络连接已失效,断开连接。RemoteAddress:{}", ctx.channel().remoteAddress());
@@ -70,13 +68,17 @@ public class ImChannelHandler extends SimpleChannelInboundHandler<ImInfo> {
             ctx.close();
             return;
         }
-        ImUserContextHelper userContextHelper = SpringContextHolder.getBean(ImUserContextHelper.class);
+        ImUserContextCache userContextHelper = SpringContextHolder.getBean(ImUserContextCache.class);
         userContextHelper.removeServerCache(userTerminal);
         UserChannelCache.removeChannelCtx(userTerminal.getUserId(), userTerminal.getTerminalType().name());
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        logger.error("exceptionCaught|异常:{}", cause.getMessage());
+        if (logger.isDebugEnabled()) {
+            logger.error("exceptionCaught|异常", cause);
+        } else {
+            logger.error("exceptionCaught|异常:{}", cause.getMessage());
+        }
     }
 }

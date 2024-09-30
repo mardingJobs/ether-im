@@ -15,11 +15,12 @@
  */
 package cn.ether.im.common.model.info.sys;
 
-import cn.ether.im.common.enums.ImSysMessageType;
+import cn.ether.im.common.enums.ImInfoType;
+import cn.ether.im.common.model.info.ImInfo;
 
-public class ImHeartbeatMessage extends ImSysMessage {
+public class ImHeartbeatInfo extends ImInfo {
 
-    public ImHeartbeatMessage() {
-        super.setSystemMessageType(ImSysMessageType.HB);
+    public ImHeartbeatInfo() {
+        super.setType(ImInfoType.HEART_BEAT);
     }
 }

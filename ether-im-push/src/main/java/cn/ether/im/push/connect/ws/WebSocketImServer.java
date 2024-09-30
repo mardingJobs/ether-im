@@ -2,10 +2,11 @@ package cn.ether.im.push.connect.ws;
 
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.push.connect.ImPushServer;
+import cn.ether.im.push.connect.ws.codec.ImProtocEncoder;
 import cn.ether.im.push.connect.ws.codec.WebSocketMessageDecoder;
 import cn.ether.im.push.connect.ws.codec.WebSocketMessageEncoder;
+import cn.ether.im.push.handler.HandshakeCompleteChannelHandler;
 import cn.ether.im.push.handler.ImChannelHandler;
-import cn.ether.im.push.handler.ImIdentityChannelHandler;
 import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
 import com.alibaba.nacos.api.PropertyKeyConst;
 import com.alibaba.nacos.api.naming.NamingFactory;
@@ -97,8 +98,9 @@ public class WebSocketImServer implements ImPushServer {
                                 .addLast("http-chunked", new ChunkedWriteHandler())
                                 .addLast(new WebSocketServerProtocolHandler("/im"))
                                 .addLast(new WebSocketMessageDecoder())
+                                .addLast(new ImProtocEncoder())
                                 .addLast(new WebSocketMessageEncoder())
-                                .addLast("im-identity", new ImIdentityChannelHandler()) // 位置不能放在前面
+                                .addLast("im-identity", new HandshakeCompleteChannelHandler()) // 位置不能放在前面
                                 .addLast(new ImChannelHandler());
                     }
                 });

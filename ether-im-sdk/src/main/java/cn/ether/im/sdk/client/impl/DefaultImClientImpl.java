@@ -1,8 +1,8 @@
 package cn.ether.im.sdk.client.impl;
 
+import cn.ether.im.common.cache.ImUserContextCache;
 import cn.ether.im.common.enums.ImExceptionCode;
 import cn.ether.im.common.exception.ImException;
-import cn.ether.im.common.helper.ImUserContextHelper;
 import cn.ether.im.common.model.info.message.ImMessage;
 import cn.ether.im.common.model.user.ImUser;
 import cn.ether.im.sdk.client.EtherImClient;
@@ -27,7 +27,7 @@ public class DefaultImClientImpl implements EtherImClient {
     private ChatMessageSender messageSender;
 
     @Resource
-    private ImUserContextHelper contextHelper;
+    private ImUserContextCache contextHelper;
 
 
     /**

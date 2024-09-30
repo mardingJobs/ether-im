@@ -1,15 +1,16 @@
-package cn.ether.im.common.helper;
+package cn.ether.im.common.cache;
 
 
-import cn.ether.im.common.cache.RemoteCacheService;
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.enums.ImTerminalType;
 import cn.ether.im.common.model.user.ImUser;
 import cn.ether.im.common.model.user.ImUserTerminal;
+import cn.ether.im.common.util.SpringContextHolder;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.map.MapUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
  * * @Description
  **/
 @Component
-public class ImUserContextHelper {
+public class ImUserContextCache {
 
     @Autowired
     private RemoteCacheService remoteCacheService;
@@ -110,9 +111,13 @@ public class ImUserContextHelper {
      * 将用户终端和服务绑定
      *
      * @param userTerminal
-     * @param serverId
      */
-    public void bindPushServer(ImUserTerminal userTerminal, Long serverId) {
+    public void bindPushServer(ImUserTerminal userTerminal) {
+        Environment environment = SpringContextHolder.getBean(Environment.class);
+        String serverId = environment.getProperty("server.id");
+        if (StringUtils.isEmpty(serverId)) {
+            throw new IllegalArgumentException("server.id is null");
+        }
         String cacheKey = serverCacheKey(userTerminal);
         remoteCacheService.hashPut(cacheKey, userTerminal.getTerminalType().toString(),
                 serverId, ImConstants.ONLINE_TIMEOUT_SECONDS, TimeUnit.SECONDS);

@@ -66,7 +66,7 @@ public class ImMessage extends ImInfo {
     private ImMessageType chatMessageType;
 
     public ImMessage() {
-        this.setInfoType(ImInfoType.MESSAGE);
+        this.setType(ImInfoType.MESSAGE);
     }
 
     /**

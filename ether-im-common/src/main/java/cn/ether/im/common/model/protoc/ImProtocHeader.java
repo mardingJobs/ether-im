@@ -1,5 +1,6 @@
 package cn.ether.im.common.model.protoc;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -12,9 +13,9 @@ import lombok.Data;
  * * @Github <a href="https://github.com/mardingJobs">Github链接</a>
  **/
 @Data
+@AllArgsConstructor
 public class ImProtocHeader {
 
-    private String type;
-
+    private ImProtocType type;
 
 }

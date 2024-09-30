@@ -1,10 +1,10 @@
 package cn.ether.im.sdk.sender.impl;
 
+import cn.ether.im.common.cache.ImUserContextCache;
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.enums.ImExceptionCode;
 import cn.ether.im.common.enums.ImMessageType;
 import cn.ether.im.common.exception.ImException;
-import cn.ether.im.common.helper.ImUserContextHelper;
 import cn.ether.im.common.model.info.ImTopicInfo;
 import cn.ether.im.common.model.info.message.ImMessage;
 import cn.ether.im.common.model.user.ImUser;
@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 public class DefaultChatMessageSender implements ChatMessageSender {
 
     @Resource
-    private ImUserContextHelper userCacheHelper;
+    private ImUserContextCache userContextCache;
 
     @Resource
     private MessageRemoteCache messageRemoteCache;
@@ -78,7 +78,7 @@ public class DefaultChatMessageSender implements ChatMessageSender {
 
     private void doSendToTargetTerminal(ImMessage chatMessage, List<ImUserTerminal> onlineTerminals, boolean async) throws Exception {
         Map<String, List<ImUserTerminal>> messageTagMap = onlineTerminals.stream()
-                .collect(Collectors.groupingBy((terminal) -> userCacheHelper.getMessageTag(terminal)));
+                .collect(Collectors.groupingBy((terminal) -> userContextCache.getMessageTag(terminal)));
 
         List<ImTopicInfo> topicMessages = messageTagMap.entrySet().stream().map((entry) -> {
             ImMessage newChatMessage = new ImMessage();
@@ -109,7 +109,7 @@ public class DefaultChatMessageSender implements ChatMessageSender {
 
     private List<ImUserTerminal> onlineTerminals(List<ImUser> receivers, ImUserTerminal excludeTerminal) {
         List<ImUserTerminal> terminalList = receivers.stream()
-                .map(receiver -> userCacheHelper.onlineTerminals(receiver))
+                .map(receiver -> userContextCache.onlineTerminals(receiver))
                 .flatMap(Collection::stream)
                 .filter(terminal -> !terminal.equals(excludeTerminal))
                 .collect(Collectors.toList());

@@ -1,15 +1,12 @@
 package cn.ether.im.performance.test.client;
 
 import cn.ether.im.common.enums.ImInfoType;
-import cn.ether.im.common.enums.ImMessageType;
-import cn.ether.im.common.enums.ImSysMessageType;
 import cn.ether.im.common.enums.ImTerminalType;
 import cn.ether.im.common.model.info.ImInfo;
 import cn.ether.im.common.model.info.message.ImMessage;
 import cn.ether.im.common.model.info.message.event.ImMessageEvent;
 import cn.ether.im.common.model.info.message.event.ImMessageEventType;
-import cn.ether.im.common.model.info.sys.ImHeartbeatMessage;
-import cn.ether.im.common.model.info.sys.ImSysMessage;
+import cn.ether.im.common.model.info.sys.ImHeartbeatInfo;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.util.JwtUtils;
 import cn.ether.im.common.util.ThreadPoolUtils;
@@ -54,15 +51,17 @@ public class WebSocketMockClient extends WebSocketClient {
 
     @Override
     public void onMessage(String message) {
+        if ("JSON".equals(message)) {
+            return;
+        }
+
+
         log.info("【{}】收到消息:{}", mockUser, message);
         ImInfo imInfo = ImInfo.parseObject(message);
-        if (imInfo.getInfoType() == ImInfoType.SYSTEM) {
-            ImSysMessage systemMessage = (ImSysMessage) imInfo;
-            if (systemMessage.getSystemMessageType() == ImSysMessageType.HB) {
-                log.info("【{}】发送心跳", mockUser);
-                sendMessage(new ImHeartbeatMessage());
-            }
-        } else if (imInfo.getInfoType() == ImInfoType.MESSAGE) {
+        if (imInfo.getType() == ImInfoType.HEART_BEAT) {
+            log.info("【{}】发送心跳", mockUser);
+            sendMessage(new ImHeartbeatInfo());
+        } else if (imInfo.getType() == ImInfoType.MESSAGE) {
             ImMessage chatMessage = (ImMessage) imInfo;
             int sleepTimes = new Random().nextInt(1);
             try {
@@ -121,8 +120,6 @@ public class WebSocketMockClient extends WebSocketClient {
         messageEvent.setMessageId(chatMessage.getId());
         messageEvent.setEventTime(new Date().getTime());
         messageEvent.setTerminal(new ImUserTerminal(mockUser.getUserId(), ImTerminalType.valueOf(mockUser.getTerminalType())));
-        messageEvent.setEventType(ImMessageEventType.REACHED);
-        messageEvent.setChatMessageType(ImMessageType.PERSONAL);
         messageEvent.setEventType(ImMessageEventType.REACHED);
         sendMessage(messageEvent);
         log.info("【{}】已回复触达事件,MessageId:{}", mockUser, messageEvent.getMessageId());

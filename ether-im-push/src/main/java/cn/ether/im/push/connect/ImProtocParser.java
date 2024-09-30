@@ -2,6 +2,7 @@ package cn.ether.im.push.connect;
 
 import cn.ether.im.common.model.info.ImInfo;
 import cn.ether.im.common.model.protoc.ImProtoc;
+import cn.ether.im.common.model.protoc.ImProtocHeader;
 import cn.ether.im.common.model.protoc.ImProtocType;
 import cn.ether.im.push.exception.ImProtocException;
 import com.alibaba.fastjson.JSON;
@@ -30,27 +31,25 @@ public class ImProtocParser {
         }
         String header = text.substring(0, splitIndex);
         char type = header.charAt(0);
-        char version = header.charAt(1);
         String body = text.substring(splitIndex + 1);
-        log.info("解析到消息类型:{},版本号:{},消息体:{}", type, version, body);
         ImProtoc imProtoc = new ImProtoc();
         ImProtocType protocType = ImProtocType.getByCode(type);
         if (protocType == null) {
             throw new ImProtocException("协议格式错误:不支持的协议类型");
         }
-        imProtoc.setType(protocType);
-        imProtoc.setVersion(version);
+        imProtoc.setHeader(new ImProtocHeader(protocType));
         ImInfo imInfo = ImInfo.parseObject(body);
         imProtoc.setBody(imInfo);
+        log.info("解析协议:{}", JSON.toJSONString(imProtoc));
         return imProtoc;
     }
 
 
     public static String toText(ImProtoc protoc) {
-        char type = protoc.getType().getCode();
-        char version = protoc.getVersion();
+        ImProtocHeader header = protoc.getHeader();
+        char type = header.getType().getCode();
         String body = JSON.toJSONString(protoc.getBody());
-        return String.format("%c%c%s", type, version, body);
+        return String.format("%c%s", type, body);
     }
 
 }

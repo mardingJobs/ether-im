@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.ether.im.push.processor.sys;
+package cn.ether.im.push.processor;
 
+import cn.ether.im.common.cache.ImUserContextCache;
 import cn.ether.im.common.cache.RemoteCacheService;
 import cn.ether.im.common.constants.ImConstants;
-import cn.ether.im.common.helper.ImUserContextHelper;
-import cn.ether.im.common.model.info.sys.ImHeartbeatMessage;
+import cn.ether.im.common.enums.ImInfoType;
+import cn.ether.im.common.model.info.sys.ImHeartbeatInfo;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.push.cache.UserChannelCache;
 import io.netty.channel.ChannelHandlerContext;
@@ -31,16 +32,16 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class HeartbeatProcess implements SystemMessageProcess<ImHeartbeatMessage> {
+public class HeartbeatProcess extends ImInfoProcessor<ImHeartbeatInfo> {
 
     @Autowired
     private RemoteCacheService remoteCacheService;
 
     @Autowired
-    private ImUserContextHelper cacheHelper;
+    private ImUserContextCache cacheHelper;
 
     @Override
-    public void process(ChannelHandlerContext ctx, ImHeartbeatMessage message) {
+    public void doProcess(ChannelHandlerContext ctx, ImHeartbeatInfo message) {
         ImUserTerminal userTerminal = UserChannelCache.getUserTerminal(ctx);
         if (userTerminal == null) {
             log.warn("UserTerminal is null,close channel.RemoteAddress:{}", ctx.channel().remoteAddress());
@@ -52,5 +53,10 @@ public class HeartbeatProcess implements SystemMessageProcess<ImHeartbeatMessage
         remoteCacheService.expire(cacheKey, ImConstants.ONLINE_TIMEOUT_SECONDS, TimeUnit.SECONDS);
         // 心跳次数清零,重新计算心跳超时时间
         ctx.channel().attr(AttributeKey.valueOf(ImConstants.HEARTBEAT_TIMES)).set(0);
+    }
+
+    @Override
+    public ImInfoType supportType() {
+        return ImInfoType.HEART_BEAT;
     }
 }

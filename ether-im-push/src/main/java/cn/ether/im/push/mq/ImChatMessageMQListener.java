@@ -18,7 +18,7 @@ package cn.ether.im.push.mq;
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.model.info.message.ImMessage;
 import cn.ether.im.common.util.ThreadPoolUtils;
-import cn.ether.im.push.processor.InfoProcessor;
+import cn.ether.im.push.processor.ImInfoProcessorContext;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +30,8 @@ import org.apache.rocketmq.spring.core.RocketMQPushConsumerLifecycleListener;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 import static cn.ether.im.common.constants.ImConstants.IM_CHAT_MESSAGE_TOPIC;
 import static cn.ether.im.common.constants.ImConstants.IM_MESSAGE_PUSH_CONSUMER_GROUP;
@@ -48,6 +50,9 @@ public class ImChatMessageMQListener
     @Value("${spring.profiles.active:default}")
     private String environmentName;
 
+    @Resource
+    private ImInfoProcessorContext processorContext;
+
     @Override
     public void onMessage(String message) {
         log.info("收到MQ消息|{}", message);
@@ -60,7 +65,7 @@ public class ImChatMessageMQListener
             return;
         }
         ThreadPoolUtils.execute(() -> {
-            InfoProcessor.processChatMessage(chatMessage);
+            processorContext.process(null, chatMessage);
         });
     }
 

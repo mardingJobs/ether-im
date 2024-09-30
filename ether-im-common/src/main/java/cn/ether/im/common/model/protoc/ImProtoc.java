@@ -19,10 +19,15 @@ public class ImProtoc implements Serializable {
 
     private static final long serialVersionUID = -7962158433664656629L;
 
-    private ImProtocType type;
-
-    private char version;
+    public static final ImProtoc defaultProtoc = defaultProtoc();
 
     private ImInfo body;
+    private ImProtocHeader header;
+
+    private static ImProtoc defaultProtoc() {
+        ImProtoc imProtoc = new ImProtoc();
+        imProtoc.setHeader(new ImProtocHeader(ImProtocType.JSON));
+        return imProtoc;
+    }
 
 }
