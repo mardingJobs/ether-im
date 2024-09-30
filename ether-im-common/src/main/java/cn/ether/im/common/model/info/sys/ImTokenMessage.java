@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.ether.im.common.model.info;
+package cn.ether.im.common.model.info.sys;
 
 import cn.ether.im.common.enums.ImSysMessageType;
-import cn.ether.im.common.model.info.sys.ImSysMessage;
 import lombok.Data;
 
 @Data

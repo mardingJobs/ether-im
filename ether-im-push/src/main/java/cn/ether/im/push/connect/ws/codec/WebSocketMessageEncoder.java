@@ -1,7 +1,10 @@
 package cn.ether.im.push.connect.ws.codec;
 
 import cn.ether.im.common.model.info.ImInfo;
-import com.alibaba.fastjson.JSON;
+import cn.ether.im.common.model.protoc.ImProtoc;
+import cn.ether.im.common.model.protoc.ImProtocType;
+import cn.ether.im.push.connect.ImProtocParser;
+import cn.ether.im.push.util.ChannelHandlerContextUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageEncoder;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
@@ -18,9 +21,14 @@ import java.util.List;
 public class WebSocketMessageEncoder extends MessageToMessageEncoder<ImInfo> {
 
     @Override
-    protected void encode(ChannelHandlerContext ctx, ImInfo msg, List<Object> out) throws Exception {
-        String jsonString = JSON.toJSONString(msg);
-        TextWebSocketFrame socketFrame = new TextWebSocketFrame(jsonString);
-        out.add(socketFrame);
+    protected void encode(ChannelHandlerContext ctx, ImInfo imInfo, List<Object> out) throws Exception {
+        ImProtoc protoc = (ImProtoc) ChannelHandlerContextUtil.getAttr(ctx, "protoc");
+        ImProtocType protocType = protoc.getType();
+        if (ImProtocType.JSON.equals(protocType)) {
+            protoc.setBody(imInfo);
+            String text = ImProtocParser.toText(protoc);
+            TextWebSocketFrame socketFrame = new TextWebSocketFrame(text);
+            out.add(socketFrame);
+        }
     }
 }

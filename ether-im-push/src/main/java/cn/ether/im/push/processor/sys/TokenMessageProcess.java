@@ -2,7 +2,7 @@ package cn.ether.im.push.processor.sys;
 
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.helper.ImUserContextHelper;
-import cn.ether.im.common.model.info.ImTokenMessage;
+import cn.ether.im.common.model.info.sys.ImTokenMessage;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.util.JwtUtils;
 import cn.ether.im.push.cache.UserChannelCache;

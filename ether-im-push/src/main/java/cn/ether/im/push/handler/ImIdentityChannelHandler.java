@@ -1,7 +1,7 @@
 package cn.ether.im.push.handler;
 
 import cn.ether.im.common.constants.ImConstants;
-import cn.ether.im.common.model.info.ImTokenMessage;
+import cn.ether.im.common.model.info.sys.ImTokenMessage;
 import cn.ether.im.common.util.SpringContextHolder;
 import cn.ether.im.push.processor.sys.TokenMessageProcess;
 import io.netty.channel.ChannelHandlerContext;
