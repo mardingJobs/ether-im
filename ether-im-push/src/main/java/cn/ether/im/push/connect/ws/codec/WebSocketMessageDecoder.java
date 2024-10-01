@@ -1,7 +1,6 @@
 package cn.ether.im.push.connect.ws.codec;
 
 import cn.ether.im.common.model.info.ImInfo;
-import com.alibaba.fastjson.JSON;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
@@ -25,7 +24,7 @@ public class WebSocketMessageDecoder extends MessageToMessageDecoder<TextWebSock
         if (StringUtils.isEmpty(text)) {
             return;
         }
-        ImInfo imInfo = JSON.parseObject(text, ImInfo.class);
+        ImInfo imInfo = ImInfo.parseObject(text);
         out.add(imInfo);
     }
 }

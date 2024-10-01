@@ -7,15 +7,14 @@ package cn.ether.im.push.processor.flusher;
  * * @Github <a href="https://github.com/mardingJobs">Github链接</a>
  **/
 
+import cn.ether.im.common.enums.ImInfoType;
 import cn.ether.im.common.enums.ImTerminalType;
-import cn.ether.im.common.event.listener.ImEventListener;
-import cn.ether.im.common.event.listener.ImMessageEventListener;
 import cn.ether.im.common.exception.RetryException;
+import cn.ether.im.common.model.info.MessageReceivedNotice;
 import cn.ether.im.common.model.info.message.ImMessage;
-import cn.ether.im.common.model.info.message.event.ImMessageEvent;
-import cn.ether.im.common.model.info.message.event.ImMessageEventType;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.push.cache.UserChannelCache;
+import cn.ether.im.push.processor.ImInfoProcessor;
 import cn.hutool.core.bean.BeanUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -26,9 +25,8 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
 
 @Slf4j
-@ImEventListener(listenEventTypes = ImMessageEventType.REACHED)
 @Component
-public class RetryableMessageFlusher implements ImMessageEventListener, ImMessageFlusher {
+public class RetryableMessageFlusher extends ImInfoProcessor<MessageReceivedNotice> implements ImMessageFlusher {
 
     private static Cache<String, String> REACHED_MESSAGES = CacheBuilder.newBuilder()
             .initialCapacity(10)
@@ -66,15 +64,20 @@ public class RetryableMessageFlusher implements ImMessageEventListener, ImMessag
     }
 
 
+    private String cacheKey(Long messageId, String userId, ImTerminalType terminalType) {
+        return messageId + ":" + userId + ":" + terminalType.name();
+    }
+
     @Override
-    public void onMessageEvent(ImMessageEvent messageEvent) throws Exception {
-        log.info("收到消息触达事件,MessageId:{}", messageEvent.getMessageId());
-        ImUserTerminal terminal = messageEvent.getTerminal();
-        String cacheKey = cacheKey(messageEvent.getMessageId(), terminal.getUserId(), terminal.getTerminalType());
+    protected void doProcess(ChannelHandlerContext ctx, MessageReceivedNotice notice) {
+        ImUserTerminal terminal = notice.getReceiverTerminal();
+        log.info("收到终端已接受消息通知。MessageId:{},Terminal:{}", notice.getMessageId(), terminal);
+        String cacheKey = cacheKey(notice.getMessageId(), terminal.getUserId(), terminal.getTerminalType());
         REACHED_MESSAGES.put(cacheKey, "");
     }
 
-    private String cacheKey(Long messageId, String userId, ImTerminalType terminalType) {
-        return messageId + ":" + userId + ":" + terminalType.name();
+    @Override
+    public ImInfoType supportType() {
+        return ImInfoType.MESSAGE_RECEIVED;
     }
 }

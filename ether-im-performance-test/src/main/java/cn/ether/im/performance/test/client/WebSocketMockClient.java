@@ -3,9 +3,8 @@ package cn.ether.im.performance.test.client;
 import cn.ether.im.common.enums.ImInfoType;
 import cn.ether.im.common.enums.ImTerminalType;
 import cn.ether.im.common.model.info.ImInfo;
+import cn.ether.im.common.model.info.MessageReceivedNotice;
 import cn.ether.im.common.model.info.message.ImMessage;
-import cn.ether.im.common.model.info.message.event.ImMessageEvent;
-import cn.ether.im.common.model.info.message.event.ImMessageEventType;
 import cn.ether.im.common.model.info.sys.ImHeartbeatInfo;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.util.JwtUtils;
@@ -18,8 +17,6 @@ import org.java_websocket.enums.ReadyState;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
-import java.util.Date;
-import java.util.Random;
 
 /**
  * * @Author: Martin(微信：martin-jobs)
@@ -54,8 +51,6 @@ public class WebSocketMockClient extends WebSocketClient {
         if ("JSON".equals(message)) {
             return;
         }
-
-
         log.info("【{}】收到消息:{}", mockUser, message);
         ImInfo imInfo = ImInfo.parseObject(message);
         if (imInfo.getType() == ImInfoType.HEART_BEAT) {
@@ -63,15 +58,7 @@ public class WebSocketMockClient extends WebSocketClient {
             sendMessage(new ImHeartbeatInfo());
         } else if (imInfo.getType() == ImInfoType.MESSAGE) {
             ImMessage chatMessage = (ImMessage) imInfo;
-            int sleepTimes = new Random().nextInt(1);
-            try {
-                log.info("【{}】模拟客户端返回触达事件延迟,时间：{}", mockUser, sleepTimes);
-                Thread.sleep(sleepTimes * 1000);
-                sendReachedEvent(chatMessage);
-            } catch (Exception e) {
-                log.error("【用户终端】处理消息异常", e);
-            }
-
+            sendMessageReceivedNotice(chatMessage);
         }
     }
 
@@ -115,14 +102,13 @@ public class WebSocketMockClient extends WebSocketClient {
         return this.isOpen();
     }
 
-    private void sendReachedEvent(ImMessage chatMessage) {
-        ImMessageEvent messageEvent = new ImMessageEvent();
+    private void sendMessageReceivedNotice(ImMessage chatMessage) {
+        MessageReceivedNotice messageEvent = new MessageReceivedNotice();
+        messageEvent.setType(ImInfoType.MESSAGE_RECEIVED);
         messageEvent.setMessageId(chatMessage.getId());
-        messageEvent.setEventTime(new Date().getTime());
-        messageEvent.setTerminal(new ImUserTerminal(mockUser.getUserId(), ImTerminalType.valueOf(mockUser.getTerminalType())));
-        messageEvent.setEventType(ImMessageEventType.REACHED);
+        messageEvent.setReceiverTerminal(new ImUserTerminal(mockUser.getUserId(), ImTerminalType.valueOf(mockUser.getTerminalType())));
         sendMessage(messageEvent);
-        log.info("【{}】已回复触达事件,MessageId:{}", mockUser, messageEvent.getMessageId());
+        log.info("【{}】已发送接受消息通知,MessageId:{}", mockUser, messageEvent.getMessageId());
     }
 
 

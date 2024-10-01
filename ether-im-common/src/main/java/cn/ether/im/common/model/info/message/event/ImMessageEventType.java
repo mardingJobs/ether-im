@@ -10,7 +10,6 @@ import cn.ether.im.common.enums.ImChatMessageStatus;
 public enum ImMessageEventType {
 
     SENT("已发送", ImChatMessageStatus.SENT, 0),
-    PUSHED("已推送", ImChatMessageStatus.PUSHED, 2),
     REACHED("已触达", ImChatMessageStatus.REACHED, 4),
     READ("已读", ImChatMessageStatus.READ, 8),
     WITH_DRAWN("已撤回", ImChatMessageStatus.WITH_DRAWN, 16);
