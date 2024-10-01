@@ -10,9 +10,7 @@ import cn.ether.im.common.model.info.message.ImMessage;
 import cn.ether.im.common.model.user.ImUser;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.mq.ImMqMessageSender;
-import cn.ether.im.sdk.cache.ImCacheMessage;
-import cn.ether.im.sdk.cache.MessageRemoteCache;
-import cn.ether.im.sdk.sender.ChatMessageSender;
+import cn.ether.im.sdk.sender.ImMessageSender;
 import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
@@ -33,13 +31,10 @@ import java.util.stream.Collectors;
  **/
 @Slf4j
 @Component
-public class DefaultChatMessageSender implements ChatMessageSender {
+public class DefaultImMessageSender implements ImMessageSender {
 
     @Resource
     private ImUserContextCache userContextCache;
-
-    @Resource
-    private MessageRemoteCache messageRemoteCache;
 
     @Resource
     private ImMqMessageSender messageSender;
@@ -48,27 +43,13 @@ public class DefaultChatMessageSender implements ChatMessageSender {
     private String environmentName;
 
 
-    private void cacheMessage(ImMessage message) {
-        ImCacheMessage cachedMessage = new ImCacheMessage();
-        cachedMessage.setId(message.getId());
-        cachedMessage.setSenderId(message.getSender().getUserId());
-        cachedMessage.setSendTerminal(message.getSender().getTerminalType().name());
-        cachedMessage.setContent(message.getContent());
-        cachedMessage.setContentType(message.getContentType().name());
-        cachedMessage.setChatMessageType(message.getChatMessageType());
-        cachedMessage.setSendTime(message.getSendTime());
-        cachedMessage.setReceiverId(message.getReceivers().get(0).getUserId());
-        messageRemoteCache.putMessage(cachedMessage);
-    }
-
     @Override
-    public void sendChatMessage(ImMessage message, boolean async) throws Exception {
-        cacheMessage(message);
+    public void sendMessage(ImMessage message, boolean async) throws Exception {
         ImUserTerminal sender = message.getSender();
         List<ImUser> receivers = message.getReceivers();
         List<ImUserTerminal> targetTerminalList = onlineTerminals(receivers, null);
         // 获取自己其他在线终端
-        if (ImMessageType.PERSONAL.equals(message.getChatMessageType())) {
+        if (ImMessageType.PERSONAL.equals(message.getMessageType())) {
             List<ImUserTerminal> otherSelfTerminals = onlineTerminals(Collections.singletonList(sender.cloneUser()), sender);
             targetTerminalList.addAll(otherSelfTerminals);
         }

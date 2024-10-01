@@ -52,11 +52,6 @@ public class RetryableMessageFlusher extends ImInfoProcessor<MessageReceivedNoti
             if (log.isDebugEnabled()) {
                 log.debug("flush|消息已推送，等待确认。MessageId:{},Terminal:{}", copiedMessage.getId(), receiverTerminal);
             }
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                log.info("flush|Thread sleep Interrupted");
-            }
             if (!REACHED_MESSAGES.asMap().containsKey(cacheKey)) {
                 throw new RetryException();
             }

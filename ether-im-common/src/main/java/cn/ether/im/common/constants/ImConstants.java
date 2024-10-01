@@ -75,9 +75,14 @@ public class ImConstants {
     public static final String MQ_TOPIC_SPLIT = "-";
 
     /**
-     * 消息事件主题
+     * 消息已读通知主题
      */
-    public static final String IM_MESSAGE_EVENT_TOPIC = "im_message_event_topic";
+    public static final String IM_MESSAGE_READ_TOPIC = "im_message_read_topic";
+
+    /**
+     * 消息撤回通知主题
+     */
+    public static final String IM_MESSAGE_WITH_DRAWN_TOPIC = "im_message_with_drawn_topic";
 
     /**
      * 消息可撤回时间 单位秒

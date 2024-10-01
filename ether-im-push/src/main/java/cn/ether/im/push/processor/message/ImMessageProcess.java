@@ -5,7 +5,6 @@ import cn.ether.im.common.exception.RetryException;
 import cn.ether.im.common.model.info.message.ImMessage;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.util.ThreadPoolUtils;
-import cn.ether.im.push.mq.ImMessageEventMQProducer;
 import cn.ether.im.push.processor.ImInfoProcessor;
 import cn.ether.im.push.processor.flusher.ImMessageFlusher;
 import com.alibaba.fastjson.JSON;
@@ -25,9 +24,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Slf4j
 @Component
 public class ImMessageProcess extends ImInfoProcessor<ImMessage> {
-
-    @Resource
-    private ImMessageEventMQProducer eventProducer;
 
     @Resource
     private ImMessageFlusher messageFlusher;

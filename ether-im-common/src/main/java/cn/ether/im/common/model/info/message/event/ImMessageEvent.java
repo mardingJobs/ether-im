@@ -21,7 +21,7 @@ public class ImMessageEvent extends ImInfo {
     /**
      * 消息类型
      */
-    private ImMessageType chatMessageType;
+    private ImMessageType messageType;
 
     /**
      * 触发事件的用户终端

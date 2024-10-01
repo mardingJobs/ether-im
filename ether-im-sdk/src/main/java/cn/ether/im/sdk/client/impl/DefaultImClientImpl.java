@@ -5,8 +5,9 @@ import cn.ether.im.common.enums.ImExceptionCode;
 import cn.ether.im.common.exception.ImException;
 import cn.ether.im.common.model.info.message.ImMessage;
 import cn.ether.im.common.model.user.ImUser;
+import cn.ether.im.sdk.cache.MessageRemoteCache;
 import cn.ether.im.sdk.client.EtherImClient;
-import cn.ether.im.sdk.sender.ChatMessageSender;
+import cn.ether.im.sdk.sender.ImMessageSender;
 import cn.hutool.core.collection.CollectionUtil;
 import org.springframework.stereotype.Component;
 
@@ -24,10 +25,13 @@ public class DefaultImClientImpl implements EtherImClient {
 
 
     @Resource
-    private ChatMessageSender messageSender;
+    private ImMessageSender messageSender;
 
     @Resource
-    private ImUserContextCache contextHelper;
+    private ImUserContextCache userContextCache;
+
+    @Resource
+    private MessageRemoteCache messageRemoteCache;
 
 
     /**
@@ -37,17 +41,17 @@ public class DefaultImClientImpl implements EtherImClient {
      */
     @Override
     public void sendChatMessage(ImMessage chatMessage) throws Exception {
-        messageSender.sendChatMessage(chatMessage, false);
+        messageSender.sendMessage(chatMessage, false);
     }
 
     @Override
     public void asyncSendChatMessage(ImMessage chatMessage) throws Exception {
-        messageSender.sendChatMessage(chatMessage, true);
+        messageSender.sendMessage(chatMessage, true);
     }
 
     @Override
     public boolean isOnline(ImUser user) {
-        Map<String, String> connectedServerIds = contextHelper.getConnectionInfo(user);
+        Map<String, String> connectedServerIds = userContextCache.getConnectionInfo(user);
         return CollectionUtil.isNotEmpty(connectedServerIds);
     }
 
@@ -62,7 +66,7 @@ public class DefaultImClientImpl implements EtherImClient {
 
     @Override
     public List<String> getOnlineGroupMembers(String groupId) {
-        return contextHelper.getUserIdsByGroupId(groupId);
+        return userContextCache.getUserIdsByGroupId(groupId);
     }
 
 }

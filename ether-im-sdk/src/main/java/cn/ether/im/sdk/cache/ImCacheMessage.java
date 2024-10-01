@@ -3,14 +3,17 @@ package cn.ether.im.sdk.cache;
 import cn.ether.im.common.enums.ImMessageType;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
+ * 可缓存的消息
  * * @Author: Martin(微信：martin-jobs)
  * * @Date    2024/9/29 21:01
  * * @Description
  * * @Github <a href="https://github.com/mardingJobs">Github链接</a>
  **/
 @Data
-public class ImCacheMessage {
+public class ImCacheMessage implements Serializable {
 
     private static final long serialVersionUID = 1L;
     /**

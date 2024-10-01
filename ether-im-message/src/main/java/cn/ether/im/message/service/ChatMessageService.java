@@ -11,22 +11,25 @@ import cn.ether.im.message.model.entity.ImMessageEventLogEntity;
  **/
 public interface ChatMessageService {
 
-    /**
-     * 发送消息,先保存消息，然后发送MQ消息
-     * 保存消息成功,消息状态是INIT
-     * 如果发送MQ消息失败，消息状态是SENT_FAIL
-     * 如果消息发送成功，消息状态是SENT
-     * 对于消息发送失败的消息，这里不处理，由调用方自己处理
-     *
-     * @param req
-     * @return
-     */
-    @Deprecated
-    String sendMessage(ChatMessageSendReq req) throws Exception;
-
 
     String sendPersonalMessage(PersonalMessageSendReq req) throws Exception;
 
+    void asyncSendPersonalMessage(PersonalMessageSendReq req) throws Exception;
+
+
+    /**
+     * 发送消息已读通知
+     *
+     * @param messageId
+     */
+    void sendMessageReadNotice(String messageId);
+
+    /**
+     * 发送消息已撤回通知
+     *
+     * @param messageId
+     */
+    void sendMessageWithDrawnNotice(String messageId);
     /**
      * @return
      */
@@ -50,5 +53,5 @@ public interface ChatMessageService {
 
     String sendGroupMessage(GroupMessageSendReq req) throws Exception;
 
-    void asyncSendPersonalMessage(PersonalMessageSendReq req) throws Exception;
+
 }

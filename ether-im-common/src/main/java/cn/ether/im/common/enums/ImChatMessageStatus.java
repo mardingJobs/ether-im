@@ -41,7 +41,7 @@ public enum ImChatMessageStatus {
     /**
      * 消息已触达接收者终端
      */
-    REACHED("已触达"),
+    RECEIVED("已触达"),
     /**
      * 接收者已读消息
      */

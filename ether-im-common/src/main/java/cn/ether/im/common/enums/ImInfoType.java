@@ -9,11 +9,14 @@ import cn.ether.im.common.model.info.sys.ImHeartbeatInfo;
  * 信息类型
  */
 public enum ImInfoType {
-    INFO(0, "普通信息", ImInfo.class),
-    MESSAGE(1, "对话消息", ImMessage.class),
-    MESSAGE_RECEIVED(2, "消息已接受", MessageReceivedNotice.class),
-    HEART_BEAT(3, "心跳", ImHeartbeatInfo.class),
-    PROTOCOL_SELECT_RESULT(4, "协议选择结果", null);
+
+    PROTOCOL_SELECT_RESULT(0, "协议选择结果", ImInfo.class),
+    HEART_BEAT(1, "心跳", ImHeartbeatInfo.class),
+    INFO(2, "普通信息", ImInfo.class),
+    MESSAGE(3, "对话消息", ImMessage.class),
+    MESSAGE_RECEIVED(4, "消息已接受", MessageReceivedNotice.class),
+    MESSAGE_READ_NOTICE(5, "消息已读通知", ImMessage.class),
+    MESSAGE_WITH_DRAWN_NOTICE_NOTICE(6, "消息已撤回通知", ImMessage.class);
 
     private final int code;
     private final String desc;

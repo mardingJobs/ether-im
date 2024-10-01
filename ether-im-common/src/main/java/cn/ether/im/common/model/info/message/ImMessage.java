@@ -63,7 +63,7 @@ public class ImMessage extends ImInfo {
     /**
      * 消息类型
      */
-    private ImMessageType chatMessageType;
+    private ImMessageType messageType;
 
     public ImMessage() {
         this.setType(ImInfoType.MESSAGE);
