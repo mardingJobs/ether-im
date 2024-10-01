@@ -15,6 +15,7 @@
  */
 package cn.ether.im.common.model.info;
 
+import cn.ether.im.common.model.info.message.ImMessage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ImTopicInfo<T extends ImInfo> {
+public class ImTopicInfo<T extends ImMessage> {
 
     private static final long serialVersionUID = -7962158433664656629L;
 

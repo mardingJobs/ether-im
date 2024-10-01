@@ -69,15 +69,5 @@ public class ImMessage extends ImInfo {
         this.setType(ImInfoType.MESSAGE);
     }
 
-    /**
-     * 获取唯一标识
-     *
-     * @return
-     */
-    @Override
-    public String uid() {
-        return String.valueOf(id);
-    }
-
 
 }

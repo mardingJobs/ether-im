@@ -11,13 +11,7 @@ import lombok.Data;
  * * @Github https://github.com/mardingJobs
  **/
 @Data
-public class ImInfo implements IdentifiableInfo {
-
-    /**
-     * 表示消息的唯一标识 (可选)
-     * 对于对话消息，是消息ID；对于系统消息，是可以不是消息ID
-     */
-    private String uid;
+public class ImInfo {
 
     private ImInfoType type;
 
@@ -36,10 +30,6 @@ public class ImInfo implements IdentifiableInfo {
         ImInfoType infoType = message.getType();
         Class<? extends ImInfo> infoClass = infoType.getInfoClass();
         return JSON.parseObject(json, infoClass);
-    }
-
-    public String uid() {
-        return uid;
     }
 
 }

@@ -4,6 +4,7 @@ import cn.ether.im.common.enums.ImExceptionCode;
 import cn.ether.im.common.exception.ImException;
 import cn.ether.im.common.model.info.ImInfo;
 import cn.ether.im.common.model.info.ImTopicInfo;
+import cn.ether.im.common.model.info.message.ImMessage;
 import cn.ether.im.common.mq.ImMqMessageSender;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -41,7 +42,7 @@ public class RocketMessageSender implements ImMqMessageSender {
 
     private static Message createMqMessage(ImTopicInfo topicMessage, String messageString) {
         Message message = new Message(topicMessage.getTopic(), topicMessage.getTag(), messageString.getBytes(StandardCharsets.UTF_8));
-        message.setKeys(topicMessage.getMessage().getUid());
+        message.setKeys(String.valueOf(topicMessage.getMessage().getId()));
         return message;
     }
 
@@ -86,13 +87,13 @@ public class RocketMessageSender implements ImMqMessageSender {
      */
     @Override
     public boolean sendOrderlyByUid(ImTopicInfo<? extends ImInfo> topicMessage) throws Exception {
-        ImInfo imMessage = topicMessage.getMessage();
+        ImMessage imMessage = topicMessage.getMessage();
         String messageString = JSON.toJSONString(imMessage);
         if (log.isDebugEnabled()) {
             log.info("发送顺序MQ消息：{}", messageString);
         }
         Message message = createMqMessage(topicMessage, messageString);
-        SendResult sendResult = rocketMQTemplate.getProducer().send(message, new SelectMessageQueueByHash(), imMessage.getUid());
+        SendResult sendResult = rocketMQTemplate.getProducer().send(message, new SelectMessageQueueByHash(), imMessage.getId());
         return SendStatus.SEND_OK.equals(sendResult.getSendStatus());
     }
 
