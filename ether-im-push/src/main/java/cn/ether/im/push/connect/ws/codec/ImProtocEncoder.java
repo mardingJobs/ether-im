@@ -1,7 +1,6 @@
 package cn.ether.im.push.connect.ws.codec;
 
 import cn.ether.im.common.model.protoc.ImProtoc;
-import cn.ether.im.common.model.protoc.ImProtocHeader;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageEncoder;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
@@ -18,8 +17,7 @@ public class ImProtocEncoder extends MessageToMessageEncoder<ImProtoc> {
 
     @Override
     protected void encode(ChannelHandlerContext ctx, ImProtoc msg, List<Object> out) throws Exception {
-        ImProtocHeader header = msg.getHeader();
-        TextWebSocketFrame socketFrame = new TextWebSocketFrame(header.getType().name());
+        TextWebSocketFrame socketFrame = new TextWebSocketFrame(msg.getType().name());
         out.add(socketFrame);
     }
 }

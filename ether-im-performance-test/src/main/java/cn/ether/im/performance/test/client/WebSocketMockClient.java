@@ -6,7 +6,6 @@ import cn.ether.im.common.model.info.ImInfo;
 import cn.ether.im.common.model.info.MessageReceivedNotice;
 import cn.ether.im.common.model.info.message.ImMessage;
 import cn.ether.im.common.model.info.sys.ImHeartbeatInfo;
-import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.util.JwtUtils;
 import cn.ether.im.common.util.ThreadPoolUtils;
 import cn.ether.im.performance.test.user.MockUser;
@@ -106,7 +105,8 @@ public class WebSocketMockClient extends WebSocketClient {
         MessageReceivedNotice messageEvent = new MessageReceivedNotice();
         messageEvent.setType(ImInfoType.MESSAGE_RECEIVED);
         messageEvent.setMessageId(chatMessage.getId());
-        messageEvent.setReceiverTerminal(new ImUserTerminal(mockUser.getUserId(), ImTerminalType.valueOf(mockUser.getTerminalType())));
+        messageEvent.setUserId(mockUser.getUserId());
+        messageEvent.setTerminalType(ImTerminalType.valueOf(mockUser.getTerminalType()));
         sendMessage(messageEvent);
         log.info("【{}】已发送接受消息通知,MessageId:{}", mockUser, messageEvent.getMessageId());
     }

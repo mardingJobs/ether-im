@@ -20,9 +20,18 @@ public class ImInfo {
     public ImInfo() {
     }
 
+    public ImInfo(ImInfoType type) {
+        this.type = type;
+    }
+
     public ImInfo(String info) {
         this.info = info;
         this.type = ImInfoType.INFO;
+    }
+
+    public ImInfo(ImInfoType type, String info) {
+        this.type = type;
+        this.info = info;
     }
 
     public static ImInfo parseObject(String json) {

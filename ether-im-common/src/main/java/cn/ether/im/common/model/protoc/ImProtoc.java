@@ -1,6 +1,5 @@
 package cn.ether.im.common.model.protoc;
 
-import cn.ether.im.common.model.info.ImInfo;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -18,16 +17,17 @@ import java.io.Serializable;
 public class ImProtoc implements Serializable {
 
     private static final long serialVersionUID = -7962158433664656629L;
-
     public static final ImProtoc defaultProtoc = defaultProtoc();
 
-    private ImInfo body;
-    private ImProtocHeader header;
+    private ImProtocType type;
+    private Object body;
+
+    public ImProtoc(ImProtocType type) {
+        this.type = type;
+    }
 
     private static ImProtoc defaultProtoc() {
-        ImProtoc imProtoc = new ImProtoc();
-        imProtoc.setHeader(new ImProtocHeader(ImProtocType.JSON));
-        return imProtoc;
+        return new ImProtoc(ImProtocType.JSON);
     }
 
 }

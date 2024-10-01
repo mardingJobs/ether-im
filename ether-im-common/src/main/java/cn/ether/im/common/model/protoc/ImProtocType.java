@@ -1,5 +1,7 @@
 package cn.ether.im.common.model.protoc;
 
+import java.util.Objects;
+
 /**
  * * @Author: Martin(微信：martin-jobs)
  * * @Date    2024/9/30 03:05
@@ -8,25 +10,25 @@ package cn.ether.im.common.model.protoc;
  **/
 public enum ImProtocType {
 
-    JSON('0'),
-    PROTOBUF('1');
+    JSON(0),
+    PROTOC_BUFFER(1);
 
-    private final char code;
+    private final Integer code;
 
-    ImProtocType(char code) {
+    ImProtocType(Integer code) {
         this.code = code;
     }
 
-    public static ImProtocType getByCode(char code) {
+    public static ImProtocType getByCode(Integer code) {
         for (ImProtocType type : values()) {
-            if (type.code == code) {
+            if (Objects.equals(type.code, code)) {
                 return type;
             }
         }
         return null;
     }
 
-    public char getCode() {
+    public Integer getCode() {
         return code;
     }
 

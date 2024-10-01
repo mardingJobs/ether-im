@@ -65,9 +65,9 @@ public class RetryableMessageFlusher extends ImInfoProcessor<MessageReceivedNoti
 
     @Override
     protected void doProcess(ChannelHandlerContext ctx, MessageReceivedNotice notice) {
-        ImUserTerminal terminal = notice.getReceiverTerminal();
-        log.info("收到终端已接受消息通知。MessageId:{},Terminal:{}", notice.getMessageId(), terminal);
-        String cacheKey = cacheKey(notice.getMessageId(), terminal.getUserId(), terminal.getTerminalType());
+        String userId = notice.getUserId();
+        log.info("收到终端已接受消息通知。MessageId:{},Terminal:{}", notice.getMessageId(), userId);
+        String cacheKey = cacheKey(notice.getMessageId(), userId, notice.getTerminalType());
         REACHED_MESSAGES.put(cacheKey, "");
     }
 

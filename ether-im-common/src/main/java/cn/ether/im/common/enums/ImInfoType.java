@@ -31,4 +31,18 @@ public enum ImInfoType {
     public Class<? extends ImInfo> getInfoClass() {
         return infoClass;
     }
+
+    public static ImInfoType getByCode(int code) {
+        for (ImInfoType type : values()) {
+            if (type.getCode() == code) {
+                return type;
+            }
+        }
+        return null;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
 }

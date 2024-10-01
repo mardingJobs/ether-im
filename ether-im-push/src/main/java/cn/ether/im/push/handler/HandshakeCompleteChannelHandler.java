@@ -4,6 +4,7 @@ import cn.ether.im.common.cache.ImUserContextCache;
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.model.info.ImInfo;
 import cn.ether.im.common.model.protoc.ImProtoc;
+import cn.ether.im.common.model.protoc.ImProtocType;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.util.JwtUtils;
 import cn.ether.im.common.util.SpringContextHolder;
@@ -16,6 +17,8 @@ import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.Objects;
 
 /**
  * * @Author: Martin(微信：martin-jobs)
@@ -47,9 +50,10 @@ public class HandshakeCompleteChannelHandler extends SimpleChannelInboundHandler
                 ctx.writeAndFlush(new ImInfo("Token校验失败"));
             }
             String protocType = headers.get("protoc_type");
+
             ImProtoc imProtoc = ImProtoc.defaultProtoc;
-            if (StringUtils.isNotEmpty(protocType)) {
-                // 以后拓展
+            if (StringUtils.isNotEmpty(protocType) && Objects.equals(ImProtocType.PROTOC_BUFFER.getCode(), Integer.parseInt(protocType))) {
+                imProtoc = new ImProtoc(ImProtocType.PROTOC_BUFFER);
             }
             ChannelHandlerContextUtil.setAttr(ctx, "protoc", imProtoc);
             ctx.writeAndFlush(imProtoc);

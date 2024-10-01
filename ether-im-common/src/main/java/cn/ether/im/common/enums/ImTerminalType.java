@@ -15,6 +15,8 @@
  */
 package cn.ether.im.common.enums;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,6 +35,7 @@ public enum ImTerminalType {
      */
     APP(1,"app");
 
+    @Getter
     private final Integer code;
 
     private final String desc;
@@ -52,10 +55,7 @@ public enum ImTerminalType {
     }
 
     public static List<Integer> codes(){
-        return Arrays.stream(values()).map(ImTerminalType::code).collect(Collectors.toList());
+        return Arrays.stream(values()).map(ImTerminalType::getCode).collect(Collectors.toList());
     }
 
-    public Integer code(){
-        return this.code;
-    }
 }
