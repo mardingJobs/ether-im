@@ -1,21 +1,26 @@
 package cn.ether.im.performance.test.client;
 
+import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.enums.ImInfoType;
-import cn.ether.im.common.enums.ImTerminalType;
 import cn.ether.im.common.model.info.ImInfo;
-import cn.ether.im.common.model.info.MessageReceivedNotice;
 import cn.ether.im.common.model.info.message.ImMessage;
 import cn.ether.im.common.model.info.sys.ImHeartbeatInfo;
+import cn.ether.im.common.model.protoc.ImProtoType;
+import cn.ether.im.common.proto.ImProtoConverter;
 import cn.ether.im.common.util.JwtUtils;
 import cn.ether.im.common.util.ThreadPoolUtils;
 import cn.ether.im.performance.test.user.MockUser;
+import cn.ether.im.proto.binary.ImBinary;
+import cn.ether.im.proto.text.ImTextProto;
 import com.alibaba.fastjson.JSON;
+import com.google.protobuf.InvalidProtocolBufferException;
 import lombok.extern.slf4j.Slf4j;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.enums.ReadyState;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
+import java.nio.ByteBuffer;
 
 /**
  * * @Author: Martin(微信：martin-jobs)
@@ -28,12 +33,25 @@ public class WebSocketMockClient extends WebSocketClient {
 
     private MockUser mockUser;
 
+    private ImProtoType protocType = ImProtoType.JSON;
+
     public WebSocketMockClient(MockUser mockUser, URI serverUri) {
         this(serverUri);
         this.mockUser = mockUser;
         String jsonString = JSON.toJSONString(mockUser);
-        String token = JwtUtils.sign(mockUser.getUserId(), jsonString, 3600 * 24 * 7, "marding");
+        String token = JwtUtils.sign(mockUser.getUserId(), jsonString, 3600 * 24 * 7, ImConstants.TOKEN_SECRET);
         this.addHeader("token", token);
+        this.addHeader("protoc_type", String.valueOf(protocType.getCode()));
+    }
+
+    public WebSocketMockClient(MockUser mockUser, URI serverUri, ImProtoType protocType) {
+        this(serverUri);
+        this.mockUser = mockUser;
+        this.protocType = protocType;
+        String jsonString = JSON.toJSONString(mockUser);
+        String token = JwtUtils.sign(mockUser.getUserId(), jsonString, 3600 * 24 * 7, ImConstants.TOKEN_SECRET);
+        this.addHeader("token", token);
+        this.addHeader("protoc_type", String.valueOf(protocType.getCode()));
     }
 
     public WebSocketMockClient(URI serverUri) {
@@ -47,11 +65,16 @@ public class WebSocketMockClient extends WebSocketClient {
 
     @Override
     public void onMessage(String message) {
-        if ("JSON".equals(message)) {
+        log.info("【{}】收到文本消息:{}", mockUser, message);
+        if (protocType.name().equals(message)) {
             return;
         }
-        log.info("【{}】收到消息:{}", mockUser, message);
-        ImInfo imInfo = ImInfo.parseObject(message);
+        ImTextProto textProto = JSON.parseObject(message, ImTextProto.class);
+        processMessage(textProto);
+    }
+
+    private void processMessage(ImTextProto textProto) {
+        ImInfo imInfo = ImProtoConverter.decodeToImInfo(textProto);
         if (imInfo.getType() == ImInfoType.HEART_BEAT) {
             log.info("【{}】发送心跳", mockUser);
             sendMessage(new ImHeartbeatInfo());
@@ -61,6 +84,17 @@ public class WebSocketMockClient extends WebSocketClient {
         }
     }
 
+    @Override
+    public void onMessage(ByteBuffer bytes) {
+        byte[] array = bytes.array();
+        try {
+            ImTextProto imTextProto = ImProtoConverter.parseBytes(array);
+            log.info("【{}】解析二进制消息:{}", mockUser, JSON.toJSONString(imTextProto));
+            processMessage(imTextProto);
+        } catch (InvalidProtocolBufferException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public void send(String text) {
@@ -102,13 +136,11 @@ public class WebSocketMockClient extends WebSocketClient {
     }
 
     private void sendMessageReceivedNotice(ImMessage chatMessage) {
-        MessageReceivedNotice messageEvent = new MessageReceivedNotice();
-        messageEvent.setType(ImInfoType.MESSAGE_RECEIVED);
-        messageEvent.setMessageId(chatMessage.getId());
-        messageEvent.setUserId(mockUser.getUserId());
-        messageEvent.setTerminalType(ImTerminalType.valueOf(mockUser.getTerminalType()));
-        sendMessage(messageEvent);
-        log.info("【{}】已发送接受消息通知,MessageId:{}", mockUser, messageEvent.getMessageId());
+        ImMessage message = new ImMessage();
+        message.setType(ImInfoType.MESSAGE_RECEIVED);
+        message.setId(chatMessage.getId());
+        sendMessage(message);
+        log.info("【{}】已发送接受消息通知,MessageId:{}", mockUser, message.getId());
     }
 
 
@@ -132,6 +164,12 @@ public class WebSocketMockClient extends WebSocketClient {
 
 
     private void sendMessage(ImInfo message) {
-        this.send(JSON.toJSONString(message));
+        ImTextProto imTextProto = ImProtoConverter.encodeToTextProto(message);
+        if (protocType == ImProtoType.JSON) {
+            this.send(JSON.toJSONString(imTextProto));
+        } else {
+            ImBinary.ImBinaryProto imBinaryProto = ImProtoConverter.textToBinaryProto(imTextProto);
+            this.send(imBinaryProto.toByteArray());
+        }
     }
 }

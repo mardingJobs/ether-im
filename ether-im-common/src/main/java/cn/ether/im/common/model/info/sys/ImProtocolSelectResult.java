@@ -1,6 +1,6 @@
 package cn.ether.im.common.model.info.sys;
 
-import cn.ether.im.common.model.protoc.ImProtocType;
+import cn.ether.im.common.model.protoc.ImProtoType;
 import lombok.Data;
 
 /**
@@ -12,14 +12,14 @@ import lombok.Data;
 @Data
 public class ImProtocolSelectResult {
 
-    private ImProtocType type;
+    private ImProtoType type;
 
     private char version;
 
 
     public static ImProtocolSelectResult defaultProtoc() {
         ImProtocolSelectResult selectResult = new ImProtocolSelectResult();
-        selectResult.setType(ImProtocType.JSON);
+        selectResult.setType(ImProtoType.JSON);
         return null;
     }
 }

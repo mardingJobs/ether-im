@@ -15,6 +15,7 @@
         <module>ether-im-message</module>
         <module>ether-im-gateway</module>
         <module>ether-im-performance-test</module>
+        <module>ether-im-proto</module>
     </modules>
 
     <properties>

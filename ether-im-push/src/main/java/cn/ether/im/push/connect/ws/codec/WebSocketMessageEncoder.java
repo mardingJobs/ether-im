@@ -1,12 +1,13 @@
 package cn.ether.im.push.connect.ws.codec;
 
 import cn.ether.im.common.model.info.ImInfo;
+import cn.ether.im.common.model.protoc.ImProtoType;
 import cn.ether.im.common.model.protoc.ImProtoc;
-import cn.ether.im.common.model.protoc.ImProtocType;
-import cn.ether.im.push.connect.ImProtocolConverter;
+import cn.ether.im.common.proto.ImProtoConverter;
+import cn.ether.im.proto.binary.ImBinary;
+import cn.ether.im.proto.text.ImTextProto;
 import cn.ether.im.push.util.ChannelHandlerContextUtil;
 import com.alibaba.fastjson.JSON;
-import com.google.protobuf.GeneratedMessage;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
@@ -28,15 +29,17 @@ public class WebSocketMessageEncoder extends MessageToMessageEncoder<ImInfo> {
     @Override
     protected void encode(ChannelHandlerContext ctx, ImInfo imInfo, List<Object> out) throws Exception {
         ImProtoc protoc = (ImProtoc) ChannelHandlerContextUtil.getAttr(ctx, "protoc");
-        ImProtocType protocType = protoc.getType();
-        if (protocType == ImProtocType.JSON) {
-            TextWebSocketFrame socketFrame = new TextWebSocketFrame(JSON.toJSONString(imInfo));
+        ImProtoType protocType = protoc.getType();
+        ImTextProto imTextProto = ImProtoConverter.encodeToTextProto(imInfo);
+        if (protocType == ImProtoType.JSON) {
+            TextWebSocketFrame socketFrame = new TextWebSocketFrame(JSON.toJSONString(imTextProto));
             out.add(socketFrame);
-        } else if (protocType == ImProtocType.PROTOC_BUFFER) {
-            GeneratedMessage protocBuffer = ImProtocolConverter.toProtocBufferEncode(imInfo);
-            ByteBuf byteBuf = Unpooled.wrappedBuffer(protocBuffer.toByteArray());
+        } else if (protocType == ImProtoType.PROTOC_BUFFER) {
+            ImBinary.ImBinaryProto imBinaryProto = ImProtoConverter.textToBinaryProto(imTextProto);
+            ByteBuf byteBuf = Unpooled.wrappedBuffer(imBinaryProto.toByteArray());
             BinaryWebSocketFrame binaryWebSocketFrame = new BinaryWebSocketFrame(byteBuf);
             out.add(binaryWebSocketFrame);
         }
     }
+
 }

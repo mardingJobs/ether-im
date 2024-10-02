@@ -8,19 +8,19 @@ import java.util.Objects;
  * * @Description
  * * @Github <a href="https://github.com/mardingJobs">Github链接</a>
  **/
-public enum ImProtocType {
+public enum ImProtoType {
 
     JSON(0),
     PROTOC_BUFFER(1);
 
     private final Integer code;
 
-    ImProtocType(Integer code) {
+    ImProtoType(Integer code) {
         this.code = code;
     }
 
-    public static ImProtocType getByCode(Integer code) {
-        for (ImProtocType type : values()) {
+    public static ImProtoType getByCode(Integer code) {
+        for (ImProtoType type : values()) {
             if (Objects.equals(type.code, code)) {
                 return type;
             }

@@ -16,6 +16,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class ImProtocHeader {
 
-    private ImProtocType type;
+    private ImProtoType type;
 
 }

@@ -1,5 +1,7 @@
 package cn.ether.im.common.enums;
 
+import lombok.Getter;
+
 /**
  * 对话消息类型
  */
@@ -18,12 +20,22 @@ public enum ImMessageType {
      */
     SYS_NOTICE(3, "系统通知");
 
+    @Getter
     private final int code;
     private final String desc;
 
     ImMessageType(int code, String desc) {
         this.code = code;
         this.desc = desc;
+    }
+
+    public static ImMessageType getByCode(int code) {
+        for (ImMessageType type : values()) {
+            if (type.code == code) {
+                return type;
+            }
+        }
+        return null;
     }
 
 }

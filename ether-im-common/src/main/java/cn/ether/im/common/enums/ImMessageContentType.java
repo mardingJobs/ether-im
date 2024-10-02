@@ -19,6 +19,15 @@ public enum ImMessageContentType {
         this.code = code;
     }
 
+    public static ImMessageContentType getByCode(Integer code) {
+        for (ImMessageContentType type : values()) {
+            if (type.code == code) {
+                return type;
+            }
+        }
+        return null;
+    }
+
     public int getCode() {
         return code;
     }

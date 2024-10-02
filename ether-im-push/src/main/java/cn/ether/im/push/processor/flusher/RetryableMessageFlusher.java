@@ -10,7 +10,6 @@ package cn.ether.im.push.processor.flusher;
 import cn.ether.im.common.enums.ImInfoType;
 import cn.ether.im.common.enums.ImTerminalType;
 import cn.ether.im.common.exception.RetryException;
-import cn.ether.im.common.model.info.MessageReceivedNotice;
 import cn.ether.im.common.model.info.message.ImMessage;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.push.cache.UserChannelCache;
@@ -26,7 +25,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class RetryableMessageFlusher extends ImInfoProcessor<MessageReceivedNotice> implements ImMessageFlusher {
+public class RetryableMessageFlusher extends ImInfoProcessor<ImMessage> implements ImMessageFlusher {
 
     private static Cache<String, String> REACHED_MESSAGES = CacheBuilder.newBuilder()
             .initialCapacity(10)
@@ -64,10 +63,10 @@ public class RetryableMessageFlusher extends ImInfoProcessor<MessageReceivedNoti
     }
 
     @Override
-    protected void doProcess(ChannelHandlerContext ctx, MessageReceivedNotice notice) {
-        String userId = notice.getUserId();
-        log.info("收到终端已接受消息通知。MessageId:{},Terminal:{}", notice.getMessageId(), userId);
-        String cacheKey = cacheKey(notice.getMessageId(), userId, notice.getTerminalType());
+    protected void doProcess(ChannelHandlerContext ctx, ImMessage notice) {
+        ImUserTerminal terminal = UserChannelCache.getUserTerminal(ctx);
+        log.info("收到终端已接受消息通知。MessageId:{},Terminal:{}", notice.getId(), terminal);
+        String cacheKey = cacheKey(notice.getId(), terminal.getUserId(), terminal.getTerminalType());
         REACHED_MESSAGES.put(cacheKey, "");
     }
 

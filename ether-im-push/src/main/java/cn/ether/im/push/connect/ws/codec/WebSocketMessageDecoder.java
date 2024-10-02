@@ -1,7 +1,9 @@
 package cn.ether.im.push.connect.ws.codec;
 
 import cn.ether.im.common.model.info.ImInfo;
-import cn.ether.im.push.connect.ImProtocolConverter;
+import cn.ether.im.common.proto.ImProtoConverter;
+import cn.ether.im.proto.text.ImTextProto;
+import com.alibaba.fastjson.JSON;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
@@ -20,21 +22,21 @@ import java.util.List;
 @Slf4j
 public class WebSocketMessageDecoder extends MessageToMessageDecoder<WebSocketFrame> {
 
-
     @Override
     protected void decode(ChannelHandlerContext ctx, WebSocketFrame socketFrame, List<Object> out) throws Exception {
-
         if (socketFrame instanceof TextWebSocketFrame) {
             String text = ((TextWebSocketFrame) socketFrame).text();
             if (StringUtils.isEmpty(text)) {
                 return;
             }
-            ImInfo imInfo = ImInfo.parseObject(text);
+            ImTextProto imTextProto = JSON.parseObject(text, ImTextProto.class);
+            ImInfo imInfo = ImProtoConverter.decodeToImInfo(imTextProto);
             out.add(imInfo);
         } else if (socketFrame instanceof BinaryWebSocketFrame) {
             byte[] bytes = new byte[socketFrame.content().readableBytes()];
             socketFrame.content().readBytes(bytes);
-            ImInfo imInfo = ImProtocolConverter.decodeToImInfo(bytes);
+            ImTextProto imTextProto = ImProtoConverter.parseBytes(bytes);
+            ImInfo imInfo = ImProtoConverter.decodeToImInfo(imTextProto);
             out.add(imInfo);
         }
     }

@@ -19,15 +19,15 @@ public class ImProtoc implements Serializable {
     private static final long serialVersionUID = -7962158433664656629L;
     public static final ImProtoc defaultProtoc = defaultProtoc();
 
-    private ImProtocType type;
+    private ImProtoType type;
     private Object body;
 
-    public ImProtoc(ImProtocType type) {
+    public ImProtoc(ImProtoType type) {
         this.type = type;
     }
 
     private static ImProtoc defaultProtoc() {
-        return new ImProtoc(ImProtocType.JSON);
+        return new ImProtoc(ImProtoType.JSON);
     }
 
 }

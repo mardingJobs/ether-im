@@ -3,8 +3,8 @@ package cn.ether.im.push.handler;
 import cn.ether.im.common.cache.ImUserContextCache;
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.model.info.ImInfo;
+import cn.ether.im.common.model.protoc.ImProtoType;
 import cn.ether.im.common.model.protoc.ImProtoc;
-import cn.ether.im.common.model.protoc.ImProtocType;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.util.JwtUtils;
 import cn.ether.im.common.util.SpringContextHolder;
@@ -52,8 +52,8 @@ public class HandshakeCompleteChannelHandler extends SimpleChannelInboundHandler
             String protocType = headers.get("protoc_type");
 
             ImProtoc imProtoc = ImProtoc.defaultProtoc;
-            if (StringUtils.isNotEmpty(protocType) && Objects.equals(ImProtocType.PROTOC_BUFFER.getCode(), Integer.parseInt(protocType))) {
-                imProtoc = new ImProtoc(ImProtocType.PROTOC_BUFFER);
+            if (StringUtils.isNotEmpty(protocType) && Objects.equals(ImProtoType.PROTOC_BUFFER.getCode(), Integer.parseInt(protocType))) {
+                imProtoc = new ImProtoc(ImProtoType.PROTOC_BUFFER);
             }
             ChannelHandlerContextUtil.setAttr(ctx, "protoc", imProtoc);
             ctx.writeAndFlush(imProtoc);

@@ -1,4 +1,4 @@
-package cn.ether.im.push.exception;
+package cn.ether.im.common.exception;
 
 /**
  * * @Author: Martin(微信：martin-jobs)
@@ -6,7 +6,7 @@ package cn.ether.im.push.exception;
  * * @Description
  * * @Github <a href="https://github.com/mardingJobs">Github链接</a>
  **/
-public class ImProtocException extends Exception {
+public class ImProtocException extends RuntimeException {
 
     public ImProtocException() {
     }
