@@ -34,8 +34,6 @@ spring:
         min-idle: 8
         max-wait: 5000
     address: redis://192.168.1.4:6379
-  application:
-    name: ether-im-message
 
 
 

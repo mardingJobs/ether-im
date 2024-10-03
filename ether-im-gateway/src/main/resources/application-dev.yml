@@ -25,5 +25,9 @@ spring:
           predicates:
             # 路径匹配,所有order的请求都转发到cloud-order-service
             - Path=/im-message/**
+        - id: im-message-single
+          uri: lb://ether-im-message-single
+          predicates:
+            - Path=/im-message-single/**
 server:
   port: 8888

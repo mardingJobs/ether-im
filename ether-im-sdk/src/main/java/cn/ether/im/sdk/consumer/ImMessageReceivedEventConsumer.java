@@ -16,6 +16,7 @@
 package cn.ether.im.sdk.consumer;
 
 import cn.ether.im.common.constants.ImConstants;
+import cn.ether.im.common.event.broadcast.ImEventBroadcast;
 import cn.ether.im.common.event.event.impl.ImMessageReceivedEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
@@ -25,6 +26,8 @@ import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.apache.rocketmq.spring.core.RocketMQPushConsumerLifecycleListener;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
+
 @Slf4j
 @Component
 @RocketMQMessageListener(consumerGroup = "IM-MESSAGE-RECEIVED-EVENT-GROUP",
@@ -32,11 +35,13 @@ import org.springframework.stereotype.Component;
 public class ImMessageReceivedEventConsumer
         implements RocketMQListener<ImMessageReceivedEvent>, RocketMQPushConsumerLifecycleListener {
 
+    @Resource
+    private ImEventBroadcast<ImMessageReceivedEvent> eventBroadcast;
+
     @Override
     public void onMessage(ImMessageReceivedEvent receivedEvent) {
-        log.info("监听到【消息已接收事件】|{}", receivedEvent);
-
-
+        log.info("消费到【消息已接收事件】|{}", receivedEvent);
+        eventBroadcast.broadcast(receivedEvent);
     }
 
     @Override

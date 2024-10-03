@@ -12,9 +12,9 @@ import java.util.List;
  * * @Date    2024/9/15 11:51
  * * @Description
  **/
-public interface ImEventListener {
+public interface ImEventListener<T extends ImEvent> {
 
-    void onEvent(ImEvent event) throws Exception;
+    void onEvent(T event) throws Exception;
 
     List<ImEventType> listenEventType();
 

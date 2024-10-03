@@ -19,14 +19,14 @@ import java.util.List;
  **/
 @Slf4j
 @Component
-public class DefaultImEventBroadcast implements ImEventBroadcast {
+public class DefaultImEventBroadcast<T extends ImEvent> implements ImEventBroadcast<T> {
 
     @Autowired(required = false)
     private List<ImEventListener> imEventListeners;
 
 
     @Override
-    public void broadcast(ImEvent event) {
+    public void broadcast(T event) {
         if (CollectionUtils.isEmpty(imEventListeners)) {
             return;
         }

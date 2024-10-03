@@ -7,8 +7,8 @@ import cn.ether.im.common.event.event.ImEvent;
  * * @Date    2024/9/15 12:01
  * * @Description
  **/
-public interface ImEventBroadcast {
+public interface ImEventBroadcast<T extends ImEvent> {
 
-    void broadcast(ImEvent event);
+    void broadcast(T event);
 
 }
