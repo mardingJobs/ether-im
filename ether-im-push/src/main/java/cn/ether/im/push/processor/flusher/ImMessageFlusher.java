@@ -17,5 +17,5 @@ public interface ImMessageFlusher {
      * @param receiverTerminal
      * @param message
      */
-    void flush(ImUserTerminal receiverTerminal, ImMessage message);
+    boolean flush(ImUserTerminal receiverTerminal, ImMessage message);
 }

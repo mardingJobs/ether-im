@@ -7,39 +7,41 @@ package cn.ether.im.push.processor.flusher;
  * * @Github <a href="https://github.com/mardingJobs">Github链接</a>
  **/
 
+import cn.ether.im.common.cache.RemoteCacheService;
+import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.enums.ImInfoType;
-import cn.ether.im.common.enums.ImTerminalType;
 import cn.ether.im.common.exception.RetryException;
 import cn.ether.im.common.model.info.message.ImMessage;
+import cn.ether.im.common.model.info.message.ImMessageReceived;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.push.cache.UserChannelCache;
 import cn.ether.im.push.processor.ImInfoProcessor;
 import cn.hutool.core.bean.BeanUtil;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
+
 @Slf4j
 @Component
-public class RetryableMessageFlusher extends ImInfoProcessor<ImMessage> implements ImMessageFlusher {
+public class RetryableMessageFlusher extends ImInfoProcessor<ImMessageReceived> implements ImMessageFlusher {
 
-    private static Cache<String, String> REACHED_MESSAGES = CacheBuilder.newBuilder()
-            .initialCapacity(10)
-            .concurrencyLevel(8)
-            .expireAfterWrite(60, java.util.concurrent.TimeUnit.SECONDS)
-            .maximumSize(100).build();
+    @Resource
+    private RocketMQTemplate rocketMQTemplate;
 
-    @Retryable(value = RetryException.class, maxAttempts = 3, backoff = @Backoff(delay = 2000, multiplier = 2))
+    @Resource
+    private RemoteCacheService remoteCacheService;
+
+    @Retryable(value = RetryException.class, maxAttempts = 3, backoff = @Backoff(delay = 2000, multiplier = 1.5))
     @Override
-    public void flush(ImUserTerminal receiverTerminal, ImMessage message) {
-        String cacheKey = cacheKey(message.getId(), receiverTerminal.getUserId(), receiverTerminal.getTerminalType());
-        if (REACHED_MESSAGES.asMap().containsKey(cacheKey)) {
+    public boolean flush(ImUserTerminal receiverTerminal, ImMessage message) {
+        if (isReceived(message.getId(), receiverTerminal)) {
             log.info("消息已触达,MessageId:{},Terminal:{}", message.getId(), receiverTerminal);
-            return;
+            return true;
         }
         ChannelHandlerContext ctx = UserChannelCache.getChannelCtx(receiverTerminal.getUserId(),
                 receiverTerminal.getTerminalType().toString());
@@ -51,23 +53,21 @@ public class RetryableMessageFlusher extends ImInfoProcessor<ImMessage> implemen
             if (log.isDebugEnabled()) {
                 log.debug("flush|消息已推送，等待确认。MessageId:{},Terminal:{}", copiedMessage.getId(), receiverTerminal);
             }
-            if (!REACHED_MESSAGES.asMap().containsKey(cacheKey)) {
-                throw new RetryException();
-            }
+            throw new RetryException();
         }
+        return false;
     }
 
-
-    private String cacheKey(Long messageId, String userId, ImTerminalType terminalType) {
-        return messageId + ":" + userId + ":" + terminalType.name();
+    private boolean isReceived(Long messageId, ImUserTerminal terminal) {
+        return !remoteCacheService.isMemberSet(ImConstants.UN_RECEIVED_MSG_PREFIX + messageId, terminal.toString());
     }
+
 
     @Override
-    protected void doProcess(ChannelHandlerContext ctx, ImMessage notice) {
+    protected void doProcess(ChannelHandlerContext ctx, ImMessageReceived notice) {
         ImUserTerminal terminal = UserChannelCache.getUserTerminal(ctx);
-        log.info("收到终端已接受消息通知。MessageId:{},Terminal:{}", notice.getId(), terminal);
-        String cacheKey = cacheKey(notice.getId(), terminal.getUserId(), terminal.getTerminalType());
-        REACHED_MESSAGES.put(cacheKey, "");
+        log.info("终端已接受消息。MessageId:{},Terminal:{}", notice.getMessageId(), terminal);
+        remoteCacheService.removeSet(ImConstants.UN_RECEIVED_MSG_PREFIX + notice.getMessageId(), terminal.toString());
     }
 
     @Override

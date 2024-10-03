@@ -1,4 +1,4 @@
-package cn.ether.im.message.service.impl;
+package cn.ether.im.message.single.service.impl;
 
 
 import cn.ether.im.common.enums.*;
@@ -12,13 +12,16 @@ import cn.ether.im.common.model.user.ImUser;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.mq.ImMqMessageSender;
 import cn.ether.im.common.util.SnowflakeUtil;
-import cn.ether.im.message.model.dto.*;
-import cn.ether.im.message.model.entity.ImChatMessageEntity;
-import cn.ether.im.message.model.entity.ImChatMessageInbox;
-import cn.ether.im.message.model.entity.ImConversationEntity;
-import cn.ether.im.message.model.entity.ImMessageEventLogEntity;
-import cn.ether.im.message.model.session.SessionContext;
-import cn.ether.im.message.service.*;
+import cn.ether.im.message.single.model.dto.ChatMessagePullReq;
+import cn.ether.im.message.single.model.dto.ChatMessagePullResult;
+import cn.ether.im.message.single.model.dto.ChatMessageSendReq;
+import cn.ether.im.message.single.model.dto.MessageSendReq;
+import cn.ether.im.message.single.model.entity.ImChatMessageEntity;
+import cn.ether.im.message.single.model.entity.ImChatMessageInbox;
+import cn.ether.im.message.single.model.entity.ImConversationEntity;
+import cn.ether.im.message.single.model.entity.ImMessageEventLogEntity;
+import cn.ether.im.message.single.model.session.SessionContext;
+import cn.ether.im.message.single.service.*;
 import cn.ether.im.sdk.client.EtherImClient;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
@@ -116,7 +119,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
 
     @Override
-    public String sendPersonalMessage(PersonalMessageSendReq req) throws Exception {
+    public String sendMessage(MessageSendReq req) throws Exception {
         ImMessage chatMessage = new ImMessage();
         chatMessage.setId(snowflakeUtil.nextId());
         chatMessage.setMessageType(ImMessageType.SINGLE);
@@ -129,40 +132,9 @@ public class ChatMessageServiceImpl implements ChatMessageService {
         return chatMessage.getId().toString();
     }
 
-    @Override
-    public String sendGroupMessage(GroupMessageSendReq req) throws Exception {
-        ImMessage chatMessage = new ImMessage();
-        chatMessage.setId(snowflakeUtil.nextId());
-        chatMessage.setMessageType(ImMessageType.GROUP);
-        chatMessage.setContent(req.getContent());
-        chatMessage.setContentType(ImMessageContentType.valueOf(req.getContentType()));
-        chatMessage.setSendTime(new Date().getTime());
-        chatMessage.setSender(SessionContext.loggedUser());
-        List<String> onlineGroupMembers = etherImClient.getOnlineGroupMembers(req.getReceiverId());
-        List<ImUser> receivers = onlineGroupMembers.stream().map((userId) -> new ImUser(req.getReceiverId())).collect(Collectors.toList());
-        chatMessage.setReceivers(receivers);
-        etherImClient.sendChatMessage(chatMessage);
-        return chatMessage.getId().toString();
-    }
 
     @Override
-    public String sendGroupMessageAsync(GroupMessageSendReq req) throws Exception {
-        ImMessage chatMessage = new ImMessage();
-        chatMessage.setId(snowflakeUtil.nextId());
-        chatMessage.setMessageType(ImMessageType.GROUP);
-        chatMessage.setContent(req.getContent());
-        chatMessage.setContentType(ImMessageContentType.valueOf(req.getContentType()));
-        chatMessage.setSendTime(new Date().getTime());
-        chatMessage.setSender(SessionContext.loggedUser());
-        List<String> onlineGroupMembers = etherImClient.getOnlineGroupMembers(req.getReceiverId());
-        List<ImUser> receivers = onlineGroupMembers.stream().map((userId) -> new ImUser(req.getReceiverId())).collect(Collectors.toList());
-        chatMessage.setReceivers(receivers);
-        etherImClient.asyncSendChatMessage(chatMessage);
-        return chatMessage.getId().toString();
-    }
-
-    @Override
-    public void asyncSendPersonalMessage(PersonalMessageSendReq req) throws Exception {
+    public void asyncSendMessage(MessageSendReq req) throws Exception {
         ImMessage chatMessage = new ImMessage();
         chatMessage.setId(snowflakeUtil.nextId());
         chatMessage.setMessageType(ImMessageType.SINGLE);

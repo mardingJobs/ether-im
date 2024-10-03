@@ -31,6 +31,8 @@ public class ImConstants {
      */
     public static final String REDIS_KEY_SPLIT = ":";
 
+    public static final String UN_RECEIVED_MSG_PREFIX = "un_received_msg:";
+
 
     public static final String GROUP_MEMBERS_PREFIX = "group:member:";
 
@@ -61,9 +63,15 @@ public class ImConstants {
 
 
     /**
-     * IM事件相关主题
+     * IM用户登陆事件主题
      */
     public final static String IM_LOGIN_EVENT_TOPIC = "im-login-event-topic";
+
+    /**
+     * IM消息已读事件主题
+     */
+    public final static String IM_MESSAGE_RECEIVED_EVENT_TOPIC = "im-message-received-event-topic";
+
 
     /**
      * 心跳次数

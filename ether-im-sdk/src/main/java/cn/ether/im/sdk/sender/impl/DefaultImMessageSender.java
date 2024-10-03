@@ -49,7 +49,7 @@ public class DefaultImMessageSender implements ImMessageSender {
         List<ImUser> receivers = message.getReceivers();
         List<ImUserTerminal> targetTerminalList = onlineTerminals(receivers, null);
         // 获取自己其他在线终端
-        if (ImMessageType.PERSONAL.equals(message.getMessageType())) {
+        if (ImMessageType.SINGLE.equals(message.getMessageType())) {
             List<ImUserTerminal> otherSelfTerminals = onlineTerminals(Collections.singletonList(sender.cloneUser()), sender);
             targetTerminalList.addAll(otherSelfTerminals);
         }

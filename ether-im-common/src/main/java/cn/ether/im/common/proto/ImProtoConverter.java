@@ -7,6 +7,7 @@ import cn.ether.im.common.enums.ImTerminalType;
 import cn.ether.im.common.exception.ImProtocException;
 import cn.ether.im.common.model.info.ImInfo;
 import cn.ether.im.common.model.info.message.ImMessage;
+import cn.ether.im.common.model.info.message.ImMessageReceived;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.proto.binary.ImBinary;
 import cn.ether.im.proto.text.ImMessageTextProto;
@@ -115,10 +116,10 @@ public class ImProtoConverter {
             imMessage.setMessageType(messageType);
             return imMessage;
         } else if (infoType == ImInfoType.MESSAGE_RECEIVED) {
-            ImMessage imMessage = new ImMessage();
-            imMessage.setType(infoType);
-            imMessage.setId(body.getMessageId());
-            return imMessage;
+            ImMessageReceived imMessageReceived = new ImMessageReceived();
+            imMessageReceived.setMessageId(body.getMessageId());
+            imMessageReceived.setType(ImInfoType.MESSAGE_RECEIVED);
+            return imMessageReceived;
         } else {
             throw new ImProtocException("不支持的消息类型");
         }

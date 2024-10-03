@@ -10,7 +10,7 @@ public enum ImMessageType {
     /**
      * 1对1用户聊天
      */
-    PERSONAL(0, "单聊"),
+    SINGLE(0, "单聊"),
     /**
      * 多对多用户聊天
      */
