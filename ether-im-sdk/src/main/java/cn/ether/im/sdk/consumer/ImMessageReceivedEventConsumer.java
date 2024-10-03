@@ -16,7 +16,7 @@
 package cn.ether.im.sdk.consumer;
 
 import cn.ether.im.common.constants.ImConstants;
-import cn.ether.im.common.event.event.impl.ImUserLoginEvent;
+import cn.ether.im.common.event.event.impl.ImMessageReceivedEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.spring.annotation.ConsumeMode;
@@ -27,18 +27,20 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-@RocketMQMessageListener(consumerGroup = "IM-LOGIN-EVENT-CONSUMERS",
-        topic = ImConstants.IM_LOGIN_EVENT_TOPIC, consumeMode = ConsumeMode.CONCURRENTLY)
-public class UserLoginEventConsumer
-        implements RocketMQListener<ImUserLoginEvent>, RocketMQPushConsumerLifecycleListener {
+@RocketMQMessageListener(consumerGroup = "IM-MESSAGE-RECEIVED-EVENT-GROUP",
+        topic = ImConstants.IM_MESSAGE_RECEIVED_EVENT_TOPIC, consumeMode = ConsumeMode.CONCURRENTLY)
+public class ImMessageReceivedEventConsumer
+        implements RocketMQListener<ImMessageReceivedEvent>, RocketMQPushConsumerLifecycleListener {
 
     @Override
-    public void onMessage(ImUserLoginEvent message) {
-        log.info("监听到【用户登陆事件】|{}", message);
+    public void onMessage(ImMessageReceivedEvent receivedEvent) {
+        log.info("监听到【消息已接收事件】|{}", receivedEvent);
+
+
     }
 
     @Override
     public void prepareStart(DefaultMQPushConsumer consumer) {
-        System.out.println("consumer = " + consumer);
+
     }
 }

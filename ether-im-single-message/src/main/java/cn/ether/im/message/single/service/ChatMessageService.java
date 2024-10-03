@@ -1,6 +1,6 @@
 package cn.ether.im.message.single.service;
 
-import cn.ether.im.common.model.info.message.event.ImEvent;
+import cn.ether.im.common.model.info.message.event.ImMessageEvent;
 import cn.ether.im.message.single.model.dto.ChatMessagePullReq;
 import cn.ether.im.message.single.model.dto.ChatMessagePullResult;
 import cn.ether.im.message.single.model.dto.ChatMessageSendReq;
@@ -61,8 +61,8 @@ public interface ChatMessageService {
 
     boolean saveMessageEventLog(ImMessageEventLogEntity eventLogEntity);
 
-    void onMessageEvent(ImEvent messageEvent);
+    void onMessageEvent(ImMessageEvent messageEvent);
 
-    void onMessageEventV2(ImEvent messageEvent);
+    void onMessageEventV2(ImMessageEvent messageEvent);
 
 }

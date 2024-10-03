@@ -65,13 +65,14 @@ public class ImConstants {
     /**
      * IM用户登陆事件主题
      */
-    public final static String IM_LOGIN_EVENT_TOPIC = "im-login-event-topic";
+    public final static String IM_LOGIN_EVENT_TOPIC = "IM-LOGIN-EVENT-TOPIC";
 
     /**
      * IM消息已读事件主题
      */
     public final static String IM_MESSAGE_RECEIVED_EVENT_TOPIC = "im-message-received-event-topic";
 
+    public final static String IM_EVENT_TOPIC = "im-event-topic";
 
     /**
      * 心跳次数
@@ -101,4 +102,6 @@ public class ImConstants {
     public static final Integer IM_MESSAGE_WITH_DRAWN_SEC = 120;
     public static final String IM_TOKEN = "token";
     public static final String TOKEN_SECRET = "marding";
+    public static final String IM_EVENT_CONSUMER_GROUP = "IM-EVENT_CONSUMERS";
+
 }

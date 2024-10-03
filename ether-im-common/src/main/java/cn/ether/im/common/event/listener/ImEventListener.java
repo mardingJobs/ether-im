@@ -1,7 +1,7 @@
 package cn.ether.im.common.event.listener;
 
-import cn.ether.im.common.model.info.message.event.ImEvent;
-import cn.ether.im.common.model.info.message.event.ImEventType;
+import cn.ether.im.common.event.event.ImEvent;
+import cn.ether.im.common.event.event.ImEventType;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  **/
 public interface ImEventListener {
 
-    void onMessageEvent(ImEvent event) throws Exception;
+    void onEvent(ImEvent event) throws Exception;
 
     List<ImEventType> listenEventType();
 

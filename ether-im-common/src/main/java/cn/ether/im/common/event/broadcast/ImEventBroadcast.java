@@ -1,6 +1,6 @@
 package cn.ether.im.common.event.broadcast;
 
-import cn.ether.im.common.model.info.message.event.ImEvent;
+import cn.ether.im.common.event.event.ImEvent;
 
 /**
  * * @Author: jack

@@ -2,7 +2,7 @@ package cn.ether.im.push.handler;
 
 import cn.ether.im.common.cache.ImUserContextCache;
 import cn.ether.im.common.constants.ImConstants;
-import cn.ether.im.common.event.event.ImUserLoginEvent;
+import cn.ether.im.common.event.event.impl.ImUserLoginEvent;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.push.cache.UserChannelCache;
 import io.netty.channel.ChannelHandlerContext;
@@ -52,7 +52,6 @@ public class ImUserHandler {
                     log.error("用户登陆通知发送失败,userTerminal:{}", userTerminal);
                 }
             }
-
             @Override
             public void onException(Throwable e) {
                 log.error("用户登陆通知发送异常,userTerminal:{}", userTerminal);

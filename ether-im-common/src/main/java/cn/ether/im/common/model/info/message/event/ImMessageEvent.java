@@ -11,7 +11,7 @@ import lombok.Data;
  * * @Description
  **/
 @Data
-public class ImEvent extends ImInfo {
+public class ImMessageEvent extends ImInfo {
 
     /**
      * 原始消息id
@@ -31,13 +31,13 @@ public class ImEvent extends ImInfo {
     /**
      * 事件类型
      */
-    private ImEventType eventType;
+    private ImMessageEventType eventType;
 
     /**
      * 事件发生时间
      */
     private Long eventTime;
 
-    public ImEvent() {
+    public ImMessageEvent() {
     }
 }

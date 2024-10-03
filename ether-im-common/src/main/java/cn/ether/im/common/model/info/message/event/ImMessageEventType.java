@@ -7,7 +7,7 @@ import cn.ether.im.common.enums.ImChatMessageStatus;
  * * @Date    2024/9/17 18:33
  * * @Description
  **/
-public enum ImEventType {
+public enum ImMessageEventType {
 
     SENT("已发送", ImChatMessageStatus.SENT, 0),
     RECEIVED("已触达", ImChatMessageStatus.RECEIVED, 4),
@@ -24,7 +24,7 @@ public enum ImEventType {
      */
     private final Integer order;
 
-    ImEventType(String desc, ImChatMessageStatus nextStatus, Integer order) {
+    ImMessageEventType(String desc, ImChatMessageStatus nextStatus, Integer order) {
         this.desc = desc;
         this.nextStatus = nextStatus;
         this.order = order;

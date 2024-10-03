@@ -1,5 +1,7 @@
-package cn.ether.im.common.event.event;
+package cn.ether.im.common.event.event.impl;
 
+import cn.ether.im.common.event.event.ImEvent;
+import cn.ether.im.common.event.event.ImEventType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +18,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ImMessageReceivedEvent implements Serializable {
+public class ImMessageReceivedEvent implements ImEvent, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -25,4 +27,8 @@ public class ImMessageReceivedEvent implements Serializable {
     private String receiverId;
 
 
+    @Override
+    public ImEventType getEventType() {
+        return ImEventType.MESSAGE_RECEIVED;
+    }
 }

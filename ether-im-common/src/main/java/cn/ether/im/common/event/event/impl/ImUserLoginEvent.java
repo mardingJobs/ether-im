@@ -1,6 +1,8 @@
-package cn.ether.im.common.event.event;
+package cn.ether.im.common.event.event.impl;
 
 import cn.ether.im.common.enums.ImTerminalType;
+import cn.ether.im.common.event.event.ImEvent;
+import cn.ether.im.common.event.event.ImEventType;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -12,7 +14,7 @@ import java.io.Serializable;
  * * @Github <a href="https://github.com/mardingJobs">Github链接</a>
  **/
 @Data
-public class ImUserLoginEvent implements Serializable {
+public class ImUserLoginEvent implements ImEvent, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -25,4 +27,8 @@ public class ImUserLoginEvent implements Serializable {
      */
     private Long loginTime;
 
+    @Override
+    public ImEventType getEventType() {
+        return ImEventType.USER_LOGIN;
+    }
 }
