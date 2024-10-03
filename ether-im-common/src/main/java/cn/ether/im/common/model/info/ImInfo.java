@@ -34,6 +34,7 @@ public class ImInfo {
         this.info = info;
     }
 
+    @Deprecated
     public static ImInfo parseObject(String json) {
         ImInfo message = JSON.parseObject(json, ImInfo.class);
         ImInfoType infoType = message.getType();

@@ -1,6 +1,5 @@
 package cn.ether.im.push.server.handler;
 
-import cn.ether.im.common.cache.ImUserContextCache;
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.model.info.ImInfo;
 import cn.ether.im.common.model.protoc.ImProtoType;
@@ -8,7 +7,7 @@ import cn.ether.im.common.model.protoc.ImProtoc;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.util.JwtUtils;
 import cn.ether.im.common.util.SpringContextHolder;
-import cn.ether.im.push.cache.UserChannelCache;
+import cn.ether.im.push.handler.ImUserHandler;
 import cn.ether.im.push.util.ChannelHandlerContextUtil;
 import com.alibaba.fastjson.JSON;
 import io.netty.channel.ChannelHandlerContext;
@@ -72,12 +71,8 @@ public class HandshakeCompleteChannelHandler extends SimpleChannelInboundHandler
         if (imUserTerminal == null) {
             return false;
         }
-        ImUserContextCache contextCache = SpringContextHolder.getBean(ImUserContextCache.class);
-        // 缓存当前用户终端和连接的push服务
-        contextCache.bindPushServer(imUserTerminal);
-        // 将当前用户终端和channel绑定
-        UserChannelCache.bindChannel(imUserTerminal, ctx);
-        //
+        ImUserHandler userHandler = SpringContextHolder.getBean(ImUserHandler.class);
+        userHandler.onUserLogin(imUserTerminal, ctx);
         return true;
     }
 

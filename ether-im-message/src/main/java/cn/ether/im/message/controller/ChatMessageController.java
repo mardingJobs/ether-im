@@ -71,7 +71,7 @@ public class ChatMessageController {
     }
 
     @Operation(summary = "异步发送群聊消息", description = "如果发送成功的话")
-    @PostMapping("/send/group")
+    @PostMapping("/send/group/async")
     public Resp sendGroupAsync(@RequestBody GroupMessageSendReq req) throws Exception {
         String messageId = messageService.sendGroupMessageAsync(req);
         return Resp.success(messageId);

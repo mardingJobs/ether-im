@@ -60,7 +60,15 @@ public class ImConstants {
     public final static String IM_MESSAGE_PUSH_CONSUMER_GROUP = "im-push-consumer-group";
 
 
-    public final static String IM_MESSAGE_EVENT_CONSUMER_GROUP = "im-message-event-consumer";
+    /**
+     * IM事件相关主题
+     */
+    public final static String IM_EVENT_TOPIC = "im-event-topic";
+
+    /**
+     * IM事件消费者组
+     */
+    public final static String IM_EVENT_CONSUMER_GROUP = "im-event-consumer-group";
 
     /**
      * 心跳次数
