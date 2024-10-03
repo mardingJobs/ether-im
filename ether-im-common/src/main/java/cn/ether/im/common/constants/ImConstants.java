@@ -36,9 +36,9 @@ public class ImConstants {
 
 
     /**
-     * 在线状态过期时间，默认是1800秒，也就是30分钟
+     * 在线状态过期时间
      */
-    public static final long ONLINE_TIMEOUT_SECONDS = 1800;
+    public static final long ONLINE_TIMEOUT_SECONDS = 3600;
 
 
     /**

@@ -146,6 +146,22 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     }
 
     @Override
+    public String sendGroupMessageAsync(GroupMessageSendReq req) throws Exception {
+        ImMessage chatMessage = new ImMessage();
+        chatMessage.setId(snowflakeUtil.nextId());
+        chatMessage.setMessageType(ImMessageType.GROUP);
+        chatMessage.setContent(req.getContent());
+        chatMessage.setContentType(ImMessageContentType.valueOf(req.getContentType()));
+        chatMessage.setSendTime(new Date().getTime());
+        chatMessage.setSender(SessionContext.loggedUser());
+        List<String> onlineGroupMembers = etherImClient.getOnlineGroupMembers(req.getReceiverId());
+        List<ImUser> receivers = onlineGroupMembers.stream().map((userId) -> new ImUser(req.getReceiverId())).collect(Collectors.toList());
+        chatMessage.setReceivers(receivers);
+        etherImClient.asyncSendChatMessage(chatMessage);
+        return chatMessage.getId().toString();
+    }
+
+    @Override
     public void asyncSendPersonalMessage(PersonalMessageSendReq req) throws Exception {
         ImMessage chatMessage = new ImMessage();
         chatMessage.setId(snowflakeUtil.nextId());

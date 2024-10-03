@@ -70,6 +70,13 @@ public class ChatMessageController {
         return Resp.success(messageId);
     }
 
+    @Operation(summary = "异步发送群聊消息", description = "如果发送成功的话")
+    @PostMapping("/send/group")
+    public Resp sendGroupAsync(@RequestBody GroupMessageSendReq req) throws Exception {
+        String messageId = messageService.sendGroupMessageAsync(req);
+        return Resp.success(messageId);
+    }
+
     /**
      * 拉取最近用户的收件箱消息和发件箱消息
      *

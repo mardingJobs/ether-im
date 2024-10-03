@@ -11,11 +11,39 @@ import cn.ether.im.message.model.entity.ImMessageEventLogEntity;
  **/
 public interface ChatMessageService {
 
-
+    /**
+     * 同步发送单聊消息
+     *
+     * @param req
+     * @return
+     * @throws Exception
+     */
     String sendPersonalMessage(PersonalMessageSendReq req) throws Exception;
 
+    /**
+     * 异步发送单聊消息
+     * @param req
+     * @throws Exception
+     */
     void asyncSendPersonalMessage(PersonalMessageSendReq req) throws Exception;
 
+    /**
+     * 同步发送群聊消息
+     *
+     * @param req
+     * @return
+     * @throws Exception
+     */
+    String sendGroupMessage(GroupMessageSendReq req) throws Exception;
+
+    /**
+     * 异步发送群聊消息
+     *
+     * @param req
+     * @return
+     * @throws Exception
+     */
+    String sendGroupMessageAsync(GroupMessageSendReq req) throws Exception;
 
     /**
      * 发送消息已读通知
@@ -51,7 +79,7 @@ public interface ChatMessageService {
     void onMessageEventV2(ImMessageEvent messageEvent);
 
 
-    String sendGroupMessage(GroupMessageSendReq req) throws Exception;
+
 
 
 }
