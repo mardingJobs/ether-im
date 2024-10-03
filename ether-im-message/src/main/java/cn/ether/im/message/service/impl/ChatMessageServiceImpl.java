@@ -2,12 +2,12 @@ package cn.ether.im.message.service.impl;
 
 
 import cn.ether.im.common.enums.*;
-import cn.ether.im.common.event.MessageEventStatusMachine;
+import cn.ether.im.common.event.ImEventStatusMachine;
 import cn.ether.im.common.exception.ImException;
 import cn.ether.im.common.model.info.ImTopicInfo;
 import cn.ether.im.common.model.info.message.ImMessage;
-import cn.ether.im.common.model.info.message.event.ImMessageEvent;
-import cn.ether.im.common.model.info.message.event.ImMessageEventType;
+import cn.ether.im.common.model.info.message.event.ImEvent;
+import cn.ether.im.common.model.info.message.event.ImEventType;
 import cn.ether.im.common.model.user.ImUser;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.mq.ImMqMessageSender;
@@ -274,7 +274,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
-    public void onMessageEvent(ImMessageEvent messageEvent) {
+    public void onMessageEvent(ImEvent messageEvent) {
 
         ImMessageType messageType = messageEvent.getMessageType();
         if (messageType == ImMessageType.PERSONAL) {
@@ -300,12 +300,12 @@ public class ChatMessageServiceImpl implements ChatMessageService {
                     .list();
             List<ImMessageEventLogEntity> orderedEventList = new LinkedList<>();
             for (ImMessageEventLogEntity log : eventLogs) {
-                ImMessageEventType eventType = ImMessageEventType.valueOf(log.getEventType());
+                ImEventType eventType = ImEventType.valueOf(log.getEventType());
                 orderedEventList.add(eventType.getOrder(), log);
             }
             if (CollectionUtil.isNotEmpty(orderedEventList)) {
                 ImMessageEventLogEntity newestLog = orderedEventList.get(orderedEventList.size() - 1);
-                ImChatMessageStatus status = ImMessageEventType.valueOf(newestLog.getEventType()).getNextStatus();
+                ImChatMessageStatus status = ImEventType.valueOf(newestLog.getEventType()).getNextStatus();
                 messageEntity.setStatus(status.name());
                 chatMessageService.updateById(messageEntity);
             }
@@ -322,7 +322,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
-    public void onMessageEventV2(ImMessageEvent messageEvent) {
+    public void onMessageEventV2(ImEvent messageEvent) {
         ImChatMessageEntity messageEntity = chatMessageService.getById(messageEvent.getMessageId());
         if (messageEntity == null) {
             return;
@@ -330,7 +330,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
         String status = messageEntity.getStatus();
         ImChatMessageStatus messageStatus = ImChatMessageStatus.valueOf(status);
 
-        ImChatMessageStatus nextStatus = MessageEventStatusMachine.nextStatus(messageStatus, messageEvent.getEventType());
+        ImChatMessageStatus nextStatus = ImEventStatusMachine.nextStatus(messageStatus, messageEvent.getEventType());
         if (nextStatus == null) {
             saveMessageEventLog(messageEvent);
             return;
@@ -355,7 +355,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     }
 
 
-    private void saveMessageEventLog(ImMessageEvent messageEvent) {
+    private void saveMessageEventLog(ImEvent messageEvent) {
         ImMessageEventLogEntity eventLogEntity = new ImMessageEventLogEntity();
         eventLogEntity.setMessageId(messageEvent.getMessageId());
         eventLogEntity.setEventType(messageEvent.getEventType().name());

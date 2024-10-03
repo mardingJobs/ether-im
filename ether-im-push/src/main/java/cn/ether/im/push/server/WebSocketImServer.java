@@ -1,12 +1,12 @@
-package cn.ether.im.push.connect.ws;
+package cn.ether.im.push.server;
 
 import cn.ether.im.common.constants.ImConstants;
-import cn.ether.im.push.connect.ImPushServer;
-import cn.ether.im.push.connect.ws.codec.ImProtocEncoder;
-import cn.ether.im.push.connect.ws.codec.WebSocketMessageDecoder;
-import cn.ether.im.push.connect.ws.codec.WebSocketMessageEncoder;
-import cn.ether.im.push.handler.HandshakeCompleteChannelHandler;
-import cn.ether.im.push.handler.ImChannelHandler;
+import cn.ether.im.push.ImPushServer;
+import cn.ether.im.push.server.codec.ImProtocEncoder;
+import cn.ether.im.push.server.codec.WebSocketMessageDecoder;
+import cn.ether.im.push.server.codec.WebSocketMessageEncoder;
+import cn.ether.im.push.server.handler.HandshakeCompleteChannelHandler;
+import cn.ether.im.push.server.handler.ImChannelHandler;
 import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
 import com.alibaba.nacos.api.PropertyKeyConst;
 import com.alibaba.nacos.api.naming.NamingFactory;

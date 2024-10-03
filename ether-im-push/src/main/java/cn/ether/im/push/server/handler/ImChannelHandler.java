@@ -1,4 +1,4 @@
-package cn.ether.im.push.handler;
+package cn.ether.im.push.server.handler;
 
 import cn.ether.im.common.cache.ImUserContextCache;
 import cn.ether.im.common.constants.ImConstants;

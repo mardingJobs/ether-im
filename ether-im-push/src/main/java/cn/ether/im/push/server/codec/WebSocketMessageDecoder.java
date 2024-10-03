@@ -1,4 +1,4 @@
-package cn.ether.im.push.connect.ws.codec;
+package cn.ether.im.push.server.codec;
 
 import cn.ether.im.common.model.info.ImInfo;
 import cn.ether.im.common.proto.ImProtoConverter;

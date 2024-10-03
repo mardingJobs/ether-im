@@ -1,4 +1,4 @@
-package cn.ether.im.push.connect;
+package cn.ether.im.push;
 
 /**
  * * @Author: Martin

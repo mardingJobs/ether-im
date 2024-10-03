@@ -1,6 +1,6 @@
 package cn.ether.im.message.service;
 
-import cn.ether.im.common.model.info.message.event.ImMessageEvent;
+import cn.ether.im.common.model.info.message.event.ImEvent;
 import cn.ether.im.message.model.dto.*;
 import cn.ether.im.message.model.entity.ImMessageEventLogEntity;
 
@@ -74,9 +74,9 @@ public interface ChatMessageService {
 
     boolean saveMessageEventLog(ImMessageEventLogEntity eventLogEntity);
 
-    void onMessageEvent(ImMessageEvent messageEvent);
+    void onMessageEvent(ImEvent messageEvent);
 
-    void onMessageEventV2(ImMessageEvent messageEvent);
+    void onMessageEventV2(ImEvent messageEvent);
 
 
 

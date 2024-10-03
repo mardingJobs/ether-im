@@ -1,4 +1,4 @@
-package cn.ether.im.push.handler;
+package cn.ether.im.push.server.handler;
 
 import cn.ether.im.common.cache.ImUserContextCache;
 import cn.ether.im.common.constants.ImConstants;
@@ -77,6 +77,7 @@ public class HandshakeCompleteChannelHandler extends SimpleChannelInboundHandler
         contextCache.bindPushServer(imUserTerminal);
         // 将当前用户终端和channel绑定
         UserChannelCache.bindChannel(imUserTerminal, ctx);
+        //
         return true;
     }
 
