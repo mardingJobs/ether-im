@@ -63,12 +63,7 @@ public class ImConstants {
     /**
      * IM事件相关主题
      */
-    public final static String IM_EVENT_TOPIC = "im-event-topic";
-
-    /**
-     * IM事件消费者组
-     */
-    public final static String IM_EVENT_CONSUMER_GROUP = "im-event-consumer-group";
+    public final static String IM_LOGIN_EVENT_TOPIC = "im-login-event-topic";
 
     /**
      * 心跳次数

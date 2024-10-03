@@ -58,7 +58,7 @@ public class ImUserHandler {
                 log.error("用户登陆通知发送异常,userTerminal:{}", userTerminal);
             }
         };
-        rocketMQTemplate.asyncSend(ImConstants.IM_EVENT_TOPIC, userLoginEvent, sendCallback);
+        rocketMQTemplate.asyncSend(ImConstants.IM_LOGIN_EVENT_TOPIC, userLoginEvent, sendCallback);
     }
 
 }
