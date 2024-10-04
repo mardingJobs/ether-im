@@ -1,6 +1,6 @@
 package cn.ether.im.common.model.conversation;
 
-import cn.ether.im.common.model.info.message.ImMessage;
+import cn.ether.im.common.model.message.ImMessage;
 import lombok.Data;
 
 /**

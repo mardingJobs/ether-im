@@ -7,12 +7,12 @@ package cn.ether.im.push.processor.flusher;
  * * @Github <a href="https://github.com/mardingJobs">Github链接</a>
  **/
 
+import cn.ether.im.client.common.enums.ImInfoType;
 import cn.ether.im.common.cache.RemoteCacheService;
 import cn.ether.im.common.constants.ImConstants;
-import cn.ether.im.common.enums.ImInfoType;
 import cn.ether.im.common.exception.RetryException;
-import cn.ether.im.common.model.info.message.ImMessage;
-import cn.ether.im.common.model.info.message.ImMessageReceived;
+import cn.ether.im.common.model.message.ImMessage;
+import cn.ether.im.common.model.message.ImMessageReceived;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.push.cache.UserChannelCache;
 import cn.ether.im.push.processor.ImInfoProcessor;

@@ -15,7 +15,6 @@
  */
 package cn.ether.im.common.mq;
 
-import cn.ether.im.common.model.info.ImInfo;
 import cn.ether.im.common.model.info.ImTopicInfo;
 import org.apache.rocketmq.client.producer.SendCallback;
 import org.apache.rocketmq.client.producer.TransactionSendResult;
@@ -47,7 +46,7 @@ public interface ImMqMessageSender {
      * @return
      * @throws Exception
      */
-    boolean sendOrderlyByUid(ImTopicInfo<? extends ImInfo> message) throws Exception;
+    boolean sendOrderlyByUid(ImTopicInfo message) throws Exception;
 
     /**
      * 批量发送IM消息

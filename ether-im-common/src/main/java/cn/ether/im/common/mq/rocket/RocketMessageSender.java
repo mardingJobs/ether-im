@@ -2,9 +2,8 @@ package cn.ether.im.common.mq.rocket;
 
 import cn.ether.im.common.enums.ImExceptionCode;
 import cn.ether.im.common.exception.ImException;
-import cn.ether.im.common.model.info.ImInfo;
 import cn.ether.im.common.model.info.ImTopicInfo;
-import cn.ether.im.common.model.info.message.ImMessage;
+import cn.ether.im.common.model.message.ImMessage;
 import cn.ether.im.common.mq.ImMqMessageSender;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -86,7 +85,7 @@ public class RocketMessageSender implements ImMqMessageSender {
      * @throws Exception
      */
     @Override
-    public boolean sendOrderlyByUid(ImTopicInfo<? extends ImInfo> topicMessage) throws Exception {
+    public boolean sendOrderlyByUid(ImTopicInfo topicMessage) throws Exception {
         ImMessage imMessage = topicMessage.getMessage();
         String messageString = JSON.toJSONString(imMessage);
         if (log.isDebugEnabled()) {

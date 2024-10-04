@@ -1,7 +1,7 @@
 package cn.ether.im.sdk.cache;
 
 import cn.ether.im.common.cache.RemoteCacheService;
-import cn.ether.im.common.model.info.message.ImMessage;
+import cn.ether.im.common.model.message.ImMessage;
 import cn.hutool.core.bean.BeanUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

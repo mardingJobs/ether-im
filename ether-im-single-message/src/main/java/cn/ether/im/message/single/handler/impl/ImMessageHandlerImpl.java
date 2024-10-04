@@ -35,7 +35,7 @@ public class ImMessageHandlerImpl implements ImMessageHandler {
 
     @Override
     public String sendMessage(MessageSendReq req) throws Exception {
-
+        //etherImClient.sendChatMessage();
         return "";
     }
 

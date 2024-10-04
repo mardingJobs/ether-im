@@ -1,7 +1,7 @@
 package cn.ether.im.push.processor;
 
-import cn.ether.im.common.enums.ImInfoType;
-import cn.ether.im.common.model.info.ImInfo;
+import cn.ether.im.client.common.enums.ImInfoType;
+import cn.ether.im.client.common.model.ImInfo;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Component;
 
@@ -18,12 +18,12 @@ import java.util.Map;
 public class ImInfoProcessorContext {
 
     @Resource
-    private Map<ImInfoType, ImInfoProcessor<? extends ImInfo>> processorMap;
+    private Map<ImInfoType, ImInfoProcessor> processorMap;
 
-    public void process(ChannelHandlerContext ctx, ImInfo info) {
-        ImInfoProcessor<? extends ImInfo> imInfoProcessor = processorMap.get(info.getType());
-        imInfoProcessor.process(ctx, info);
-
+    public <T> void process(ChannelHandlerContext ctx, ImInfo<T> info) {
+        ImInfoProcessor<T> imInfoProcessor = processorMap.get(info.getType());
+        T info1 = info.getInfo();
+        imInfoProcessor.doProcess(ctx, (T) info1);
     }
 
 

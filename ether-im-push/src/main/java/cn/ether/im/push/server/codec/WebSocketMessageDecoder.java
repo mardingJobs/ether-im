@@ -1,7 +1,7 @@
 package cn.ether.im.push.server.codec;
 
-import cn.ether.im.common.model.info.ImInfo;
-import cn.ether.im.common.proto.ImProtoConverter;
+import cn.ether.im.client.common.model.ImInfo;
+import cn.ether.im.client.common.proto.ImProtoConverter;
 import cn.ether.im.proto.text.ImTextProto;
 import com.alibaba.fastjson.JSON;
 import io.netty.channel.ChannelHandlerContext;

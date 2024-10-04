@@ -1,7 +1,6 @@
 package cn.ether.im.push.config;
 
-import cn.ether.im.common.enums.ImInfoType;
-import cn.ether.im.common.model.info.ImInfo;
+import cn.ether.im.client.common.enums.ImInfoType;
 import cn.ether.im.push.processor.ImInfoProcessor;
 import cn.hutool.core.map.MapUtil;
 import org.springframework.context.annotation.Bean;
@@ -21,9 +20,9 @@ import java.util.Map;
 public class ImInfoConfig {
 
     @Bean
-    public Map<ImInfoType, ImInfoProcessor<? extends ImInfo>> mapping(List<ImInfoProcessor<? extends ImInfo>> processors) {
-        HashMap<ImInfoType, ImInfoProcessor<? extends ImInfo>> map = MapUtil.newHashMap();
-        for (ImInfoProcessor<? extends ImInfo> processor : processors) {
+    public Map<ImInfoType, ImInfoProcessor> mapping(List<ImInfoProcessor> processors) {
+        HashMap<ImInfoType, ImInfoProcessor> map = MapUtil.newHashMap();
+        for (ImInfoProcessor processor : processors) {
             map.put(processor.supportType(), processor);
         }
         return map;

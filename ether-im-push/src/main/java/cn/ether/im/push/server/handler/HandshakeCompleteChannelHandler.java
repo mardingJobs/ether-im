@@ -1,7 +1,7 @@
 package cn.ether.im.push.server.handler;
 
+import cn.ether.im.client.common.model.ImInfo;
 import cn.ether.im.common.constants.ImConstants;
-import cn.ether.im.common.model.info.ImInfo;
 import cn.ether.im.common.model.protoc.ImProtoType;
 import cn.ether.im.common.model.protoc.ImProtoc;
 import cn.ether.im.common.model.user.ImUserTerminal;

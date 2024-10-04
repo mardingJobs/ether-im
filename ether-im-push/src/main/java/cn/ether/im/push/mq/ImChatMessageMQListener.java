@@ -15,8 +15,10 @@
  */
 package cn.ether.im.push.mq;
 
+import cn.ether.im.client.common.enums.ImInfoType;
+import cn.ether.im.client.common.model.ImInfo;
 import cn.ether.im.common.constants.ImConstants;
-import cn.ether.im.common.model.info.message.ImMessage;
+import cn.ether.im.common.model.message.ImMessage;
 import cn.ether.im.common.util.ThreadPoolUtils;
 import cn.ether.im.push.processor.ImInfoProcessorContext;
 import cn.hutool.core.util.StrUtil;
@@ -65,7 +67,7 @@ public class ImChatMessageMQListener
             return;
         }
         ThreadPoolUtils.execute(() -> {
-            processorContext.process(null, chatMessage);
+            processorContext.process(null, new ImInfo<>(ImInfoType.MESSAGE, chatMessage));
         });
     }
 

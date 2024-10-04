@@ -15,7 +15,7 @@
  */
 package cn.ether.im.common.model.info;
 
-import cn.ether.im.common.model.info.message.ImMessage;
+import cn.ether.im.common.model.message.ImMessage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

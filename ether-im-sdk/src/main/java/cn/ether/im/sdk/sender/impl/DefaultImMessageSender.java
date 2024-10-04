@@ -6,7 +6,8 @@ import cn.ether.im.common.enums.ImExceptionCode;
 import cn.ether.im.common.enums.ImMessageType;
 import cn.ether.im.common.exception.ImException;
 import cn.ether.im.common.model.info.ImTopicInfo;
-import cn.ether.im.common.model.info.message.ImMessage;
+import cn.ether.im.common.model.message.ImMessage;
+import cn.ether.im.common.model.message.ImSingleMessage;
 import cn.ether.im.common.model.user.ImUser;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.mq.ImMqMessageSender;
@@ -54,6 +55,11 @@ public class DefaultImMessageSender implements ImMessageSender {
             targetTerminalList.addAll(otherSelfTerminals);
         }
         doSendToTargetTerminal(message, targetTerminalList, async);
+    }
+
+    @Override
+    public void sendSingleMessage(ImSingleMessage singleMessage) {
+
     }
 
 

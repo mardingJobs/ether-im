@@ -1,6 +1,7 @@
 package cn.ether.im.sdk.client;
 
-import cn.ether.im.common.model.info.message.ImMessage;
+import cn.ether.im.common.model.message.ImMessage;
+import cn.ether.im.common.model.message.ImSingleMessage;
 import cn.ether.im.common.model.user.ImUser;
 
 import java.util.List;
@@ -11,6 +12,9 @@ import java.util.List;
  * * @Description
  **/
 public interface EtherImClient {
+
+
+    void sendSingleMessage(ImSingleMessage singleMessage);
 
     /**
      * 发送对话消息

@@ -1,7 +1,6 @@
 package cn.ether.im.push.processor;
 
-import cn.ether.im.common.enums.ImInfoType;
-import cn.ether.im.common.model.info.ImInfo;
+import cn.ether.im.client.common.enums.ImInfoType;
 import io.netty.channel.ChannelHandlerContext;
 
 /**
@@ -10,19 +9,10 @@ import io.netty.channel.ChannelHandlerContext;
  * * @Description
  * * @Github <a href="https://github.com/mardingJobs">Github链接</a>
  **/
-public abstract class ImInfoProcessor<T extends ImInfo> {
-
-    public void process(ChannelHandlerContext ctx, ImInfo info) {
-        T downcast = downcast(info);
-        doProcess(ctx, downcast);
-    }
+public abstract class ImInfoProcessor<T> {
 
     protected abstract void doProcess(ChannelHandlerContext ctx, T info);
 
     public abstract ImInfoType supportType();
-
-    public T downcast(ImInfo info) {
-        return (T) info;
-    }
 
 }

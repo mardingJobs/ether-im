@@ -1,7 +1,7 @@
 package cn.ether.im.common.event;
 
 import cn.ether.im.common.enums.ImChatMessageStatus;
-import cn.ether.im.common.model.info.message.event.ImMessageEventType;
+import cn.ether.im.common.enums.ImMessageEventType;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import java.util.HashMap;

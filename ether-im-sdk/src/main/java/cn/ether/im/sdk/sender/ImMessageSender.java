@@ -1,6 +1,7 @@
 package cn.ether.im.sdk.sender;
 
-import cn.ether.im.common.model.info.message.ImMessage;
+import cn.ether.im.common.model.message.ImMessage;
+import cn.ether.im.common.model.message.ImSingleMessage;
 
 /**
  * * @Author: Martin
@@ -18,4 +19,5 @@ public interface ImMessageSender {
     void sendMessage(ImMessage chatMessage, boolean async) throws Exception;
 
 
+    void sendSingleMessage(ImSingleMessage singleMessage);
 }

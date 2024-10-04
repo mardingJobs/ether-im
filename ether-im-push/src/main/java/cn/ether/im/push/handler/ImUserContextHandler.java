@@ -27,11 +27,10 @@ import javax.annotation.Resource;
 public class ImUserContextHandler {
 
     @Resource
-    ImUserContextCache contextCache;
+    private ImUserContextCache contextCache;
 
     @Resource
     private RocketMQTemplate rocketMQTemplate;
-
 
     public void onUserLogin(ImUserTerminal userTerminal, ChannelHandlerContext ctx) {
         // 缓存当前用户终端和连接的push服务
@@ -62,7 +61,6 @@ public class ImUserContextHandler {
         rocketMQTemplate.asyncSend(ImConstants.IM_LOGIN_EVENT_TOPIC, userLoginEvent, sendCallback);
     }
 
-
     public void clearUserContext(ImUserTerminal userTerminal, ChannelHandlerContext ctx) {
         ImUserContextCache userContextHelper = SpringContextHolder.getBean(ImUserContextCache.class);
         userContextHelper.removeServerCache(userTerminal);
@@ -71,5 +69,6 @@ public class ImUserContextHandler {
             log.debug("{}已清除上下文", userTerminal);
         }
     }
+
 
 }

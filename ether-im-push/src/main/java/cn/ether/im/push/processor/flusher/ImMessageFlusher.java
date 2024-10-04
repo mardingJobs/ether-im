@@ -1,6 +1,6 @@
 package cn.ether.im.push.processor.flusher;
 
-import cn.ether.im.common.model.info.message.ImMessage;
+import cn.ether.im.common.model.message.ImMessage;
 import cn.ether.im.common.model.user.ImUserTerminal;
 
 /**

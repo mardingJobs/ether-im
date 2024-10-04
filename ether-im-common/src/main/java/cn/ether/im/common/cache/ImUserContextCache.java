@@ -46,7 +46,7 @@ public class ImUserContextCache {
      * @param userTerminal
      */
     public void removeServerCache(ImUserTerminal userTerminal) {
-        String cacheKey = serverCacheKey(userTerminal);
+        String cacheKey = serverCacheKey(userTerminal.getUserId());
         remoteCacheService.hashRemove(cacheKey, userTerminal.getTerminalType().toString());
 
     }
@@ -118,7 +118,7 @@ public class ImUserContextCache {
         if (StringUtils.isEmpty(serverId)) {
             throw new IllegalArgumentException("server.id is null");
         }
-        String cacheKey = serverCacheKey(userTerminal);
+        String cacheKey = serverCacheKey(userTerminal.getUserId());
         remoteCacheService.hashPut(cacheKey, userTerminal.getTerminalType().toString(),
                 serverId, ImConstants.ONLINE_TIMEOUT_SECONDS, TimeUnit.SECONDS);
     }
@@ -131,7 +131,7 @@ public class ImUserContextCache {
      * @return
      */
     public Map<String, String> getConnectionInfo(ImUser userInfo) {
-        Map<String, String> map = remoteCacheService.hashGet(serverCacheKey(userInfo));
+        Map<String, String> map = remoteCacheService.hashGet(serverCacheKey(userInfo.getUserId()));
         return map;
     }
 
@@ -139,12 +139,12 @@ public class ImUserContextCache {
     /**
      * 获取缓存中的用户连接的PUSH服务的key
      *
-     * @param userInfo
+     * @param userId
      * @return1
      */
-    public String serverCacheKey(ImUser userInfo) {
+    public String serverCacheKey(String userId) {
         String cacheKey = String.join(ImConstants.REDIS_KEY_SPLIT,
-                ImConstants.IM_USER_SERVER_ID, userInfo.getUserId());
+                ImConstants.IM_USER_SERVER_ID, userId);
         return cacheKey;
     }
 

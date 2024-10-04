@@ -15,11 +15,11 @@
  */
 package cn.ether.im.push.processor;
 
+import cn.ether.im.client.common.enums.ImInfoType;
 import cn.ether.im.common.cache.ImUserContextCache;
 import cn.ether.im.common.cache.RemoteCacheService;
 import cn.ether.im.common.constants.ImConstants;
-import cn.ether.im.common.enums.ImInfoType;
-import cn.ether.im.common.model.info.sys.ImHeartbeatInfo;
+import cn.ether.im.common.model.info.ImHeartbeatInfo;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.push.cache.UserChannelCache;
 import io.netty.channel.ChannelHandlerContext;
@@ -49,7 +49,7 @@ public class HeartbeatProcess extends ImInfoProcessor<ImHeartbeatInfo> {
             return;
         }
         // 延续在线时间
-        String cacheKey = cacheHelper.serverCacheKey(userTerminal);
+        String cacheKey = cacheHelper.serverCacheKey(userTerminal.getUserId());
         remoteCacheService.expire(cacheKey, ImConstants.ONLINE_TIMEOUT_SECONDS, TimeUnit.SECONDS);
         // 心跳次数清零,重新计算心跳超时时间
         ctx.channel().attr(AttributeKey.valueOf(ImConstants.HEARTBEAT_TIMES)).set(0);
