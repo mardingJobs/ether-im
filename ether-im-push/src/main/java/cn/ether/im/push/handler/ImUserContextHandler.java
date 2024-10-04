@@ -4,6 +4,7 @@ import cn.ether.im.common.cache.ImUserContextCache;
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.event.event.impl.ImUserLoginEvent;
 import cn.ether.im.common.model.user.ImUserTerminal;
+import cn.ether.im.common.util.SpringContextHolder;
 import cn.ether.im.push.cache.UserChannelCache;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,7 @@ import javax.annotation.Resource;
  **/
 @Slf4j
 @Component
-public class ImUserHandler {
+public class ImUserContextHandler {
 
     @Resource
     ImUserContextCache contextCache;
@@ -52,12 +53,23 @@ public class ImUserHandler {
                     log.error("用户登陆通知发送失败,userTerminal:{}", userTerminal);
                 }
             }
+
             @Override
             public void onException(Throwable e) {
                 log.error("用户登陆通知发送异常,userTerminal:{}", userTerminal);
             }
         };
         rocketMQTemplate.asyncSend(ImConstants.IM_LOGIN_EVENT_TOPIC, userLoginEvent, sendCallback);
+    }
+
+
+    public void clearUserContext(ImUserTerminal userTerminal, ChannelHandlerContext ctx) {
+        ImUserContextCache userContextHelper = SpringContextHolder.getBean(ImUserContextCache.class);
+        userContextHelper.removeServerCache(userTerminal);
+        UserChannelCache.removeChannelCtx(userTerminal.getUserId(), userTerminal.getTerminalType().name());
+        if (log.isDebugEnabled()) {
+            log.debug("{}已清除上下文", userTerminal);
+        }
     }
 
 }

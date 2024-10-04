@@ -7,7 +7,7 @@ import cn.ether.im.common.model.protoc.ImProtoc;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.util.JwtUtils;
 import cn.ether.im.common.util.SpringContextHolder;
-import cn.ether.im.push.handler.ImUserHandler;
+import cn.ether.im.push.handler.ImUserContextHandler;
 import cn.ether.im.push.util.ChannelHandlerContextUtil;
 import com.alibaba.fastjson.JSON;
 import io.netty.channel.ChannelHandlerContext;
@@ -71,7 +71,7 @@ public class HandshakeCompleteChannelHandler extends SimpleChannelInboundHandler
         if (imUserTerminal == null) {
             return false;
         }
-        ImUserHandler userHandler = SpringContextHolder.getBean(ImUserHandler.class);
+        ImUserContextHandler userHandler = SpringContextHolder.getBean(ImUserContextHandler.class);
         userHandler.onUserLogin(imUserTerminal, ctx);
         return true;
     }

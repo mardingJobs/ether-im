@@ -1,12 +1,12 @@
 package cn.ether.im.push.server.handler;
 
-import cn.ether.im.common.cache.ImUserContextCache;
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.model.info.ImInfo;
 import cn.ether.im.common.model.info.sys.ImHeartbeatInfo;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.util.SpringContextHolder;
 import cn.ether.im.push.cache.UserChannelCache;
+import cn.ether.im.push.handler.ImUserContextHandler;
 import cn.ether.im.push.processor.ImInfoProcessorContext;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -62,15 +62,14 @@ public class ImChannelHandler extends SimpleChannelInboundHandler<ImInfo> {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        logger.info("channelInactive|{}断开连接", ctx.channel().remoteAddress());
         ImUserTerminal userTerminal = UserChannelCache.getUserTerminal(ctx);
         if (userTerminal == null) {
             ctx.close();
             return;
         }
-        ImUserContextCache userContextHelper = SpringContextHolder.getBean(ImUserContextCache.class);
-        userContextHelper.removeServerCache(userTerminal);
-        UserChannelCache.removeChannelCtx(userTerminal.getUserId(), userTerminal.getTerminalType().name());
+        logger.info("channelInactive|{}断开连接", ctx.channel().remoteAddress());
+        ImUserContextHandler userContextHandler = SpringContextHolder.getBean(ImUserContextHandler.class);
+        userContextHandler.clearUserContext(userTerminal, ctx);
     }
 
     @Override
