@@ -1,8 +1,8 @@
 package cn.ether.im.message.single.controller;
 
+import cn.ether.im.message.single.handler.ImMessageHandler;
 import cn.ether.im.message.single.model.dto.MessageSendReq;
 import cn.ether.im.message.single.model.vo.Resp;
-import cn.ether.im.message.single.service.ChatMessageService;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,7 +29,7 @@ import javax.annotation.Resource;
 public class MessageController {
 
     @Resource
-    private ChatMessageService messageService;
+    private ImMessageHandler messageHandler;
 
 
     /**
@@ -42,7 +42,7 @@ public class MessageController {
     @Operation(summary = "发送消息", description = "如果发送成功的话，会返回消息ID")
     @PostMapping("/send")
     public Resp send(@RequestBody MessageSendReq req) throws Exception {
-        String messageId = messageService.sendMessage(req);
+        String messageId = messageHandler.sendMessage(req);
         return Resp.success(messageId);
     }
 
@@ -56,7 +56,7 @@ public class MessageController {
     @Operation(summary = "异步发送消息")
     @PostMapping("/send/async")
     public Resp sendAsync(@RequestBody MessageSendReq req) throws Exception {
-        messageService.asyncSendMessage(req);
+        messageHandler.asyncSendMessage(req);
         return Resp.success();
     }
 
