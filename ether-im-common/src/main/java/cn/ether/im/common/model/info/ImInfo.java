@@ -1,7 +1,6 @@
 package cn.ether.im.common.model.info;
 
 import cn.ether.im.common.enums.ImInfoType;
-import com.alibaba.fastjson.JSON;
 import lombok.Data;
 
 /**
@@ -33,13 +32,4 @@ public class ImInfo {
         this.type = type;
         this.info = info;
     }
-
-    @Deprecated
-    public static ImInfo parseObject(String json) {
-        ImInfo message = JSON.parseObject(json, ImInfo.class);
-        ImInfoType infoType = message.getType();
-        Class<? extends ImInfo> infoClass = infoType.getInfoClass();
-        return JSON.parseObject(json, infoClass);
-    }
-
 }
