@@ -2,7 +2,6 @@ package cn.ether.im.sdk.client;
 
 import cn.ether.im.common.model.message.ImMessage;
 import cn.ether.im.common.model.message.ImSingleMessage;
-import cn.ether.im.common.model.user.ImUser;
 
 import java.util.List;
 
@@ -33,7 +32,7 @@ public interface EtherImClient {
     /**
      * 判断用户是否在线
      */
-    boolean isOnline(ImUser user);
+    boolean isOnline(String userId);
 
     /**
      * 校验接受消息的用户是否在线，如果不在线会抛出异常

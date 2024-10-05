@@ -12,7 +12,8 @@ import java.io.Serializable;
  **/
 public interface ImMessageV2 extends Serializable {
 
+    Long messageId();
 
-    ImMessageType getMessageType();
+    ImMessageType messageType();
 
 }

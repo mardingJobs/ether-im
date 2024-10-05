@@ -9,6 +9,7 @@ package cn.ether.im.common.event.event;
 public enum ImEventType {
 
     USER_LOGIN,
+    MESSAGE_SENT_TO_MQ,
     MESSAGE_RECEIVED
 
 }

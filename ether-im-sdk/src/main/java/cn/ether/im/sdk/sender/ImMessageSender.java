@@ -1,5 +1,6 @@
 package cn.ether.im.sdk.sender;
 
+import cn.ether.im.common.enums.ImMessageSendResult;
 import cn.ether.im.common.model.message.ImMessage;
 import cn.ether.im.common.model.message.ImSingleMessage;
 
@@ -19,5 +20,5 @@ public interface ImMessageSender {
     void sendMessage(ImMessage chatMessage, boolean async) throws Exception;
 
 
-    void sendSingleMessage(ImSingleMessage singleMessage);
+    ImMessageSendResult sendSingleMessage(ImSingleMessage singleMessage);
 }

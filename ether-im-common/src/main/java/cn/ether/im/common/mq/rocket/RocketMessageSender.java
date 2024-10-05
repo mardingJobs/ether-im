@@ -3,7 +3,7 @@ package cn.ether.im.common.mq.rocket;
 import cn.ether.im.common.enums.ImExceptionCode;
 import cn.ether.im.common.exception.ImException;
 import cn.ether.im.common.model.info.ImTopicInfo;
-import cn.ether.im.common.model.message.ImMessage;
+import cn.ether.im.common.model.message.ImMessageV2;
 import cn.ether.im.common.mq.ImMqMessageSender;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -41,7 +41,7 @@ public class RocketMessageSender implements ImMqMessageSender {
 
     private static Message createMqMessage(ImTopicInfo topicMessage, String messageString) {
         Message message = new Message(topicMessage.getTopic(), topicMessage.getTag(), messageString.getBytes(StandardCharsets.UTF_8));
-        message.setKeys(String.valueOf(topicMessage.getMessage().getId()));
+        message.setKeys(topicMessage.getMessage().messageId().toString());
         return message;
     }
 
@@ -86,13 +86,13 @@ public class RocketMessageSender implements ImMqMessageSender {
      */
     @Override
     public boolean sendOrderlyByUid(ImTopicInfo topicMessage) throws Exception {
-        ImMessage imMessage = topicMessage.getMessage();
+        ImMessageV2 imMessage = topicMessage.getMessage();
         String messageString = JSON.toJSONString(imMessage);
         if (log.isDebugEnabled()) {
             log.info("发送顺序MQ消息：{}", messageString);
         }
         Message message = createMqMessage(topicMessage, messageString);
-        SendResult sendResult = rocketMQTemplate.getProducer().send(message, new SelectMessageQueueByHash(), imMessage.getId());
+        SendResult sendResult = rocketMQTemplate.getProducer().send(message, new SelectMessageQueueByHash(), imMessage.messageId());
         return SendStatus.SEND_OK.equals(sendResult.getSendStatus());
     }
 
@@ -144,6 +144,9 @@ public class RocketMessageSender implements ImMqMessageSender {
         } catch (MQClientException e) {
             log.error("发送事务消息失败", e);
             throw new ImException(ImExceptionCode.MESSAGE_SENT_TO_MQ_FAIL);
+        }
+        if (log.isDebugEnabled()) {
+            log.debug("发送事务消息结果：{}", JSON.toJSONString(transactionSendResult));
         }
         return transactionSendResult;
 

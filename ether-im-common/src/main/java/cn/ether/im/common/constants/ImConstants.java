@@ -54,6 +54,11 @@ public class ImConstants {
     public final static String IM_CHAT_MESSAGE_TOPIC = "im-chat-message-topic";
 
     /**
+     * 单聊消息Topic
+     */
+    public final static String IM_SINGLE_MESSAGE_TOPIC = "IM-SINGLE-MESSAGE-TOPIC";
+
+    /**
      * 对话消息Topic
      */
     public final static String IM_CHAT_MESSAGE_TAG_PREFIX = "tag-server-id";

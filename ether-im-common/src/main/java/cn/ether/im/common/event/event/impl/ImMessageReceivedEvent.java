@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-
 /**
  * 消息已被用户接受，任意终端接受都会触发事件
  * * @Author: Martin(微信：martin-jobs)
@@ -18,7 +16,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ImMessageReceivedEvent implements ImEvent, Serializable {
+public class ImMessageReceivedEvent implements ImEvent {
 
     private static final long serialVersionUID = 1L;
 

@@ -16,7 +16,7 @@ public interface ImMessageHandler {
      * @return
      * @throws Exception
      */
-    String sendMessage(MessageSendReq req) throws Exception;
+    String sendSingleMessage(MessageSendReq req) throws Exception;
 
     /**
      * 异步发送单聊消息

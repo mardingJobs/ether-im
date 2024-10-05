@@ -37,7 +37,7 @@ public class DefaultImClientImpl implements EtherImClient {
 
     @Override
     public void sendSingleMessage(ImSingleMessage singleMessage) {
-        messageSender.sendSingleMessage();
+        messageSender.sendSingleMessage(singleMessage);
     }
 
     /**
@@ -56,15 +56,15 @@ public class DefaultImClientImpl implements EtherImClient {
     }
 
     @Override
-    public boolean isOnline(ImUser user) {
-        Map<String, String> connectedServerIds = userContextCache.getConnectionInfo(user);
+    public boolean isOnline(String userId) {
+        Map<String, String> connectedServerIds = userContextCache.getConnectionInfo(new ImUser(userId));
         return CollectionUtil.isNotEmpty(connectedServerIds);
     }
 
     @Override
     public void requireReceiverOnline(String receiverId) {
         // 先判断对方是否在线
-        boolean online = this.isOnline(new ImUser(receiverId));
+        boolean online = this.isOnline(receiverId);
         if (!online) {
             throw new ImException(ImExceptionCode.RECEIVER_NOT_ONLINE);
         }

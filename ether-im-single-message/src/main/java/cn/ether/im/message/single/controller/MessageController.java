@@ -42,7 +42,7 @@ public class MessageController {
     @Operation(summary = "发送消息", description = "如果发送成功的话，会返回消息ID")
     @PostMapping("/send")
     public Resp send(@RequestBody MessageSendReq req) throws Exception {
-        String messageId = messageHandler.sendMessage(req);
+        String messageId = messageHandler.sendSingleMessage(req);
         return Resp.success(messageId);
     }
 

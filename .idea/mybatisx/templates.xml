@@ -61,6 +61,7 @@
                 </ModuleInfoGo>
               </list>
             </option>
+            <option name="needsComment" value="true" />
             <option name="needsModel" value="true" />
             <option name="relativePackage" value="model.entity" />
             <option name="superClass" value="" />
@@ -73,6 +74,7 @@
               </list>
             </option>
             <option name="templatesName" value="mybatis-plus3" />
+            <option name="useActualColumnAnnotationInject" value="true" />
             <option name="useLombokPlugin" value="true" />
           </GenerateConfig>
         </option>

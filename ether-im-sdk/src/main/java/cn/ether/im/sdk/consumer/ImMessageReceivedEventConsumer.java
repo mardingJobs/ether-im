@@ -16,7 +16,7 @@
 package cn.ether.im.sdk.consumer;
 
 import cn.ether.im.common.constants.ImConstants;
-import cn.ether.im.common.event.broadcast.ImEventBroadcast;
+import cn.ether.im.common.event.broadcast.ImEventAsyncBroadcast;
 import cn.ether.im.common.event.event.impl.ImMessageReceivedEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
@@ -36,7 +36,7 @@ public class ImMessageReceivedEventConsumer
         implements RocketMQListener<ImMessageReceivedEvent>, RocketMQPushConsumerLifecycleListener {
 
     @Resource
-    private ImEventBroadcast<ImMessageReceivedEvent> eventBroadcast;
+    private ImEventAsyncBroadcast<ImMessageReceivedEvent> eventBroadcast;
 
     @Override
     public void onMessage(ImMessageReceivedEvent receivedEvent) {

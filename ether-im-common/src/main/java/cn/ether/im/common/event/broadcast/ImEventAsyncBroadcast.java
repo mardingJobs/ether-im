@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * 事件广播器
@@ -19,11 +20,11 @@ import java.util.List;
  **/
 @Slf4j
 @Component
-public class DefaultImEventBroadcast<T extends ImEvent> implements ImEventBroadcast<T> {
+public class ImEventAsyncBroadcast<T extends ImEvent> implements ImEventBroadcast<T> {
 
+    private static final ThreadPoolExecutor executor = ThreadPoolUtils.createExecutor(16, 2048);
     @Autowired(required = false)
-    private List<ImEventListener> imEventListeners;
-
+    private List<ImEventListener<? extends ImEvent>> imEventListeners;
 
     @Override
     public void broadcast(T event) {
@@ -33,9 +34,9 @@ public class DefaultImEventBroadcast<T extends ImEvent> implements ImEventBroadc
         for (ImEventListener listener : imEventListeners) {
             List<ImEventType> eventTypes = listener.listenEventType();
             if (CollectionUtils.isEmpty(eventTypes) || !eventTypes.contains(event.getEventType())) {
-                return;
+                continue;
             }
-            ThreadPoolUtils.execute(() -> {
+            executor.execute(() -> {
                 try {
                     listener.onEvent(event);
                 } catch (Exception e) {
