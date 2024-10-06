@@ -1,5 +1,6 @@
 package cn.ether.im.push.server.handler;
 
+import cn.ether.im.client.common.enums.ImInfoType;
 import cn.ether.im.client.common.model.ImInfo;
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.model.info.ImHeartbeatInfo;
@@ -43,8 +44,7 @@ public class ImChannelHandler extends SimpleChannelInboundHandler<ImInfo> {
                 Attribute<Integer> heartBeatTimesKey = ctx.channel().attr(AttributeKey.valueOf(ImConstants.HEARTBEAT_TIMES));
                 Integer failedTimes = heartBeatTimesKey.get();
                 if (failedTimes == null || failedTimes < ImConstants.HEARTBEAT_MAX_TIMES) {
-                    ImHeartbeatInfo heartbeatMessage = new ImHeartbeatInfo();
-                    ctx.writeAndFlush(heartbeatMessage);
+                    ctx.writeAndFlush(new ImInfo<ImHeartbeatInfo>(ImInfoType.HEART_BEAT));
                     heartBeatTimesKey.set(failedTimes == null ? 1 : failedTimes + 1);
                 } else {
                     logger.info("网络连接已失效,断开连接。RemoteAddress:{}", ctx.channel().remoteAddress());

@@ -24,18 +24,23 @@ public class WebSocketMessageDecoder extends MessageToMessageDecoder<WebSocketFr
 
     @Override
     protected void decode(ChannelHandlerContext ctx, WebSocketFrame socketFrame, List<Object> out) throws Exception {
+        ImInfo imInfo = null;
         if (socketFrame instanceof TextWebSocketFrame) {
             String text = ((TextWebSocketFrame) socketFrame).text();
             if (StringUtils.isEmpty(text)) {
                 return;
             }
             ImTextProto imTextProto = JSON.parseObject(text, ImTextProto.class);
-            ImInfo imInfo = ImProtoDecoder.decodeToImInfo(imTextProto);
-            out.add(imInfo);
+            imInfo = ImProtoDecoder.decodeToImInfo(imTextProto);
         } else if (socketFrame instanceof BinaryWebSocketFrame) {
             byte[] bytes = new byte[socketFrame.content().readableBytes()];
             socketFrame.content().readBytes(bytes);
-            ImInfo imInfo = ImProtoDecoder.decodeToImInfo(bytes);
+            imInfo = ImProtoDecoder.decodeToImInfo(bytes);
+        }
+        if (imInfo != null) {
+            if (log.isDebugEnabled()) {
+                log.debug("decode|imInfo:{}", JSON.toJSONString(imInfo));
+            }
             out.add(imInfo);
         }
     }

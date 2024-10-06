@@ -22,9 +22,8 @@ public class ImConstants {
     public static final String USER_KEY = "USER";
 
 
-    public static final Integer PRD_READER_IDLE_TIME_SEC = 60 * 4;
+    public static final Integer READER_IDLE_TIME_SEC = 4;
 
-    public static final Integer TEST_READER_IDLE_TIME_SEC = 20;
 
     /**
      * Redis Key的分隔符

@@ -30,6 +30,9 @@ public class WebSocketMessageEncoder extends MessageToMessageEncoder<ImInfo> {
     protected void encode(ChannelHandlerContext ctx, ImInfo imInfo, List<Object> out) throws Exception {
         ImProtoc protoc = (ImProtoc) ChannelHandlerContextUtil.getAttr(ctx, "protoc");
         ImProtoType protocType = protoc.getType();
+        if (log.isDebugEnabled()) {
+            log.debug("encode|protocType:{},imInfo:{}", protocType, JSON.toJSONString(imInfo));
+        }
         if (protocType == ImProtoType.JSON) {
             ImTextProto imTextProto = ImProtoEncoder.encodeToText(imInfo);
             TextWebSocketFrame socketFrame = new TextWebSocketFrame(JSON.toJSONString(imTextProto));

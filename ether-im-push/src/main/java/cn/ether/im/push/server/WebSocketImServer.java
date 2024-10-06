@@ -1,6 +1,5 @@
 package cn.ether.im.push.server;
 
-import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.push.ImPushServer;
 import cn.ether.im.push.server.codec.ImProtocEncoder;
 import cn.ether.im.push.server.codec.WebSocketMessageDecoder;
@@ -30,6 +29,8 @@ import javax.annotation.Resource;
 import java.net.InetAddress;
 import java.util.Properties;
 
+import static cn.ether.im.common.constants.ImConstants.READER_IDLE_TIME_SEC;
+
 /**
  * * @Author: Martin
  * * @Date    2024/9/3 14:28
@@ -44,9 +45,6 @@ public class WebSocketImServer implements ImPushServer {
 
     @Value("${websocket.port}")
     private int port;
-
-    @Value("${spring.profiles.active:test}")
-    private String profile;
 
     @Value("${websocket.name}")
     private String name;
@@ -72,7 +70,6 @@ public class WebSocketImServer implements ImPushServer {
      */
     @Override
     public void start() {
-        Integer readerIdleTimeSec = profile.equals("test") ? ImConstants.TEST_READER_IDLE_TIME_SEC : ImConstants.PRD_READER_IDLE_TIME_SEC;
         ServerBootstrap serverBootstrap = new ServerBootstrap();
         serverBootstrap.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
@@ -92,7 +89,7 @@ public class WebSocketImServer implements ImPushServer {
                     protected void initChannel(SocketChannel ch) throws Exception {
                         ch.pipeline()
                                 // 读空闲时间为 4分钟，小于一般运营商的NAT超时时间。
-                                .addLast(new IdleStateHandler(readerIdleTimeSec, 0, 0))
+                                .addLast(new IdleStateHandler(READER_IDLE_TIME_SEC, 0, 0))
                                 .addLast("http-codec", new HttpServerCodec())
                                 .addLast("aggregator", new HttpObjectAggregator(65535))
                                 .addLast("http-chunked", new ChunkedWriteHandler())
