@@ -16,9 +16,12 @@
 package cn.ether.im.message.single.consumer;
 
 import cn.ether.im.common.constants.ImConstants;
+import cn.ether.im.common.enums.ImChatMessageStatus;
 import cn.ether.im.common.enums.ImMessageSendResult;
 import cn.ether.im.common.model.message.ImSingleMessage;
-import cn.ether.im.sdk.client.EtherImClient;
+import cn.ether.im.message.single.model.entity.ImSingleMessageET;
+import cn.ether.im.message.single.service.ImSingleMessageService;
+import cn.ether.im.sdk.agent.ImMessageAgent;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.spring.annotation.ConsumeMode;
@@ -37,13 +40,20 @@ public class SingleMessageTransactionConsumer
         implements RocketMQListener<ImSingleMessage>, RocketMQPushConsumerLifecycleListener {
 
     @Resource
-    private EtherImClient etherImClient;
+    private ImMessageAgent messageAgent;
+
+    @Resource
+    private ImSingleMessageService singleMessageService;
 
     @Override
     public void onMessage(ImSingleMessage message) {
         log.info("监听到【单聊事物消息】|{}", message);
-        ImMessageSendResult imMessageSendResult = etherImClient.sendSingleMessage(message);
+        ImMessageSendResult imMessageSendResult = messageAgent.sendSingleMessage(message);
         log.info("消息发送结果：{}", imMessageSendResult);
+        singleMessageService.lambdaUpdate().eq(ImSingleMessageET::getMessageId, message.getMessageId())
+                .eq(ImSingleMessageET::getStatus, ImChatMessageStatus.INIT.name())
+                .set(ImSingleMessageET::getStatus, imMessageSendResult)
+                .update();
     }
 
     @Override

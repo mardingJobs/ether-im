@@ -1,7 +1,10 @@
 package cn.ether.im.common.model.message;
 
 import cn.ether.im.common.enums.ImMessageType;
+import cn.ether.im.common.enums.ImTerminalType;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * * @Author: Martin(微信：martin-jobs)
@@ -19,6 +22,11 @@ public class ImSingleMessage extends ImChatMessage {
      * 接收者Id
      */
     private String receiverId;
+
+    /**
+     * 用于限制接受终端，如果为空，则不用限制。
+     */
+    private List<ImTerminalType> limitTerminals;
 
     @Override
     public Long messageId() {

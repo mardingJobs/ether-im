@@ -16,6 +16,7 @@
 package cn.ether.im.sdk.consumer;
 
 import cn.ether.im.common.constants.ImConstants;
+import cn.ether.im.common.event.broadcast.ImEventAsyncBroadcast;
 import cn.ether.im.common.event.event.impl.ImUserLoginEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
@@ -25,6 +26,8 @@ import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.apache.rocketmq.spring.core.RocketMQPushConsumerLifecycleListener;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
+
 @Slf4j
 @Component
 @RocketMQMessageListener(consumerGroup = "IM-LOGIN-EVENT-CONSUMERS",
@@ -32,13 +35,19 @@ import org.springframework.stereotype.Component;
 public class UserLoginEventConsumer
         implements RocketMQListener<ImUserLoginEvent>, RocketMQPushConsumerLifecycleListener {
 
+    @Resource
+    private ImEventAsyncBroadcast<ImUserLoginEvent> eventBroadcast;
+
     @Override
     public void onMessage(ImUserLoginEvent message) {
-        log.info("监听到【用户登陆事件】|{}", message);
+        if (log.isDebugEnabled()) {
+            log.debug("消费到【用户登陆事件】消息|{}", message);
+        }
+        eventBroadcast.broadcast(message);
     }
 
     @Override
     public void prepareStart(DefaultMQPushConsumer consumer) {
-        System.out.println("consumer = " + consumer);
+
     }
 }

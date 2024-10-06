@@ -69,6 +69,8 @@ public class ImProtoDecoder {
             info = body;
         } else if (Objects.equals(infoType, ImInfoType.MESSAGE_RECEIVED.name())) {
             info = JSON.parseObject(jsonString, ImMessageReceived.class);
+        } else if (Objects.equals(infoType, ImInfoType.SINGLE.name())) {
+            info = JSON.parseObject(jsonString, ImSingleMessage.class);
         } else {
             throw new ImProtocException("不支持的协议类型:" + infoType);
         }

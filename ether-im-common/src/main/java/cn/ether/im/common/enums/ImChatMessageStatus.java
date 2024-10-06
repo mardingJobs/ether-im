@@ -21,11 +21,15 @@ public enum ImChatMessageStatus {
     /**
      * 消息初始化状态，刚保存到数据库的状态
      */
-    INTI("初始化"),
+    INIT("初始化"),
     /**
      * 消息发送到MQ中，等待被推送
      */
     SENT("已发送"),
+    /**
+     * 接收者不在线
+     */
+    RECEIVER_NOT_ONLINE("接收者不在线"),
     /**
      * 消息发送到MQ失败
      */

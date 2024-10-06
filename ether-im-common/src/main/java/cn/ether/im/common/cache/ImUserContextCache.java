@@ -91,11 +91,10 @@ public class ImUserContextCache {
     /**
      * 获取用户终端连接的PUSH服务ID
      *
-     * @param userInfo
      * @return
      */
-    public List<String> connectedServerIds(ImUser userInfo) {
-        Map<String, String> userConnections = getConnectionInfo(userInfo);
+    public List<String> connectedServerIds(String userId) {
+        Map<String, String> userConnections = remoteCacheService.hashGet(serverCacheKey(userId));
         return userConnections.values().stream().distinct().collect(Collectors.toList());
     }
 

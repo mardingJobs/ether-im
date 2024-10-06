@@ -49,7 +49,7 @@ public class WebSocketUserConnections {
         users.addAll(MockUser.createUsers(userCount));
         for (int i = 0; i < userCount; i++) {
             MockUser mockUser = users.get(i);
-            WebSocketMockClient webSocketMockClient = new WebSocketMockClient(mockUser, new URI(url), ImProtoType.PROTOC_BUFFER);
+            WebSocketMockClient webSocketMockClient = new WebSocketMockClient(mockUser, new URI(url), ImProtoType.JSON);
             boolean connected = webSocketMockClient.connectBlocking();
             if (connected) {
                 clients.add(webSocketMockClient);

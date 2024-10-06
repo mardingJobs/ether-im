@@ -24,7 +24,7 @@ public class ImEventStatusMachine {
 
     static {
 //        put(ImMessageStatus.INTI, ImMessageEventType.SENT);
-        put(ImChatMessageStatus.INTI, ImMessageEventType.WITH_DRAWN);
+        put(ImChatMessageStatus.INIT, ImMessageEventType.WITH_DRAWN);
         put(ImChatMessageStatus.SENT, ImMessageEventType.RECEIVED);
         put(ImChatMessageStatus.SENT, ImMessageEventType.WITH_DRAWN);
         put(ImChatMessageStatus.RECEIVED, ImMessageEventType.READ);

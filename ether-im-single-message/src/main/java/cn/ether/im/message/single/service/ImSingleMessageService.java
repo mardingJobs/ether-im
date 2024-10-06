@@ -1,5 +1,6 @@
 package cn.ether.im.message.single.service;
 
+import cn.ether.im.common.enums.ImTerminalType;
 import cn.ether.im.common.model.message.ImSingleMessage;
 import cn.ether.im.message.single.model.dto.MessageSendReq;
 import cn.ether.im.message.single.model.entity.ImSingleMessageET;
@@ -35,6 +36,15 @@ public interface ImSingleMessageService extends IService<ImSingleMessageET> {
      */
     boolean persistCoreModel(ImSingleMessage singleMessage);
 
+
+    /**
+     * 将实体转为模型
+     *
+     * @param singleMessageET
+     * @return
+     */
+    ImSingleMessage convertEntityToCoreModel(ImSingleMessageET singleMessageET);
+
     /**
      * 发送单聊消息
      *
@@ -43,6 +53,15 @@ public interface ImSingleMessageService extends IService<ImSingleMessageET> {
      * @throws Exception
      */
     void sendSingleMessage(ImSingleMessage singleMessage) throws Exception;
+
+
+    /**
+     * 重发收到的消息
+     *
+     * @param userId       接收用户ID
+     * @param terminalType 接收终端类型
+     */
+    void resendUnReceivedMessage(String userId, ImTerminalType terminalType);
 
     /**
      * 发送消息已读通知

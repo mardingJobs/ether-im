@@ -9,7 +9,7 @@ package cn.ether.im.common.enums;
 public enum ImMessageSendResult {
 
     RECEIVER_NOT_ONLINE,
-    SUCCESS,
-    FAIL
+    SENT,
+    SENT_FAIL
 
 }

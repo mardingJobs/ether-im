@@ -46,7 +46,7 @@ public class ImChatMessageSentResult {
      * @return
      */
     public static ImChatMessageSentResult sentFail(Long messageId, String errorMsg) {
-        return new ImChatMessageSentResult(String.valueOf(messageId), ImChatMessageStatus.INTI, errorMsg);
+        return new ImChatMessageSentResult(String.valueOf(messageId), ImChatMessageStatus.INIT, errorMsg);
     }
 
 }
