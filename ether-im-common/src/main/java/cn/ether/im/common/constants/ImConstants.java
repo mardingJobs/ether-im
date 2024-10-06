@@ -49,14 +49,19 @@ public class ImConstants {
     public final static String IM_USER_SERVER_ID = "im:user:server_id";
 
     /**
-     * 对话消息Topic
+     * 单聊对话消息Topic
      */
-    public final static String IM_CHAT_MESSAGE_TOPIC = "im-chat-message-topic";
+    public final static String IM_SINGLE_MESSAGE_TOPIC = "im-single-message-topic";
 
     /**
-     * 单聊消息Topic
+     * 群聊对话消息Topic
      */
-    public final static String IM_SINGLE_MESSAGE_TOPIC = "IM-SINGLE-MESSAGE-TOPIC";
+    public final static String IM_GROUP_MESSAGE_TOPIC = "im-GROUP-message-topic";
+
+    /**
+     * 对话事物消息Topic
+     */
+    public final static String IM_CHAT_TX_MESSAGE_TOPIC = "im-chat-tx-message-topic";
 
     /**
      * 对话消息Topic

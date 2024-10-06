@@ -1,7 +1,7 @@
 package cn.ether.im.push.server.codec;
 
 import cn.ether.im.client.common.model.ImInfo;
-import cn.ether.im.client.common.proto.ImProtoConverter;
+import cn.ether.im.client.common.proto.ImProtoEncoder;
 import cn.ether.im.common.model.protoc.ImProtoType;
 import cn.ether.im.common.model.protoc.ImProtoc;
 import cn.ether.im.proto.binary.ImBinary;
@@ -30,12 +30,12 @@ public class WebSocketMessageEncoder extends MessageToMessageEncoder<ImInfo> {
     protected void encode(ChannelHandlerContext ctx, ImInfo imInfo, List<Object> out) throws Exception {
         ImProtoc protoc = (ImProtoc) ChannelHandlerContextUtil.getAttr(ctx, "protoc");
         ImProtoType protocType = protoc.getType();
-        ImTextProto imTextProto = ImProtoConverter.encodeToTextProto(imInfo);
         if (protocType == ImProtoType.JSON) {
+            ImTextProto imTextProto = ImProtoEncoder.encodeToText(imInfo);
             TextWebSocketFrame socketFrame = new TextWebSocketFrame(JSON.toJSONString(imTextProto));
             out.add(socketFrame);
         } else if (protocType == ImProtoType.PROTOC_BUFFER) {
-            ImBinary.ImBinaryProto imBinaryProto = ImProtoConverter.textToBinaryProto(imTextProto);
+            ImBinary.ImBinaryProto imBinaryProto = ImProtoEncoder.encodeToBinary(imInfo);
             ByteBuf byteBuf = Unpooled.wrappedBuffer(imBinaryProto.toByteArray());
             BinaryWebSocketFrame binaryWebSocketFrame = new BinaryWebSocketFrame(byteBuf);
             out.add(binaryWebSocketFrame);

@@ -1,7 +1,7 @@
 package cn.ether.im.push.server.codec;
 
 import cn.ether.im.client.common.model.ImInfo;
-import cn.ether.im.client.common.proto.ImProtoConverter;
+import cn.ether.im.client.common.proto.ImProtoDecoder;
 import cn.ether.im.proto.text.ImTextProto;
 import com.alibaba.fastjson.JSON;
 import io.netty.channel.ChannelHandlerContext;
@@ -30,13 +30,12 @@ public class WebSocketMessageDecoder extends MessageToMessageDecoder<WebSocketFr
                 return;
             }
             ImTextProto imTextProto = JSON.parseObject(text, ImTextProto.class);
-            ImInfo imInfo = ImProtoConverter.decodeToImInfo(imTextProto);
+            ImInfo imInfo = ImProtoDecoder.decodeToImInfo(imTextProto);
             out.add(imInfo);
         } else if (socketFrame instanceof BinaryWebSocketFrame) {
             byte[] bytes = new byte[socketFrame.content().readableBytes()];
             socketFrame.content().readBytes(bytes);
-            ImTextProto imTextProto = ImProtoConverter.parseBytes(bytes);
-            ImInfo imInfo = ImProtoConverter.decodeToImInfo(imTextProto);
+            ImInfo imInfo = ImProtoDecoder.decodeToImInfo(bytes);
             out.add(imInfo);
         }
     }

@@ -1,19 +1,25 @@
 syntax = "proto3";
 package cn.ether.im.proto.binary;
+import "google/protobuf/any.proto";
 
 message ImBinaryProto {
-  int32 type = 1;
-  ImMessageBinaryProto body = 2;
+  string type = 1;
+  google.protobuf.Any body = 2;
 }
 
-message ImMessageBinaryProto {
+message ImChatMessage {
+
   int64 messageId = 1;
-  optional string senderId = 2;
-  optional int32 senderTerminal = 3;
-  optional int32 messageType = 4;
-  optional string content = 5;
-  optional int32 contentType = 6;
-  optional int64 sendTime = 7;
+  string senderId = 2;
+  string senderTerminal = 3;
+  string content = 4;
+  string contentType = 5;
+  int64 sendTime = 6;
+  string messageType = 7;
+}
+
+message ImMessageReceived {
+  int64 messageId = 1;
 }
 
 

@@ -1,6 +1,6 @@
 package cn.ether.im.push.processor.flusher;
 
-import cn.ether.im.common.model.message.ImMessage;
+import cn.ether.im.common.model.message.ImChatMessage;
 import cn.ether.im.common.model.user.ImUserTerminal;
 
 /**
@@ -17,5 +17,5 @@ public interface ImMessageFlusher {
      * @param receiverTerminal
      * @param message
      */
-    boolean flush(ImUserTerminal receiverTerminal, ImMessage message);
+    boolean flush(ImUserTerminal receiverTerminal, ImChatMessage message);
 }

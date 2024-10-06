@@ -8,16 +8,6 @@ package cn.ether.im.proto.binary;
 public final class ImBinary {
     private static final com.google.protobuf.Descriptors.Descriptor
             internal_static_cn_ether_im_proto_binary_ImBinaryProto_descriptor;
-    private static final
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-            internal_static_cn_ether_im_proto_binary_ImBinaryProto_fieldAccessorTable;
-    private static final com.google.protobuf.Descriptors.Descriptor
-            internal_static_cn_ether_im_proto_binary_ImMessageBinaryProto_descriptor;
-    private static final
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-            internal_static_cn_ether_im_proto_binary_ImMessageBinaryProto_fieldAccessorTable;
-    private static com.google.protobuf.Descriptors.FileDescriptor
-            descriptor;
 
     static {
         com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
@@ -29,42 +19,6 @@ public final class ImBinary {
                 ImBinary.class.getName());
     }
 
-    static {
-        java.lang.String[] descriptorData = {
-                "\n\016ImBinary.proto\022\030cn.ether.im.proto.bina" +
-                        "ry\"[\n\rImBinaryProto\022\014\n\004type\030\001 \001(\005\022<\n\004bod" +
-                        "y\030\002 \001(\0132..cn.ether.im.proto.binary.ImMes" +
-                        "sageBinaryProto\"\227\002\n\024ImMessageBinaryProto" +
-                        "\022\021\n\tmessageId\030\001 \001(\003\022\025\n\010senderId\030\002 \001(\tH\000\210" +
-                        "\001\001\022\033\n\016senderTerminal\030\003 \001(\005H\001\210\001\001\022\030\n\013messa" +
-                        "geType\030\004 \001(\005H\002\210\001\001\022\024\n\007content\030\005 \001(\tH\003\210\001\001\022" +
-                        "\030\n\013contentType\030\006 \001(\005H\004\210\001\001\022\025\n\010sendTime\030\007 " +
-                        "\001(\003H\005\210\001\001B\013\n\t_senderIdB\021\n\017_senderTerminal" +
-                        "B\016\n\014_messageTypeB\n\n\010_contentB\016\n\014_content" +
-                        "TypeB\013\n\t_sendTimeb\006proto3"
-        };
-        descriptor = com.google.protobuf.Descriptors.FileDescriptor
-                .internalBuildGeneratedFileFrom(descriptorData,
-                        new com.google.protobuf.Descriptors.FileDescriptor[]{
-                        });
-        internal_static_cn_ether_im_proto_binary_ImBinaryProto_descriptor =
-                getDescriptor().getMessageTypes().get(0);
-        internal_static_cn_ether_im_proto_binary_ImBinaryProto_fieldAccessorTable = new
-                com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-                internal_static_cn_ether_im_proto_binary_ImBinaryProto_descriptor,
-                new java.lang.String[]{"Type", "Body",});
-        internal_static_cn_ether_im_proto_binary_ImMessageBinaryProto_descriptor =
-                getDescriptor().getMessageTypes().get(1);
-        internal_static_cn_ether_im_proto_binary_ImMessageBinaryProto_fieldAccessorTable = new
-                com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-                internal_static_cn_ether_im_proto_binary_ImMessageBinaryProto_descriptor,
-                new java.lang.String[]{"MessageId", "SenderId", "SenderTerminal", "MessageType", "Content", "ContentType", "SendTime",});
-        descriptor.resolveAllFeaturesImmutable();
-    }
-
-    private ImBinary() {
-    }
-
     public static void registerAllExtensions(
             com.google.protobuf.ExtensionRegistryLite registry) {
     }
@@ -73,6 +27,62 @@ public final class ImBinary {
             com.google.protobuf.ExtensionRegistry registry) {
         registerAllExtensions(
                 (com.google.protobuf.ExtensionRegistryLite) registry);
+    }
+    private static final
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internal_static_cn_ether_im_proto_binary_ImBinaryProto_fieldAccessorTable;
+    private static final com.google.protobuf.Descriptors.Descriptor
+            internal_static_cn_ether_im_proto_binary_ImChatMessage_descriptor;
+    private static final
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internal_static_cn_ether_im_proto_binary_ImChatMessage_fieldAccessorTable;
+    private static final com.google.protobuf.Descriptors.Descriptor
+            internal_static_cn_ether_im_proto_binary_ImMessageReceived_descriptor;
+    private static final
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internal_static_cn_ether_im_proto_binary_ImMessageReceived_fieldAccessorTable;
+    private static com.google.protobuf.Descriptors.FileDescriptor
+            descriptor;
+
+    static {
+        java.lang.String[] descriptorData = {
+                "\n\016ImBinary.proto\022\030cn.ether.im.proto.bina" +
+                        "ry\032\031google/protobuf/any.proto\"A\n\rImBinar" +
+      "yProto\022\014\n\004type\030\001 \001(\t\022\"\n\004body\030\002 \001(\0132\024.goo" +
+      "gle.protobuf.Any\"\231\001\n\rImChatMessage\022\021\n\tme" +
+      "ssageId\030\001 \001(\003\022\020\n\010senderId\030\002 \001(\t\022\026\n\016sende" +
+      "rTerminal\030\003 \001(\t\022\017\n\007content\030\004 \001(\t\022\023\n\013cont" +
+      "entType\030\005 \001(\t\022\020\n\010sendTime\030\006 \001(\003\022\023\n\013messa" +
+      "geType\030\007 \001(\t\"&\n\021ImMessageReceived\022\021\n\tmes" +
+      "sageId\030\001 \001(\003b\006proto3"
+    };
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
+      .internalBuildGeneratedFileFrom(descriptorData,
+        new com.google.protobuf.Descriptors.FileDescriptor[] {
+          com.google.protobuf.AnyProto.getDescriptor(),
+        });
+    internal_static_cn_ether_im_proto_binary_ImBinaryProto_descriptor =
+      getDescriptor().getMessageTypes().get(0);
+    internal_static_cn_ether_im_proto_binary_ImBinaryProto_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cn_ether_im_proto_binary_ImBinaryProto_descriptor,
+        new java.lang.String[] { "Type", "Body", });
+    internal_static_cn_ether_im_proto_binary_ImChatMessage_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_cn_ether_im_proto_binary_ImChatMessage_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cn_ether_im_proto_binary_ImChatMessage_descriptor,
+        new java.lang.String[] { "MessageId", "SenderId", "SenderTerminal", "Content", "ContentType", "SendTime", "MessageType", });
+    internal_static_cn_ether_im_proto_binary_ImMessageReceived_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_cn_ether_im_proto_binary_ImMessageReceived_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cn_ether_im_proto_binary_ImMessageReceived_descriptor,
+        new java.lang.String[] { "MessageId", });
+    descriptor.resolveAllFeaturesImmutable();
+    com.google.protobuf.AnyProto.getDescriptor();
+  }
+    private ImBinary() {
     }
 
     public static com.google.protobuf.Descriptors.FileDescriptor
@@ -84,34 +94,41 @@ public final class ImBinary {
             com.google.protobuf.MessageOrBuilder {
 
         /**
-         * <code>int32 type = 1;</code>
+         * <code>string type = 1;</code>
          *
          * @return The type.
          */
-        int getType();
+        java.lang.String getType();
 
         /**
-         * <code>.cn.ether.im.proto.binary.ImMessageBinaryProto body = 2;</code>
+         * <code>string type = 1;</code>
+         *
+         * @return The bytes for type.
+         */
+        com.google.protobuf.ByteString
+        getTypeBytes();
+
+        /**
+         * <code>.google.protobuf.Any body = 2;</code>
          *
          * @return Whether the body field is set.
          */
         boolean hasBody();
 
         /**
-         * <code>.cn.ether.im.proto.binary.ImMessageBinaryProto body = 2;</code>
+         * <code>.google.protobuf.Any body = 2;</code>
          *
          * @return The body.
          */
-        cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto getBody();
+        com.google.protobuf.Any getBody();
 
         /**
-         * <code>.cn.ether.im.proto.binary.ImMessageBinaryProto body = 2;</code>
+         * <code>.google.protobuf.Any body = 2;</code>
          */
-        cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProtoOrBuilder getBodyOrBuilder();
+        com.google.protobuf.AnyOrBuilder getBodyOrBuilder();
     }
-
-    public interface ImMessageBinaryProtoOrBuilder extends
-            // @@protoc_insertion_point(interface_extends:cn.ether.im.proto.binary.ImMessageBinaryProto)
+    public interface ImChatMessageOrBuilder extends
+            // @@protoc_insertion_point(interface_extends:cn.ether.im.proto.binary.ImChatMessage)
             com.google.protobuf.MessageOrBuilder {
 
         /**
@@ -122,21 +139,14 @@ public final class ImBinary {
         long getMessageId();
 
         /**
-         * <code>optional string senderId = 2;</code>
-         *
-         * @return Whether the senderId field is set.
-         */
-        boolean hasSenderId();
-
-        /**
-         * <code>optional string senderId = 2;</code>
+         * <code>string senderId = 2;</code>
          *
          * @return The senderId.
          */
         java.lang.String getSenderId();
 
         /**
-         * <code>optional string senderId = 2;</code>
+         * <code>string senderId = 2;</code>
          *
          * @return The bytes for senderId.
          */
@@ -144,49 +154,29 @@ public final class ImBinary {
         getSenderIdBytes();
 
         /**
-         * <code>optional int32 senderTerminal = 3;</code>
-         *
-         * @return Whether the senderTerminal field is set.
-         */
-        boolean hasSenderTerminal();
-
-        /**
-         * <code>optional int32 senderTerminal = 3;</code>
+         * <code>string senderTerminal = 3;</code>
          *
          * @return The senderTerminal.
          */
-        int getSenderTerminal();
+        java.lang.String getSenderTerminal();
 
         /**
-         * <code>optional int32 messageType = 4;</code>
+         * <code>string senderTerminal = 3;</code>
          *
-         * @return Whether the messageType field is set.
+         * @return The bytes for senderTerminal.
          */
-        boolean hasMessageType();
+        com.google.protobuf.ByteString
+        getSenderTerminalBytes();
 
         /**
-         * <code>optional int32 messageType = 4;</code>
-         *
-         * @return The messageType.
-         */
-        int getMessageType();
-
-        /**
-         * <code>optional string content = 5;</code>
-         *
-         * @return Whether the content field is set.
-         */
-        boolean hasContent();
-
-        /**
-         * <code>optional string content = 5;</code>
+         * <code>string content = 4;</code>
          *
          * @return The content.
          */
         java.lang.String getContent();
 
         /**
-         * <code>optional string content = 5;</code>
+         * <code>string content = 4;</code>
          *
          * @return The bytes for content.
          */
@@ -194,32 +184,52 @@ public final class ImBinary {
         getContentBytes();
 
         /**
-         * <code>optional int32 contentType = 6;</code>
-         *
-         * @return Whether the contentType field is set.
-         */
-        boolean hasContentType();
-
-        /**
-         * <code>optional int32 contentType = 6;</code>
+         * <code>string contentType = 5;</code>
          *
          * @return The contentType.
          */
-        int getContentType();
+        java.lang.String getContentType();
 
         /**
-         * <code>optional int64 sendTime = 7;</code>
+         * <code>string contentType = 5;</code>
          *
-         * @return Whether the sendTime field is set.
+         * @return The bytes for contentType.
          */
-        boolean hasSendTime();
+        com.google.protobuf.ByteString
+        getContentTypeBytes();
 
         /**
-         * <code>optional int64 sendTime = 7;</code>
+         * <code>int64 sendTime = 6;</code>
          *
          * @return The sendTime.
          */
         long getSendTime();
+
+        /**
+         * <code>string messageType = 7;</code>
+         *
+         * @return The messageType.
+         */
+        java.lang.String getMessageType();
+
+        /**
+         * <code>string messageType = 7;</code>
+         *
+         * @return The bytes for messageType.
+         */
+        com.google.protobuf.ByteString
+        getMessageTypeBytes();
+    }
+    public interface ImMessageReceivedOrBuilder extends
+            // @@protoc_insertion_point(interface_extends:cn.ether.im.proto.binary.ImMessageReceived)
+            com.google.protobuf.MessageOrBuilder {
+
+        /**
+         * <code>int64 messageId = 1;</code>
+         *
+         * @return The messageId.
+         */
+        long getMessageId();
     }
 
     /**
@@ -229,9 +239,25 @@ public final class ImBinary {
             com.google.protobuf.GeneratedMessage implements
             // @@protoc_insertion_point(message_implements:cn.ether.im.proto.binary.ImBinaryProto)
             ImBinaryProtoOrBuilder {
+        private static final long serialVersionUID = 0L;
+
+        static {
+            com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+                    com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+                    /* major= */ 4,
+                    /* minor= */ 28,
+                    /* patch= */ 2,
+                    /* suffix= */ "",
+                    ImBinaryProto.class.getName());
+        }
+
+        // Use ImBinaryProto.newBuilder() to construct.
+        private ImBinaryProto(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+            super(builder);
+        }
+
         public static final int TYPE_FIELD_NUMBER = 1;
         public static final int BODY_FIELD_NUMBER = 2;
-        private static final long serialVersionUID = 0L;
         // @@protoc_insertion_point(class_scope:cn.ether.im.proto.binary.ImBinaryProto)
         private static final cn.ether.im.proto.binary.ImBinary.ImBinaryProto DEFAULT_INSTANCE;
         private static final com.google.protobuf.Parser<ImBinaryProto>
@@ -257,35 +283,22 @@ public final class ImBinary {
         };
 
         static {
-            com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
-                    com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
-                    /* major= */ 4,
-                    /* minor= */ 28,
-                    /* patch= */ 2,
-                    /* suffix= */ "",
-                    ImBinaryProto.class.getName());
-        }
-
-        static {
             DEFAULT_INSTANCE = new cn.ether.im.proto.binary.ImBinary.ImBinaryProto();
         }
 
         private int bitField0_;
-        private int type_ = 0;
-        private cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto body_;
+        @SuppressWarnings("serial")
+        private volatile java.lang.Object type_ = "";
+        private com.google.protobuf.Any body_;
         private byte memoizedIsInitialized = -1;
-        // Use ImBinaryProto.newBuilder() to construct.
-        private ImBinaryProto(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-            super(builder);
-        }
-
         private ImBinaryProto() {
+      type_ = "";
         }
 
         public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
             return cn.ether.im.proto.binary.ImBinary.internal_static_cn_ether_im_proto_binary_ImBinaryProto_descriptor;
-        }
+    }
 
         public static cn.ether.im.proto.binary.ImBinary.ImBinaryProto parseFrom(
                 java.nio.ByteBuffer data)
@@ -304,6 +317,16 @@ public final class ImBinary {
                 com.google.protobuf.ByteString data)
                 throws com.google.protobuf.InvalidProtocolBufferException {
             return PARSER.parseFrom(data);
+        }
+
+        @java.lang.Override
+        public final boolean isInitialized() {
+            byte isInitialized = memoizedIsInitialized;
+            if (isInitialized == 1) return true;
+            if (isInitialized == 0) return false;
+
+            memoizedIsInitialized = 1;
+            return true;
         }
 
         public static cn.ether.im.proto.binary.ImBinary.ImBinaryProto parseFrom(
@@ -384,26 +407,60 @@ public final class ImBinary {
             return PARSER;
         }
 
-        @java.lang.Override
-        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-            return cn.ether.im.proto.binary.ImBinary.internal_static_cn_ether_im_proto_binary_ImBinaryProto_fieldAccessorTable
-                    .ensureFieldAccessorsInitialized(
-                            cn.ether.im.proto.binary.ImBinary.ImBinaryProto.class, cn.ether.im.proto.binary.ImBinary.ImBinaryProto.Builder.class);
-        }
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    internalGetFieldAccessorTable() {
+        return cn.ether.im.proto.binary.ImBinary.internal_static_cn_ether_im_proto_binary_ImBinaryProto_fieldAccessorTable
+                .ensureFieldAccessorsInitialized(
+                        cn.ether.im.proto.binary.ImBinary.ImBinaryProto.class, cn.ether.im.proto.binary.ImBinary.ImBinaryProto.Builder.class);
+    }
 
         /**
-         * <code>int32 type = 1;</code>
+         * <code>string type = 1;</code>
          *
          * @return The type.
          */
         @java.lang.Override
-        public int getType() {
-            return type_;
+        public java.lang.String getType() {
+            java.lang.Object ref = type_;
+            if (ref instanceof java.lang.String) {
+                return (java.lang.String) ref;
+            } else {
+                com.google.protobuf.ByteString bs =
+                        (com.google.protobuf.ByteString) ref;
+                java.lang.String s = bs.toStringUtf8();
+                type_ = s;
+                return s;
+            }
         }
 
         /**
-         * <code>.cn.ether.im.proto.binary.ImMessageBinaryProto body = 2;</code>
+         * <code>string type = 1;</code>
+         *
+         * @return The bytes for type.
+         */
+        @java.lang.Override
+        public com.google.protobuf.ByteString
+        getTypeBytes() {
+            java.lang.Object ref = type_;
+            if (ref instanceof java.lang.String) {
+                com.google.protobuf.ByteString b =
+                        com.google.protobuf.ByteString.copyFromUtf8(
+                                (java.lang.String) ref);
+                type_ = b;
+                return b;
+            } else {
+                return (com.google.protobuf.ByteString) ref;
+            }
+        }
+
+        @java.lang.Override
+        public Builder newBuilderForType() {
+            return newBuilder();
+        }
+
+        /**
+         * <code>.google.protobuf.Any body = 2;</code>
          *
          * @return Whether the body field is set.
          */
@@ -413,38 +470,41 @@ public final class ImBinary {
         }
 
         /**
-         * <code>.cn.ether.im.proto.binary.ImMessageBinaryProto body = 2;</code>
+         * <code>.google.protobuf.Any body = 2;</code>
          *
          * @return The body.
          */
         @java.lang.Override
-        public cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto getBody() {
-            return body_ == null ? cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto.getDefaultInstance() : body_;
+        public com.google.protobuf.Any getBody() {
+            return body_ == null ? com.google.protobuf.Any.getDefaultInstance() : body_;
+        }
+
+        @java.lang.Override
+        public Builder toBuilder() {
+            return this == DEFAULT_INSTANCE
+                    ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        @java.lang.Override
+        protected Builder newBuilderForType(
+                com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+            Builder builder = new Builder(parent);
+            return builder;
         }
 
         /**
-         * <code>.cn.ether.im.proto.binary.ImMessageBinaryProto body = 2;</code>
+         * <code>.google.protobuf.Any body = 2;</code>
          */
         @java.lang.Override
-        public cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProtoOrBuilder getBodyOrBuilder() {
-            return body_ == null ? cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto.getDefaultInstance() : body_;
-        }
-
-        @java.lang.Override
-        public final boolean isInitialized() {
-            byte isInitialized = memoizedIsInitialized;
-            if (isInitialized == 1) return true;
-            if (isInitialized == 0) return false;
-
-            memoizedIsInitialized = 1;
-            return true;
+        public com.google.protobuf.AnyOrBuilder getBodyOrBuilder() {
+            return body_ == null ? com.google.protobuf.Any.getDefaultInstance() : body_;
         }
 
         @java.lang.Override
         public void writeTo(com.google.protobuf.CodedOutputStream output)
                 throws java.io.IOException {
-            if (type_ != 0) {
-                output.writeInt32(1, type_);
+            if (!com.google.protobuf.GeneratedMessage.isStringEmpty(type_)) {
+                com.google.protobuf.GeneratedMessage.writeString(output, 1, type_);
             }
             if (((bitField0_ & 0x00000001) != 0)) {
                 output.writeMessage(2, getBody());
@@ -458,9 +518,8 @@ public final class ImBinary {
             if (size != -1) return size;
 
             size = 0;
-            if (type_ != 0) {
-                size += com.google.protobuf.CodedOutputStream
-                        .computeInt32Size(1, type_);
+            if (!com.google.protobuf.GeneratedMessage.isStringEmpty(type_)) {
+                size += com.google.protobuf.GeneratedMessage.computeStringSize(1, type_);
             }
             if (((bitField0_ & 0x00000001) != 0)) {
                 size += com.google.protobuf.CodedOutputStream
@@ -481,8 +540,8 @@ public final class ImBinary {
             }
             cn.ether.im.proto.binary.ImBinary.ImBinaryProto other = (cn.ether.im.proto.binary.ImBinary.ImBinaryProto) obj;
 
-            if (getType()
-                    != other.getType()) return false;
+            if (!getType()
+                    .equals(other.getType())) return false;
             if (hasBody() != other.hasBody()) return false;
             if (hasBody()) {
                 if (!getBody()
@@ -500,7 +559,7 @@ public final class ImBinary {
             int hash = 41;
             hash = (19 * hash) + getDescriptor().hashCode();
             hash = (37 * hash) + TYPE_FIELD_NUMBER;
-            hash = (53 * hash) + getType();
+            hash = (53 * hash) + getType().hashCode();
             if (hasBody()) {
                 hash = (37 * hash) + BODY_FIELD_NUMBER;
                 hash = (53 * hash) + getBody().hashCode();
@@ -508,24 +567,6 @@ public final class ImBinary {
             hash = (29 * hash) + getUnknownFields().hashCode();
             memoizedHashCode = hash;
             return hash;
-        }
-
-        @java.lang.Override
-        public Builder newBuilderForType() {
-            return newBuilder();
-        }
-
-        @java.lang.Override
-        public Builder toBuilder() {
-            return this == DEFAULT_INSTANCE
-                    ? new Builder() : new Builder().mergeFrom(this);
-        }
-
-        @java.lang.Override
-        protected Builder newBuilderForType(
-                com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-            Builder builder = new Builder(parent);
-            return builder;
         }
 
         @java.lang.Override
@@ -545,23 +586,6 @@ public final class ImBinary {
                 com.google.protobuf.GeneratedMessage.Builder<Builder> implements
                 // @@protoc_insertion_point(builder_implements:cn.ether.im.proto.binary.ImBinaryProto)
                 cn.ether.im.proto.binary.ImBinary.ImBinaryProtoOrBuilder {
-            private int bitField0_;
-            private int type_;
-            private cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto body_;
-            private com.google.protobuf.SingleFieldBuilder<
-                    cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto, cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto.Builder, cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProtoOrBuilder> bodyBuilder_;
-
-            // Construct using cn.ether.im.proto.binary.ImBinary.ImBinaryProto.newBuilder()
-            private Builder() {
-                maybeForceBuilderInitialization();
-            }
-
-            private Builder(
-                    com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-                super(parent);
-                maybeForceBuilderInitialization();
-            }
-
             public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
                 return cn.ether.im.proto.binary.ImBinary.internal_static_cn_ether_im_proto_binary_ImBinaryProto_descriptor;
@@ -575,25 +599,16 @@ public final class ImBinary {
                                 cn.ether.im.proto.binary.ImBinary.ImBinaryProto.class, cn.ether.im.proto.binary.ImBinary.ImBinaryProto.Builder.class);
             }
 
+            private int bitField0_;
+            private java.lang.Object type_ = "";
+
             private void maybeForceBuilderInitialization() {
                 if (com.google.protobuf.GeneratedMessage
                         .alwaysUseFieldBuilders) {
                     getBodyFieldBuilder();
                 }
             }
-
-            @java.lang.Override
-            public Builder clear() {
-                super.clear();
-                bitField0_ = 0;
-                type_ = 0;
-                body_ = null;
-                if (bodyBuilder_ != null) {
-                    bodyBuilder_.dispose();
-                    bodyBuilder_ = null;
-                }
-                return this;
-            }
+            private com.google.protobuf.Any body_;
 
             @java.lang.Override
             public com.google.protobuf.Descriptors.Descriptor
@@ -649,11 +664,44 @@ public final class ImBinary {
                     return this;
                 }
             }
+            private com.google.protobuf.SingleFieldBuilder<
+                    com.google.protobuf.Any, com.google.protobuf.Any.Builder, com.google.protobuf.AnyOrBuilder> bodyBuilder_;
+
+            @java.lang.Override
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            // Construct using cn.ether.im.proto.binary.ImBinary.ImBinaryProto.newBuilder()
+            private Builder() {
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(
+                    com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+                super(parent);
+                maybeForceBuilderInitialization();
+            }
+
+            @java.lang.Override
+            public Builder clear() {
+                super.clear();
+                bitField0_ = 0;
+                type_ = "";
+                body_ = null;
+                if (bodyBuilder_ != null) {
+                    bodyBuilder_.dispose();
+                    bodyBuilder_ = null;
+                }
+                return this;
+            }
 
             public Builder mergeFrom(cn.ether.im.proto.binary.ImBinary.ImBinaryProto other) {
                 if (other == cn.ether.im.proto.binary.ImBinary.ImBinaryProto.getDefaultInstance()) return this;
-                if (other.getType() != 0) {
-                    setType(other.getType());
+                if (!other.getType().isEmpty()) {
+                    type_ = other.type_;
+                    bitField0_ |= 0x00000001;
+                    onChanged();
                 }
                 if (other.hasBody()) {
                     mergeBody(other.getBody());
@@ -661,11 +709,6 @@ public final class ImBinary {
                 this.mergeUnknownFields(other.getUnknownFields());
                 onChanged();
                 return this;
-            }
-
-            @java.lang.Override
-            public final boolean isInitialized() {
-                return true;
             }
 
             @java.lang.Override
@@ -684,11 +727,11 @@ public final class ImBinary {
                             case 0:
                                 done = true;
                                 break;
-                            case 8: {
-                                type_ = input.readInt32();
+                            case 10: {
+                                type_ = input.readStringRequireUtf8();
                                 bitField0_ |= 0x00000001;
                                 break;
-                            } // case 8
+                            } // case 10
                             case 18: {
                                 input.readMessage(
                                         getBodyFieldBuilder().getBuilder(),
@@ -713,23 +756,34 @@ public final class ImBinary {
             }
 
             /**
-             * <code>int32 type = 1;</code>
+             * <code>string type = 1;</code>
              *
              * @return The type.
              */
-            @java.lang.Override
-            public int getType() {
-                return type_;
+            public java.lang.String getType() {
+                java.lang.Object ref = type_;
+                if (!(ref instanceof java.lang.String)) {
+                    com.google.protobuf.ByteString bs =
+                            (com.google.protobuf.ByteString) ref;
+                    java.lang.String s = bs.toStringUtf8();
+                    type_ = s;
+                    return s;
+                } else {
+                    return (java.lang.String) ref;
+                }
             }
 
             /**
-             * <code>int32 type = 1;</code>
+             * <code>string type = 1;</code>
              *
              * @param value The type to set.
              * @return This builder for chaining.
              */
-            public Builder setType(int value) {
-
+            public Builder setType(
+                    java.lang.String value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
                 type_ = value;
                 bitField0_ |= 0x00000001;
                 onChanged();
@@ -737,19 +791,56 @@ public final class ImBinary {
             }
 
             /**
-             * <code>int32 type = 1;</code>
+             * <code>string type = 1;</code>
              *
+             * @return The bytes for type.
+             */
+            public com.google.protobuf.ByteString
+            getTypeBytes() {
+                java.lang.Object ref = type_;
+                if (ref instanceof String) {
+                    com.google.protobuf.ByteString b =
+                            com.google.protobuf.ByteString.copyFromUtf8(
+                                    (java.lang.String) ref);
+                    type_ = b;
+                    return b;
+                } else {
+                    return (com.google.protobuf.ByteString) ref;
+                }
+            }
+
+            /**
+             * <code>string type = 1;</code>
+             *
+             * @param value The bytes for type to set.
              * @return This builder for chaining.
              */
-            public Builder clearType() {
-                bitField0_ = (bitField0_ & ~0x00000001);
-                type_ = 0;
+            public Builder setTypeBytes(
+                    com.google.protobuf.ByteString value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+                checkByteStringIsUtf8(value);
+                type_ = value;
+                bitField0_ |= 0x00000001;
                 onChanged();
                 return this;
             }
 
             /**
-             * <code>.cn.ether.im.proto.binary.ImMessageBinaryProto body = 2;</code>
+             * <code>string type = 1;</code>
+             *
+             * @return This builder for chaining.
+             */
+            public Builder clearType() {
+                type_ = getDefaultInstance().getType();
+                bitField0_ = (bitField0_ & ~0x00000001);
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>.google.protobuf.Any body = 2;</code>
              *
              * @return Whether the body field is set.
              */
@@ -758,22 +849,22 @@ public final class ImBinary {
             }
 
             /**
-             * <code>.cn.ether.im.proto.binary.ImMessageBinaryProto body = 2;</code>
+             * <code>.google.protobuf.Any body = 2;</code>
              *
              * @return The body.
              */
-            public cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto getBody() {
+            public com.google.protobuf.Any getBody() {
                 if (bodyBuilder_ == null) {
-                    return body_ == null ? cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto.getDefaultInstance() : body_;
+                    return body_ == null ? com.google.protobuf.Any.getDefaultInstance() : body_;
                 } else {
                     return bodyBuilder_.getMessage();
                 }
             }
 
             /**
-             * <code>.cn.ether.im.proto.binary.ImMessageBinaryProto body = 2;</code>
+             * <code>.google.protobuf.Any body = 2;</code>
              */
-            public Builder setBody(cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto value) {
+            public Builder setBody(com.google.protobuf.Any value) {
                 if (bodyBuilder_ == null) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -788,10 +879,10 @@ public final class ImBinary {
             }
 
             /**
-             * <code>.cn.ether.im.proto.binary.ImMessageBinaryProto body = 2;</code>
+             * <code>.google.protobuf.Any body = 2;</code>
              */
             public Builder setBody(
-                    cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto.Builder builderForValue) {
+                    com.google.protobuf.Any.Builder builderForValue) {
                 if (bodyBuilder_ == null) {
                     body_ = builderForValue.build();
                 } else {
@@ -803,13 +894,13 @@ public final class ImBinary {
             }
 
             /**
-             * <code>.cn.ether.im.proto.binary.ImMessageBinaryProto body = 2;</code>
+             * <code>.google.protobuf.Any body = 2;</code>
              */
-            public Builder mergeBody(cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto value) {
+            public Builder mergeBody(com.google.protobuf.Any value) {
                 if (bodyBuilder_ == null) {
                     if (((bitField0_ & 0x00000002) != 0) &&
                             body_ != null &&
-                            body_ != cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto.getDefaultInstance()) {
+                            body_ != com.google.protobuf.Any.getDefaultInstance()) {
                         getBodyBuilder().mergeFrom(value);
                     } else {
                         body_ = value;
@@ -825,7 +916,7 @@ public final class ImBinary {
             }
 
             /**
-             * <code>.cn.ether.im.proto.binary.ImMessageBinaryProto body = 2;</code>
+             * <code>.google.protobuf.Any body = 2;</code>
              */
             public Builder clearBody() {
                 bitField0_ = (bitField0_ & ~0x00000002);
@@ -839,35 +930,35 @@ public final class ImBinary {
             }
 
             /**
-             * <code>.cn.ether.im.proto.binary.ImMessageBinaryProto body = 2;</code>
+             * <code>.google.protobuf.Any body = 2;</code>
              */
-            public cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto.Builder getBodyBuilder() {
+            public com.google.protobuf.Any.Builder getBodyBuilder() {
                 bitField0_ |= 0x00000002;
                 onChanged();
                 return getBodyFieldBuilder().getBuilder();
             }
 
             /**
-             * <code>.cn.ether.im.proto.binary.ImMessageBinaryProto body = 2;</code>
+             * <code>.google.protobuf.Any body = 2;</code>
              */
-            public cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProtoOrBuilder getBodyOrBuilder() {
+            public com.google.protobuf.AnyOrBuilder getBodyOrBuilder() {
                 if (bodyBuilder_ != null) {
                     return bodyBuilder_.getMessageOrBuilder();
                 } else {
                     return body_ == null ?
-                            cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto.getDefaultInstance() : body_;
+                            com.google.protobuf.Any.getDefaultInstance() : body_;
                 }
             }
 
             /**
-             * <code>.cn.ether.im.proto.binary.ImMessageBinaryProto body = 2;</code>
+             * <code>.google.protobuf.Any body = 2;</code>
              */
             private com.google.protobuf.SingleFieldBuilder<
-                    cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto, cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto.Builder, cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProtoOrBuilder>
+                    com.google.protobuf.Any, com.google.protobuf.Any.Builder, com.google.protobuf.AnyOrBuilder>
             getBodyFieldBuilder() {
                 if (bodyBuilder_ == null) {
                     bodyBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-                            cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto, cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto.Builder, cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProtoOrBuilder>(
+                            com.google.protobuf.Any, com.google.protobuf.Any.Builder, com.google.protobuf.AnyOrBuilder>(
                             getBody(),
                             getParentForChildren(),
                             isClean());
@@ -882,26 +973,36 @@ public final class ImBinary {
     }
 
     /**
-     * Protobuf type {@code cn.ether.im.proto.binary.ImMessageBinaryProto}
+     * Protobuf type {@code cn.ether.im.proto.binary.ImChatMessage}
      */
-    public static final class ImMessageBinaryProto extends
+    public static final class ImChatMessage extends
             com.google.protobuf.GeneratedMessage implements
-            // @@protoc_insertion_point(message_implements:cn.ether.im.proto.binary.ImMessageBinaryProto)
-            ImMessageBinaryProtoOrBuilder {
+            // @@protoc_insertion_point(message_implements:cn.ether.im.proto.binary.ImChatMessage)
+            ImChatMessageOrBuilder {
         public static final int MESSAGEID_FIELD_NUMBER = 1;
         public static final int SENDERID_FIELD_NUMBER = 2;
         public static final int SENDERTERMINAL_FIELD_NUMBER = 3;
-        public static final int MESSAGETYPE_FIELD_NUMBER = 4;
-        public static final int CONTENT_FIELD_NUMBER = 5;
-        public static final int CONTENTTYPE_FIELD_NUMBER = 6;
-        public static final int SENDTIME_FIELD_NUMBER = 7;
+        public static final int CONTENT_FIELD_NUMBER = 4;
+        public static final int CONTENTTYPE_FIELD_NUMBER = 5;
+        public static final int SENDTIME_FIELD_NUMBER = 6;
+        public static final int MESSAGETYPE_FIELD_NUMBER = 7;
         private static final long serialVersionUID = 0L;
-        // @@protoc_insertion_point(class_scope:cn.ether.im.proto.binary.ImMessageBinaryProto)
-        private static final cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto DEFAULT_INSTANCE;
-        private static final com.google.protobuf.Parser<ImMessageBinaryProto>
-                PARSER = new com.google.protobuf.AbstractParser<ImMessageBinaryProto>() {
+
+        /**
+         * <code>int64 messageId = 1;</code>
+         *
+         * @return The messageId.
+         */
+        @java.lang.Override
+        public long getMessageId() {
+            return messageId_;
+        }
+        // @@protoc_insertion_point(class_scope:cn.ether.im.proto.binary.ImChatMessage)
+        private static final cn.ether.im.proto.binary.ImBinary.ImChatMessage DEFAULT_INSTANCE;
+        private static final com.google.protobuf.Parser<ImChatMessage>
+                PARSER = new com.google.protobuf.AbstractParser<ImChatMessage>() {
             @java.lang.Override
-            public ImMessageBinaryProto parsePartialFrom(
+            public ImChatMessage parsePartialFrom(
                     com.google.protobuf.CodedInputStream input,
                     com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                     throws com.google.protobuf.InvalidProtocolBufferException {
@@ -927,85 +1028,89 @@ public final class ImBinary {
                     /* minor= */ 28,
                     /* patch= */ 2,
                     /* suffix= */ "",
-                    ImMessageBinaryProto.class.getName());
+                    ImChatMessage.class.getName());
         }
 
         static {
-            DEFAULT_INSTANCE = new cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto();
+            DEFAULT_INSTANCE = new cn.ether.im.proto.binary.ImBinary.ImChatMessage();
         }
 
-        private int bitField0_;
         private long messageId_ = 0L;
         @SuppressWarnings("serial")
         private volatile java.lang.Object senderId_ = "";
-        private int senderTerminal_ = 0;
-        private int messageType_ = 0;
+        @SuppressWarnings("serial")
+        private volatile java.lang.Object senderTerminal_ = "";
         @SuppressWarnings("serial")
         private volatile java.lang.Object content_ = "";
-        private int contentType_ = 0;
+        @SuppressWarnings("serial")
+        private volatile java.lang.Object contentType_ = "";
         private long sendTime_ = 0L;
+        @SuppressWarnings("serial")
+        private volatile java.lang.Object messageType_ = "";
         private byte memoizedIsInitialized = -1;
 
-        // Use ImMessageBinaryProto.newBuilder() to construct.
-        private ImMessageBinaryProto(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+        // Use ImChatMessage.newBuilder() to construct.
+        private ImChatMessage(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
             super(builder);
         }
-
-        private ImMessageBinaryProto() {
+        private ImChatMessage() {
             senderId_ = "";
+            senderTerminal_ = "";
             content_ = "";
+            contentType_ = "";
+            messageType_ = "";
         }
 
         public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-            return cn.ether.im.proto.binary.ImBinary.internal_static_cn_ether_im_proto_binary_ImMessageBinaryProto_descriptor;
+            return cn.ether.im.proto.binary.ImBinary.internal_static_cn_ether_im_proto_binary_ImChatMessage_descriptor;
         }
 
-        public static cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto parseFrom(
+        public static cn.ether.im.proto.binary.ImBinary.ImChatMessage parseFrom(
                 java.nio.ByteBuffer data)
                 throws com.google.protobuf.InvalidProtocolBufferException {
             return PARSER.parseFrom(data);
         }
 
-        public static cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto parseFrom(
+        public static cn.ether.im.proto.binary.ImBinary.ImChatMessage parseFrom(
                 java.nio.ByteBuffer data,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                 throws com.google.protobuf.InvalidProtocolBufferException {
             return PARSER.parseFrom(data, extensionRegistry);
         }
 
-        public static cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto parseFrom(
+        public static cn.ether.im.proto.binary.ImBinary.ImChatMessage parseFrom(
                 com.google.protobuf.ByteString data)
                 throws com.google.protobuf.InvalidProtocolBufferException {
             return PARSER.parseFrom(data);
         }
 
-        public static cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto parseFrom(
+        public static cn.ether.im.proto.binary.ImBinary.ImChatMessage parseFrom(
                 com.google.protobuf.ByteString data,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                 throws com.google.protobuf.InvalidProtocolBufferException {
             return PARSER.parseFrom(data, extensionRegistry);
         }
 
-        public static cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto parseFrom(byte[] data)
+        public static cn.ether.im.proto.binary.ImBinary.ImChatMessage parseFrom(byte[] data)
                 throws com.google.protobuf.InvalidProtocolBufferException {
             return PARSER.parseFrom(data);
         }
 
-        public static cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto parseFrom(
+        public static cn.ether.im.proto.binary.ImBinary.ImChatMessage parseFrom(
                 byte[] data,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                 throws com.google.protobuf.InvalidProtocolBufferException {
             return PARSER.parseFrom(data, extensionRegistry);
         }
 
-        public static cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto parseFrom(java.io.InputStream input)
+        public static cn.ether.im.proto.binary.ImBinary.ImChatMessage parseFrom(java.io.InputStream input)
                 throws java.io.IOException {
             return com.google.protobuf.GeneratedMessage
                     .parseWithIOException(PARSER, input);
         }
 
-        public static cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto parseFrom(
+        public static cn.ether.im.proto.binary.ImBinary.ImChatMessage parseFrom(
                 java.io.InputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                 throws java.io.IOException {
@@ -1013,13 +1118,23 @@ public final class ImBinary {
                     .parseWithIOException(PARSER, input, extensionRegistry);
         }
 
-        public static cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto parseDelimitedFrom(java.io.InputStream input)
+        public static cn.ether.im.proto.binary.ImBinary.ImChatMessage parseDelimitedFrom(java.io.InputStream input)
                 throws java.io.IOException {
             return com.google.protobuf.GeneratedMessage
                     .parseDelimitedWithIOException(PARSER, input);
         }
 
-        public static cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto parseDelimitedFrom(
+        @java.lang.Override
+        public final boolean isInitialized() {
+            byte isInitialized = memoizedIsInitialized;
+            if (isInitialized == 1) return true;
+            if (isInitialized == 0) return false;
+
+            memoizedIsInitialized = 1;
+            return true;
+        }
+
+        public static cn.ether.im.proto.binary.ImBinary.ImChatMessage parseDelimitedFrom(
                 java.io.InputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                 throws java.io.IOException {
@@ -1027,14 +1142,14 @@ public final class ImBinary {
                     .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
         }
 
-        public static cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto parseFrom(
+        public static cn.ether.im.proto.binary.ImBinary.ImChatMessage parseFrom(
                 com.google.protobuf.CodedInputStream input)
                 throws java.io.IOException {
             return com.google.protobuf.GeneratedMessage
                     .parseWithIOException(PARSER, input);
         }
 
-        public static cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto parseFrom(
+        public static cn.ether.im.proto.binary.ImBinary.ImChatMessage parseFrom(
                 com.google.protobuf.CodedInputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                 throws java.io.IOException {
@@ -1046,48 +1161,28 @@ public final class ImBinary {
             return DEFAULT_INSTANCE.toBuilder();
         }
 
-        public static Builder newBuilder(cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto prototype) {
+        public static Builder newBuilder(cn.ether.im.proto.binary.ImBinary.ImChatMessage prototype) {
             return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
         }
 
-        public static cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto getDefaultInstance() {
+        public static cn.ether.im.proto.binary.ImBinary.ImChatMessage getDefaultInstance() {
             return DEFAULT_INSTANCE;
         }
 
-        public static com.google.protobuf.Parser<ImMessageBinaryProto> parser() {
+        public static com.google.protobuf.Parser<ImChatMessage> parser() {
             return PARSER;
         }
 
         @java.lang.Override
         protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-            return cn.ether.im.proto.binary.ImBinary.internal_static_cn_ether_im_proto_binary_ImMessageBinaryProto_fieldAccessorTable
+            return cn.ether.im.proto.binary.ImBinary.internal_static_cn_ether_im_proto_binary_ImChatMessage_fieldAccessorTable
                     .ensureFieldAccessorsInitialized(
-                            cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto.class, cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto.Builder.class);
+                            cn.ether.im.proto.binary.ImBinary.ImChatMessage.class, cn.ether.im.proto.binary.ImBinary.ImChatMessage.Builder.class);
         }
 
         /**
-         * <code>int64 messageId = 1;</code>
-         *
-         * @return The messageId.
-         */
-        @java.lang.Override
-        public long getMessageId() {
-            return messageId_;
-        }
-
-        /**
-         * <code>optional string senderId = 2;</code>
-         *
-         * @return Whether the senderId field is set.
-         */
-        @java.lang.Override
-        public boolean hasSenderId() {
-            return ((bitField0_ & 0x00000001) != 0);
-        }
-
-        /**
-         * <code>optional string senderId = 2;</code>
+         * <code>string senderId = 2;</code>
          *
          * @return The senderId.
          */
@@ -1106,7 +1201,7 @@ public final class ImBinary {
         }
 
         /**
-         * <code>optional string senderId = 2;</code>
+         * <code>string senderId = 2;</code>
          *
          * @return The bytes for senderId.
          */
@@ -1126,57 +1221,46 @@ public final class ImBinary {
         }
 
         /**
-         * <code>optional int32 senderTerminal = 3;</code>
-         *
-         * @return Whether the senderTerminal field is set.
-         */
-        @java.lang.Override
-        public boolean hasSenderTerminal() {
-            return ((bitField0_ & 0x00000002) != 0);
-        }
-
-        /**
-         * <code>optional int32 senderTerminal = 3;</code>
+         * <code>string senderTerminal = 3;</code>
          *
          * @return The senderTerminal.
          */
         @java.lang.Override
-        public int getSenderTerminal() {
-            return senderTerminal_;
+        public java.lang.String getSenderTerminal() {
+            java.lang.Object ref = senderTerminal_;
+            if (ref instanceof java.lang.String) {
+                return (java.lang.String) ref;
+            } else {
+                com.google.protobuf.ByteString bs =
+                        (com.google.protobuf.ByteString) ref;
+                java.lang.String s = bs.toStringUtf8();
+                senderTerminal_ = s;
+                return s;
+            }
         }
 
         /**
-         * <code>optional int32 messageType = 4;</code>
+         * <code>string senderTerminal = 3;</code>
          *
-         * @return Whether the messageType field is set.
+         * @return The bytes for senderTerminal.
          */
         @java.lang.Override
-        public boolean hasMessageType() {
-            return ((bitField0_ & 0x00000004) != 0);
+        public com.google.protobuf.ByteString
+        getSenderTerminalBytes() {
+            java.lang.Object ref = senderTerminal_;
+            if (ref instanceof java.lang.String) {
+                com.google.protobuf.ByteString b =
+                        com.google.protobuf.ByteString.copyFromUtf8(
+                                (java.lang.String) ref);
+                senderTerminal_ = b;
+                return b;
+            } else {
+                return (com.google.protobuf.ByteString) ref;
+            }
         }
 
         /**
-         * <code>optional int32 messageType = 4;</code>
-         *
-         * @return The messageType.
-         */
-        @java.lang.Override
-        public int getMessageType() {
-            return messageType_;
-        }
-
-        /**
-         * <code>optional string content = 5;</code>
-         *
-         * @return Whether the content field is set.
-         */
-        @java.lang.Override
-        public boolean hasContent() {
-            return ((bitField0_ & 0x00000008) != 0);
-        }
-
-        /**
-         * <code>optional string content = 5;</code>
+         * <code>string content = 4;</code>
          *
          * @return The content.
          */
@@ -1195,7 +1279,7 @@ public final class ImBinary {
         }
 
         /**
-         * <code>optional string content = 5;</code>
+         * <code>string content = 4;</code>
          *
          * @return The bytes for content.
          */
@@ -1215,37 +1299,51 @@ public final class ImBinary {
         }
 
         /**
-         * <code>optional int32 contentType = 6;</code>
-         *
-         * @return Whether the contentType field is set.
-         */
-        @java.lang.Override
-        public boolean hasContentType() {
-            return ((bitField0_ & 0x00000010) != 0);
-        }
-
-        /**
-         * <code>optional int32 contentType = 6;</code>
+         * <code>string contentType = 5;</code>
          *
          * @return The contentType.
          */
         @java.lang.Override
-        public int getContentType() {
-            return contentType_;
+        public java.lang.String getContentType() {
+            java.lang.Object ref = contentType_;
+            if (ref instanceof java.lang.String) {
+                return (java.lang.String) ref;
+            } else {
+                com.google.protobuf.ByteString bs =
+                        (com.google.protobuf.ByteString) ref;
+                java.lang.String s = bs.toStringUtf8();
+                contentType_ = s;
+                return s;
+            }
         }
 
         /**
-         * <code>optional int64 sendTime = 7;</code>
+         * <code>string contentType = 5;</code>
          *
-         * @return Whether the sendTime field is set.
+         * @return The bytes for contentType.
          */
         @java.lang.Override
-        public boolean hasSendTime() {
-            return ((bitField0_ & 0x00000020) != 0);
+        public com.google.protobuf.ByteString
+        getContentTypeBytes() {
+            java.lang.Object ref = contentType_;
+            if (ref instanceof java.lang.String) {
+                com.google.protobuf.ByteString b =
+                        com.google.protobuf.ByteString.copyFromUtf8(
+                                (java.lang.String) ref);
+                contentType_ = b;
+                return b;
+            } else {
+                return (com.google.protobuf.ByteString) ref;
+            }
+        }
+
+        @java.lang.Override
+        public Builder newBuilderForType() {
+            return newBuilder();
         }
 
         /**
-         * <code>optional int64 sendTime = 7;</code>
+         * <code>int64 sendTime = 6;</code>
          *
          * @return The sendTime.
          */
@@ -1254,169 +1352,23 @@ public final class ImBinary {
             return sendTime_;
         }
 
+        /**
+         * <code>string messageType = 7;</code>
+         *
+         * @return The messageType.
+         */
         @java.lang.Override
-        public final boolean isInitialized() {
-            byte isInitialized = memoizedIsInitialized;
-            if (isInitialized == 1) return true;
-            if (isInitialized == 0) return false;
-
-            memoizedIsInitialized = 1;
-            return true;
-        }
-
-        @java.lang.Override
-        public void writeTo(com.google.protobuf.CodedOutputStream output)
-                throws java.io.IOException {
-            if (messageId_ != 0L) {
-                output.writeInt64(1, messageId_);
+        public java.lang.String getMessageType() {
+            java.lang.Object ref = messageType_;
+            if (ref instanceof java.lang.String) {
+                return (java.lang.String) ref;
+            } else {
+                com.google.protobuf.ByteString bs =
+                        (com.google.protobuf.ByteString) ref;
+                java.lang.String s = bs.toStringUtf8();
+                messageType_ = s;
+                return s;
             }
-            if (((bitField0_ & 0x00000001) != 0)) {
-                com.google.protobuf.GeneratedMessage.writeString(output, 2, senderId_);
-            }
-            if (((bitField0_ & 0x00000002) != 0)) {
-                output.writeInt32(3, senderTerminal_);
-            }
-            if (((bitField0_ & 0x00000004) != 0)) {
-                output.writeInt32(4, messageType_);
-            }
-            if (((bitField0_ & 0x00000008) != 0)) {
-                com.google.protobuf.GeneratedMessage.writeString(output, 5, content_);
-            }
-            if (((bitField0_ & 0x00000010) != 0)) {
-                output.writeInt32(6, contentType_);
-            }
-            if (((bitField0_ & 0x00000020) != 0)) {
-                output.writeInt64(7, sendTime_);
-            }
-            getUnknownFields().writeTo(output);
-        }
-
-        @java.lang.Override
-        public int getSerializedSize() {
-            int size = memoizedSize;
-            if (size != -1) return size;
-
-            size = 0;
-            if (messageId_ != 0L) {
-                size += com.google.protobuf.CodedOutputStream
-                        .computeInt64Size(1, messageId_);
-            }
-            if (((bitField0_ & 0x00000001) != 0)) {
-                size += com.google.protobuf.GeneratedMessage.computeStringSize(2, senderId_);
-            }
-            if (((bitField0_ & 0x00000002) != 0)) {
-                size += com.google.protobuf.CodedOutputStream
-                        .computeInt32Size(3, senderTerminal_);
-            }
-            if (((bitField0_ & 0x00000004) != 0)) {
-                size += com.google.protobuf.CodedOutputStream
-                        .computeInt32Size(4, messageType_);
-            }
-            if (((bitField0_ & 0x00000008) != 0)) {
-                size += com.google.protobuf.GeneratedMessage.computeStringSize(5, content_);
-            }
-            if (((bitField0_ & 0x00000010) != 0)) {
-                size += com.google.protobuf.CodedOutputStream
-                        .computeInt32Size(6, contentType_);
-            }
-            if (((bitField0_ & 0x00000020) != 0)) {
-                size += com.google.protobuf.CodedOutputStream
-                        .computeInt64Size(7, sendTime_);
-            }
-            size += getUnknownFields().getSerializedSize();
-            memoizedSize = size;
-            return size;
-        }
-
-        @java.lang.Override
-        public boolean equals(final java.lang.Object obj) {
-            if (obj == this) {
-                return true;
-            }
-            if (!(obj instanceof cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto)) {
-                return super.equals(obj);
-            }
-            cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto other = (cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto) obj;
-
-            if (getMessageId()
-                    != other.getMessageId()) return false;
-            if (hasSenderId() != other.hasSenderId()) return false;
-            if (hasSenderId()) {
-                if (!getSenderId()
-                        .equals(other.getSenderId())) return false;
-            }
-            if (hasSenderTerminal() != other.hasSenderTerminal()) return false;
-            if (hasSenderTerminal()) {
-                if (getSenderTerminal()
-                        != other.getSenderTerminal()) return false;
-            }
-            if (hasMessageType() != other.hasMessageType()) return false;
-            if (hasMessageType()) {
-                if (getMessageType()
-                        != other.getMessageType()) return false;
-            }
-            if (hasContent() != other.hasContent()) return false;
-            if (hasContent()) {
-                if (!getContent()
-                        .equals(other.getContent())) return false;
-            }
-            if (hasContentType() != other.hasContentType()) return false;
-            if (hasContentType()) {
-                if (getContentType()
-                        != other.getContentType()) return false;
-            }
-            if (hasSendTime() != other.hasSendTime()) return false;
-            if (hasSendTime()) {
-                if (getSendTime()
-                        != other.getSendTime()) return false;
-            }
-            if (!getUnknownFields().equals(other.getUnknownFields())) return false;
-            return true;
-        }
-
-        @java.lang.Override
-        public int hashCode() {
-            if (memoizedHashCode != 0) {
-                return memoizedHashCode;
-            }
-            int hash = 41;
-            hash = (19 * hash) + getDescriptor().hashCode();
-            hash = (37 * hash) + MESSAGEID_FIELD_NUMBER;
-            hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-                    getMessageId());
-            if (hasSenderId()) {
-                hash = (37 * hash) + SENDERID_FIELD_NUMBER;
-                hash = (53 * hash) + getSenderId().hashCode();
-            }
-            if (hasSenderTerminal()) {
-                hash = (37 * hash) + SENDERTERMINAL_FIELD_NUMBER;
-                hash = (53 * hash) + getSenderTerminal();
-            }
-            if (hasMessageType()) {
-                hash = (37 * hash) + MESSAGETYPE_FIELD_NUMBER;
-                hash = (53 * hash) + getMessageType();
-            }
-            if (hasContent()) {
-                hash = (37 * hash) + CONTENT_FIELD_NUMBER;
-                hash = (53 * hash) + getContent().hashCode();
-            }
-            if (hasContentType()) {
-                hash = (37 * hash) + CONTENTTYPE_FIELD_NUMBER;
-                hash = (53 * hash) + getContentType();
-            }
-            if (hasSendTime()) {
-                hash = (37 * hash) + SENDTIME_FIELD_NUMBER;
-                hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-                        getSendTime());
-            }
-            hash = (29 * hash) + getUnknownFields().hashCode();
-            memoizedHashCode = hash;
-            return hash;
-        }
-
-        @java.lang.Override
-        public Builder newBuilderForType() {
-            return newBuilder();
         }
 
         @java.lang.Override
@@ -1432,33 +1384,170 @@ public final class ImBinary {
             return builder;
         }
 
+        /**
+         * <code>string messageType = 7;</code>
+         *
+         * @return The bytes for messageType.
+         */
         @java.lang.Override
-        public com.google.protobuf.Parser<ImMessageBinaryProto> getParserForType() {
+        public com.google.protobuf.ByteString
+        getMessageTypeBytes() {
+            java.lang.Object ref = messageType_;
+            if (ref instanceof java.lang.String) {
+                com.google.protobuf.ByteString b =
+                        com.google.protobuf.ByteString.copyFromUtf8(
+                                (java.lang.String) ref);
+                messageType_ = b;
+                return b;
+            } else {
+                return (com.google.protobuf.ByteString) ref;
+            }
+        }
+
+        @java.lang.Override
+        public void writeTo(com.google.protobuf.CodedOutputStream output)
+                throws java.io.IOException {
+            if (messageId_ != 0L) {
+                output.writeInt64(1, messageId_);
+            }
+            if (!com.google.protobuf.GeneratedMessage.isStringEmpty(senderId_)) {
+                com.google.protobuf.GeneratedMessage.writeString(output, 2, senderId_);
+            }
+            if (!com.google.protobuf.GeneratedMessage.isStringEmpty(senderTerminal_)) {
+                com.google.protobuf.GeneratedMessage.writeString(output, 3, senderTerminal_);
+            }
+            if (!com.google.protobuf.GeneratedMessage.isStringEmpty(content_)) {
+                com.google.protobuf.GeneratedMessage.writeString(output, 4, content_);
+            }
+            if (!com.google.protobuf.GeneratedMessage.isStringEmpty(contentType_)) {
+                com.google.protobuf.GeneratedMessage.writeString(output, 5, contentType_);
+            }
+            if (sendTime_ != 0L) {
+                output.writeInt64(6, sendTime_);
+            }
+            if (!com.google.protobuf.GeneratedMessage.isStringEmpty(messageType_)) {
+                com.google.protobuf.GeneratedMessage.writeString(output, 7, messageType_);
+            }
+            getUnknownFields().writeTo(output);
+        }
+
+        @java.lang.Override
+        public int getSerializedSize() {
+            int size = memoizedSize;
+            if (size != -1) return size;
+
+            size = 0;
+            if (messageId_ != 0L) {
+                size += com.google.protobuf.CodedOutputStream
+                        .computeInt64Size(1, messageId_);
+            }
+            if (!com.google.protobuf.GeneratedMessage.isStringEmpty(senderId_)) {
+                size += com.google.protobuf.GeneratedMessage.computeStringSize(2, senderId_);
+            }
+            if (!com.google.protobuf.GeneratedMessage.isStringEmpty(senderTerminal_)) {
+                size += com.google.protobuf.GeneratedMessage.computeStringSize(3, senderTerminal_);
+            }
+            if (!com.google.protobuf.GeneratedMessage.isStringEmpty(content_)) {
+                size += com.google.protobuf.GeneratedMessage.computeStringSize(4, content_);
+            }
+            if (!com.google.protobuf.GeneratedMessage.isStringEmpty(contentType_)) {
+                size += com.google.protobuf.GeneratedMessage.computeStringSize(5, contentType_);
+            }
+            if (sendTime_ != 0L) {
+                size += com.google.protobuf.CodedOutputStream
+                        .computeInt64Size(6, sendTime_);
+            }
+            if (!com.google.protobuf.GeneratedMessage.isStringEmpty(messageType_)) {
+                size += com.google.protobuf.GeneratedMessage.computeStringSize(7, messageType_);
+            }
+            size += getUnknownFields().getSerializedSize();
+            memoizedSize = size;
+            return size;
+        }
+
+        @java.lang.Override
+        public boolean equals(final java.lang.Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof cn.ether.im.proto.binary.ImBinary.ImChatMessage)) {
+                return super.equals(obj);
+            }
+            cn.ether.im.proto.binary.ImBinary.ImChatMessage other = (cn.ether.im.proto.binary.ImBinary.ImChatMessage) obj;
+
+            if (getMessageId()
+                    != other.getMessageId()) return false;
+            if (!getSenderId()
+                    .equals(other.getSenderId())) return false;
+            if (!getSenderTerminal()
+                    .equals(other.getSenderTerminal())) return false;
+            if (!getContent()
+                    .equals(other.getContent())) return false;
+            if (!getContentType()
+                    .equals(other.getContentType())) return false;
+            if (getSendTime()
+                    != other.getSendTime()) return false;
+            if (!getMessageType()
+                    .equals(other.getMessageType())) return false;
+            if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+            return true;
+        }
+
+        @java.lang.Override
+        public int hashCode() {
+            if (memoizedHashCode != 0) {
+                return memoizedHashCode;
+            }
+            int hash = 41;
+            hash = (19 * hash) + getDescriptor().hashCode();
+            hash = (37 * hash) + MESSAGEID_FIELD_NUMBER;
+            hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+                    getMessageId());
+            hash = (37 * hash) + SENDERID_FIELD_NUMBER;
+            hash = (53 * hash) + getSenderId().hashCode();
+            hash = (37 * hash) + SENDERTERMINAL_FIELD_NUMBER;
+            hash = (53 * hash) + getSenderTerminal().hashCode();
+            hash = (37 * hash) + CONTENT_FIELD_NUMBER;
+            hash = (53 * hash) + getContent().hashCode();
+            hash = (37 * hash) + CONTENTTYPE_FIELD_NUMBER;
+            hash = (53 * hash) + getContentType().hashCode();
+            hash = (37 * hash) + SENDTIME_FIELD_NUMBER;
+            hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+                    getSendTime());
+            hash = (37 * hash) + MESSAGETYPE_FIELD_NUMBER;
+            hash = (53 * hash) + getMessageType().hashCode();
+            hash = (29 * hash) + getUnknownFields().hashCode();
+            memoizedHashCode = hash;
+            return hash;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Parser<ImChatMessage> getParserForType() {
             return PARSER;
         }
 
         @java.lang.Override
-        public cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto getDefaultInstanceForType() {
+        public cn.ether.im.proto.binary.ImBinary.ImChatMessage getDefaultInstanceForType() {
             return DEFAULT_INSTANCE;
         }
 
         /**
-         * Protobuf type {@code cn.ether.im.proto.binary.ImMessageBinaryProto}
+         * Protobuf type {@code cn.ether.im.proto.binary.ImChatMessage}
          */
         public static final class Builder extends
                 com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-                // @@protoc_insertion_point(builder_implements:cn.ether.im.proto.binary.ImMessageBinaryProto)
-                cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProtoOrBuilder {
+                // @@protoc_insertion_point(builder_implements:cn.ether.im.proto.binary.ImChatMessage)
+                cn.ether.im.proto.binary.ImBinary.ImChatMessageOrBuilder {
             private int bitField0_;
             private long messageId_;
             private java.lang.Object senderId_ = "";
-            private int senderTerminal_;
-            private int messageType_;
+            private java.lang.Object senderTerminal_ = "";
             private java.lang.Object content_ = "";
-            private int contentType_;
+            private java.lang.Object contentType_ = "";
             private long sendTime_;
+            private java.lang.Object messageType_ = "";
 
-            // Construct using cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto.newBuilder()
+            // Construct using cn.ether.im.proto.binary.ImBinary.ImChatMessage.newBuilder()
             private Builder() {
 
             }
@@ -1471,134 +1560,15 @@ public final class ImBinary {
 
             public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
-                return cn.ether.im.proto.binary.ImBinary.internal_static_cn_ether_im_proto_binary_ImMessageBinaryProto_descriptor;
+                return cn.ether.im.proto.binary.ImBinary.internal_static_cn_ether_im_proto_binary_ImChatMessage_descriptor;
             }
 
             @java.lang.Override
             protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
             internalGetFieldAccessorTable() {
-                return cn.ether.im.proto.binary.ImBinary.internal_static_cn_ether_im_proto_binary_ImMessageBinaryProto_fieldAccessorTable
+                return cn.ether.im.proto.binary.ImBinary.internal_static_cn_ether_im_proto_binary_ImChatMessage_fieldAccessorTable
                         .ensureFieldAccessorsInitialized(
-                                cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto.class, cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto.Builder.class);
-            }
-
-            @java.lang.Override
-            public Builder clear() {
-                super.clear();
-                bitField0_ = 0;
-                messageId_ = 0L;
-                senderId_ = "";
-                senderTerminal_ = 0;
-                messageType_ = 0;
-                content_ = "";
-                contentType_ = 0;
-                sendTime_ = 0L;
-                return this;
-            }
-
-            @java.lang.Override
-            public com.google.protobuf.Descriptors.Descriptor
-            getDescriptorForType() {
-                return cn.ether.im.proto.binary.ImBinary.internal_static_cn_ether_im_proto_binary_ImMessageBinaryProto_descriptor;
-            }
-
-            @java.lang.Override
-            public cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto getDefaultInstanceForType() {
-                return cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto.getDefaultInstance();
-            }
-
-            @java.lang.Override
-            public cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto build() {
-                cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto result = buildPartial();
-                if (!result.isInitialized()) {
-                    throw newUninitializedMessageException(result);
-                }
-                return result;
-            }
-
-            @java.lang.Override
-            public cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto buildPartial() {
-                cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto result = new cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto(this);
-                if (bitField0_ != 0) {
-                    buildPartial0(result);
-                }
-                onBuilt();
-                return result;
-            }
-
-            private void buildPartial0(cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto result) {
-                int from_bitField0_ = bitField0_;
-                if (((from_bitField0_ & 0x00000001) != 0)) {
-                    result.messageId_ = messageId_;
-                }
-                int to_bitField0_ = 0;
-                if (((from_bitField0_ & 0x00000002) != 0)) {
-                    result.senderId_ = senderId_;
-                    to_bitField0_ |= 0x00000001;
-                }
-                if (((from_bitField0_ & 0x00000004) != 0)) {
-                    result.senderTerminal_ = senderTerminal_;
-                    to_bitField0_ |= 0x00000002;
-                }
-                if (((from_bitField0_ & 0x00000008) != 0)) {
-                    result.messageType_ = messageType_;
-                    to_bitField0_ |= 0x00000004;
-                }
-                if (((from_bitField0_ & 0x00000010) != 0)) {
-                    result.content_ = content_;
-                    to_bitField0_ |= 0x00000008;
-                }
-                if (((from_bitField0_ & 0x00000020) != 0)) {
-                    result.contentType_ = contentType_;
-                    to_bitField0_ |= 0x00000010;
-                }
-                if (((from_bitField0_ & 0x00000040) != 0)) {
-                    result.sendTime_ = sendTime_;
-                    to_bitField0_ |= 0x00000020;
-                }
-                result.bitField0_ |= to_bitField0_;
-            }
-
-            @java.lang.Override
-            public Builder mergeFrom(com.google.protobuf.Message other) {
-                if (other instanceof cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto) {
-                    return mergeFrom((cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto) other);
-                } else {
-                    super.mergeFrom(other);
-                    return this;
-                }
-            }
-
-            public Builder mergeFrom(cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto other) {
-                if (other == cn.ether.im.proto.binary.ImBinary.ImMessageBinaryProto.getDefaultInstance()) return this;
-                if (other.getMessageId() != 0L) {
-                    setMessageId(other.getMessageId());
-                }
-                if (other.hasSenderId()) {
-                    senderId_ = other.senderId_;
-                    bitField0_ |= 0x00000002;
-                    onChanged();
-                }
-                if (other.hasSenderTerminal()) {
-                    setSenderTerminal(other.getSenderTerminal());
-                }
-                if (other.hasMessageType()) {
-                    setMessageType(other.getMessageType());
-                }
-                if (other.hasContent()) {
-                    content_ = other.content_;
-                    bitField0_ |= 0x00000010;
-                    onChanged();
-                }
-                if (other.hasContentType()) {
-                    setContentType(other.getContentType());
-                }
-                if (other.hasSendTime()) {
-                    setSendTime(other.getSendTime());
-                }
-                this.mergeUnknownFields(other.getUnknownFields());
-                onChanged();
-                return this;
+                                cn.ether.im.proto.binary.ImBinary.ImChatMessage.class, cn.ether.im.proto.binary.ImBinary.ImChatMessage.Builder.class);
             }
 
             @java.lang.Override
@@ -1607,70 +1577,28 @@ public final class ImBinary {
             }
 
             @java.lang.Override
-            public Builder mergeFrom(
-                    com.google.protobuf.CodedInputStream input,
-                    com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                    throws java.io.IOException {
-                if (extensionRegistry == null) {
-                    throw new java.lang.NullPointerException();
-                }
-                try {
-                    boolean done = false;
-                    while (!done) {
-                        int tag = input.readTag();
-                        switch (tag) {
-                            case 0:
-                                done = true;
-                                break;
-                            case 8: {
-                                messageId_ = input.readInt64();
-                                bitField0_ |= 0x00000001;
-                                break;
-                            } // case 8
-                            case 18: {
-                                senderId_ = input.readStringRequireUtf8();
-                                bitField0_ |= 0x00000002;
-                                break;
-                            } // case 18
-                            case 24: {
-                                senderTerminal_ = input.readInt32();
-                                bitField0_ |= 0x00000004;
-                                break;
-                            } // case 24
-                            case 32: {
-                                messageType_ = input.readInt32();
-                                bitField0_ |= 0x00000008;
-                                break;
-                            } // case 32
-                            case 42: {
-                                content_ = input.readStringRequireUtf8();
-                                bitField0_ |= 0x00000010;
-                                break;
-                            } // case 42
-                            case 48: {
-                                contentType_ = input.readInt32();
-                                bitField0_ |= 0x00000020;
-                                break;
-                            } // case 48
-                            case 56: {
-                                sendTime_ = input.readInt64();
-                                bitField0_ |= 0x00000040;
-                                break;
-                            } // case 56
-                            default: {
-                                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
-                                    done = true; // was an endgroup tag
-                                }
-                                break;
-                            } // default:
-                        } // switch (tag)
-                    } // while (!done)
-                } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-                    throw e.unwrapIOException();
-                } finally {
-                    onChanged();
-                } // finally
+            public Builder clear() {
+                super.clear();
+                bitField0_ = 0;
+                messageId_ = 0L;
+                senderId_ = "";
+                senderTerminal_ = "";
+                content_ = "";
+                contentType_ = "";
+                sendTime_ = 0L;
+                messageType_ = "";
                 return this;
+            }
+
+            @java.lang.Override
+            public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+                return cn.ether.im.proto.binary.ImBinary.internal_static_cn_ether_im_proto_binary_ImChatMessage_descriptor;
+            }
+
+            @java.lang.Override
+            public cn.ether.im.proto.binary.ImBinary.ImChatMessage getDefaultInstanceForType() {
+                return cn.ether.im.proto.binary.ImBinary.ImChatMessage.getDefaultInstance();
             }
 
             /**
@@ -1709,17 +1637,167 @@ public final class ImBinary {
                 return this;
             }
 
-            /**
-             * <code>optional string senderId = 2;</code>
-             *
-             * @return Whether the senderId field is set.
-             */
-            public boolean hasSenderId() {
-                return ((bitField0_ & 0x00000002) != 0);
+            @java.lang.Override
+            public cn.ether.im.proto.binary.ImBinary.ImChatMessage build() {
+                cn.ether.im.proto.binary.ImBinary.ImChatMessage result = buildPartial();
+                if (!result.isInitialized()) {
+                    throw newUninitializedMessageException(result);
+                }
+                return result;
+            }
+
+            @java.lang.Override
+            public cn.ether.im.proto.binary.ImBinary.ImChatMessage buildPartial() {
+                cn.ether.im.proto.binary.ImBinary.ImChatMessage result = new cn.ether.im.proto.binary.ImBinary.ImChatMessage(this);
+                if (bitField0_ != 0) {
+                    buildPartial0(result);
+                }
+                onBuilt();
+                return result;
+            }
+
+            private void buildPartial0(cn.ether.im.proto.binary.ImBinary.ImChatMessage result) {
+                int from_bitField0_ = bitField0_;
+                if (((from_bitField0_ & 0x00000001) != 0)) {
+                    result.messageId_ = messageId_;
+                }
+                if (((from_bitField0_ & 0x00000002) != 0)) {
+                    result.senderId_ = senderId_;
+                }
+                if (((from_bitField0_ & 0x00000004) != 0)) {
+                    result.senderTerminal_ = senderTerminal_;
+                }
+                if (((from_bitField0_ & 0x00000008) != 0)) {
+                    result.content_ = content_;
+                }
+                if (((from_bitField0_ & 0x00000010) != 0)) {
+                    result.contentType_ = contentType_;
+                }
+                if (((from_bitField0_ & 0x00000020) != 0)) {
+                    result.sendTime_ = sendTime_;
+                }
+                if (((from_bitField0_ & 0x00000040) != 0)) {
+                    result.messageType_ = messageType_;
+                }
+            }
+
+            @java.lang.Override
+            public Builder mergeFrom(com.google.protobuf.Message other) {
+                if (other instanceof cn.ether.im.proto.binary.ImBinary.ImChatMessage) {
+                    return mergeFrom((cn.ether.im.proto.binary.ImBinary.ImChatMessage) other);
+                } else {
+                    super.mergeFrom(other);
+                    return this;
+                }
+            }
+
+            public Builder mergeFrom(cn.ether.im.proto.binary.ImBinary.ImChatMessage other) {
+                if (other == cn.ether.im.proto.binary.ImBinary.ImChatMessage.getDefaultInstance()) return this;
+                if (other.getMessageId() != 0L) {
+                    setMessageId(other.getMessageId());
+                }
+                if (!other.getSenderId().isEmpty()) {
+                    senderId_ = other.senderId_;
+                    bitField0_ |= 0x00000002;
+                    onChanged();
+                }
+                if (!other.getSenderTerminal().isEmpty()) {
+                    senderTerminal_ = other.senderTerminal_;
+                    bitField0_ |= 0x00000004;
+                    onChanged();
+                }
+                if (!other.getContent().isEmpty()) {
+                    content_ = other.content_;
+                    bitField0_ |= 0x00000008;
+                    onChanged();
+                }
+                if (!other.getContentType().isEmpty()) {
+                    contentType_ = other.contentType_;
+                    bitField0_ |= 0x00000010;
+                    onChanged();
+                }
+                if (other.getSendTime() != 0L) {
+                    setSendTime(other.getSendTime());
+                }
+                if (!other.getMessageType().isEmpty()) {
+                    messageType_ = other.messageType_;
+                    bitField0_ |= 0x00000040;
+                    onChanged();
+                }
+                this.mergeUnknownFields(other.getUnknownFields());
+                onChanged();
+                return this;
+            }
+
+            @java.lang.Override
+            public Builder mergeFrom(
+                    com.google.protobuf.CodedInputStream input,
+                    com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                    throws java.io.IOException {
+                if (extensionRegistry == null) {
+                    throw new java.lang.NullPointerException();
+                }
+                try {
+                    boolean done = false;
+                    while (!done) {
+                        int tag = input.readTag();
+                        switch (tag) {
+                            case 0:
+                                done = true;
+                                break;
+                            case 8: {
+                                messageId_ = input.readInt64();
+                                bitField0_ |= 0x00000001;
+                                break;
+                            } // case 8
+                            case 18: {
+                                senderId_ = input.readStringRequireUtf8();
+                                bitField0_ |= 0x00000002;
+                                break;
+                            } // case 18
+                            case 26: {
+                                senderTerminal_ = input.readStringRequireUtf8();
+                                bitField0_ |= 0x00000004;
+                                break;
+                            } // case 26
+                            case 34: {
+                                content_ = input.readStringRequireUtf8();
+                                bitField0_ |= 0x00000008;
+                                break;
+                            } // case 34
+                            case 42: {
+                                contentType_ = input.readStringRequireUtf8();
+                                bitField0_ |= 0x00000010;
+                                break;
+                            } // case 42
+                            case 48: {
+                                sendTime_ = input.readInt64();
+                                bitField0_ |= 0x00000020;
+                                break;
+                            } // case 48
+                            case 58: {
+                                messageType_ = input.readStringRequireUtf8();
+                                bitField0_ |= 0x00000040;
+                                break;
+                            } // case 58
+                            default: {
+                                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                                    done = true; // was an endgroup tag
+                                }
+                                break;
+                            } // default:
+                        } // switch (tag)
+                    } // while (!done)
+                } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                    throw e.unwrapIOException();
+                } finally {
+                    onChanged();
+                } // finally
+                return this;
             }
 
             /**
-             * <code>optional string senderId = 2;</code>
+             * <code>string senderId = 2;</code>
              *
              * @return The senderId.
              */
@@ -1737,7 +1815,7 @@ public final class ImBinary {
             }
 
             /**
-             * <code>optional string senderId = 2;</code>
+             * <code>string senderId = 2;</code>
              *
              * @param value The senderId to set.
              * @return This builder for chaining.
@@ -1754,7 +1832,7 @@ public final class ImBinary {
             }
 
             /**
-             * <code>optional string senderId = 2;</code>
+             * <code>string senderId = 2;</code>
              *
              * @return The bytes for senderId.
              */
@@ -1773,7 +1851,7 @@ public final class ImBinary {
             }
 
             /**
-             * <code>optional string senderId = 2;</code>
+             * <code>string senderId = 2;</code>
              *
              * @param value The bytes for senderId to set.
              * @return This builder for chaining.
@@ -1791,7 +1869,7 @@ public final class ImBinary {
             }
 
             /**
-             * <code>optional string senderId = 2;</code>
+             * <code>string senderId = 2;</code>
              *
              * @return This builder for chaining.
              */
@@ -1803,33 +1881,34 @@ public final class ImBinary {
             }
 
             /**
-             * <code>optional int32 senderTerminal = 3;</code>
-             *
-             * @return Whether the senderTerminal field is set.
-             */
-            @java.lang.Override
-            public boolean hasSenderTerminal() {
-                return ((bitField0_ & 0x00000004) != 0);
-            }
-
-            /**
-             * <code>optional int32 senderTerminal = 3;</code>
+             * <code>string senderTerminal = 3;</code>
              *
              * @return The senderTerminal.
              */
-            @java.lang.Override
-            public int getSenderTerminal() {
-                return senderTerminal_;
+            public java.lang.String getSenderTerminal() {
+                java.lang.Object ref = senderTerminal_;
+                if (!(ref instanceof java.lang.String)) {
+                    com.google.protobuf.ByteString bs =
+                            (com.google.protobuf.ByteString) ref;
+                    java.lang.String s = bs.toStringUtf8();
+                    senderTerminal_ = s;
+                    return s;
+                } else {
+                    return (java.lang.String) ref;
+                }
             }
 
             /**
-             * <code>optional int32 senderTerminal = 3;</code>
+             * <code>string senderTerminal = 3;</code>
              *
              * @param value The senderTerminal to set.
              * @return This builder for chaining.
              */
-            public Builder setSenderTerminal(int value) {
-
+            public Builder setSenderTerminal(
+                    java.lang.String value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
                 senderTerminal_ = value;
                 bitField0_ |= 0x00000004;
                 onChanged();
@@ -1837,74 +1916,56 @@ public final class ImBinary {
             }
 
             /**
-             * <code>optional int32 senderTerminal = 3;</code>
+             * <code>string senderTerminal = 3;</code>
+             *
+             * @return The bytes for senderTerminal.
+             */
+            public com.google.protobuf.ByteString
+            getSenderTerminalBytes() {
+                java.lang.Object ref = senderTerminal_;
+                if (ref instanceof String) {
+                    com.google.protobuf.ByteString b =
+                            com.google.protobuf.ByteString.copyFromUtf8(
+                                    (java.lang.String) ref);
+                    senderTerminal_ = b;
+                    return b;
+                } else {
+                    return (com.google.protobuf.ByteString) ref;
+                }
+            }
+
+            /**
+             * <code>string senderTerminal = 3;</code>
+             *
+             * @param value The bytes for senderTerminal to set.
+             * @return This builder for chaining.
+             */
+            public Builder setSenderTerminalBytes(
+                    com.google.protobuf.ByteString value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+                checkByteStringIsUtf8(value);
+                senderTerminal_ = value;
+                bitField0_ |= 0x00000004;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>string senderTerminal = 3;</code>
              *
              * @return This builder for chaining.
              */
             public Builder clearSenderTerminal() {
+                senderTerminal_ = getDefaultInstance().getSenderTerminal();
                 bitField0_ = (bitField0_ & ~0x00000004);
-                senderTerminal_ = 0;
                 onChanged();
                 return this;
             }
 
             /**
-             * <code>optional int32 messageType = 4;</code>
-             *
-             * @return Whether the messageType field is set.
-             */
-            @java.lang.Override
-            public boolean hasMessageType() {
-                return ((bitField0_ & 0x00000008) != 0);
-            }
-
-            /**
-             * <code>optional int32 messageType = 4;</code>
-             *
-             * @return The messageType.
-             */
-            @java.lang.Override
-            public int getMessageType() {
-                return messageType_;
-            }
-
-            /**
-             * <code>optional int32 messageType = 4;</code>
-             *
-             * @param value The messageType to set.
-             * @return This builder for chaining.
-             */
-            public Builder setMessageType(int value) {
-
-                messageType_ = value;
-                bitField0_ |= 0x00000008;
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional int32 messageType = 4;</code>
-             *
-             * @return This builder for chaining.
-             */
-            public Builder clearMessageType() {
-                bitField0_ = (bitField0_ & ~0x00000008);
-                messageType_ = 0;
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional string content = 5;</code>
-             *
-             * @return Whether the content field is set.
-             */
-            public boolean hasContent() {
-                return ((bitField0_ & 0x00000010) != 0);
-            }
-
-            /**
-             * <code>optional string content = 5;</code>
+             * <code>string content = 4;</code>
              *
              * @return The content.
              */
@@ -1922,7 +1983,7 @@ public final class ImBinary {
             }
 
             /**
-             * <code>optional string content = 5;</code>
+             * <code>string content = 4;</code>
              *
              * @param value The content to set.
              * @return This builder for chaining.
@@ -1933,13 +1994,13 @@ public final class ImBinary {
                     throw new NullPointerException();
                 }
                 content_ = value;
-                bitField0_ |= 0x00000010;
+                bitField0_ |= 0x00000008;
                 onChanged();
                 return this;
             }
 
             /**
-             * <code>optional string content = 5;</code>
+             * <code>string content = 4;</code>
              *
              * @return The bytes for content.
              */
@@ -1958,7 +2019,7 @@ public final class ImBinary {
             }
 
             /**
-             * <code>optional string content = 5;</code>
+             * <code>string content = 4;</code>
              *
              * @param value The bytes for content to set.
              * @return This builder for chaining.
@@ -1970,81 +2031,109 @@ public final class ImBinary {
                 }
                 checkByteStringIsUtf8(value);
                 content_ = value;
+                bitField0_ |= 0x00000008;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>string content = 4;</code>
+             *
+             * @return This builder for chaining.
+             */
+            public Builder clearContent() {
+                content_ = getDefaultInstance().getContent();
+                bitField0_ = (bitField0_ & ~0x00000008);
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>string contentType = 5;</code>
+             *
+             * @return The contentType.
+             */
+            public java.lang.String getContentType() {
+                java.lang.Object ref = contentType_;
+                if (!(ref instanceof java.lang.String)) {
+                    com.google.protobuf.ByteString bs =
+                            (com.google.protobuf.ByteString) ref;
+                    java.lang.String s = bs.toStringUtf8();
+                    contentType_ = s;
+                    return s;
+                } else {
+                    return (java.lang.String) ref;
+                }
+            }
+
+            /**
+             * <code>string contentType = 5;</code>
+             *
+             * @param value The contentType to set.
+             * @return This builder for chaining.
+             */
+            public Builder setContentType(
+                    java.lang.String value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+                contentType_ = value;
                 bitField0_ |= 0x00000010;
                 onChanged();
                 return this;
             }
 
             /**
-             * <code>optional string content = 5;</code>
+             * <code>string contentType = 5;</code>
+             *
+             * @return The bytes for contentType.
+             */
+            public com.google.protobuf.ByteString
+            getContentTypeBytes() {
+                java.lang.Object ref = contentType_;
+                if (ref instanceof String) {
+                    com.google.protobuf.ByteString b =
+                            com.google.protobuf.ByteString.copyFromUtf8(
+                                    (java.lang.String) ref);
+                    contentType_ = b;
+                    return b;
+                } else {
+                    return (com.google.protobuf.ByteString) ref;
+                }
+            }
+
+            /**
+             * <code>string contentType = 5;</code>
+             *
+             * @param value The bytes for contentType to set.
+             * @return This builder for chaining.
+             */
+            public Builder setContentTypeBytes(
+                    com.google.protobuf.ByteString value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+                checkByteStringIsUtf8(value);
+                contentType_ = value;
+                bitField0_ |= 0x00000010;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>string contentType = 5;</code>
              *
              * @return This builder for chaining.
              */
-            public Builder clearContent() {
-                content_ = getDefaultInstance().getContent();
+            public Builder clearContentType() {
+                contentType_ = getDefaultInstance().getContentType();
                 bitField0_ = (bitField0_ & ~0x00000010);
                 onChanged();
                 return this;
             }
 
             /**
-             * <code>optional int32 contentType = 6;</code>
-             *
-             * @return Whether the contentType field is set.
-             */
-            @java.lang.Override
-            public boolean hasContentType() {
-                return ((bitField0_ & 0x00000020) != 0);
-            }
-
-            /**
-             * <code>optional int32 contentType = 6;</code>
-             *
-             * @return The contentType.
-             */
-            @java.lang.Override
-            public int getContentType() {
-                return contentType_;
-            }
-
-            /**
-             * <code>optional int32 contentType = 6;</code>
-             *
-             * @param value The contentType to set.
-             * @return This builder for chaining.
-             */
-            public Builder setContentType(int value) {
-
-                contentType_ = value;
-                bitField0_ |= 0x00000020;
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional int32 contentType = 6;</code>
-             *
-             * @return This builder for chaining.
-             */
-            public Builder clearContentType() {
-                bitField0_ = (bitField0_ & ~0x00000020);
-                contentType_ = 0;
-                onChanged();
-                return this;
-            }
-
-            /**
-             * <code>optional int64 sendTime = 7;</code>
-             *
-             * @return Whether the sendTime field is set.
-             */
-            @java.lang.Override
-            public boolean hasSendTime() {
-                return ((bitField0_ & 0x00000040) != 0);
-            }
-
-            /**
-             * <code>optional int64 sendTime = 7;</code>
+             * <code>int64 sendTime = 6;</code>
              *
              * @return The sendTime.
              */
@@ -2054,7 +2143,7 @@ public final class ImBinary {
             }
 
             /**
-             * <code>optional int64 sendTime = 7;</code>
+             * <code>int64 sendTime = 6;</code>
              *
              * @param value The sendTime to set.
              * @return This builder for chaining.
@@ -2062,27 +2151,561 @@ public final class ImBinary {
             public Builder setSendTime(long value) {
 
                 sendTime_ = value;
+                bitField0_ |= 0x00000020;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>int64 sendTime = 6;</code>
+             *
+             * @return This builder for chaining.
+             */
+            public Builder clearSendTime() {
+                bitField0_ = (bitField0_ & ~0x00000020);
+                sendTime_ = 0L;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>string messageType = 7;</code>
+             *
+             * @return The messageType.
+             */
+            public java.lang.String getMessageType() {
+                java.lang.Object ref = messageType_;
+                if (!(ref instanceof java.lang.String)) {
+                    com.google.protobuf.ByteString bs =
+                            (com.google.protobuf.ByteString) ref;
+                    java.lang.String s = bs.toStringUtf8();
+                    messageType_ = s;
+                    return s;
+                } else {
+                    return (java.lang.String) ref;
+                }
+            }
+
+            /**
+             * <code>string messageType = 7;</code>
+             *
+             * @param value The messageType to set.
+             * @return This builder for chaining.
+             */
+            public Builder setMessageType(
+                    java.lang.String value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+                messageType_ = value;
                 bitField0_ |= 0x00000040;
                 onChanged();
                 return this;
             }
 
             /**
-             * <code>optional int64 sendTime = 7;</code>
+             * <code>string messageType = 7;</code>
              *
+             * @return The bytes for messageType.
+             */
+            public com.google.protobuf.ByteString
+            getMessageTypeBytes() {
+                java.lang.Object ref = messageType_;
+                if (ref instanceof String) {
+                    com.google.protobuf.ByteString b =
+                            com.google.protobuf.ByteString.copyFromUtf8(
+                                    (java.lang.String) ref);
+                    messageType_ = b;
+                    return b;
+                } else {
+                    return (com.google.protobuf.ByteString) ref;
+                }
+            }
+
+            /**
+             * <code>string messageType = 7;</code>
+             *
+             * @param value The bytes for messageType to set.
              * @return This builder for chaining.
              */
-            public Builder clearSendTime() {
-                bitField0_ = (bitField0_ & ~0x00000040);
-                sendTime_ = 0L;
+            public Builder setMessageTypeBytes(
+                    com.google.protobuf.ByteString value) {
+                if (value == null) {
+                    throw new NullPointerException();
+                }
+                checkByteStringIsUtf8(value);
+                messageType_ = value;
+                bitField0_ |= 0x00000040;
                 onChanged();
                 return this;
             }
 
-            // @@protoc_insertion_point(builder_scope:cn.ether.im.proto.binary.ImMessageBinaryProto)
+            /**
+             * <code>string messageType = 7;</code>
+             *
+             * @return This builder for chaining.
+             */
+            public Builder clearMessageType() {
+                messageType_ = getDefaultInstance().getMessageType();
+                bitField0_ = (bitField0_ & ~0x00000040);
+                onChanged();
+                return this;
+            }
+
+            // @@protoc_insertion_point(builder_scope:cn.ether.im.proto.binary.ImChatMessage)
         }
 
     }
 
-    // @@protoc_insertion_point(outer_class_scope)
+    /**
+     * Protobuf type {@code cn.ether.im.proto.binary.ImMessageReceived}
+     */
+    public static final class ImMessageReceived extends
+            com.google.protobuf.GeneratedMessage implements
+            // @@protoc_insertion_point(message_implements:cn.ether.im.proto.binary.ImMessageReceived)
+            ImMessageReceivedOrBuilder {
+        public static final int MESSAGEID_FIELD_NUMBER = 1;
+        private static final long serialVersionUID = 0L;
+        // @@protoc_insertion_point(class_scope:cn.ether.im.proto.binary.ImMessageReceived)
+        private static final cn.ether.im.proto.binary.ImBinary.ImMessageReceived DEFAULT_INSTANCE;
+        private static final com.google.protobuf.Parser<ImMessageReceived>
+                PARSER = new com.google.protobuf.AbstractParser<ImMessageReceived>() {
+            @java.lang.Override
+            public ImMessageReceived parsePartialFrom(
+                    com.google.protobuf.CodedInputStream input,
+                    com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                    throws com.google.protobuf.InvalidProtocolBufferException {
+                Builder builder = newBuilder();
+                try {
+                    builder.mergeFrom(input, extensionRegistry);
+                } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                    throw e.setUnfinishedMessage(builder.buildPartial());
+                } catch (com.google.protobuf.UninitializedMessageException e) {
+                    throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+                } catch (java.io.IOException e) {
+                    throw new com.google.protobuf.InvalidProtocolBufferException(e)
+                            .setUnfinishedMessage(builder.buildPartial());
+                }
+                return builder.buildPartial();
+            }
+        };
+
+        static {
+            com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+                    com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+                    /* major= */ 4,
+                    /* minor= */ 28,
+                    /* patch= */ 2,
+                    /* suffix= */ "",
+                    ImMessageReceived.class.getName());
+        }
+
+        static {
+            DEFAULT_INSTANCE = new cn.ether.im.proto.binary.ImBinary.ImMessageReceived();
+        }
+
+        private long messageId_ = 0L;
+        private byte memoizedIsInitialized = -1;
+
+        // Use ImMessageReceived.newBuilder() to construct.
+        private ImMessageReceived(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+            super(builder);
+        }
+
+        private ImMessageReceived() {
+        }
+
+        public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+            return cn.ether.im.proto.binary.ImBinary.internal_static_cn_ether_im_proto_binary_ImMessageReceived_descriptor;
+        }
+
+        public static cn.ether.im.proto.binary.ImBinary.ImMessageReceived parseFrom(
+                java.nio.ByteBuffer data)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data);
+        }
+
+        public static cn.ether.im.proto.binary.ImBinary.ImMessageReceived parseFrom(
+                java.nio.ByteBuffer data,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data, extensionRegistry);
+        }
+
+        public static cn.ether.im.proto.binary.ImBinary.ImMessageReceived parseFrom(
+                com.google.protobuf.ByteString data)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data);
+        }
+
+        public static cn.ether.im.proto.binary.ImBinary.ImMessageReceived parseFrom(
+                com.google.protobuf.ByteString data,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data, extensionRegistry);
+        }
+
+        public static cn.ether.im.proto.binary.ImBinary.ImMessageReceived parseFrom(byte[] data)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data);
+        }
+
+        public static cn.ether.im.proto.binary.ImBinary.ImMessageReceived parseFrom(
+                byte[] data,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return PARSER.parseFrom(data, extensionRegistry);
+        }
+
+        public static cn.ether.im.proto.binary.ImBinary.ImMessageReceived parseFrom(java.io.InputStream input)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessage
+                    .parseWithIOException(PARSER, input);
+        }
+
+        public static cn.ether.im.proto.binary.ImBinary.ImMessageReceived parseFrom(
+                java.io.InputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessage
+                    .parseWithIOException(PARSER, input, extensionRegistry);
+        }
+
+        public static cn.ether.im.proto.binary.ImBinary.ImMessageReceived parseDelimitedFrom(java.io.InputStream input)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessage
+                    .parseDelimitedWithIOException(PARSER, input);
+        }
+
+        public static cn.ether.im.proto.binary.ImBinary.ImMessageReceived parseDelimitedFrom(
+                java.io.InputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessage
+                    .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+        }
+
+        public static cn.ether.im.proto.binary.ImBinary.ImMessageReceived parseFrom(
+                com.google.protobuf.CodedInputStream input)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessage
+                    .parseWithIOException(PARSER, input);
+        }
+
+        public static cn.ether.im.proto.binary.ImBinary.ImMessageReceived parseFrom(
+                com.google.protobuf.CodedInputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessage
+                    .parseWithIOException(PARSER, input, extensionRegistry);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.toBuilder();
+        }
+
+        public static Builder newBuilder(cn.ether.im.proto.binary.ImBinary.ImMessageReceived prototype) {
+            return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+        }
+
+        public static cn.ether.im.proto.binary.ImBinary.ImMessageReceived getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static com.google.protobuf.Parser<ImMessageReceived> parser() {
+            return PARSER;
+        }
+
+        @java.lang.Override
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+            return cn.ether.im.proto.binary.ImBinary.internal_static_cn_ether_im_proto_binary_ImMessageReceived_fieldAccessorTable
+                    .ensureFieldAccessorsInitialized(
+                            cn.ether.im.proto.binary.ImBinary.ImMessageReceived.class, cn.ether.im.proto.binary.ImBinary.ImMessageReceived.Builder.class);
+        }
+
+        /**
+         * <code>int64 messageId = 1;</code>
+         * @return The messageId.
+         */
+        @java.lang.Override
+        public long getMessageId() {
+            return messageId_;
+        }
+
+        @java.lang.Override
+        public final boolean isInitialized() {
+            byte isInitialized = memoizedIsInitialized;
+            if (isInitialized == 1) return true;
+            if (isInitialized == 0) return false;
+
+            memoizedIsInitialized = 1;
+            return true;
+        }
+
+        @java.lang.Override
+        public void writeTo(com.google.protobuf.CodedOutputStream output)
+                throws java.io.IOException {
+            if (messageId_ != 0L) {
+                output.writeInt64(1, messageId_);
+            }
+            getUnknownFields().writeTo(output);
+        }
+
+        @java.lang.Override
+        public int getSerializedSize() {
+            int size = memoizedSize;
+            if (size != -1) return size;
+
+            size = 0;
+            if (messageId_ != 0L) {
+                size += com.google.protobuf.CodedOutputStream
+                        .computeInt64Size(1, messageId_);
+            }
+            size += getUnknownFields().getSerializedSize();
+            memoizedSize = size;
+            return size;
+        }
+
+        @java.lang.Override
+        public boolean equals(final java.lang.Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof cn.ether.im.proto.binary.ImBinary.ImMessageReceived)) {
+                return super.equals(obj);
+            }
+            cn.ether.im.proto.binary.ImBinary.ImMessageReceived other = (cn.ether.im.proto.binary.ImBinary.ImMessageReceived) obj;
+
+            if (getMessageId()
+                    != other.getMessageId()) return false;
+            if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+            return true;
+        }
+
+        @java.lang.Override
+        public int hashCode() {
+            if (memoizedHashCode != 0) {
+                return memoizedHashCode;
+            }
+            int hash = 41;
+            hash = (19 * hash) + getDescriptor().hashCode();
+            hash = (37 * hash) + MESSAGEID_FIELD_NUMBER;
+            hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+                    getMessageId());
+            hash = (29 * hash) + getUnknownFields().hashCode();
+            memoizedHashCode = hash;
+            return hash;
+        }
+
+        @java.lang.Override
+        public Builder newBuilderForType() {
+            return newBuilder();
+        }
+
+        @java.lang.Override
+        public Builder toBuilder() {
+            return this == DEFAULT_INSTANCE
+                    ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        @java.lang.Override
+        protected Builder newBuilderForType(
+                com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+            Builder builder = new Builder(parent);
+            return builder;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Parser<ImMessageReceived> getParserForType() {
+            return PARSER;
+        }
+
+        @java.lang.Override
+        public cn.ether.im.proto.binary.ImBinary.ImMessageReceived getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        /**
+         * Protobuf type {@code cn.ether.im.proto.binary.ImMessageReceived}
+         */
+        public static final class Builder extends
+                com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+                // @@protoc_insertion_point(builder_implements:cn.ether.im.proto.binary.ImMessageReceived)
+                cn.ether.im.proto.binary.ImBinary.ImMessageReceivedOrBuilder {
+            private int bitField0_;
+            private long messageId_;
+
+            // Construct using cn.ether.im.proto.binary.ImBinary.ImMessageReceived.newBuilder()
+            private Builder() {
+
+            }
+
+            private Builder(
+                    com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+                super(parent);
+
+            }
+
+            public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+                return cn.ether.im.proto.binary.ImBinary.internal_static_cn_ether_im_proto_binary_ImMessageReceived_descriptor;
+            }
+
+            @java.lang.Override
+            protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+                return cn.ether.im.proto.binary.ImBinary.internal_static_cn_ether_im_proto_binary_ImMessageReceived_fieldAccessorTable
+                        .ensureFieldAccessorsInitialized(
+                                cn.ether.im.proto.binary.ImBinary.ImMessageReceived.class, cn.ether.im.proto.binary.ImBinary.ImMessageReceived.Builder.class);
+            }
+
+            @java.lang.Override
+            public Builder clear() {
+                super.clear();
+                bitField0_ = 0;
+                messageId_ = 0L;
+                return this;
+            }
+
+            @java.lang.Override
+            public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+                return cn.ether.im.proto.binary.ImBinary.internal_static_cn_ether_im_proto_binary_ImMessageReceived_descriptor;
+            }
+
+            @java.lang.Override
+            public cn.ether.im.proto.binary.ImBinary.ImMessageReceived getDefaultInstanceForType() {
+                return cn.ether.im.proto.binary.ImBinary.ImMessageReceived.getDefaultInstance();
+            }
+
+            @java.lang.Override
+            public cn.ether.im.proto.binary.ImBinary.ImMessageReceived build() {
+                cn.ether.im.proto.binary.ImBinary.ImMessageReceived result = buildPartial();
+                if (!result.isInitialized()) {
+                    throw newUninitializedMessageException(result);
+                }
+                return result;
+            }
+
+            @java.lang.Override
+            public cn.ether.im.proto.binary.ImBinary.ImMessageReceived buildPartial() {
+                cn.ether.im.proto.binary.ImBinary.ImMessageReceived result = new cn.ether.im.proto.binary.ImBinary.ImMessageReceived(this);
+                if (bitField0_ != 0) {
+                    buildPartial0(result);
+                }
+                onBuilt();
+                return result;
+            }
+
+            private void buildPartial0(cn.ether.im.proto.binary.ImBinary.ImMessageReceived result) {
+                int from_bitField0_ = bitField0_;
+                if (((from_bitField0_ & 0x00000001) != 0)) {
+                    result.messageId_ = messageId_;
+                }
+            }
+
+            @java.lang.Override
+            public Builder mergeFrom(com.google.protobuf.Message other) {
+                if (other instanceof cn.ether.im.proto.binary.ImBinary.ImMessageReceived) {
+                    return mergeFrom((cn.ether.im.proto.binary.ImBinary.ImMessageReceived) other);
+                } else {
+                    super.mergeFrom(other);
+                    return this;
+                }
+            }
+
+            public Builder mergeFrom(cn.ether.im.proto.binary.ImBinary.ImMessageReceived other) {
+                if (other == cn.ether.im.proto.binary.ImBinary.ImMessageReceived.getDefaultInstance()) return this;
+                if (other.getMessageId() != 0L) {
+                    setMessageId(other.getMessageId());
+                }
+                this.mergeUnknownFields(other.getUnknownFields());
+                onChanged();
+                return this;
+            }
+
+            @java.lang.Override
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            @java.lang.Override
+            public Builder mergeFrom(
+                    com.google.protobuf.CodedInputStream input,
+                    com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                    throws java.io.IOException {
+                if (extensionRegistry == null) {
+                    throw new java.lang.NullPointerException();
+                }
+                try {
+                    boolean done = false;
+                    while (!done) {
+                        int tag = input.readTag();
+                        switch (tag) {
+                            case 0:
+                                done = true;
+                                break;
+                            case 8: {
+                                messageId_ = input.readInt64();
+                                bitField0_ |= 0x00000001;
+                                break;
+                            } // case 8
+                            default: {
+                                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                                    done = true; // was an endgroup tag
+                                }
+                                break;
+                            } // default:
+                        } // switch (tag)
+                    } // while (!done)
+                } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                    throw e.unwrapIOException();
+                } finally {
+                    onChanged();
+                } // finally
+                return this;
+            }
+
+            /**
+             * <code>int64 messageId = 1;</code>
+             * @return The messageId.
+             */
+            @java.lang.Override
+            public long getMessageId() {
+                return messageId_;
+            }
+
+            /**
+             * <code>int64 messageId = 1;</code>
+             * @param value The messageId to set.
+             * @return This builder for chaining.
+             */
+            public Builder setMessageId(long value) {
+
+                messageId_ = value;
+                bitField0_ |= 0x00000001;
+                onChanged();
+                return this;
+            }
+
+            /**
+             * <code>int64 messageId = 1;</code>
+             *
+             * @return This builder for chaining.
+             */
+            public Builder clearMessageId() {
+                bitField0_ = (bitField0_ & ~0x00000001);
+                messageId_ = 0L;
+                onChanged();
+                return this;
+            }
+
+            // @@protoc_insertion_point(builder_scope:cn.ether.im.proto.binary.ImMessageReceived)
+        }
+
+    }
+
+  // @@protoc_insertion_point(outer_class_scope)
 }

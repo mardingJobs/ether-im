@@ -9,11 +9,11 @@ import lombok.Data;
  * * @Github <a href="https://github.com/mardingJobs">Github链接</a>
  **/
 @Data
-public class ImTextProto {
+public class ImTextProto<T> {
 
-    private int type;
+    private String type;
 
-    private ImMessageTextProto body;
+    private T body;
 
 
 }

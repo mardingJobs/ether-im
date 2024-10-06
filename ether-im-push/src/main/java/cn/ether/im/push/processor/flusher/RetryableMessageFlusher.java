@@ -8,15 +8,16 @@ package cn.ether.im.push.processor.flusher;
  **/
 
 import cn.ether.im.client.common.enums.ImInfoType;
+import cn.ether.im.client.common.model.ImInfo;
 import cn.ether.im.common.cache.RemoteCacheService;
 import cn.ether.im.common.constants.ImConstants;
+import cn.ether.im.common.enums.ImMessageType;
 import cn.ether.im.common.exception.RetryException;
-import cn.ether.im.common.model.message.ImMessage;
+import cn.ether.im.common.model.message.ImChatMessage;
 import cn.ether.im.common.model.message.ImMessageReceived;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.push.cache.UserChannelCache;
 import cn.ether.im.push.processor.ImInfoProcessor;
-import cn.hutool.core.bean.BeanUtil;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
@@ -38,20 +39,19 @@ public class RetryableMessageFlusher extends ImInfoProcessor<ImMessageReceived> 
 
     @Retryable(value = RetryException.class, maxAttempts = 3, backoff = @Backoff(delay = 2000, multiplier = 1.5))
     @Override
-    public boolean flush(ImUserTerminal receiverTerminal, ImMessage message) {
-        if (isReceived(message.getId(), receiverTerminal)) {
-            log.info("消息已触达,MessageId:{},Terminal:{}", message.getId(), receiverTerminal);
+    public boolean flush(ImUserTerminal receiverTerminal, ImChatMessage message) {
+        if (isReceived(message.messageId(), receiverTerminal)) {
+            log.info("消息已触达,MessageId:{},Terminal:{}", message.messageId(), receiverTerminal);
             return true;
         }
         ChannelHandlerContext ctx = UserChannelCache.getChannelCtx(receiverTerminal.getUserId(),
                 receiverTerminal.getTerminalType().toString());
         if (ctx != null) {
-            ImMessage copiedMessage = BeanUtil.copyProperties(message, ImMessage.class, "receiverTerminals", "receivers");
-            copiedMessage.setReceivers(null);
-            copiedMessage.setReceiverTerminals(null);
-            ctx.writeAndFlush(copiedMessage);
+            ImInfoType infoType = message.messageType() == ImMessageType.SINGLE ? ImInfoType.SINGLE : ImInfoType.GROUP;
+            ImInfo<ImChatMessage> imInfo = new ImInfo<>(infoType, message);
+            ctx.writeAndFlush(imInfo);
             if (log.isDebugEnabled()) {
-                log.debug("flush|消息已推送，等待确认。MessageId:{},Terminal:{}", copiedMessage.getId(), receiverTerminal);
+                log.debug("flush|消息已推送，等待确认。MessageId:{},Terminal:{}", message.getMessageId(), receiverTerminal);
             }
             throw new RetryException();
         }

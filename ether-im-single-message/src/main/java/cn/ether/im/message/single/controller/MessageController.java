@@ -1,8 +1,9 @@
 package cn.ether.im.message.single.controller;
 
-import cn.ether.im.message.single.handler.ImMessageHandler;
+import cn.ether.im.common.model.message.ImSingleMessage;
 import cn.ether.im.message.single.model.dto.MessageSendReq;
 import cn.ether.im.message.single.model.vo.Resp;
+import cn.ether.im.message.single.service.ImSingleMessageService;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,36 +30,21 @@ import javax.annotation.Resource;
 public class MessageController {
 
     @Resource
-    private ImMessageHandler messageHandler;
+    private ImSingleMessageService singleMessageService;
 
 
     /**
-     * 发送单聊消息
-     * 主要用于提升发送消息性能，不用数据库
+     * 发送单聊消息 通过MQ的事物消息实现，有可能会回滚也有可能提交
      *
      * @param req
      * @return
      */
-    @Operation(summary = "发送消息", description = "如果发送成功的话，会返回消息ID")
+    @Operation(summary = "发送消息", description = "")
     @PostMapping("/send")
     public Resp send(@RequestBody MessageSendReq req) throws Exception {
-        String messageId = messageHandler.sendSingleMessage(req);
-        return Resp.success(messageId);
-    }
-
-
-    /**
-     * 异步发送单聊消息
-     *
-     * @param req
-     * @return
-     */
-    @Operation(summary = "异步发送消息")
-    @PostMapping("/send/async")
-    public Resp sendAsync(@RequestBody MessageSendReq req) throws Exception {
-        messageHandler.asyncSendMessage(req);
+        ImSingleMessage singleMessage = singleMessageService.convertSendReqToCoreModel(req);
+        singleMessageService.sendSingleMessage(singleMessage);
         return Resp.success();
     }
-
 
 }

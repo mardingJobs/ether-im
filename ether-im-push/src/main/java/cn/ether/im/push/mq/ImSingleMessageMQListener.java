@@ -18,10 +18,9 @@ package cn.ether.im.push.mq;
 import cn.ether.im.client.common.enums.ImInfoType;
 import cn.ether.im.client.common.model.ImInfo;
 import cn.ether.im.common.constants.ImConstants;
-import cn.ether.im.common.model.message.ImMessage;
+import cn.ether.im.common.model.message.ImSingleMessage;
 import cn.ether.im.common.util.ThreadPoolUtils;
 import cn.ether.im.push.processor.ImInfoProcessorContext;
-import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
@@ -35,15 +34,15 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
-import static cn.ether.im.common.constants.ImConstants.IM_CHAT_MESSAGE_TOPIC;
 import static cn.ether.im.common.constants.ImConstants.IM_MESSAGE_PUSH_CONSUMER_GROUP;
+import static cn.ether.im.common.constants.ImConstants.IM_SINGLE_MESSAGE_TOPIC;
 
 @Slf4j
 @Component
 @ConditionalOnProperty(name = "message.mq.type", havingValue = "rocketmq", matchIfMissing = true)
 @RocketMQMessageListener(consumerGroup = IM_MESSAGE_PUSH_CONSUMER_GROUP,
-        topic = IM_CHAT_MESSAGE_TOPIC, consumeMode = ConsumeMode.CONCURRENTLY)
-public class ImChatMessageMQListener
+        topic = IM_SINGLE_MESSAGE_TOPIC, consumeMode = ConsumeMode.CONCURRENTLY)
+public class ImSingleMessageMQListener
         implements RocketMQListener<String>, RocketMQPushConsumerLifecycleListener {
 
     @Value("${server.id}")
@@ -58,16 +57,9 @@ public class ImChatMessageMQListener
     @Override
     public void onMessage(String message) {
         log.info("收到MQ消息|{}", message);
-        if (StrUtil.isEmpty(message)) {
-            return;
-        }
-        ImMessage chatMessage = JSON.parseObject(message, ImMessage.class);
-        if (chatMessage == null) {
-            log.warn("onMessage|转化后的数据为空");
-            return;
-        }
+        ImSingleMessage singleMessage = JSON.parseObject(message, ImSingleMessage.class);
         ThreadPoolUtils.execute(() -> {
-            processorContext.process(null, new ImInfo<>(ImInfoType.MESSAGE, chatMessage));
+            processorContext.process(null, new ImInfo<>(ImInfoType.SINGLE, singleMessage));
         });
     }
 
@@ -76,7 +68,7 @@ public class ImChatMessageMQListener
         try {
             String tag = ImConstants.IM_CHAT_MESSAGE_TAG_PREFIX + ImConstants.MQ_TOPIC_SPLIT + serverId;
 
-            consumer.subscribe(IM_CHAT_MESSAGE_TOPIC + "-" + environmentName, tag);
+            consumer.subscribe(IM_SINGLE_MESSAGE_TOPIC + "-" + environmentName, tag);
             int cpuNums = Runtime.getRuntime().availableProcessors();
             consumer.setConsumeThreadMin(cpuNums);
             consumer.setConsumeThreadMax(cpuNums * 2);

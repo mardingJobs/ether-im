@@ -1,11 +1,8 @@
 package cn.ether.im.message.single.transaction;
 
-import cn.ether.im.common.enums.ImChatMessageStatus;
-import cn.ether.im.common.model.message.ImChatMessage;
 import cn.ether.im.common.model.message.ImSingleMessage;
 import cn.ether.im.message.single.model.entity.ImSingleMessageET;
-import cn.ether.im.message.single.service.ImSingleMessageETService;
-import cn.hutool.core.bean.BeanUtil;
+import cn.ether.im.message.single.service.ImSingleMessageService;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.annotation.RocketMQTransactionListener;
@@ -15,7 +12,6 @@ import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.Date;
 
 /**
  * * @Author: Martin(微信：martin-jobs)
@@ -29,21 +25,14 @@ import java.util.Date;
 public class ImMessageTransactionListener implements RocketMQLocalTransactionListener {
 
     @Resource
-    private ImSingleMessageETService singleMessageEtService;
+    private ImSingleMessageService singleMessageService;
 
     @Override
     public RocketMQLocalTransactionState executeLocalTransaction(Message msg, Object arg) {
         String messageString = new String((byte[]) msg.getPayload());
         try {
-            ImChatMessage chatMessage = JSON.parseObject(messageString, ImSingleMessage.class);
-            ImSingleMessageET singleMessageEt = new ImSingleMessageET();
-            BeanUtil.copyProperties(chatMessage, singleMessageEt);
-            singleMessageEt.setStatus(ImChatMessageStatus.SENT.name());
-            singleMessageEt.setCreateTime(new Date());
-            boolean saved = singleMessageEtService.save(singleMessageEt);
-            if (!saved) {
-                return RocketMQLocalTransactionState.ROLLBACK;
-            }
+            ImSingleMessage singleMessage = JSON.parseObject(messageString, ImSingleMessage.class);
+            singleMessageService.persistCoreModel(singleMessage);
         } catch (Exception e) {
             log.error("executeLocalTransaction|messageString:{}", messageString, e);
             return RocketMQLocalTransactionState.ROLLBACK;
@@ -54,7 +43,7 @@ public class ImMessageTransactionListener implements RocketMQLocalTransactionLis
     @Override
     public RocketMQLocalTransactionState checkLocalTransaction(Message msg) {
         String messageId = (String) msg.getHeaders().get("rocketmq_KEYS");
-        ImSingleMessageET singleMessageEt = singleMessageEtService.getById(messageId);
+        ImSingleMessageET singleMessageEt = singleMessageService.getById(messageId);
         if (singleMessageEt != null) {
             return RocketMQLocalTransactionState.COMMIT;
         }

@@ -2,6 +2,7 @@ package cn.ether.im.sdk.client.impl;
 
 import cn.ether.im.common.cache.ImUserContextCache;
 import cn.ether.im.common.enums.ImExceptionCode;
+import cn.ether.im.common.enums.ImMessageSendResult;
 import cn.ether.im.common.exception.ImException;
 import cn.ether.im.common.model.message.ImMessage;
 import cn.ether.im.common.model.message.ImSingleMessage;
@@ -36,8 +37,8 @@ public class DefaultImClientImpl implements EtherImClient {
 
 
     @Override
-    public void sendSingleMessage(ImSingleMessage singleMessage) {
-        messageSender.sendSingleMessage(singleMessage);
+    public ImMessageSendResult sendSingleMessage(ImSingleMessage singleMessage) {
+        return messageSender.sendSingleMessage(singleMessage);
     }
 
     /**

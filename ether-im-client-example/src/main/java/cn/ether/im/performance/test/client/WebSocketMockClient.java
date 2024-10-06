@@ -2,11 +2,13 @@ package cn.ether.im.performance.test.client;
 
 import cn.ether.im.client.common.enums.ImInfoType;
 import cn.ether.im.client.common.model.ImInfo;
-import cn.ether.im.client.common.proto.ImProtoConverter;
+import cn.ether.im.client.common.proto.ImProtoDecoder;
+import cn.ether.im.client.common.proto.ImProtoEncoder;
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.model.info.ImHeartbeatInfo;
-import cn.ether.im.common.model.message.ImMessage;
+import cn.ether.im.common.model.message.ImChatMessage;
 import cn.ether.im.common.model.message.ImMessageReceived;
+import cn.ether.im.common.model.message.ImSingleMessage;
 import cn.ether.im.common.model.protoc.ImProtoType;
 import cn.ether.im.common.util.JwtUtils;
 import cn.ether.im.common.util.ThreadPoolUtils;
@@ -71,16 +73,17 @@ public class WebSocketMockClient extends WebSocketClient {
             return;
         }
         ImTextProto textProto = JSON.parseObject(message, ImTextProto.class);
-        processMessage(textProto);
+        ImInfo imInfo = ImProtoDecoder.decodeToImInfo(textProto);
+
+        processMessage(imInfo);
     }
 
-    private void processMessage(ImTextProto textProto) {
-        ImInfo imInfo = ImProtoConverter.decodeToImInfo(textProto);
+    private void processMessage(ImInfo imInfo) {
         if (imInfo.getType() == ImInfoType.HEART_BEAT) {
             log.info("【{}】发送心跳", mockUser);
             sendMessage(new ImInfo<>(ImInfoType.HEART_BEAT, new ImHeartbeatInfo()));
-        } else if (imInfo.getType() == ImInfoType.MESSAGE) {
-            ImMessage info = (ImMessage) imInfo.getInfo();
+        } else if (imInfo.getType() == ImInfoType.SINGLE) {
+            ImSingleMessage info = (ImSingleMessage) imInfo.getInfo();
             sendMessageReceivedNotice(info);
         }
     }
@@ -89,9 +92,9 @@ public class WebSocketMockClient extends WebSocketClient {
     public void onMessage(ByteBuffer bytes) {
         byte[] array = bytes.array();
         try {
-            ImTextProto imTextProto = ImProtoConverter.parseBytes(array);
-            log.info("【{}】解析二进制消息:{}", mockUser, JSON.toJSONString(imTextProto));
-            processMessage(imTextProto);
+            ImInfo imInfo = ImProtoDecoder.decodeToImInfo(array);
+            log.info("【{}】解析二进制消息:{}", mockUser, JSON.toJSONString(imInfo));
+            processMessage(imInfo);
         } catch (InvalidProtocolBufferException e) {
             throw new RuntimeException(e);
         }
@@ -136,12 +139,12 @@ public class WebSocketMockClient extends WebSocketClient {
         return this.isOpen();
     }
 
-    private void sendMessageReceivedNotice(ImMessage imMessage) {
+    private void sendMessageReceivedNotice(ImChatMessage imMessage) {
         ImMessageReceived imMessageReceived = new ImMessageReceived();
-        imMessageReceived.setMessageId(imMessage.getId());
+        imMessageReceived.setMessageId(imMessage.messageId());
         ImInfo message = new ImInfo<>(ImInfoType.MESSAGE_RECEIVED, imMessageReceived);
         sendMessage(message);
-        log.info("【{}】已发送接受消息通知,MessageId:{}", mockUser, imMessage.getId());
+        log.info("【{}】已发送接受消息通知,MessageId:{}", mockUser, imMessage.messageId());
     }
 
 
@@ -165,11 +168,11 @@ public class WebSocketMockClient extends WebSocketClient {
 
 
     private void sendMessage(ImInfo message) {
-        ImTextProto imTextProto = ImProtoConverter.encodeToTextProto(message);
         if (protocType == ImProtoType.JSON) {
+            ImTextProto imTextProto = ImProtoEncoder.encodeToText(message);
             this.send(JSON.toJSONString(imTextProto));
         } else {
-            ImBinary.ImBinaryProto imBinaryProto = ImProtoConverter.textToBinaryProto(imTextProto);
+            ImBinary.ImBinaryProto imBinaryProto = ImProtoEncoder.encodeToBinary(message);
             this.send(imBinaryProto.toByteArray());
         }
     }
