@@ -54,6 +54,10 @@ public class SingleMessageTransactionConsumer
                 .eq(ImSingleMessageET::getStatus, ImChatMessageStatus.INIT.name())
                 .set(ImSingleMessageET::getStatus, imMessageSendResult)
                 .update();
+
+        // 给自己所有终端发送消息
+        message.setReceiverId(message.getSenderId());
+        messageAgent.sendSingleMessage(message);
     }
 
     @Override

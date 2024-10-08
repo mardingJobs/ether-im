@@ -54,6 +54,7 @@ public class WebSocketMockClient extends WebSocketClient {
         this.protocType = protocType;
         String jsonString = JSON.toJSONString(mockUser);
         String token = JwtUtils.sign(mockUser.getUserId(), jsonString, 3600 * 24 * 7, ImConstants.TOKEN_SECRET);
+        log.info("【{}】token：{}", mockUser, token);
         this.addHeader("token", token);
         this.addHeader("protoc_type", String.valueOf(protocType.getCode()));
     }

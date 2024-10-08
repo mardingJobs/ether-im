@@ -1,5 +1,6 @@
 package cn.ether.im.performance.test.user;
 
+import cn.ether.im.common.enums.ImTerminalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,8 +27,8 @@ public class MockUser {
     public static List<MockUser> createUsers(int count) {
         List<MockUser> users = new LinkedList<>();
         for (int i = 0; i < count; i++) {
-            MockUser pcUser = new MockUser("user-" + i, "WEB");
-            MockUser appUser = new MockUser("user-" + i, "APP");
+            MockUser pcUser = new MockUser("user-" + i, ImTerminalType.WEB.name());
+            MockUser appUser = new MockUser("user-" + i, ImTerminalType.APP.name());
             users.add(pcUser);
             users.add(appUser);
         }
@@ -37,6 +38,6 @@ public class MockUser {
 
     @Override
     public String toString() {
-        return this.getUserId() + ":" + this.getTerminalType();
+        return this.getUserId() + "@" + this.getTerminalType();
     }
 }
