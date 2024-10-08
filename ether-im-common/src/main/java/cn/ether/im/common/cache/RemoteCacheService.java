@@ -25,6 +25,18 @@ import java.util.concurrent.TimeUnit;
 
 public interface RemoteCacheService {
 
+
+    boolean hasKey(String key);
+
+    /**
+     * 批量判断key是否存在
+     *
+     * @param keys
+     * @return
+     */
+    List<String> existingKeys(List<String> keys);
+
+
     /**
      * 永久缓存
      * @param key 缓存key

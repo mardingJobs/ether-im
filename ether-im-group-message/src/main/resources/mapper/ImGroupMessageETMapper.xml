@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ether.im.message.group.mapper.ImGroupMessageETMapper">
+
+    <resultMap id="BaseResultMap" type="cn.ether.im.message.group.model.entity.ImGroupMessageET">
+        <id property="messageId" column="message_id" jdbcType="BIGINT"/>
+        <result property="conversationId" column="conversation_id" jdbcType="BIGINT"/>
+        <result property="senderId" column="sender_id" jdbcType="VARCHAR"/>
+        <result property="senderTerminal" column="sender_terminal" jdbcType="VARCHAR"/>
+        <result property="groupId" column="group_id" jdbcType="BIGINT"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="contentType" column="content_type" jdbcType="VARCHAR"/>
+        <result property="sendTime" column="send_time" jdbcType="BIGINT"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        message_id,conversation_id,sender_id,
+        sender_terminal,group_id,status,
+        content,content_type,send_time,
+        create_time
+    </sql>
+</mapper>

@@ -7,6 +7,7 @@ import cn.ether.im.client.common.proto.ImProtoEncoder;
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.model.info.ImHeartbeatInfo;
 import cn.ether.im.common.model.message.ImChatMessage;
+import cn.ether.im.common.model.message.ImGroupMessage;
 import cn.ether.im.common.model.message.ImMessageReceived;
 import cn.ether.im.common.model.message.ImSingleMessage;
 import cn.ether.im.common.model.protoc.ImProtoType;
@@ -84,6 +85,9 @@ public class WebSocketMockClient extends WebSocketClient {
             sendMessage(new ImInfo<>(ImInfoType.HEART_BEAT, new ImHeartbeatInfo()));
         } else if (imInfo.getType() == ImInfoType.SINGLE) {
             ImSingleMessage info = (ImSingleMessage) imInfo.getInfo();
+            sendMessageReceivedNotice(info);
+        } else if (imInfo.getType() == ImInfoType.GROUP) {
+            ImGroupMessage info = (ImGroupMessage) imInfo.getInfo();
             sendMessageReceivedNotice(info);
         }
     }

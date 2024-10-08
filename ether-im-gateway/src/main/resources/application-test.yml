@@ -7,22 +7,6 @@ spring:
         server-addr: 192.168.1.4:8848
         username: nacos
         password: nacos
-    gateway:
-      discovery:
-        locator:
-          # 是否从注册中心读取服务
-          enabled: true
-      routes:
-        - id: im-push
-          uri: ws://ether-im-ws
-          predicates:
-            - Path=/im/**
-        # 服务的ID，唯一即可一般与微服务的service name一致
-        - id: im-message
-          # lb表示负载均衡
-          uri: lb://ether-im-message
-          predicates:
-            # 路径匹配,所有order的请求都转发到cloud-order-service
-            - Path=/im-message/**
+
 server:
   port: 8888

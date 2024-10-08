@@ -1,6 +1,7 @@
 spring:
   application:
     name: ether-im-gateway
+  cloud:
     gateway:
       discovery:
         locator:
@@ -11,16 +12,14 @@ spring:
           uri: ws://ether-im-ws
           predicates:
             - Path=/im/**
-        # 服务的ID，唯一即可一般与微服务的service name一致
-        - id: im-message
-          # lb表示负载均衡
-          uri: lb://ether-im-message
-          predicates:
-            - Path=/im-message/**
         - id: im-message-single
           uri: lb://ether-im-message-single
           predicates:
             - Path=/im-message-single/**
+        - id: im-message-group
+          uri: lb://ether-im-message-group
+          predicates:
+            - Path=/im-message-group/**
   profiles:
     active: dev
 server:

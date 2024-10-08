@@ -22,13 +22,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 
@@ -51,6 +49,31 @@ public class RedisRemoteCacheService implements RemoteCacheService {
     @Autowired
     @Qualifier("redisTemplate")
     private RedisTemplate<String, Object> redisTemplate;
+
+    @Override
+    public boolean hasKey(String key) {
+        return redisTemplate.hasKey(key);
+    }
+
+    @Override
+    public List<String> existingKeys(List<String> keys) {
+
+        List<Object> objects = redisTemplate.executePipelined((RedisCallback<Object>) connection -> {
+            for (String key : keys) {
+                connection.exists(key.getBytes());
+            }
+            return null;
+        });
+        List<String> existList = new LinkedList<>();
+        for (int i = 0; i < keys.size(); i++) {
+            Boolean exist = (Boolean) objects.get(i);
+            if (exist) {
+                existList.add(keys.get(i));
+            }
+        }
+
+        return existList;
+    }
 
     @Override
     public void set(String key, Object value) {

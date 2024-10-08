@@ -107,7 +107,9 @@ public class RocketMessageMQSender implements ImMessageMQSender {
     public boolean batchSend(List<ImTopicInfo> messages) throws Exception {
         List<Message> msgs = messages.stream()
                 .map((message) -> {
-                    Message msg = new Message(message.getTopic(), message.getTag(), JSONObject.toJSONString(message.getMessage()).getBytes());
+                    ImMessageV2 m = message.getMessage();
+                    Message msg = new Message(message.getTopic(), message.getTag(), String.valueOf(m.messageId()),
+                            JSONObject.toJSONString(m).getBytes());
                     return msg;
                 })
                 .collect(Collectors.toList());

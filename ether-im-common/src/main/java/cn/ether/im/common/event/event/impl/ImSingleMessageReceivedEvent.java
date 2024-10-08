@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ImMessageReceivedEvent implements ImEvent {
+public class ImSingleMessageReceivedEvent implements ImEvent {
 
     private static final long serialVersionUID = 1L;
 
@@ -27,6 +27,6 @@ public class ImMessageReceivedEvent implements ImEvent {
 
     @Override
     public ImEventType getEventType() {
-        return ImEventType.MESSAGE_RECEIVED;
+        return ImEventType.SINGLE_MESSAGE_RECEIVED;
     }
 }

@@ -13,6 +13,7 @@
         <module>ether-im-common</module>
         <module>ether-im-push</module>
         <module>ether-im-single-message</module>
+        <module>ether-im-group-message</module>
         <module>ether-im-gateway</module>
         <module>ether-im-client-example</module>
         <module>ether-im-proto</module>

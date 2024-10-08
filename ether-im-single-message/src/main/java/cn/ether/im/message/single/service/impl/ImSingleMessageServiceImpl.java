@@ -90,7 +90,7 @@ public class ImSingleMessageServiceImpl extends ServiceImpl<ImSingleMessageETMap
 
     @Override
     public void sendSingleMessage(ImSingleMessage singleMessage) {
-        ImTopicInfo topicInfo = new ImTopicInfo(singleMessage, ImConstants.IM_CHAT_TX_MESSAGE_TOPIC);
+        ImTopicInfo topicInfo = new ImTopicInfo(singleMessage, ImConstants.IM_SINGLE_TX_MESSAGE_TOPIC);
         messageMQSender.sendMessageInTransaction(topicInfo, null);
     }
 
@@ -102,7 +102,7 @@ public class ImSingleMessageServiceImpl extends ServiceImpl<ImSingleMessageETMap
 
         List<ImSingleMessage> singleMessages = list.stream().map(this::convertEntityToCoreModel)
                 .peek(singleMessage -> {
-                    singleMessage.setLimitTerminals(Arrays.asList(terminalType));
+                    singleMessage.setLimitTerminals(Arrays.asList(new ImUserTerminal(userId, terminalType)));
                 }).collect(Collectors.toList());
         if (CollectionUtil.isEmpty(singleMessages)) {
             return;

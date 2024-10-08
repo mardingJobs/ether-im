@@ -53,14 +53,20 @@ public class ImConstants {
     public final static String IM_SINGLE_MESSAGE_TOPIC = "im-single-message-topic";
 
     /**
-     * 群聊对话消息Topic
+     * 群对话消息Topic
      */
-    public final static String IM_GROUP_MESSAGE_TOPIC = "im-GROUP-message-topic";
+    public final static String IM_GROUP_MESSAGE_TOPIC = "im-group-message-topic";
+
 
     /**
-     * 对话事物消息Topic
+     * 单聊事物消息Topic
      */
-    public final static String IM_CHAT_TX_MESSAGE_TOPIC = "im-chat-tx-message-topic";
+    public final static String IM_SINGLE_TX_MESSAGE_TOPIC = "im-single-tx-message-topic";
+
+    /**
+     * 群聊事物消息Topic
+     */
+    public final static String IM_GROUP_TX_MESSAGE_TOPIC = "im-group-tx-message-topic";
 
     /**
      * 对话消息Topic
@@ -77,9 +83,14 @@ public class ImConstants {
     public final static String IM_LOGIN_EVENT_TOPIC = "IM-LOGIN-EVENT-TOPIC";
 
     /**
-     * IM消息已读事件主题
+     * IM单聊消息已接收事件主题
      */
-    public final static String IM_MESSAGE_RECEIVED_EVENT_TOPIC = "im-message-received-event-topic";
+    public final static String IM_SINGLE_MESSAGE_RECEIVED_EVENT_TOPIC = "im-single-message-received-event-topic";
+
+    /**
+     * IM群聊消息已接收事件主题
+     */
+    public final static String IM_GROUP_MESSAGE_RECEIVED_EVENT_TOPIC = "im-group-message-received-event-topic";
 
     public final static String IM_EVENT_TOPIC = "im-event-topic";
 

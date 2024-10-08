@@ -3,17 +3,18 @@ package cn.ether.im.common.cache;
 
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.enums.ImTerminalType;
-import cn.ether.im.common.model.user.ImUser;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.util.SpringContextHolder;
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.map.MapUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -31,13 +32,17 @@ public class ImUserContextCache {
 
 
     /**
-     * 判断用户是否在线
+     * 返回在线的用户ID
      *
-     * @param user
+     * @param userIds
      * @return
      */
-    public boolean online(ImUser user) {
-        return CollectionUtil.isNotEmpty(getConnectionInfo(user));
+    public List<String> onlineUserIds(List<String> userIds) {
+        List<String> keys = userIds.stream().map(this::serverCacheKey).collect(Collectors.toList());
+        List<String> existingKeys = remoteCacheService.existingKeys(keys);
+        List<String> onlineUserIds = userIds.stream().filter((userId) -> existingKeys.contains(serverCacheKey(userId)))
+                .collect(Collectors.toList());
+        return onlineUserIds;
     }
 
     /**
@@ -52,38 +57,15 @@ public class ImUserContextCache {
     }
 
 
-    public String getMessageTag(ImUserTerminal userTerminal) {
-        String serverId = this.connectedServerId(userTerminal);
-        if (StringUtils.isEmpty(serverId)) {
-            return null;
-        }
-        return ImConstants.IM_CHAT_MESSAGE_TAG_PREFIX + ImConstants.MQ_TOPIC_SPLIT + serverId;
-    }
-
-
-    /**
-     * 获取用户在线的终端类型
-     *
-     * @param userInfo
-     * @return
-     */
-    public List<ImTerminalType> onlineTerminalTypes(ImUser userInfo) {
-        Map<String, String> userConnections = getConnectionInfo(userInfo);
-        if (userConnections == null || userConnections.isEmpty()) {
-            return Collections.emptyList();
-        }
-        return userConnections.keySet().stream().map(ImTerminalType::valueOf).collect(Collectors.toList());
-    }
-
     /**
      * 获取用户在线的终端信息
      *
-     * @param userInfo
+     * @param userId
      * @return
      */
-    public List<ImUserTerminal> onlineTerminals(ImUser userInfo) {
-        Map<String, String> userConnections = getConnectionInfo(userInfo);
-        return userConnections.entrySet().stream().map(entry -> new ImUserTerminal(userInfo, ImTerminalType.valueOf(entry.getKey())))
+    public List<ImUserTerminal> onlineTerminals(String userId) {
+        Map<String, String> userConnections = getConnectionInfo(userId);
+        return userConnections.entrySet().stream().map(entry -> new ImUserTerminal(userId, ImTerminalType.valueOf(entry.getKey())))
                 .collect(Collectors.toList());
     }
 
@@ -98,12 +80,9 @@ public class ImUserContextCache {
         return userConnections.values().stream().distinct().collect(Collectors.toList());
     }
 
-    public String connectedServerId(ImUserTerminal userTerminal) {
-        Map<String, String> terminalBindedServerIds = getConnectionInfo(userTerminal);
-        if (MapUtil.isNotEmpty(terminalBindedServerIds)) {
-            return terminalBindedServerIds.get(userTerminal.getTerminalType().name());
-        }
-        return null;
+    public String connectedServerId(String userId) {
+        List<String> serverIds = connectedServerIds(userId);
+        return CollectionUtil.isNotEmpty(serverIds) ? serverIds.get(0) : null;
     }
 
     /**
@@ -126,11 +105,11 @@ public class ImUserContextCache {
     /**
      * 获取用户连接信息,key是用户终端类型 value是服务器ID
      *
-     * @param userInfo
+     * @param userId
      * @return
      */
-    public Map<String, String> getConnectionInfo(ImUser userInfo) {
-        Map<String, String> map = remoteCacheService.hashGet(serverCacheKey(userInfo.getUserId()));
+    public Map<String, String> getConnectionInfo(String userId) {
+        Map<String, String> map = remoteCacheService.hashGet(serverCacheKey(userId));
         return map;
     }
 

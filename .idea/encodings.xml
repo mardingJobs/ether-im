@@ -9,6 +9,8 @@
     <file url="file://$PROJECT_DIR$/ether-im-common/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ether-im-gateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ether-im-gateway/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ether-im-group-message/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ether-im-group-message/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ether-im-message/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ether-im-message/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ether-im-proto/src/main/java" charset="UTF-8" />

@@ -4,6 +4,7 @@ import cn.ether.im.common.cache.ImUserContextCache;
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.enums.ImMessageSendResult;
 import cn.ether.im.common.model.info.ImTopicInfo;
+import cn.ether.im.common.model.message.ImGroupMessage;
 import cn.ether.im.common.model.message.ImSingleMessage;
 import cn.ether.im.common.mq.ImMessageMQSender;
 import cn.ether.im.sdk.agent.ImMessageAgent;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -66,6 +68,32 @@ public class DefaultImMessageAgent implements ImMessageAgent {
             return topicInfo;
         }).collect(Collectors.toList());
         return messageSender.batchSend(list) ? ImMessageSendResult.SENT : ImMessageSendResult.SENT_FAIL;
+    }
+
+    @Override
+    public ImMessageSendResult sendGroupMessage(ImGroupMessage groupMessage) throws Exception {
+        List<String> receiverIds = groupMessage.getReceiverIds();
+        List<String> onlineUserIds = userContextCache.onlineUserIds(receiverIds);
+        if (onlineUserIds.isEmpty()) {
+            return ImMessageSendResult.RECEIVER_NOT_ONLINE;
+        }
+        List<ImTopicInfo> collect = receiverIds.stream().map((receiverId) -> {
+            ImTopicInfo<ImGroupMessage> topicInfo = new ImTopicInfo<>();
+            topicInfo.setTopic(ImConstants.IM_GROUP_MESSAGE_TOPIC);
+            List<String> serverIds = userContextCache.connectedServerIds(receiverId);
+            if (serverIds.isEmpty()) {
+                return null;
+            }
+            topicInfo.setTag(ImConstants.IM_CHAT_MESSAGE_TAG_PREFIX + serverIds.get(0));
+            topicInfo.setMessage(groupMessage);
+            return topicInfo;
+        }).filter(Objects::nonNull).collect(Collectors.toList());
+        return messageSender.batchSend(collect) ? ImMessageSendResult.SENT : ImMessageSendResult.SENT_FAIL;
+    }
+
+    @Override
+    public ImMessageSendResult batchSendGroupMessage(List<ImGroupMessage> groupMessages) throws Exception {
+        return null;
     }
 
 }

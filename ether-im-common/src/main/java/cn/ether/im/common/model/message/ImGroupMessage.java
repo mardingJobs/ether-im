@@ -17,6 +17,11 @@ public class ImGroupMessage extends ImChatMessage {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 群组ID
+     */
+    private String groupId;
+
+    /**
      * 接收者
      */
     private List<String> receiverIds;

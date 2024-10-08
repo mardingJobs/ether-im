@@ -4,11 +4,9 @@ import cn.ether.im.client.common.enums.ImInfoType;
 import cn.ether.im.common.cache.ImUserContextCache;
 import cn.ether.im.common.cache.RemoteCacheService;
 import cn.ether.im.common.constants.ImConstants;
-import cn.ether.im.common.enums.ImTerminalType;
-import cn.ether.im.common.event.event.impl.ImMessageReceivedEvent;
+import cn.ether.im.common.event.event.impl.ImSingleMessageReceivedEvent;
 import cn.ether.im.common.exception.RetryException;
 import cn.ether.im.common.model.message.ImSingleMessage;
-import cn.ether.im.common.model.user.ImUser;
 import cn.ether.im.common.model.user.ImUserTerminal;
 import cn.ether.im.common.util.ThreadPoolUtils;
 import cn.ether.im.push.processor.ImInfoProcessor;
@@ -62,14 +60,14 @@ public class ImSingleMessageProcess extends ImInfoProcessor<ImSingleMessage> {
     @Override
     public void doProcess(ChannelHandlerContext ctx, ImSingleMessage message) {
         String receiverId = message.getReceiverId();
-        List<ImTerminalType> limitTerminals = message.getLimitTerminals();
-        List<ImUserTerminal> receiverTerminals = userContextCache.onlineTerminals(new ImUser(receiverId));
+        List<ImUserTerminal> limitTerminals = message.getLimitTerminals();
+        List<ImUserTerminal> receiverTerminals = userContextCache.onlineTerminals(receiverId);
         if (CollectionUtil.isEmpty(receiverTerminals)) {
             log.info("用户{}不在线", receiverId);
             return;
         }
         if (CollectionUtil.isNotEmpty(limitTerminals)) {
-            receiverTerminals = receiverTerminals.stream().filter(receiverTerminal -> limitTerminals.contains(receiverTerminal.getTerminalType())).collect(Collectors.toList());
+            receiverTerminals = receiverTerminals.stream().filter(limitTerminals::contains).collect(Collectors.toList());
         }
         cacheUnReceivedMessage(message.getMessageId(), receiverTerminals);
         for (ImUserTerminal terminal : receiverTerminals) {
@@ -78,9 +76,9 @@ public class ImSingleMessageProcess extends ImInfoProcessor<ImSingleMessage> {
                     boolean received = messageFlusher.flush(terminal, message);
                     if (received) {
                         // 发布MQ消息
-                        ImMessageReceivedEvent messageReceivedEvent = new ImMessageReceivedEvent(message.messageId(), terminal.getUserId());
+                        ImSingleMessageReceivedEvent messageReceivedEvent = new ImSingleMessageReceivedEvent(message.messageId(), terminal.getUserId());
                         byte[] bytes = JSON.toJSONString(messageReceivedEvent).getBytes(StandardCharsets.UTF_8);
-                        Message msg = new Message(ImConstants.IM_MESSAGE_RECEIVED_EVENT_TOPIC, bytes);
+                        Message msg = new Message(ImConstants.IM_SINGLE_MESSAGE_RECEIVED_EVENT_TOPIC, bytes);
                         SendResult sendResult = rocketMQTemplate.getProducer().send(msg);
                         log.info("消息触达事件发送MQ结果:{},MessageId:{},UserTerminal:{}", sendResult.getSendStatus(), message.messageId(), terminal);
                     }

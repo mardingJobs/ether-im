@@ -49,7 +49,7 @@ public class ImSingleMessageMQListener
     private Long serverId;
 
     @Value("${spring.profiles.active:default}")
-    private String environmentName;
+    private String environment;
 
     @Resource
     private ImInfoProcessorContext processorContext;
@@ -68,14 +68,14 @@ public class ImSingleMessageMQListener
         try {
             String tag = ImConstants.IM_CHAT_MESSAGE_TAG_PREFIX + ImConstants.MQ_TOPIC_SPLIT + serverId;
 
-            consumer.subscribe(IM_SINGLE_MESSAGE_TOPIC + "-" + environmentName, tag);
+            consumer.subscribe(IM_SINGLE_MESSAGE_TOPIC, tag);
             int cpuNums = Runtime.getRuntime().availableProcessors();
             consumer.setConsumeThreadMin(cpuNums);
             consumer.setConsumeThreadMax(cpuNums * 2);
             // 消费失败时重试
             consumer.setMaxReconsumeTimes(3);
             //  每个消费者的消费者分组都是不一样的
-            consumer.setConsumerGroup(consumer.getConsumerGroup() + ImConstants.MQ_TOPIC_SPLIT + serverId);
+            consumer.setConsumerGroup(consumer.getConsumerGroup() + ImConstants.MQ_TOPIC_SPLIT + serverId + ImConstants.MQ_TOPIC_SPLIT + environment);
         } catch (Exception e) {
             log.error("prepareStart|异常:{}", e.getMessage());
         }

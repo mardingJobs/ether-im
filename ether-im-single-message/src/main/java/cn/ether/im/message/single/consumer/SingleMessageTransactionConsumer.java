@@ -35,7 +35,7 @@ import javax.annotation.Resource;
 @Slf4j
 @Component
 @RocketMQMessageListener(consumerGroup = "IM-SINGLE-MESSAGE-TX-CONSUMERS",
-        topic = ImConstants.IM_CHAT_TX_MESSAGE_TOPIC, consumeMode = ConsumeMode.CONCURRENTLY)
+        topic = ImConstants.IM_SINGLE_TX_MESSAGE_TOPIC, consumeMode = ConsumeMode.CONCURRENTLY)
 public class SingleMessageTransactionConsumer
         implements RocketMQListener<ImSingleMessage>, RocketMQPushConsumerLifecycleListener {
 

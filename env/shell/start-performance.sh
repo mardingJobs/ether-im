@@ -1,1 +1,1 @@
-nohup java -Xmx512m -Xmx2048m -XX:+UseConcMarkSweepGC -jar  ether-im-performance-test-jar-with-dependencies.jar > ./performance.log 2>&1 &
+nohup java -Xmx512m -Xmx2048m -XX:+UseConcMarkSweepGC -jar  ether-im-client-example-jar-with-dependencies.jar > ./performance.log 2>&1 &

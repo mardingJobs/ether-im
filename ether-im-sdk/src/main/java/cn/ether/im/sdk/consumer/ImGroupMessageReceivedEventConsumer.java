@@ -17,7 +17,7 @@ package cn.ether.im.sdk.consumer;
 
 import cn.ether.im.common.constants.ImConstants;
 import cn.ether.im.common.event.broadcast.ImEventAsyncBroadcast;
-import cn.ether.im.common.event.event.impl.ImMessageReceivedEvent;
+import cn.ether.im.common.event.event.impl.ImGroupMessageReceivedEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.spring.annotation.ConsumeMode;
@@ -30,17 +30,17 @@ import javax.annotation.Resource;
 
 @Slf4j
 @Component
-@RocketMQMessageListener(consumerGroup = "IM-MESSAGE-RECEIVED-EVENT-GROUP",
-        topic = ImConstants.IM_MESSAGE_RECEIVED_EVENT_TOPIC, consumeMode = ConsumeMode.CONCURRENTLY)
-public class ImMessageReceivedEventConsumer
-        implements RocketMQListener<ImMessageReceivedEvent>, RocketMQPushConsumerLifecycleListener {
+@RocketMQMessageListener(consumerGroup = "GROUP-MESSAGE-RECEIVED-EVENT-GROUP",
+        topic = ImConstants.IM_GROUP_MESSAGE_RECEIVED_EVENT_TOPIC, consumeMode = ConsumeMode.CONCURRENTLY)
+public class ImGroupMessageReceivedEventConsumer
+        implements RocketMQListener<ImGroupMessageReceivedEvent>, RocketMQPushConsumerLifecycleListener {
 
     @Resource
-    private ImEventAsyncBroadcast<ImMessageReceivedEvent> eventBroadcast;
+    private ImEventAsyncBroadcast<ImGroupMessageReceivedEvent> eventBroadcast;
 
     @Override
-    public void onMessage(ImMessageReceivedEvent receivedEvent) {
-        log.info("消费到【消息已接收事件】|{}", receivedEvent);
+    public void onMessage(ImGroupMessageReceivedEvent receivedEvent) {
+        log.info("消费到【群消息已接收事件】|{}", receivedEvent);
         eventBroadcast.broadcast(receivedEvent);
     }
 

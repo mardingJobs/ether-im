@@ -2,7 +2,7 @@ package cn.ether.im.message.single.eventlistener;
 
 import cn.ether.im.common.enums.ImChatMessageStatus;
 import cn.ether.im.common.event.event.ImEventType;
-import cn.ether.im.common.event.event.impl.ImMessageReceivedEvent;
+import cn.ether.im.common.event.event.impl.ImSingleMessageReceivedEvent;
 import cn.ether.im.common.event.listener.ImEventListener;
 import cn.ether.im.message.single.model.entity.ImSingleMessageET;
 import cn.ether.im.message.single.service.ImSingleMessageService;
@@ -21,13 +21,13 @@ import java.util.List;
  **/
 @Slf4j
 @Component
-public class MessageReceivedEventListener implements ImEventListener<ImMessageReceivedEvent> {
+public class MessageReceivedEventListener implements ImEventListener<ImSingleMessageReceivedEvent> {
 
     @Resource
     private ImSingleMessageService singleMessageService;
 
     @Override
-    public void onEvent(ImMessageReceivedEvent event) throws Exception {
+    public void onEvent(ImSingleMessageReceivedEvent event) throws Exception {
         log.info("监听【消息已接收事件】|{}", event);
         // 更新状态为已接收
         singleMessageService.lambdaUpdate()
@@ -40,6 +40,6 @@ public class MessageReceivedEventListener implements ImEventListener<ImMessageRe
 
     @Override
     public List<ImEventType> listenEventType() {
-        return Arrays.asList(ImEventType.MESSAGE_RECEIVED);
+        return Arrays.asList(ImEventType.SINGLE_MESSAGE_RECEIVED);
     }
 }
