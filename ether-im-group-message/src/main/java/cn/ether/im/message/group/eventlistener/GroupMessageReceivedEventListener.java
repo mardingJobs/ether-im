@@ -6,6 +6,8 @@ import cn.ether.im.common.event.listener.ImEventListener;
 import cn.ether.im.message.group.service.ImGroupMessageExtService;
 import cn.ether.im.message.group.service.ImGroupMessageService;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -28,12 +30,22 @@ public class GroupMessageReceivedEventListener implements ImEventListener<ImGrou
     @Resource
     private ImGroupMessageExtService groupMessageExtService;
 
+    @Resource
+    private RedissonClient redissonClient;
+
     @Override
     public void onEvent(ImGroupMessageReceivedEvent event) throws Exception {
         log.info("监听【消息已接收事件】|{}", event);
         // 更新状态为已接收
-        groupMessageExtService.refreshReceiveIds(event.getMessageId(), event.getReceiverId());
-
+        RLock lock = redissonClient.getLock("group-message-receive-lock-" + event.getMessageId());
+        lock.lock();
+        try {
+            groupMessageExtService.refreshReceiveIds(event.getMessageId(), event.getReceiverId());
+        } catch (Exception e) {
+            log.error("更新已接收用户列表失败", e);
+        } finally {
+            lock.unlock();
+        }
     }
 
     @Override
