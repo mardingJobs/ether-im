@@ -8,11 +8,15 @@ import cn.ether.im.common.model.message.ImGroupMessage;
 import cn.ether.im.common.model.message.ImSingleMessage;
 import cn.ether.im.common.mq.ImMessageMQSender;
 import cn.ether.im.sdk.agent.ImMessageAgent;
+import cn.hutool.core.collection.CollectionUtil;
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -88,7 +92,23 @@ public class DefaultImMessageAgent implements ImMessageAgent {
             topicInfo.setMessage(groupMessage);
             return topicInfo;
         }).filter(Objects::nonNull).collect(Collectors.toList());
-        return messageSender.batchSend(collect) ? ImMessageSendResult.SENT : ImMessageSendResult.SENT_FAIL;
+
+        Map<String, List<ImTopicInfo>> groupedList = collect.stream().collect(Collectors.groupingBy(ImTopicInfo::getTag));
+
+        List<ImTopicInfo> readyToSendList = new LinkedList<>();
+
+        groupedList.forEach((k, v) -> {
+            if (CollectionUtil.isNotEmpty(v)) {
+                readyToSendList.add(v.get(0));
+            }
+        });
+        if (CollectionUtil.isNotEmpty(readyToSendList)) {
+            if (log.isDebugEnabled()) {
+                log.debug("readyToSendList:{}", JSON.toJSONString(readyToSendList));
+            }
+            return messageSender.batchSend(readyToSendList) ? ImMessageSendResult.SENT : ImMessageSendResult.SENT_FAIL;
+        }
+        return ImMessageSendResult.SENT;
     }
 
     @Override

@@ -16,6 +16,7 @@
 package cn.ether.im.common.model.info;
 
 import cn.ether.im.common.model.message.ImMessageV2;
+import com.google.common.base.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -53,5 +54,21 @@ public class ImTopicInfo<T extends ImMessageV2> {
             return topic;
         }
         return topic + ":" + tag;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ImTopicInfo)) return false;
+        ImTopicInfo<?> topicInfo = (ImTopicInfo<?>) o;
+        return Objects.equal(message.messageId(), topicInfo.message.messageId())
+                && Objects.equal(topic, topicInfo.topic)
+                && Objects.equal(tag, topicInfo.tag);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(message.messageId(), topic, tag);
     }
 }
