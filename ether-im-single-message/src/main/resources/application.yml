@@ -1,4 +1,6 @@
 spring:
+  sleuth:
+    enabled: true
   application:
     name: ether-im-message-single
   profiles:
