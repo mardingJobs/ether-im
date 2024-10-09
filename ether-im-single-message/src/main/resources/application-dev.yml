@@ -36,6 +36,13 @@ spring:
         min-idle: 4
         max-wait: 5000
     address: redis://192.168.1.4:6379
+  zipkin:
+    base-url: http://192.168.1.4:9411
+    sender:
+      type: web
+  sleuth:
+    sampler:
+      probability: 1.0
 
 rocketmq:
   name-server: 192.168.1.4:9876
@@ -43,6 +50,7 @@ rocketmq:
     group: im-message-group
     #    重试次数，加上第一次，共4次
     retry-times-when-send-failed: 3
+
 
 
 redis:
