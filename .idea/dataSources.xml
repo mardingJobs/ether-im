@@ -25,7 +25,7 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="im_group_chat@martin.dev" uuid="cbf4cfe0-f8a2-4432-a277-ac118642c5cd">
+    <data-source source="LOCAL" name="im_group_chat@192.168.1.4" uuid="cbf4cfe0-f8a2-4432-a277-ac118642c5cd">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <imported>true</imported>
@@ -39,7 +39,7 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="im_single_chat@martin.dev" uuid="c533b1bd-6ee7-49f8-ba34-7d7b5a4aaa1a">
+    <data-source source="LOCAL" name="im_single_chat@192.168.1.4" uuid="c533b1bd-6ee7-49f8-ba34-7d7b5a4aaa1a">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <imported>true</imported>
