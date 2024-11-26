@@ -63,22 +63,6 @@ CREATE TABLE `im_group_user`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='群和用户关系';
 
--- ----------------------------
--- Table structure for im_message_event_log
--- ----------------------------
-DROP TABLE IF EXISTS `im_message_event_log`;
-CREATE TABLE `im_message_event_log`
-(
-    `id`               bigint(20)  NOT NULL AUTO_INCREMENT,
-    `message_id`       bigint(20)  NOT NULL COMMENT '消息ID',
-    `event_type`       varchar(16) NOT NULL COMMENT '事件类型',
-    `event_type_order` int(11)     NOT NULL COMMENT '事件类型顺序值',
-    `event_time`       bigint(20)  NOT NULL COMMENT '事件发生的时间',
-    `create_time`      datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `im_message_event_log_pk` (`message_id`, `event_type`)
-) ENGINE = InnoDB
-  AUTO_INCREMENT = 177
-  DEFAULT CHARSET = utf8mb4 COMMENT ='消息事件日志表';
+
 
 SET FOREIGN_KEY_CHECKS = 1;

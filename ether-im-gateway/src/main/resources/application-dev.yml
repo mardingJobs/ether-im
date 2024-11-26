@@ -7,7 +7,6 @@ spring:
         server-addr: localhost:8848
         username: nacos
         password: nacos
-#        namespace: 292fa4e1-6904-48c2-acc8-ab2dae7a1d9e
 
 #  zipkin:
 #    base-url: http://localhost:9411

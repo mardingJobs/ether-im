@@ -5,12 +5,6 @@ spring:
     name: ether-im-message-single
   profiles:
     active: dev
-  cloud:
-    nacos:
-      discovery:
-        server-addr: martin.dev:8848
-        username: nacos
-        password: nacos
 
 server:
   servlet:
