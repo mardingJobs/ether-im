@@ -48,3 +48,14 @@ create table im_group_user
 )
     comment '群和用户关系' charset = utf8mb4;
 
+
+# 群消息拓展表可以删除
+create table im_group_message_ext
+(
+    message_id        bigint        not null comment '消息ID'
+        primary key,
+    group_id          bigint        not null comment '群ID',
+    received_user_ids varchar(1024) not null comment '已接收消息的用户ID列表'
+)
+    comment '存放未接收的消息';
+

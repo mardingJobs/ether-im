@@ -20,8 +20,8 @@ public class RedissionConfiguration {
     @Value(value = "${spring.redis.database}")
     private Integer database;
 
-    @Value(value = "${spring.redis.password}")
-    private String password;
+//    @Value(value = "${spring.redis.password}")
+//    private String password;
 
     @Bean
     RedissonClient redissonClient() {
@@ -30,7 +30,7 @@ public class RedissionConfiguration {
         String address = "redis://" + host + ":" + port;
         singleServerConfig.setAddress(address);
         singleServerConfig.setDatabase(database);
-        singleServerConfig.setPassword(password);
+        //singleServerConfig.setPassword(password);
         return Redisson.create(config);
     }
 
